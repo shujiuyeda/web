@@ -358,6 +358,12 @@
           <div class="cmd-header"><span class="cmd-label">インストール</span><button class="copy-btn" onclick="copyCmd(this)">コピー</button></div>
           <pre>/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"</pre>
         </div>
+        <div class="note">⚠️ インストール後 <code>brew --version</code> で「command not found」と出たら → PATHを通す（↓）。M1/M2/M3 Macでよく起きる</div>
+        <div class="cmd-block">
+          <div class="cmd-header"><span class="cmd-label">PATH設定（「command not found」が出たときのみ）</span><button class="copy-btn" onclick="copyCmd(this)">コピー</button></div>
+          <pre>echo 'eval "$(/opt/homebrew/bin/brew shellenv)"' >> ~/.zprofile
+eval "$(/opt/homebrew/bin/brew shellenv)"</pre>
+        </div>
         <div class="cmd-block">
           <div class="cmd-header"><span class="cmd-label">確認</span><button class="copy-btn" onclick="copyCmd(this)">コピー</button></div>
           <pre>brew --version</pre>
@@ -640,6 +646,16 @@ echo "書き出し完了: $OUTFILE（Vol.$VOL / $DATE）"</pre>
         <tr><td>node --versionが動かない</td><td>ターミナル再起動、パスが通ってるか確認</td></tr>
         <tr><td>Claude Codeでログインできない</td><td>Pro Plan加入済みか確認、ブラウザでclaude.aiにログインできるか確認</td></tr>
         <tr><td>Homebrewが途中で止まる</td><td>Xcode Command Line Toolsのインストールが終わるまで待つ（20分前後）</td></tr>
+        <tr>
+          <td>brew --version で「command not found」</td>
+          <td>
+            <div class="cmd-block" style="margin:0.3rem 0">
+              <div class="cmd-header"><span class="cmd-label">実行（M1/M2/M3 Mac向け）</span><button class="copy-btn" onclick="copyCmd(this)">コピー</button></div>
+              <pre>echo 'eval "$(/opt/homebrew/bin/brew shellenv)"' >> ~/.zprofile
+eval "$(/opt/homebrew/bin/brew shellenv)"</pre>
+            </div>
+          </td>
+        </tr>
       </tbody>
     </table>
   </section>
