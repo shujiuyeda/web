@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>さとゆみさん Claude Code セットアップガイド</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Hiragino Sans", "Hiragino Kaku Gothic ProN", sans-serif;
+      background: #f5f5f5;
+      color: #333;
+      line-height: 1.7;
+    }
+    header {
+      background: #1a1a2e;
+      color: white;
+      padding: 2rem;
+      text-align: center;
+    }
+    header h1 { font-size: 1.6rem; margin-bottom: 0.4rem; }
+    header p { opacity: 0.7; font-size: 0.95rem; }
+    .container { max-width: 860px; margin: 0 auto; padding: 2rem 1rem; }
+    .goal-box {
+      background: #e8f4fd;
+      border-left: 5px solid #3498db;
+      padding: 1.2rem 1.5rem;
+      border-radius: 6px;
+      margin-bottom: 2rem;
+      font-size: 1.05rem;
+    }
+    .goal-box strong { color: #2980b9; }
+    section { margin-bottom: 2.5rem; }
+    h2 {
+      font-size: 1.2rem;
+      border-bottom: 2px solid #ddd;
+      padding-bottom: 0.5rem;
+      margin-bottom: 1.2rem;
+      color: #1a1a2e;
+    }
+    table { width: 100%; border-collapse: collapse; font-size: 0.9rem; }
+    th { background: #1a1a2e; color: white; padding: 0.6rem 1rem; text-align: left; }
+    td { padding: 0.6rem 1rem; border-bottom: 1px solid #e0e0e0; background: white; }
+    tr:hover td { background: #fafafa; }
+    .steps { display: flex; flex-direction: column; gap: 1rem; }
+    .step {
+      background: white;
+      border-radius: 8px;
+      padding: 1.2rem 1.5rem;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+      display: flex;
+      gap: 1rem;
+      align-items: flex-start;
+    }
+    .step-num {
+      background: #1a1a2e;
+      color: white;
+      border-radius: 50%;
+      width: 2rem;
+      height: 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+      flex-shrink: 0;
+      font-size: 0.9rem;
+    }
+    .step h3 { font-size: 1rem; margin-bottom: 0.4rem; color: #1a1a2e; }
+    .step ul { padding-left: 1.2rem; font-size: 0.9rem; color: #555; }
+    .step ul li { margin-bottom: 0.2rem; }
+    .result-box {
+      background: white;
+      border-radius: 8px;
+      padding: 1.5rem;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+    }
+    .result-flow {
+      display: flex;
+      flex-direction: column;
+      gap: 0.8rem;
+    }
+    .result-item {
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+    }
+    .result-item .arrow { color: #aaa; font-size: 1.2rem; }
+    .result-item .bubble {
+      background: #f0f8ff;
+      border: 1px solid #b8d9f0;
+      border-radius: 20px;
+      padding: 0.4rem 1rem;
+      font-size: 0.95rem;
+    }
+    .result-item .bubble.action {
+      background: #fff0f0;
+      border-color: #f0b8b8;
+    }
+    .result-item .bubble.auto {
+      background: #f0fff0;
+      border-color: #b8e8b8;
+      font-weight: bold;
+    }
+
+    /* コマンドセクション */
+    .cmd-section { margin-bottom: 2rem; }
+    .cmd-section h3 {
+      font-size: 1rem;
+      color: #555;
+      margin-bottom: 0.8rem;
+      padding: 0.4rem 0.8rem;
+      background: #eee;
+      border-radius: 4px;
+    }
+    .cmd-block {
+      background: #1e1e2e;
+      border-radius: 8px;
+      margin-bottom: 0.6rem;
+      overflow: hidden;
+    }
+    .cmd-block .cmd-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0.5rem 1rem;
+      background: #2a2a3e;
+    }
+    .cmd-block .cmd-label { color: #888; font-size: 0.75rem; }
+    .cmd-block .copy-btn {
+      background: #3498db;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      padding: 0.2rem 0.8rem;
+      cursor: pointer;
+      font-size: 0.75rem;
+      transition: background 0.2s;
+    }
+    .cmd-block .copy-btn:hover { background: #2980b9; }
+    .cmd-block .copy-btn.copied { background: #27ae60; }
+    .cmd-block pre {
+      margin: 0;
+      padding: 0.8rem 1rem;
+      color: #a8ff78;
+      font-family: "SFMono-Regular", Menlo, Consolas, monospace;
+      font-size: 0.9rem;
+      overflow-x: auto;
+      white-space: pre-wrap;
+      word-break: break-all;
+    }
+    footer {
+      text-align: center;
+      padding: 2rem;
+      color: #aaa;
+      font-size: 0.8rem;
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <h1>さとゆみさん Claude Code セットアップガイド</h1>
+  <p>2026年2月20日（金）— しゅうしゅうがサポートします</p>
+</header>
+
+<div class="container">
+
+  <div class="goal-box">
+    🎯 <strong>今日のゴール：</strong>Claude Codeの環境を整えて、<strong>Instagramへの投稿を半自動化</strong>できるようにします。<br>
+    できなかった部分は後日Zoomでサポートします。
+  </div>
+
+  <!-- インストール一覧 -->
+  <section>
+    <h2>📦 インストール・登録するもの</h2>
+    <table>
+      <thead>
+        <tr><th>#</th><th>名前</th><th>種類</th><th>備考</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>1</td><td>Xcode Command Line Tools</td><td>インストール</td><td>Homebrewより先に必要</td></tr>
+        <tr><td>2</td><td>Ghostty</td><td>インストール</td><td>ターミナルアプリ</td></tr>
+        <tr><td>3</td><td>Homebrew</td><td>インストール</td><td>開発ツールの管理</td></tr>
+        <tr><td>4</td><td>Node.js</td><td>インストール</td><td>Homebrew経由</td></tr>
+        <tr><td>5</td><td>Claude Code</td><td>インストール</td><td>npm経由</td></tr>
+        <tr><td>6</td><td>Obsidian</td><td>インストール</td><td>メモ・ファイル管理</td></tr>
+        <tr><td>7</td><td>Chrome拡張「Claude」</td><td>インストール</td><td>ブラウザ自動操作に必要</td></tr>
+        <tr><td>8</td><td>GitHub</td><td>アカウント登録</td><td>作業履歴の保存先</td></tr>
+        <tr><td>9</td><td>GitHub CLI（gh）</td><td>インストール</td><td>GitとGitHubを接続（Homebrew経由）</td></tr>
+        <tr><td>10</td><td>claude-mem</td><td>プラグイン</td><td>Claudeの記憶保持</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <!-- やることの流れ -->
+  <section>
+    <h2>🪜 やることの流れ</h2>
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">1</div>
+        <div>
+          <h3>土台を作る</h3>
+          <ul>
+            <li>Xcode Command Line Tools — 開発ツールの下準備</li>
+            <li>Ghostty — Claudeと話すためのターミナル画面</li>
+            <li>Homebrew / Node.js — 裏方の開発ツール</li>
+            <li>Claude Code本体</li>
+          </ul>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <div>
+          <h3>自分だけの作業スペースを作る</h3>
+          <ul>
+            <li>Obsidian — メモ・原稿・ファイルをiPhoneでも見れる管理アプリ</li>
+            <li>CLAUDE.md — Claudeに「私はこういう人です」と伝える設定ファイル</li>
+            <li>GitHub登録 + Git設定 — 作業の履歴を自動でクラウドに保存</li>
+          </ul>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <div>
+          <h3>便利機能をつなげる</h3>
+          <ul>
+            <li>Chrome拡張 — Claudeがブラウザを自動で動かせるようになる</li>
+          </ul>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">4</div>
+        <div>
+          <h3>運用の仕組みを入れる</h3>
+          <ul>
+            <li>ログ自動記録 — Claudeとのやりとりが自動で記録に残る</li>
+            <li>claude-mem — Claudeが前回の会話を覚えていてくれる</li>
+          </ul>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">5</div>
+        <div>
+          <h3>「今日もコレカラ」バナーの番号・日付管理</h3>
+          <ul>
+            <li>画像はさとゆみさんが指定、ClaudeがVol番号と日付を自動で入れる</li>
+            <li>Illustratorファイルを自動操作してPNG書き出しまで完了</li>
+          </ul>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">6</div>
+        <div>
+          <h3>Instagram投稿の半自動化</h3>
+          <ul>
+            <li>Instagramフィード投稿の自動化</li>
+            <li>Instagramストーリーズ投稿の自動化</li>
+            <li>できなかった部分は後日Zoomでサポート</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 今日が終わったらできること -->
+  <section>
+    <h2>✨ 今日が終わったらできること（目標）</h2>
+    <div class="result-box">
+      <div class="result-flow">
+        <div class="result-item">
+          <div class="bubble">「コレカラ書けたよ」と一言言う</div>
+        </div>
+        <div class="result-item">
+          <div class="arrow">↓</div>
+          <div class="bubble">Claude Codeが「画像はどれ？」と聞く</div>
+        </div>
+        <div class="result-item">
+          <div class="arrow">↓</div>
+          <div class="bubble action">画像をドラッグ＆ドロップ</div>
+        </div>
+        <div class="result-item">
+          <div class="arrow">↓</div>
+          <div class="bubble">「どんな文言入れる？」と聞く</div>
+        </div>
+        <div class="result-item">
+          <div class="arrow">↓</div>
+          <div class="bubble action">文言を入力</div>
+        </div>
+        <div class="result-item">
+          <div class="arrow">↓</div>
+          <div class="bubble auto">InstagramフィードとストーリーズにAIが自動投稿 🎉</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- コピペ用コマンド -->
+  <section>
+    <h2>📋 コピペ用コマンド</h2>
+
+    <div class="cmd-section">
+      <h3>① Xcode Command Line Tools</h3>
+      <div class="cmd-block">
+        <div class="cmd-header"><span class="cmd-label">インストール</span><button class="copy-btn" onclick="copyCmd(this)">コピー</button></div>
+        <pre>xcode-select --install</pre>
+      </div>
+      <div class="cmd-block">
+        <div class="cmd-header"><span class="cmd-label">確認</span><button class="copy-btn" onclick="copyCmd(this)">コピー</button></div>
+        <pre>xcode-select -p</pre>
+      </div>
+    </div>
+
+    <div class="cmd-section">
+      <h3>② Homebrew</h3>
+      <div class="cmd-block">
+        <div class="cmd-header"><span class="cmd-label">インストール</span><button class="copy-btn" onclick="copyCmd(this)">コピー</button></div>
+        <pre>/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"</pre>
+      </div>
+      <div class="cmd-block">
+        <div class="cmd-header"><span class="cmd-label">確認</span><button class="copy-btn" onclick="copyCmd(this)">コピー</button></div>
+        <pre>brew --version</pre>
+      </div>
+    </div>
+
+    <div class="cmd-section">
+      <h3>③ Node.js</h3>
+      <div class="cmd-block">
+        <div class="cmd-header"><span class="cmd-label">インストール</span><button class="copy-btn" onclick="copyCmd(this)">コピー</button></div>
+        <pre>brew install node</pre>
+      </div>
+      <div class="cmd-block">
+        <div class="cmd-header"><span class="cmd-label">確認</span><button class="copy-btn" onclick="copyCmd(this)">コピー</button></div>
+        <pre>node --version</pre>
+      </div>
+    </div>
+
+    <div class="cmd-section">
+      <h3>④ Claude Code</h3>
+      <div class="cmd-block">
+        <div class="cmd-header"><span class="cmd-label">インストール</span><button class="copy-btn" onclick="copyCmd(this)">コピー</button></div>
+        <pre>npm install -g @anthropic-ai/claude-code</pre>
+      </div>
+      <div class="cmd-block">
+        <div class="cmd-header"><span class="cmd-label">エラー時</span><button class="copy-btn" onclick="copyCmd(this)">コピー</button></div>
+        <pre>sudo npm install -g @anthropic-ai/claude-code</pre>
+      </div>
+      <div class="cmd-block">
+        <div class="cmd-header"><span class="cmd-label">起動</span><button class="copy-btn" onclick="copyCmd(this)">コピー</button></div>
+        <pre>claude</pre>
+      </div>
+    </div>
+
+    <div class="cmd-section">
+      <h3>⑤ Obsidian フォルダ構成</h3>
+      <div class="cmd-block">
+        <div class="cmd-header"><span class="cmd-label">フォルダ作成</span><button class="copy-btn" onclick="copyCmd(this)">コピー</button></div>
+        <pre>cd ~/Desktop/さとゆみ-ccws && mkdir -p logs scripts drafts sns</pre>
+      </div>
+    </div>
+
+    <div class="cmd-section">
+      <h3>⑥ Git & GitHub接続</h3>
+      <div class="cmd-block">
+        <div class="cmd-header"><span class="cmd-label">Git初期化</span><button class="copy-btn" onclick="copyCmd(this)">コピー</button></div>
+        <pre>git init</pre>
+      </div>
+      <div class="cmd-block">
+        <div class="cmd-header"><span class="cmd-label">名前設定</span><button class="copy-btn" onclick="copyCmd(this)">コピー</button></div>
+        <pre>git config user.name "佐藤友美"</pre>
+      </div>
+      <div class="cmd-block">
+        <div class="cmd-header"><span class="cmd-label">GitHub CLI インストール</span><button class="copy-btn" onclick="copyCmd(this)">コピー</button></div>
+        <pre>brew install gh</pre>
+      </div>
+      <div class="cmd-block">
+        <div class="cmd-header"><span class="cmd-label">GitHubと接続（ブラウザが開く）</span><button class="copy-btn" onclick="copyCmd(this)">コピー</button></div>
+        <pre>gh auth login</pre>
+      </div>
+      <div class="cmd-block">
+        <div class="cmd-header"><span class="cmd-label">リポジトリ作成</span><button class="copy-btn" onclick="copyCmd(this)">コピー</button></div>
+        <pre>gh repo create</pre>
+      </div>
+      <div class="cmd-block">
+        <div class="cmd-header"><span class="cmd-label">初回コミット</span><button class="copy-btn" onclick="copyCmd(this)">コピー</button></div>
+        <pre>git add -A && git commit -m "初期セットアップ完了"</pre>
+      </div>
+    </div>
+
+    <div class="cmd-section">
+      <h3>⑦ claude-mem（記憶プラグイン）</h3>
+      <div class="cmd-block">
+        <div class="cmd-header"><span class="cmd-label">インストール</span><button class="copy-btn" onclick="copyCmd(this)">コピー</button></div>
+        <pre>claude plugin add claude-mem@thedotmack</pre>
+      </div>
+    </div>
+
+    <div class="cmd-section">
+      <h3>🚨 トラブル対応</h3>
+      <div class="cmd-block">
+        <div class="cmd-header"><span class="cmd-label">npmパーミッションエラー時</span><button class="copy-btn" onclick="copyCmd(this)">コピー</button></div>
+        <pre>sudo chown -R $(whoami) ~/.npm</pre>
+      </div>
+    </div>
+
+  </section>
+
+</div>
+
+<footer>
+  作成: しゅうしゅう（上田修司） / Claude Code サポート
+</footer>
+
+<script>
+function copyCmd(btn) {
+  const pre = btn.closest('.cmd-block').querySelector('pre');
+  navigator.clipboard.writeText(pre.textContent.trim()).then(() => {
+    btn.textContent = 'コピーしました！';
+    btn.classList.add('copied');
+    setTimeout(() => {
+      btn.textContent = 'コピー';
+      btn.classList.remove('copied');
+    }, 2000);
+  });
+}
+</script>
+
+</body>
+</html>
