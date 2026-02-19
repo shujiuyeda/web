@@ -459,21 +459,22 @@ eval "$(/opt/homebrew/bin/brew shellenv)"</pre>
     <h2>Phase 2: プロジェクト設定</h2>
 
     <div class="phase">
-      <div class="phase-title">2-1. Obsidian</div>
+      <div class="phase-title">2-1. Obsidian（ファイル管理アプリ）</div>
       <div class="phase-step">
         <ul>
+          <li>Obsidianはメモ・原稿・設定ファイルをフォルダで管理するアプリ。Claude Codeが作ったファイルをここで確認・編集できる。iPhoneとも同期できる</li>
           <li><a href="https://obsidian.md/" target="_blank">https://obsidian.md/</a> → Download → .dmg → アプリケーションにドラッグ</li>
-          <li>Create new vault → 名前: <code>さとゆみ-ccws</code> → 場所: デスクトップ</li>
-          <li>iCloud同期: Vault作成時に「Store in iCloud」があれば選ぶ</li>
+          <li>「Create new vault」→ 名前: <code>ccws</code>（英数字のみ。日本語名はコマンドでトラブルの原因になる）</li>
+          <li>場所: <strong>「Store in iCloud」を選ぶ</strong> → iCloud Drive内に自動保存され、iPhoneからも見られるようになる</li>
           <li>フォルダ構成を作る（↓）: logs/ scripts/ drafts/ sns/</li>
         </ul>
         <div class="cmd-block">
           <div class="cmd-header"><span class="cmd-label">フォルダ構成作成</span><button class="copy-btn" onclick="copyCmd(this)">コピー</button></div>
-          <pre>cd ~/Desktop/さとゆみ-ccws && mkdir -p logs scripts drafts sns</pre>
+          <pre>cd ~/Library/Mobile\ Documents/iCloud\~md\~obsidian/Documents/ccws && mkdir -p logs scripts drafts sns</pre>
         </div>
         <div class="cmd-block">
           <div class="cmd-header"><span class="cmd-label">このフォルダでClaude Codeを起動（以降ここで作業する）</span><button class="copy-btn" onclick="copyCmd(this)">コピー</button></div>
-          <pre>cd ~/Desktop/さとゆみ-ccws && claude</pre>
+          <pre>cd ~/Library/Mobile\ Documents/iCloud\~md\~obsidian/Documents/ccws && claude</pre>
         </div>
         <div class="note">⚠️ Claude Codeは<strong>起動したフォルダがワークスペース</strong>になる。必ずこのフォルダに移動してから起動すること。セキュリティチェックが出たら「1. Yes, I trust this folder」を選ぶ</div>
       </div>
