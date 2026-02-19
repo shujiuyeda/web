@@ -334,6 +334,7 @@
           <li>ダウンロード後、アプリケーションフォルダにドラッグ</li>
           <li>日本語フォント設定コマンドを2つ実行（↓）</li>
           <li>Ghosttyを起動して動作確認</li>
+          <li><strong>以降のコマンドはすべてGhosttyで実行する</strong>（Macの標準ターミナルは使わない）</li>
         </ul>
         <div class="cmd-block">
           <div class="cmd-header"><span class="cmd-label">設定フォルダ作成</span><button class="copy-btn" onclick="copyCmd(this)">コピー</button></div>
@@ -353,14 +354,14 @@
           <li>Homebrewは「開発用ソフトをまとめて管理する仕組み」。これを入れることで、この後のNode.jsやGitHub CLIがコマンド1行でインストールできるようになる</li>
           <li>↓のコマンドを実行するとインストールが始まる。途中でMacの<strong>ログインパスワードを求められる</strong> → ソフトをインストールするためにMacが確認している（安全）。さとゆみさんに入力してもらう</li>
           <li>数分かかる。そのまま待つ</li>
+          <li>インストール完了後、続けて<strong>PATH設定コマンドを実行する</strong>（現在のMacは必須）</li>
         </ul>
         <div class="cmd-block">
           <div class="cmd-header"><span class="cmd-label">インストール</span><button class="copy-btn" onclick="copyCmd(this)">コピー</button></div>
           <pre>/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"</pre>
         </div>
-        <div class="note">⚠️ インストール後 <code>brew --version</code> で「command not found」と出たら → PATHを通す（↓）。M1/M2/M3 Macでよく起きる</div>
         <div class="cmd-block">
-          <div class="cmd-header"><span class="cmd-label">PATH設定（「command not found」が出たときのみ）</span><button class="copy-btn" onclick="copyCmd(this)">コピー</button></div>
+          <div class="cmd-header"><span class="cmd-label">PATH設定（インストール後に必ず実行）</span><button class="copy-btn" onclick="copyCmd(this)">コピー</button></div>
           <pre>echo 'eval "$(/opt/homebrew/bin/brew shellenv)"' >> ~/.zprofile
 eval "$(/opt/homebrew/bin/brew shellenv)"</pre>
         </div>
@@ -374,6 +375,9 @@ eval "$(/opt/homebrew/bin/brew shellenv)"</pre>
     <div class="phase">
       <div class="phase-title">1-3. Node.js</div>
       <div class="phase-step">
+        <ul>
+          <li>Node.jsはJavaScriptを動かすエンジン。Claude CodeはNode.jsの上で動くため必須</li>
+        </ul>
         <div class="cmd-block">
           <div class="cmd-header"><span class="cmd-label">インストール</span><button class="copy-btn" onclick="copyCmd(this)">コピー</button></div>
           <pre>brew install node</pre>
