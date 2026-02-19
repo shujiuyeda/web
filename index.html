@@ -410,9 +410,13 @@ eval "$(/opt/homebrew/bin/brew shellenv)"</pre>
           <div class="cmd-header"><span class="cmd-label">インストール</span><button class="copy-btn" onclick="copyCmd(this)">コピー</button></div>
           <pre>npm install -g @anthropic-ai/claude-code</pre>
         </div>
-        <div class="note">⚠️ インストール後に <code>npm notice</code> という行が出ることがあるが、これはnpmのアップデートお知らせ。エラーではないので無視してOK。<code>added X packages</code> と出ていれば成功 → <strong>下のsudoコマンドはスキップして確認へ進む</strong></div>
+        <div class="note">
+          ✅ <code>added X packages</code> と出ていれば成功 → <strong>下のコマンドはスキップして「確認」へ進む</strong><br>
+          ❌ <code>Permission denied</code> と出た場合のみ → 下のコマンドを実行する（Macのパスワードを求められるので入力する）<br>
+          ⚠️ <code>npm notice</code> はnpmのアップデートお知らせ。エラーではないので無視してOK
+        </div>
         <div class="cmd-block">
-          <div class="cmd-header"><span class="cmd-label">↑で「Permission denied」エラーが出たときだけ実行（パスワードを聞かれるので入力する）</span><button class="copy-btn" onclick="copyCmd(this)">コピー</button></div>
+          <div class="cmd-header"><span class="cmd-label">Permission deniedエラーの場合のみ実行</span><button class="copy-btn" onclick="copyCmd(this)">コピー</button></div>
           <pre>sudo npm install -g @anthropic-ai/claude-code</pre>
         </div>
         <div class="cmd-block">
