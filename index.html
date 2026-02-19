@@ -397,12 +397,14 @@ eval "$(/opt/homebrew/bin/brew shellenv)"</pre>
     </div>
 
     <div class="phase">
-      <div class="phase-title">1-4. Claude Code</div>
+      <div class="phase-title">1-4. Claude Code（本体）</div>
       <div class="phase-step">
         <ul>
-          <li>起動後、claude.aiアカウントでログイン → Pro Planで認証確認</li>
-          <li>簡単な会話で動作確認（「こんにちは」等）</li>
-          <li>モデル設定: <code>/model opusplan</code>（計画はOpus・実行はSonnet の自動切替）</li>
+          <li>Claude Codeはターミナル上で動くAIアシスタント。ここまで入れてきたNode.jsの上で動く</li>
+          <li>以下のコマンドは<strong>Ghosttyで実行する</strong></li>
+          <li>インストール後に起動すると、claude.aiのアカウントでログインを求められる → Pro Planで認証する</li>
+          <li>ログイン完了後、「こんにちは」等と話しかけて動作確認</li>
+          <li>モデル設定: <code>/model opusplan</code>（計画はOpus・実行はSonnetの自動切替）</li>
         </ul>
         <div class="cmd-block">
           <div class="cmd-header"><span class="cmd-label">インストール</span><button class="copy-btn" onclick="copyCmd(this)">コピー</button></div>
@@ -413,12 +415,13 @@ eval "$(/opt/homebrew/bin/brew shellenv)"</pre>
           <pre>sudo npm install -g @anthropic-ai/claude-code</pre>
         </div>
         <div class="cmd-block">
+          <div class="cmd-header"><span class="cmd-label">Claude Codeが正しく入ったか確認</span><button class="copy-btn" onclick="copyCmd(this)">コピー</button></div>
+          <pre>claude --version</pre>
+        </div>
+        <div class="note">✅ <code>1.x.x</code> のようなバージョン番号が出ればインストール完了　❌ <code>command not found</code> と出たらGhosttyを再起動して再実行</div>
+        <div class="cmd-block">
           <div class="cmd-header"><span class="cmd-label">起動</span><button class="copy-btn" onclick="copyCmd(this)">コピー</button></div>
           <pre>claude</pre>
-        </div>
-        <div class="cmd-block">
-          <div class="cmd-header"><span class="cmd-label">バージョン確認</span><button class="copy-btn" onclick="copyCmd(this)">コピー</button></div>
-          <pre>claude --version</pre>
         </div>
       </div>
     </div>
