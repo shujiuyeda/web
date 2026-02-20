@@ -1146,13 +1146,14 @@ function renderWeight(container) {
   const isToday = currentDate === todayStr();
   const todayW = weights[currentDate];
 
-  // Last 14 days
+  // Last 10 days
   const chartData = [];
-  for (let i = 13; i >= 0; i--) {
+  for (let i = 9; i >= 0; i--) {
     const d = new Date(); d.setDate(d.getDate() - i);
     const ds = fmtDate(d);
-    if (weights[ds] != null) chartData.push({ ds, w: weights[ds] });
+    chartData.push({ ds, w: weights[ds] ?? null });
   }
+  const chartDataFilled = chartData.filter(d => d.w !== null);
   const latestW = todayW || (chartData.length > 0 ? chartData[chartData.length-1].w : null);
   const progressPct = latestW
     ? Math.max(0, Math.min(100, ((START_WEIGHT - latestW) / (START_WEIGHT - GOAL_WEIGHT)) * 100))
@@ -1215,13 +1216,40 @@ function renderWeight(container) {
       </div>`;
   }
 
-  // Chart
-  if (chartData.length >= 2) {
-    container.innerHTML += `
-      <div class="card">
-        <div class="card-title">体重推移（直近14日）</div>
-        ${buildWeightChart(chartData)}
-      </div>`;
+  // Chart + 10-day table
+  {
+    let histHtml = `<div class="card"><div class="card-title">体重推移（直近10日）</div>`;
+    if (chartDataFilled.length >= 2) {
+      histHtml += buildWeightChart(chartDataFilled);
+    }
+    // 10-day table: 古→新の順に前日比を計算してから逆順（新→古）で表示
+    let fwdLastW = null;
+    const rowsWithDiff = chartData.map(row => {
+      const diff = (row.w !== null && fwdLastW !== null) ? (row.w - fwdLastW) : null;
+      if (row.w !== null) fwdLastW = row.w;
+      return { ...row, diff };
+    });
+    histHtml += `<table style="width:100%;border-collapse:collapse;margin-top:12px;font-size:13px;">
+      <thead><tr>
+        <th style="text-align:left;padding:4px 6px;color:var(--text-muted);font-weight:600;border-bottom:1px solid var(--border);">日付</th>
+        <th style="text-align:right;padding:4px 6px;color:var(--text-muted);font-weight:600;border-bottom:1px solid var(--border);">体重</th>
+        <th style="text-align:right;padding:4px 6px;color:var(--text-muted);font-weight:600;border-bottom:1px solid var(--border);">前日比</th>
+      </tr></thead><tbody>`;
+    [...rowsWithDiff].reverse().forEach(row => {
+      const d = row.diff;
+      const diffStr = d === null ? '—'
+        : d > 0 ? `<span style="color:#C0392B;">+${d.toFixed(2)}</span>`
+        : d < 0 ? `<span style="color:var(--green-mid);">${d.toFixed(2)}</span>`
+        : '<span style="color:var(--text-muted);">±0</span>';
+      const isToday2 = row.ds === todayStr();
+      histHtml += `<tr style="${isToday2 ? 'background:var(--green-pale);' : ''}">
+        <td style="padding:5px 6px;">${row.ds.slice(5).replace('-','/')}${isToday2 ? '&nbsp;<span style="font-size:10px;color:var(--green-mid);">TODAY</span>' : ''}</td>
+        <td style="text-align:right;padding:5px 6px;font-weight:${row.w ? '600' : '400'}">${row.w ? row.w.toFixed(2) + 'kg' : '—'}</td>
+        <td style="text-align:right;padding:5px 6px;">${diffStr}</td>
+      </tr>`;
+    });
+    histHtml += `</tbody></table></div>`;
+    container.innerHTML += histHtml;
   }
 
   // Milestones
