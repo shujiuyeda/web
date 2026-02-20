@@ -1,0 +1,1143 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <meta name="theme-color" content="#1B4332">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Health Hub">
+  <title>しゅうしゅう Health Hub</title>
+  <link rel="manifest" href="manifest.json">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --green-dark: #1B4332;
+      --green-mid: #2D6A4F;
+      --green-light: #52B788;
+      --green-pale: #D8F3DC;
+      --bg: #F0F4F0;
+      --card: #FFFFFF;
+      --text: #1A1A2E;
+      --text-muted: #6C757D;
+      --border: #DEE2E6;
+      --danger: #DC3545;
+      --warning: #E5A020;
+      --success: #28A745;
+      --nav-height: 62px;
+      --header-height: 52px;
+      --safe-bottom: env(safe-area-inset-bottom, 0px);
+    }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Hiragino Kaku Gothic ProN', 'Hiragino Sans', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+    .header {
+      position: fixed; top: 0; left: 0; right: 0;
+      height: var(--header-height);
+      background: var(--green-dark);
+      color: white;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 16px;
+      z-index: 100;
+      padding-top: env(safe-area-inset-top, 0px);
+    }
+    .header h1 { font-size: 16px; font-weight: 700; }
+    .header-date { font-size: 13px; opacity: 0.75; }
+    .main {
+      padding-top: var(--header-height);
+      padding-bottom: calc(var(--nav-height) + var(--safe-bottom) + 8px);
+      min-height: 100vh;
+    }
+    .bottom-nav {
+      position: fixed; bottom: 0; left: 0; right: 0;
+      height: calc(var(--nav-height) + var(--safe-bottom));
+      background: white;
+      border-top: 1px solid var(--border);
+      display: flex;
+      z-index: 100;
+      padding-bottom: var(--safe-bottom);
+    }
+    .nav-btn {
+      flex: 1; display: flex; flex-direction: column;
+      align-items: center; justify-content: center; gap: 3px;
+      border: none; background: none;
+      color: var(--text-muted); font-size: 10px;
+      cursor: pointer; -webkit-tap-highlight-color: transparent;
+      padding: 6px 0;
+      transition: color 0.15s;
+    }
+    .nav-btn.active { color: var(--green-mid); }
+    .nav-btn svg { width: 22px; height: 22px; }
+    .card {
+      background: var(--card); border-radius: 14px;
+      padding: 14px 16px; margin: 8px 12px;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.07);
+    }
+    .card-title {
+      font-size: 11px; font-weight: 700;
+      color: var(--text-muted); text-transform: uppercase;
+      letter-spacing: 0.6px; margin-bottom: 12px;
+    }
+    .kcal-display {
+      display: flex; align-items: baseline; gap: 4px;
+      justify-content: center; padding: 4px 0 8px;
+    }
+    .kcal-num {
+      font-size: 48px; font-weight: 700;
+      color: var(--green-dark); line-height: 1;
+      transition: color 0.2s;
+    }
+    .kcal-num.over { color: var(--danger); }
+    .kcal-unit { font-size: 16px; color: var(--text-muted); }
+    .kcal-target { font-size: 13px; color: var(--text-muted); }
+    .remaining {
+      text-align: center; font-size: 13px;
+      color: var(--text-muted); margin-bottom: 14px;
+    }
+    .macros-row { display: flex; gap: 8px; }
+    .macro-card {
+      flex: 1; background: var(--bg);
+      border-radius: 10px; padding: 10px 6px; text-align: center;
+    }
+    .macro-name { font-size: 10px; color: var(--text-muted); margin-bottom: 2px; }
+    .macro-value { font-size: 18px; font-weight: 700; line-height: 1.1; }
+    .macro-value .unit { font-size: 11px; font-weight: 400; }
+    .macro-target { font-size: 10px; color: var(--text-muted); margin-top: 1px; }
+    .macro-value.over { color: var(--danger); }
+    .macro-value.warn { color: var(--warning); }
+    .macro-value.ok { color: var(--green-mid); }
+    .date-nav {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 10px 16px; background: white;
+      border-bottom: 1px solid var(--border);
+    }
+    .date-nav-btn {
+      width: 38px; height: 38px; border: none; background: none;
+      font-size: 22px; cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      border-radius: 50%; color: var(--green-mid);
+      -webkit-tap-highlight-color: transparent;
+    }
+    .date-nav-btn:active { background: var(--bg); }
+    .date-nav-btn.disabled { opacity: 0.25; pointer-events: none; }
+    .date-nav-label { font-size: 15px; font-weight: 600; }
+    .today-badge {
+      display: inline-block; margin-left: 6px;
+      background: var(--green-pale); color: var(--green-mid);
+      font-size: 10px; font-weight: 700; padding: 1px 6px;
+      border-radius: 8px; vertical-align: middle;
+    }
+    .meal-list { display: flex; flex-direction: column; gap: 1px; }
+    .meal-item {
+      display: flex; align-items: center;
+      padding: 10px 0; border-bottom: 1px solid var(--border); gap: 8px;
+    }
+    .meal-item:last-child { border-bottom: none; }
+    .meal-time { font-size: 11px; color: var(--text-muted); width: 38px; flex-shrink: 0; }
+    .meal-info { flex: 1; min-width: 0; }
+    .meal-name { font-size: 14px; line-height: 1.3; }
+    .meal-macros { font-size: 11px; color: var(--text-muted); margin-top: 1px; }
+    .meal-kcal { font-size: 13px; font-weight: 700; color: var(--green-mid); flex-shrink: 0; }
+    .meal-del {
+      width: 30px; height: 30px; border: none; background: none;
+      color: #CCC; font-size: 18px; cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      border-radius: 50%; flex-shrink: 0;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .meal-del:active { background: #f0f0f0; color: var(--danger); }
+    .summary-row {
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 10px 0; border-top: 1.5px solid var(--border); margin-top: 4px;
+    }
+    .summary-label { font-size: 14px; font-weight: 700; }
+    .summary-val { font-size: 15px; font-weight: 700; color: var(--green-mid); }
+    .empty-state {
+      text-align: center; padding: 28px 20px; color: var(--text-muted);
+    }
+    .empty-icon { font-size: 36px; margin-bottom: 8px; }
+    .empty-text { font-size: 14px; line-height: 1.5; }
+    .fab {
+      position: fixed;
+      bottom: calc(var(--nav-height) + var(--safe-bottom) + 14px);
+      right: 18px;
+      width: 56px; height: 56px; border-radius: 50%;
+      background: var(--green-mid); color: white;
+      border: none;
+      box-shadow: 0 4px 14px rgba(45,106,79,0.4);
+      font-size: 26px; cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      z-index: 90; -webkit-tap-highlight-color: transparent;
+      transition: transform 0.1s, box-shadow 0.1s;
+    }
+    .fab:active { transform: scale(0.92); box-shadow: 0 2px 8px rgba(45,106,79,0.3); }
+    .fab.hidden { display: none; }
+    .export-btn {
+      display: flex; align-items: center; justify-content: center; gap: 8px;
+      padding: 12px; border: 1.5px dashed var(--border);
+      border-radius: 10px; background: none;
+      color: var(--text-muted); font-size: 14px; cursor: pointer;
+      width: calc(100% - 24px); margin: 0 12px 8px;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .export-btn:active { background: var(--bg); }
+    /* Modal */
+    .modal-overlay {
+      position: fixed; inset: 0; background: rgba(0,0,0,0.5);
+      z-index: 200; display: flex; align-items: flex-end; justify-content: center;
+    }
+    .modal-overlay.hidden { display: none; }
+    .modal {
+      background: white; border-radius: 20px 20px 0 0;
+      width: 100%; max-height: 92vh; overflow-y: auto;
+      padding: 20px 16px;
+      padding-bottom: calc(20px + env(safe-area-inset-bottom, 0px));
+    }
+    .modal-handle {
+      width: 40px; height: 4px; background: var(--border);
+      border-radius: 2px; margin: -8px auto 16px; display: block;
+    }
+    .modal-title { font-size: 17px; font-weight: 700; margin-bottom: 16px; text-align: center; }
+    .search-wrap { position: relative; margin-bottom: 10px; }
+    .search-input {
+      width: 100%; padding: 13px 14px;
+      border: 2px solid var(--border); border-radius: 12px;
+      font-size: 16px; background: #F8F9FA; outline: none;
+      -webkit-appearance: none;
+    }
+    .search-input:focus { border-color: var(--green-light); background: white; }
+    .ac-list {
+      position: absolute; top: calc(100% + 4px); left: 0; right: 0;
+      background: white; border: 1px solid var(--border);
+      border-radius: 12px;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.12);
+      max-height: 220px; overflow-y: auto; z-index: 300;
+    }
+    .ac-list.hidden { display: none; }
+    .ac-item {
+      padding: 12px 14px; cursor: pointer;
+      border-bottom: 1px solid var(--border); font-size: 14px;
+    }
+    .ac-item:last-child { border-bottom: none; }
+    .ac-item:active { background: var(--green-pale); }
+    .ac-unit { font-size: 11px; color: var(--text-muted); margin-top: 2px; }
+    .ac-kcal { float: right; font-size: 12px; color: var(--green-mid); font-weight: 600; }
+    .selected-food-box {
+      background: var(--green-pale); padding: 12px 14px;
+      border-radius: 10px; margin-bottom: 12px;
+    }
+    .sel-name { font-weight: 600; font-size: 15px; }
+    .sel-unit { font-size: 12px; color: var(--text-muted); margin-top: 2px; }
+    .sel-stats { display: flex; gap: 12px; margin-top: 6px; font-size: 13px; }
+    .sel-kcal { color: var(--green-mid); font-weight: 700; }
+    .sel-pfc { color: var(--text-muted); }
+    .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+    .form-field { display: flex; flex-direction: column; gap: 4px; }
+    .form-field.full { grid-column: 1 / -1; }
+    .form-label { font-size: 12px; color: var(--text-muted); font-weight: 600; }
+    .form-input {
+      padding: 11px 12px; border: 1.5px solid var(--border);
+      border-radius: 10px; font-size: 15px; background: #F8F9FA;
+      outline: none; -webkit-appearance: none;
+    }
+    .form-input:focus { border-color: var(--green-light); background: white; }
+    .btn {
+      padding: 14px 20px; border-radius: 12px; border: none;
+      font-size: 16px; font-weight: 700; cursor: pointer; width: 100%;
+      margin-top: 10px; -webkit-tap-highlight-color: transparent;
+      transition: opacity 0.1s;
+    }
+    .btn:active { opacity: 0.8; }
+    .btn-primary { background: var(--green-mid); color: white; }
+    .btn-secondary { background: var(--border); color: var(--text); }
+    .custom-section {
+      margin-top: 14px; padding-top: 14px;
+      border-top: 1px solid var(--border);
+    }
+    .custom-section-label {
+      font-size: 13px; color: var(--text-muted); margin-bottom: 10px;
+    }
+    .fish-toggle {
+      display: flex; align-items: center; gap: 10px;
+      margin-top: 12px; font-size: 14px; cursor: pointer;
+    }
+    .fish-toggle input { width: 20px; height: 20px; cursor: pointer; }
+    .fish-note {
+      font-size: 11px; color: var(--text-muted);
+      background: var(--green-pale); padding: 7px 10px;
+      border-radius: 8px; margin-top: 8px; line-height: 1.5;
+    }
+    /* Supplements */
+    .suppl-timing {
+      font-size: 11px; font-weight: 700; color: var(--text-muted);
+      padding: 10px 0 6px; letter-spacing: 0.3px;
+    }
+    .suppl-item {
+      display: flex; align-items: center; gap: 12px;
+      padding: 11px 0; border-bottom: 1px solid var(--border);
+    }
+    .suppl-item:last-child { border-bottom: none; }
+    .suppl-check {
+      width: 26px; height: 26px; border: 2px solid var(--border);
+      border-radius: 7px; flex-shrink: 0; cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      -webkit-tap-highlight-color: transparent; transition: all 0.15s;
+    }
+    .suppl-check.checked { background: var(--green-mid); border-color: var(--green-mid); }
+    .suppl-check.checked::after { content: "✓"; color: white; font-size: 15px; font-weight: 800; }
+    .suppl-label { flex: 1; }
+    .suppl-name { font-size: 14px; transition: color 0.15s; }
+    .suppl-name.checked { text-decoration: line-through; color: var(--text-muted); }
+    .suppl-note { font-size: 11px; color: var(--text-muted); margin-top: 2px; }
+    .compliance-bar {
+      height: 10px; background: #E9ECEF;
+      border-radius: 5px; overflow: hidden; margin: 8px 0 4px;
+    }
+    .compliance-fill {
+      height: 100%; border-radius: 5px; background: var(--green-light);
+      transition: width 0.3s;
+    }
+    .compliance-fill.full { background: var(--green-mid); }
+    /* Weight */
+    .weight-hero {
+      text-align: center; padding: 8px 0 12px;
+    }
+    .weight-big {
+      font-size: 56px; font-weight: 700;
+      color: var(--green-dark); line-height: 1;
+    }
+    .weight-big .wunit { font-size: 20px; color: var(--text-muted); }
+    .weight-sub { font-size: 13px; color: var(--text-muted); margin-top: 4px; }
+    .weight-input-row {
+      display: flex; gap: 10px; align-items: center; margin-top: 12px;
+    }
+    .progress-main {
+      height: 14px; background: #E9ECEF;
+      border-radius: 7px; overflow: hidden; margin: 8px 0 4px;
+    }
+    .progress-fill {
+      height: 100%; border-radius: 7px;
+      background: linear-gradient(90deg, var(--green-light), var(--green-mid));
+      transition: width 0.4s;
+    }
+    .milestone-list { display: flex; flex-direction: column; gap: 10px; }
+    .milestone-item {
+      display: flex; align-items: center; gap: 10px; font-size: 14px;
+    }
+    .milestone-dot {
+      width: 26px; height: 26px; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 13px; flex-shrink: 0;
+    }
+    .milestone-dot.done { background: var(--green-pale); color: var(--green-mid); font-size: 15px; }
+    .milestone-dot.next { background: #FFF3CD; color: #856404; font-weight: 700; }
+    .milestone-dot.future { background: #E9ECEF; color: var(--text-muted); font-size: 10px; }
+    .milestone-info { flex: 1; }
+    .milestone-name { font-size: 14px; }
+    .milestone-date { font-size: 11px; color: var(--text-muted); margin-top: 1px; }
+    .milestone-weight {
+      font-size: 14px; font-weight: 700; color: var(--text-muted);
+    }
+    .milestone-weight.achieved { color: var(--green-mid); }
+    .milestone-weight.next-weight { color: var(--warning); }
+    /* Chart */
+    .chart-scroll { overflow-x: auto; }
+    /* Toast */
+    .toast {
+      position: fixed;
+      bottom: calc(var(--nav-height) + var(--safe-bottom) + 74px);
+      left: 50%; transform: translateX(-50%);
+      background: rgba(27,67,50,0.92); color: white;
+      padding: 11px 20px; border-radius: 22px;
+      font-size: 14px; z-index: 1000; white-space: nowrap;
+      animation: toast-in 0.2s ease;
+    }
+    @keyframes toast-in {
+      from { opacity: 0; transform: translateX(-50%) translateY(8px); }
+      to { opacity: 1; transform: translateX(-50%) translateY(0); }
+    }
+    .spacer { height: 20px; }
+    .hidden { display: none !important; }
+    /* Qty input in modal */
+    .qty-row {
+      display: flex; align-items: center; gap: 10px; margin-top: 8px;
+    }
+    .qty-row label { font-size: 13px; color: var(--text-muted); white-space: nowrap; }
+    .qty-input {
+      flex: 1; padding: 10px 12px; border: 1.5px solid var(--border);
+      border-radius: 10px; font-size: 16px; background: #F8F9FA;
+      outline: none; -webkit-appearance: none; text-align: center;
+    }
+    .qty-input:focus { border-color: var(--green-light); }
+    /* Import section */
+    .import-section {
+      margin: 0 12px 8px;
+    }
+    .import-btn {
+      display: flex; align-items: center; justify-content: center; gap: 8px;
+      padding: 11px; border: 1.5px dashed #ADB5BD;
+      border-radius: 10px; background: none;
+      color: var(--text-muted); font-size: 13px; cursor: pointer;
+      width: 100%;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .import-btn:active { background: var(--bg); }
+    /* Nutrition bar */
+    .nutr-bar { margin-bottom: 10px; }
+    .nutr-bar-header { display: flex; justify-content: space-between; margin-bottom: 3px; font-size: 12px; }
+    .nutr-bar-label { color: var(--text-muted); }
+    .nutr-bar-val { font-weight: 600; }
+    .nutr-bar-track { height: 6px; background: #E9ECEF; border-radius: 3px; overflow: hidden; }
+    .nutr-bar-fill { height: 100%; border-radius: 3px; transition: width 0.3s; }
+    .nutr-bar-fill.ok { background: var(--green-light); }
+    .nutr-bar-fill.warn { background: var(--warning); }
+    .nutr-bar-fill.over { background: var(--danger); }
+  </style>
+</head>
+<body>
+<div id="app">
+  <header class="header">
+    <h1>🌿 Health Hub</h1>
+    <span class="header-date" id="header-date"></span>
+  </header>
+
+  <main class="main" id="main-content"></main>
+
+  <button class="fab hidden" id="fab-add" onclick="openModal()">＋</button>
+
+  <nav class="bottom-nav">
+    <button class="nav-btn active" data-tab="meals" onclick="switchTab('meals')">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M18 8h1a4 4 0 0 1 0 8h-1M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8zM6 1v3M10 1v3M14 1v3"/>
+      </svg>
+      食事
+    </button>
+    <button class="nav-btn" data-tab="supplements" onclick="switchTab('supplements')">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/>
+      </svg>
+      サプリ
+    </button>
+    <button class="nav-btn" data-tab="weight" onclick="switchTab('weight')">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/>
+      </svg>
+      体重
+    </button>
+  </nav>
+</div>
+
+<!-- Add Food Modal -->
+<div class="modal-overlay hidden" id="modal-overlay" onclick="onOverlayClick(event)">
+  <div class="modal">
+    <span class="modal-handle"></span>
+    <div class="modal-title">食事を記録</div>
+
+    <div class="search-wrap">
+      <input type="search" class="search-input" id="food-search"
+             placeholder="食品名を検索..."
+             oninput="onFoodSearch(this.value)"
+             autocomplete="off" autocorrect="off"
+             spellcheck="false">
+      <div class="ac-list hidden" id="ac-list"></div>
+    </div>
+
+    <div id="selected-box" class="hidden">
+      <div class="selected-food-box">
+        <div class="sel-name" id="sel-name"></div>
+        <div class="sel-unit" id="sel-unit"></div>
+        <div class="sel-stats">
+          <span class="sel-kcal" id="sel-kcal"></span>
+          <span class="sel-pfc" id="sel-pfc"></span>
+        </div>
+      </div>
+      <div class="qty-row">
+        <label>個数・量</label>
+        <input type="number" class="qty-input" id="food-qty" value="1" min="0.1" max="99" step="0.5">
+      </div>
+    </div>
+
+    <div id="custom-form" class="hidden">
+      <div class="custom-section">
+        <div class="custom-section-label">データベースにない食品を手動で入力</div>
+        <div class="form-grid">
+          <div class="form-field full">
+            <label class="form-label">食品名</label>
+            <input type="text" class="form-input" id="c-name" placeholder="例: ゆで卵">
+          </div>
+          <div class="form-field">
+            <label class="form-label">カロリー (kcal)</label>
+            <input type="number" class="form-input" id="c-kcal" placeholder="0">
+          </div>
+          <div class="form-field">
+            <label class="form-label">たんぱく質 P (g)</label>
+            <input type="number" class="form-input" id="c-p" placeholder="0">
+          </div>
+          <div class="form-field">
+            <label class="form-label">脂質 F (g)</label>
+            <input type="number" class="form-input" id="c-f" placeholder="0">
+          </div>
+          <div class="form-field">
+            <label class="form-label">炭水化物 C (g)</label>
+            <input type="number" class="form-input" id="c-c" placeholder="0">
+          </div>
+          <div class="form-field">
+            <label class="form-label">単位</label>
+            <input type="text" class="form-input" id="c-unit" placeholder="例: 1個">
+          </div>
+        </div>
+        <label class="fish-toggle">
+          <input type="checkbox" id="is-fish">
+          🐟 魚の脂質ボーナス適用（カロリー×0.7）
+        </label>
+        <div class="fish-note">青魚・鮭など魚の脂質カロリーは×0.7で計算（オメガ3は体脂肪になりにくい）</div>
+      </div>
+    </div>
+
+    <button class="btn btn-primary" id="btn-record" onclick="addFoodRecord()">記録する</button>
+    <button class="btn btn-secondary" onclick="closeModal()">キャンセル</button>
+  </div>
+</div>
+
+<script>
+// ======== FOOD DATABASE ========
+const BUILT_IN_FOODS = [
+  // 主食
+  { id:1, name:"パスコ 麦のめぐみ 全粒粉イングリッシュマフィン", unit:"1個", kcal:152, p:5.7, f:1.3, c:30.5, cat:"主食" },
+  // 自炊
+  { id:2, name:"無水カレー（小皿1杯 1/6）", unit:"1杯", kcal:165, p:21, f:6, c:9, cat:"自炊" },
+  { id:3, name:"牛すじ無水カレー（1杯 肉170g+ソース）", unit:"1杯", kcal:385, p:53.5, f:6.1, c:31.6, cat:"自炊" },
+  { id:4, name:"牛すじ無水カレー（適量 肉120g+白米150g）", unit:"1食", kcal:525, p:42, f:5, c:78, cat:"自炊" },
+  { id:5, name:"牛すじ無水カレー（肉119g+ソース226g+白米114g）", unit:"1食", kcal:502, p:46, f:5.2, c:67.8, cat:"自炊" },
+  { id:6, name:"味噌汁（豆腐・玉ねぎ・じゃがいも）", unit:"お椀1杯", kcal:196, p:13, f:8.3, c:16.3, cat:"自炊" },
+  { id:7, name:"ブルーベリーヨーグルト（オーバーナイトオーツ）", unit:"全量", kcal:510, p:28, f:17, c:73.7, cat:"自炊" },
+  { id:8, name:"鶏むねキャベツ鍋 1/3量", unit:"1食", kcal:246, p:33, f:6, c:17, cat:"自炊" },
+  // コンビニ
+  { id:10, name:"セブン わかめそば", unit:"1食", kcal:278, p:16, f:1.5, c:54.2, cat:"コンビニ" },
+  { id:11, name:"ローソン キャンディーチーズ ブラックペッパー", unit:"5粒", kcal:87, p:5, f:7.2, c:0.5, cat:"コンビニ" },
+  { id:12, name:"ローソン サラダチキンスティック オリーブ&チーズ", unit:"1本(60g)", kcal:98, p:11.1, f:4.4, c:3.5, cat:"コンビニ" },
+  { id:13, name:"ローソン 炭火焼なんこつつくね 青じそ", unit:"1袋(80g)", kcal:128, p:13.9, f:6.2, c:4.5, cat:"コンビニ" },
+  { id:14, name:"ローソン 炙り熟成紅鮭おにぎり", unit:"1個", kcal:174, p:4.6, f:1.7, c:35.7, cat:"コンビニ" },
+  { id:15, name:"セブン 手巻おにぎり 鶏そぼろ", unit:"1個", kcal:192, p:6.2, f:1.9, c:38.4, cat:"コンビニ" },
+  { id:16, name:"セブン 砂肝の炭火焼", unit:"1袋(70g)", kcal:101, p:20.4, f:1.7, c:0.9, cat:"コンビニ" },
+  { id:17, name:"セブン スンドゥブチゲ", unit:"1食", kcal:190, p:18.6, f:9.7, c:8.6, cat:"コンビニ" },
+  { id:18, name:"セブン 大入り豚まん", unit:"1個", kcal:340, p:11.5, f:12.4, c:46.5, cat:"コンビニ" },
+  { id:19, name:"小枝パイ（セブン）", unit:"1本(58g)", kcal:296, p:3, f:21.9, c:22.3, cat:"コンビニ" },
+  // おやつ
+  { id:20, name:"南部せんべい 落花生", unit:"1枚", kcal:81, p:2.6, f:2.3, c:12.4, cat:"おやつ" },
+  { id:21, name:"うまいせんべい", unit:"1枚", kcal:80, p:1.8, f:0.2, c:17.8, cat:"おやつ" },
+  { id:22, name:"ロッテ リッチアーモンドチョコ ポップジョイ", unit:"1袋", kcal:203, p:3.8, f:13.5, c:16.5, cat:"おやつ" },
+  { id:23, name:"ロッテ クランキーポップジョイ", unit:"1袋(44g)", kcal:248, p:3, f:15.3, c:24.6, cat:"おやつ" },
+  { id:24, name:"スニッカーズ", unit:"1本(51g)", kcal:248, p:4.4, f:12.2, c:29.5, cat:"おやつ" },
+  // フルーツ
+  { id:30, name:"スウィーティオ パイナップル（いつもの量）", unit:"140g", kcal:75, p:1, f:0, c:19, cat:"フルーツ" },
+  // 調味料
+  { id:40, name:"バター（薄塗り）", unit:"約5g", kcal:37, p:0, f:4.1, c:0, cat:"調味料" },
+];
+
+// ======== SUPPLEMENTS ========
+const SUPPLEMENTS = [
+  { id:"m1", timing:"morning", name:"ユリス", note:"処方薬（尿酸値）" },
+  { id:"m2", timing:"morning", name:"マルチビタミン", note:"" },
+  { id:"m3", timing:"morning", name:"CoQ10", note:"" },
+  { id:"m4", timing:"morning", name:"エビオス 10錠", note:"" },
+  { id:"m5", timing:"morning", name:"Align or ビオスリー", note:"どちらか1つ" },
+  { id:"m6", timing:"morning", name:"The Daily Power", note:"飲みきるまで" },
+  { id:"a1", timing:"afternoon", name:"サイリウムハスク", note:"水たっぷり、薬と1〜2時間離す" },
+  { id:"e1", timing:"evening", name:"ロスバスタチン", note:"処方薬（コレステロール）夕食後" },
+  { id:"e2", timing:"evening", name:"亜鉛 (THORNE)", note:"" },
+  { id:"e3", timing:"evening", name:"エビオス 10錠", note:"" },
+  { id:"e4", timing:"evening", name:"ビオスリー 2錠", note:"" },
+  { id:"b1", timing:"bedtime", name:"マグネシウム", note:"1カプセル≒87.5mg、最大4カプセル" },
+];
+const TIMING_LABELS = {
+  morning:   "☀️ 朝（1食目後・10時ごろ）",
+  afternoon: "🕐 食間（昼〜午後）",
+  evening:   "🌙 夜（2食目後・18時ごろ）",
+  bedtime:   "🛏 就寝前（夕食2時間後）",
+};
+
+// ======== TARGETS & MILESTONES ========
+const TARGETS = { kcalMin:1700, kcalMax:1800, pMin:80, pMax:100, fMax:50, cMax:220 };
+const MILESTONES = [
+  { label:"10日後チェック",   weight:87.7, date:"2026-02-23" },
+  { label:"20日後チェック",   weight:87.0, date:"2026-03-05" },
+  { label:"30日後チェック",   weight:86.3, date:"2026-03-15" },
+  { label:"60日後チェック",   weight:84.25, date:"2026-04-14" },
+  { label:"脂肪肝改善（7%減）", weight:82.2, date:"2026-05-14" },
+  { label:"80の壁を切る",     weight:79.9, date:"2026-12-31" },
+  { label:"最終目標 75kg",    weight:75.0, date:"2027-03-31" },
+];
+const START_WEIGHT = 88.0;
+const GOAL_WEIGHT = 75.0;
+
+// ======== STATE ========
+let currentTab = 'meals';
+let currentDate = todayStr();
+let searchResults = [];
+let selectedFood = null;
+
+function todayStr() {
+  const d = new Date();
+  return fmtDate(d);
+}
+function fmtDate(d) {
+  return `${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())}`;
+}
+function pad(n) { return String(n).padStart(2,'0'); }
+
+function formatDateLabel(ds) {
+  const [y,m,d] = ds.split('-').map(Number);
+  const dow = ['日','月','火','水','木','金','土'][new Date(y,m-1,d).getDay()];
+  return `${m}/${d}（${dow}）`;
+}
+
+// ======== STORAGE ========
+function ls(key, val) {
+  if (val === undefined) {
+    try { return JSON.parse(localStorage.getItem(key)); } catch { return null; }
+  }
+  localStorage.setItem(key, JSON.stringify(val));
+}
+
+function getMeals(ds) { return ls(`meals_${ds}`) || []; }
+function saveMeals(ds, meals) { ls(`meals_${ds}`, meals); }
+function getWeights() { return ls('weights') || {}; }
+function saveWeights(w) { ls('weights', w); }
+function getSuppl(ds) { return ls(`suppl_${ds}`) || {}; }
+function saveSuppl(ds, s) { ls(`suppl_${ds}`, s); }
+function getCustomFoods() { return ls('custom_foods') || []; }
+function saveCustomFoods(foods) { ls('custom_foods', foods); }
+function getAllFoods() { return [...BUILT_IN_FOODS, ...getCustomFoods()]; }
+
+// ======== INIT ========
+function init() {
+  document.getElementById('header-date').textContent = formatDateLabel(currentDate);
+  switchTab('meals');
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('/web/sw.js').catch(() => {});
+  }
+}
+
+// ======== TABS ========
+function switchTab(tab) {
+  currentTab = tab;
+  document.querySelectorAll('.nav-btn').forEach(b => b.classList.toggle('active', b.dataset.tab === tab));
+  document.getElementById('fab-add').classList.toggle('hidden', tab !== 'meals');
+  const main = document.getElementById('main-content');
+  main.innerHTML = '';
+  if (tab === 'meals') renderMeals(main);
+  else if (tab === 'supplements') renderSuppl(main);
+  else if (tab === 'weight') renderWeight(main);
+}
+
+function changeDate(delta) {
+  const d = new Date(currentDate);
+  d.setDate(d.getDate() + delta);
+  const nd = fmtDate(d);
+  if (nd > todayStr()) return;
+  currentDate = nd;
+  document.getElementById('header-date').textContent = formatDateLabel(currentDate);
+  switchTab(currentTab);
+}
+
+// ======== MEALS TAB ========
+function renderMeals(container) {
+  const meals = getMeals(currentDate);
+  const t = totals(meals);
+  const isToday = currentDate === todayStr();
+  const kcalOver = t.kcal > TARGETS.kcalMax;
+  const remaining = TARGETS.kcalMax - t.kcal;
+
+  // Date nav
+  container.innerHTML += `
+    <div class="date-nav">
+      <button class="date-nav-btn" onclick="changeDate(-1)">‹</button>
+      <span class="date-nav-label">
+        ${formatDateLabel(currentDate)}${isToday ? '<span class="today-badge">TODAY</span>' : ''}
+      </span>
+      <button class="date-nav-btn ${isToday ? 'disabled' : ''}" onclick="changeDate(1)">›</button>
+    </div>
+  `;
+
+  // Kcal summary card
+  container.innerHTML += `
+    <div class="card">
+      <div class="kcal-display">
+        <span class="kcal-num ${kcalOver ? 'over' : ''}">${Math.round(t.kcal)}</span>
+        <span class="kcal-unit">kcal</span>
+        <span class="kcal-target">/ ${TARGETS.kcalMin}〜${TARGETS.kcalMax}</span>
+      </div>
+      <div class="remaining">
+        ${remaining >= 0
+          ? `あと <strong>${Math.round(remaining)}</strong> kcal`
+          : `<span style="color:var(--danger)">超過 <strong>${Math.round(-remaining)}</strong> kcal</span>`
+        }
+      </div>
+      <div class="macros-row">
+        ${macroCard('たんぱく質', t.p, `${TARGETS.pMin}-${TARGETS.pMax}g`, t.p > TARGETS.pMax ? 'over' : t.p >= TARGETS.pMin ? 'ok' : 'warn')}
+        ${macroCard('脂質', t.f, `〜${TARGETS.fMax}g`, t.f > TARGETS.fMax ? 'over' : 'ok')}
+        ${macroCard('炭水化物', t.c, `〜${TARGETS.cMax}g`, t.c > TARGETS.cMax ? 'over' : 'ok')}
+      </div>
+    </div>
+  `;
+
+  // Nutrion progress bars
+  container.innerHTML += `
+    <div class="card">
+      <div class="card-title">栄養バランス</div>
+      ${nutrBar('カロリー', t.kcal, TARGETS.kcalMax, 'kcal', t.kcal > TARGETS.kcalMax ? 'over' : t.kcal > TARGETS.kcalMin ? 'ok' : 'warn')}
+      ${nutrBar('たんぱく質', t.p, TARGETS.pMax, 'g', t.p > TARGETS.pMax ? 'over' : t.p >= TARGETS.pMin ? 'ok' : 'warn')}
+      ${nutrBar('脂質', t.f, TARGETS.fMax, 'g', t.f > TARGETS.fMax ? 'over' : 'ok')}
+      ${nutrBar('炭水化物', t.c, TARGETS.cMax, 'g', t.c > TARGETS.cMax ? 'over' : 'ok')}
+    </div>
+  `;
+
+  // Meal list card
+  let mealHtml = `<div class="card"><div class="card-title">食事記録</div>`;
+  if (meals.length === 0) {
+    mealHtml += `<div class="empty-state">
+      <div class="empty-icon">🍽️</div>
+      <div class="empty-text">まだ記録がありません<br>右下の ＋ で追加してください</div>
+    </div>`;
+  } else {
+    mealHtml += `<div class="meal-list">`;
+    meals.forEach((m, i) => {
+      mealHtml += `
+        <div class="meal-item">
+          <span class="meal-time">${m.time}</span>
+          <div class="meal-info">
+            <div class="meal-name">${esc(m.name)}</div>
+            <div class="meal-macros">P${m.p.toFixed(1)} F${m.f.toFixed(1)} C${m.c.toFixed(1)}</div>
+          </div>
+          <span class="meal-kcal">${Math.round(m.kcal)}</span>
+          <button class="meal-del" onclick="deleteMeal(${i})">×</button>
+        </div>`;
+    });
+    mealHtml += `</div>
+      <div class="summary-row">
+        <span class="summary-label">合計</span>
+        <span class="summary-val">${Math.round(t.kcal)} kcal</span>
+      </div>`;
+  }
+  mealHtml += `</div>`;
+  container.innerHTML += mealHtml;
+
+  // Export button
+  container.innerHTML += `
+    <button class="export-btn" onclick="exportMarkdown()">
+      📋 Obsidian用マークダウンをコピー
+    </button>
+    <div class="spacer"></div>
+  `;
+}
+
+function macroCard(name, val, target, status) {
+  return `
+    <div class="macro-card">
+      <div class="macro-name">${name}</div>
+      <div class="macro-value ${status}">${val.toFixed(1)}<span class="unit">g</span></div>
+      <div class="macro-target">目標: ${target}</div>
+    </div>`;
+}
+
+function nutrBar(label, val, max, unit, status) {
+  const pct = Math.min((val / max) * 100, 100);
+  return `
+    <div class="nutr-bar">
+      <div class="nutr-bar-header">
+        <span class="nutr-bar-label">${label}</span>
+        <span class="nutr-bar-val">${label === 'カロリー' ? Math.round(val) : val.toFixed(1)}${unit} / ${label === 'カロリー' ? max : max}${unit}</span>
+      </div>
+      <div class="nutr-bar-track">
+        <div class="nutr-bar-fill ${status}" style="width:${pct.toFixed(1)}%"></div>
+      </div>
+    </div>`;
+}
+
+function totals(meals) {
+  return meals.reduce((a, m) => ({
+    kcal: a.kcal + m.kcal, p: a.p + m.p, f: a.f + m.f, c: a.c + m.c
+  }), {kcal:0, p:0, f:0, c:0});
+}
+
+function deleteMeal(idx) {
+  const meals = getMeals(currentDate);
+  meals.splice(idx, 1);
+  saveMeals(currentDate, meals);
+  switchTab('meals');
+}
+
+function exportMarkdown() {
+  const meals = getMeals(currentDate);
+  if (!meals.length) { showToast('記録がありません'); return; }
+  const t = totals(meals);
+  const [,m,d] = currentDate.split('-').map(Number);
+  let md = `### ${m}/${d}\n| 時刻 | 内容 | kcal | P | F | C |\n|------|------|------|---|---|---|\n`;
+  meals.forEach(ml => {
+    md += `| ${ml.time} | ${ml.name} | ${Math.round(ml.kcal)} | ${ml.p.toFixed(1)}g | ${ml.f.toFixed(1)}g | ${ml.c.toFixed(1)}g |\n`;
+  });
+  md += `| **合計** | | **${Math.round(t.kcal)}** | **${t.p.toFixed(1)}g** | **${t.f.toFixed(1)}g** | **${t.c.toFixed(1)}g** |\n`;
+  md += `| **目標** | 1,700-1,800kcal | | **80-100g** | **〜50g** | **〜220g** |`;
+  navigator.clipboard.writeText(md)
+    .then(() => showToast('コピーしました！'))
+    .catch(() => { const ta = document.createElement('textarea'); ta.value = md; document.body.appendChild(ta); ta.select(); document.execCommand('copy'); ta.remove(); showToast('コピーしました！'); });
+}
+
+// ======== MODAL ========
+function openModal() {
+  selectedFood = null;
+  searchResults = [];
+  document.getElementById('modal-overlay').classList.remove('hidden');
+  document.getElementById('food-search').value = '';
+  document.getElementById('ac-list').classList.add('hidden');
+  document.getElementById('selected-box').classList.add('hidden');
+  document.getElementById('custom-form').classList.add('hidden');
+  setTimeout(() => document.getElementById('food-search').focus(), 150);
+}
+
+function closeModal() {
+  document.getElementById('modal-overlay').classList.add('hidden');
+  selectedFood = null;
+}
+
+function onOverlayClick(e) {
+  if (e.target === document.getElementById('modal-overlay')) closeModal();
+}
+
+function onFoodSearch(query) {
+  const ac = document.getElementById('ac-list');
+  if (!query.trim()) {
+    ac.classList.add('hidden');
+    document.getElementById('selected-box').classList.add('hidden');
+    document.getElementById('custom-form').classList.add('hidden');
+    return;
+  }
+  const q = query.toLowerCase();
+  searchResults = getAllFoods().filter(f => f.name.toLowerCase().includes(q)).slice(0, 8);
+
+  let html = '';
+  searchResults.forEach((f, i) => {
+    html += `<div class="ac-item" onclick="selectByIndex(${i})">
+      <div><span>${esc(f.name)}</span><span class="ac-kcal">${f.kcal}kcal</span></div>
+      <div class="ac-unit">${esc(f.unit)} / P${f.p}g F${f.f}g C${f.c}g</div>
+    </div>`;
+  });
+  html += `<div class="ac-item" style="color:var(--text-muted);" onclick="showCustom()">📝 手動で入力...</div>`;
+  ac.innerHTML = html;
+  ac.classList.remove('hidden');
+}
+
+function selectByIndex(i) {
+  const food = searchResults[i];
+  if (!food) return;
+  selectedFood = food;
+  document.getElementById('ac-list').classList.add('hidden');
+  document.getElementById('custom-form').classList.add('hidden');
+  document.getElementById('sel-name').textContent = food.name;
+  document.getElementById('sel-unit').textContent = '単位: ' + food.unit;
+  document.getElementById('sel-kcal').textContent = food.kcal + 'kcal';
+  document.getElementById('sel-pfc').textContent = `P${food.p}g F${food.f}g C${food.c}g`;
+  document.getElementById('food-qty').value = 1;
+  document.getElementById('selected-box').classList.remove('hidden');
+  document.getElementById('food-search').value = food.name;
+}
+
+function showCustom() {
+  document.getElementById('ac-list').classList.add('hidden');
+  document.getElementById('selected-box').classList.add('hidden');
+  document.getElementById('custom-form').classList.remove('hidden');
+  document.getElementById('c-name').value = document.getElementById('food-search').value;
+  selectedFood = null;
+}
+
+function addFoodRecord() {
+  const now = new Date();
+  const time = `${pad(now.getHours())}:${pad(now.getMinutes())}`;
+  let record;
+
+  if (selectedFood) {
+    const qty = parseFloat(document.getElementById('food-qty').value) || 1;
+    record = {
+      time,
+      name: selectedFood.name + (qty !== 1 ? ` ×${qty}` : ''),
+      kcal: selectedFood.kcal * qty,
+      p: selectedFood.p * qty,
+      f: selectedFood.f * qty,
+      c: selectedFood.c * qty,
+    };
+  } else {
+    const name = document.getElementById('c-name').value.trim();
+    if (!name) { showToast('食品名を入力してください'); return; }
+    let kcal = parseFloat(document.getElementById('c-kcal').value) || 0;
+    const p = parseFloat(document.getElementById('c-p').value) || 0;
+    const f = parseFloat(document.getElementById('c-f').value) || 0;
+    const c = parseFloat(document.getElementById('c-c').value) || 0;
+    const unit = document.getElementById('c-unit').value || '1食';
+    const isFish = document.getElementById('is-fish').checked;
+    if (isFish) kcal = kcal - (f * 9 * 0.3);
+    record = { time, name: name + (isFish ? ' 🐟' : ''), kcal, p, f, c };
+    // Save to custom DB
+    const customs = getCustomFoods();
+    if (!customs.find(x => x.name === name)) {
+      customs.push({ id: Date.now(), name, unit, kcal: parseFloat(document.getElementById('c-kcal').value)||0, p, f, c, cat:'カスタム' });
+      saveCustomFoods(customs);
+    }
+  }
+
+  const meals = getMeals(currentDate);
+  meals.push(record);
+  saveMeals(currentDate, meals);
+  closeModal();
+  showToast('記録しました ✓');
+  switchTab('meals');
+}
+
+// ======== SUPPLEMENTS TAB ========
+function renderSuppl(container) {
+  const checks = getSuppl(currentDate);
+  const isToday = currentDate === todayStr();
+  const done = SUPPLEMENTS.filter(s => checks[s.id]).length;
+  const pct = Math.round((done / SUPPLEMENTS.length) * 100);
+
+  container.innerHTML += `
+    <div class="date-nav">
+      <button class="date-nav-btn" onclick="changeDate(-1)">‹</button>
+      <span class="date-nav-label">
+        ${formatDateLabel(currentDate)}${isToday ? '<span class="today-badge">TODAY</span>' : ''}
+      </span>
+      <button class="date-nav-btn ${isToday ? 'disabled' : ''}" onclick="changeDate(1)">›</button>
+    </div>
+    <div class="card">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;">
+        <div class="card-title" style="margin-bottom:0;">今日の服薬・サプリ</div>
+        <div id="pct-display" style="font-size:24px;font-weight:700;color:${pct===100?'var(--green-mid)':'var(--text-muted)'};">${pct}%</div>
+      </div>
+      <div class="compliance-bar">
+        <div class="compliance-fill ${pct===100?'full':''}" id="comp-fill" style="width:${pct}%;"></div>
+      </div>
+      <div style="font-size:12px;color:var(--text-muted);text-align:center;">${done} / ${SUPPLEMENTS.length} 完了</div>
+    </div>
+  `;
+
+  let html = `<div class="card">`;
+  const timings = ['morning','afternoon','evening','bedtime'];
+  timings.forEach(t => {
+    const items = SUPPLEMENTS.filter(s => s.timing === t);
+    html += `<div class="suppl-timing">${TIMING_LABELS[t]}</div>`;
+    items.forEach(s => {
+      const checked = !!checks[s.id];
+      html += `
+        <div class="suppl-item">
+          <div class="suppl-check ${checked ? 'checked' : ''}" id="sc-${s.id}" onclick="toggleSuppl('${s.id}')"></div>
+          <div class="suppl-label">
+            <div class="suppl-name ${checked ? 'checked' : ''}" id="sn-${s.id}">${esc(s.name)}</div>
+            ${s.note ? `<div class="suppl-note">${esc(s.note)}</div>` : ''}
+          </div>
+        </div>`;
+    });
+  });
+  html += `</div><div class="spacer"></div>`;
+  container.innerHTML += html;
+}
+
+function toggleSuppl(id) {
+  const checks = getSuppl(currentDate);
+  checks[id] = !checks[id];
+  saveSuppl(currentDate, checks);
+  const sc = document.getElementById(`sc-${id}`);
+  const sn = document.getElementById(`sn-${id}`);
+  if (sc) sc.classList.toggle('checked', checks[id]);
+  if (sn) sn.classList.toggle('checked', checks[id]);
+  const done = SUPPLEMENTS.filter(s => checks[s.id]).length;
+  const pct = Math.round((done / SUPPLEMENTS.length) * 100);
+  const fill = document.getElementById('comp-fill');
+  const pctEl = document.getElementById('pct-display');
+  if (fill) { fill.style.width = pct + '%'; fill.classList.toggle('full', pct===100); }
+  if (pctEl) { pctEl.textContent = pct + '%'; pctEl.style.color = pct===100 ? 'var(--green-mid)' : 'var(--text-muted)'; }
+}
+
+// ======== WEIGHT TAB ========
+function renderWeight(container) {
+  const weights = getWeights();
+  const isToday = currentDate === todayStr();
+  const todayW = weights[currentDate];
+
+  // Last 14 days
+  const chartData = [];
+  for (let i = 13; i >= 0; i--) {
+    const d = new Date(); d.setDate(d.getDate() - i);
+    const ds = fmtDate(d);
+    if (weights[ds] != null) chartData.push({ ds, w: weights[ds] });
+  }
+  const latestW = todayW || (chartData.length > 0 ? chartData[chartData.length-1].w : null);
+  const progressPct = latestW
+    ? Math.max(0, Math.min(100, ((START_WEIGHT - latestW) / (START_WEIGHT - GOAL_WEIGHT)) * 100))
+    : 0;
+  const nextMS = latestW ? MILESTONES.find(m => m.weight < latestW) : MILESTONES[0];
+
+  container.innerHTML += `
+    <div class="date-nav">
+      <button class="date-nav-btn" onclick="changeDate(-1)">‹</button>
+      <span class="date-nav-label">
+        ${formatDateLabel(currentDate)}${isToday ? '<span class="today-badge">TODAY</span>' : ''}
+      </span>
+      <button class="date-nav-btn ${isToday ? 'disabled' : ''}" onclick="changeDate(1)">›</button>
+    </div>
+  `;
+
+  // Weight entry card
+  let wHtml = `<div class="card"><div class="card-title">体重を記録</div>`;
+  if (todayW) {
+    wHtml += `<div class="weight-hero">
+      <div class="weight-big">${todayW.toFixed(2)}<span class="wunit">kg</span></div>
+      <div class="weight-sub">${formatDateLabel(currentDate)}の記録</div>
+    </div>`;
+  }
+  wHtml += `<div class="weight-input-row">
+    <input type="number" id="weight-input" class="form-input" style="flex:1;"
+           placeholder="${todayW || '88.0'}" step="0.05" min="50" max="300"
+           value="${todayW || ''}">
+    <span style="font-size:14px;color:var(--text-muted);white-space:nowrap;">kg</span>
+    <button class="btn btn-primary" style="width:auto;padding:11px 18px;margin-top:0;"
+            onclick="saveWeight()">保存</button>
+  </div></div>`;
+  container.innerHTML += wHtml;
+
+  // Goal progress
+  if (latestW) {
+    container.innerHTML += `
+      <div class="card">
+        <div class="card-title">75kgへの道のり</div>
+        <div style="display:flex;justify-content:space-between;font-size:12px;color:var(--text-muted);margin-bottom:6px;">
+          <span>開始: ${START_WEIGHT}kg</span>
+          <span>現在: <strong style="color:var(--text);">${latestW.toFixed(2)}kg</strong></span>
+          <span>目標: ${GOAL_WEIGHT}kg</span>
+        </div>
+        <div class="progress-main">
+          <div class="progress-fill" style="width:${progressPct.toFixed(1)}%;"></div>
+        </div>
+        <div style="text-align:center;font-size:12px;color:var(--text-muted);margin-top:4px;">
+          目標まで あと <strong>${(latestW - GOAL_WEIGHT).toFixed(2)}kg</strong>（進捗 ${progressPct.toFixed(1)}%）
+        </div>
+        ${nextMS ? `
+        <div style="margin-top:12px;padding:10px;background:var(--green-pale);border-radius:10px;">
+          <div style="font-size:13px;font-weight:700;color:var(--green-mid);">🎯 次のマイルストーン</div>
+          <div style="font-size:14px;margin-top:2px;">${nextMS.label}: <strong>${nextMS.weight}kg</strong></div>
+          <div style="font-size:12px;color:var(--text-muted);margin-top:2px;">あと ${(latestW - nextMS.weight).toFixed(2)}kg ／ ${nextMS.date}まで</div>
+        </div>` : `
+        <div style="margin-top:12px;padding:10px;background:var(--green-pale);border-radius:10px;text-align:center;font-size:15px;font-weight:700;color:var(--green-mid);">
+          🎉 全マイルストーン達成！
+        </div>`}
+      </div>`;
+  }
+
+  // Chart
+  if (chartData.length >= 2) {
+    container.innerHTML += `
+      <div class="card">
+        <div class="card-title">体重推移（直近14日）</div>
+        ${buildWeightChart(chartData)}
+      </div>`;
+  }
+
+  // Milestones
+  let msHtml = `<div class="card"><div class="card-title">マイルストーン</div><div class="milestone-list">`;
+  MILESTONES.forEach(m => {
+    const achieved = latestW != null && latestW <= m.weight;
+    const isNext = m === nextMS;
+    const cls = achieved ? 'done' : isNext ? 'next' : 'future';
+    const icon = achieved ? '✅' : isNext ? '→' : '○';
+    msHtml += `
+      <div class="milestone-item">
+        <div class="milestone-dot ${cls}">${icon}</div>
+        <div class="milestone-info">
+          <div class="milestone-name">${m.label}</div>
+          <div class="milestone-date">${m.date}</div>
+        </div>
+        <div class="milestone-weight ${achieved ? 'achieved' : isNext ? 'next-weight' : ''}">${m.weight}kg</div>
+      </div>`;
+  });
+  msHtml += `</div></div><div class="spacer"></div>`;
+  container.innerHTML += msHtml;
+}
+
+function buildWeightChart(data) {
+  const W = 320, H = 130;
+  const PAD = {t:18, r:18, b:26, l:40};
+  const pw = W - PAD.l - PAD.r;
+  const ph = H - PAD.t - PAD.b;
+  const ws = data.map(d => d.w);
+  const minW = Math.floor(Math.min(...ws) * 4) / 4 - 0.3;
+  const maxW = Math.ceil(Math.max(...ws) * 4) / 4 + 0.3;
+  const xS = i => PAD.l + (i / (data.length - 1)) * pw;
+  const yS = v => PAD.t + ph - ((v - minW) / (maxW - minW)) * ph;
+
+  const pts = data.map((d,i) => `${xS(i).toFixed(1)},${yS(d.w).toFixed(1)}`).join(' ');
+  const avg7 = data.map((_,i) => {
+    const sl = data.slice(Math.max(0,i-6),i+1);
+    return sl.reduce((s,d) => s+d.w, 0) / sl.length;
+  });
+  const avgPts = avg7.map((v,i) => `${xS(i).toFixed(1)},${yS(v).toFixed(1)}`).join(' ');
+
+  const labels = [minW, (minW+maxW)/2, maxW].map(v =>
+    `<line x1="${PAD.l}" y1="${yS(v).toFixed(1)}" x2="${W-PAD.r}" y2="${yS(v).toFixed(1)}" stroke="#E9ECEF" stroke-width="1"/>
+     <text x="${PAD.l-5}" y="${(yS(v)+4).toFixed(1)}" text-anchor="end" font-size="9" fill="#999">${v.toFixed(1)}</text>`
+  ).join('');
+
+  const dots = data.map((d,i) =>
+    `<circle cx="${xS(i).toFixed(1)}" cy="${yS(d.w).toFixed(1)}" r="3.5" fill="white" stroke="#2D6A4F" stroke-width="2"/>`
+  ).join('');
+
+  return `<div class="chart-scroll">
+    <svg viewBox="0 0 ${W} ${H}" width="100%" style="overflow:visible;">
+      ${labels}
+      <polyline points="${avgPts}" fill="none" stroke="#52B788" stroke-width="1.5" stroke-dasharray="5,3" opacity="0.7"/>
+      <polyline points="${pts}" fill="none" stroke="#2D6A4F" stroke-width="2"/>
+      ${dots}
+      <text x="${PAD.l}" y="${H-2}" text-anchor="middle" font-size="9" fill="#999">${data[0].ds.slice(5).replace('-','/')}</text>
+      <text x="${W-PAD.r}" y="${H-2}" text-anchor="middle" font-size="9" fill="#999">${data[data.length-1].ds.slice(5).replace('-','/')}</text>
+      <line x1="${W-105}" y1="9" x2="${W-90}" y2="9" stroke="#2D6A4F" stroke-width="2"/>
+      <text x="${W-87}" y="13" font-size="9" fill="#666">実測値</text>
+      <line x1="${W-105}" y1="19" x2="${W-90}" y2="19" stroke="#52B788" stroke-width="1.5" stroke-dasharray="5,3"/>
+      <text x="${W-87}" y="23" font-size="9" fill="#666">7日平均</text>
+    </svg>
+  </div>`;
+}
+
+function saveWeight() {
+  const inp = document.getElementById('weight-input');
+  const val = parseFloat(inp.value);
+  if (!val || val < 30 || val > 300) { showToast('正しい体重を入力してください'); return; }
+  const w = getWeights();
+  w[currentDate] = val;
+  saveWeights(w);
+  showToast(`${val}kg を記録しました ✓`);
+  switchTab('weight');
+}
+
+// ======== UTIL ========
+function showToast(msg) {
+  const ex = document.querySelector('.toast');
+  if (ex) ex.remove();
+  const el = document.createElement('div');
+  el.className = 'toast';
+  el.textContent = msg;
+  document.body.appendChild(el);
+  setTimeout(() => { el.style.opacity = '0'; el.style.transition = 'opacity 0.2s'; setTimeout(() => el.remove(), 200); }, 2500);
+}
+
+function esc(s) {
+  return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+// ======== START ========
+init();
+</script>
+</body>
+</html>

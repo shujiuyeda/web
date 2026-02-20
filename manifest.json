@@ -1,0 +1,20 @@
+{
+  "name": "しゅうしゅう Health Hub",
+  "short_name": "Health Hub",
+  "description": "食事・サプリ・体重を管理する健康トラッカー",
+  "start_url": "/web/health-hub.html",
+  "scope": "/web/",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "theme_color": "#1B4332",
+  "background_color": "#F0F4F0",
+  "lang": "ja",
+  "icons": [
+    {
+      "src": "icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}
