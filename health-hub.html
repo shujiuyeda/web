@@ -628,6 +628,21 @@ function getCustomFoods() { return ls('custom_foods') || []; }
 function saveCustomFoods(foods) { ls('custom_foods', foods); }
 function getAllFoods() { return [...BUILT_IN_FOODS, ...getCustomFoods()]; }
 
+// ======== SERVER SYNC ========
+const DATA_BASE_URL = 'https://shujiuyeda.github.io/web/data/';
+
+async function tryFetchMeals(ds) {
+  if (getMeals(ds).length > 0) return; // 既にデータあり
+  try {
+    const res = await fetch(`${DATA_BASE_URL}meals-${ds}.json`, { cache: 'no-store' });
+    if (!res.ok) return;
+    const data = await res.json();
+    if (!data.meals || data.meals.length === 0) return;
+    saveMeals(ds, data.meals);
+    if (ds === currentDate) switchTab(currentTab); // 表示を更新
+  } catch { /* ネットワークエラーはsilent */ }
+}
+
 // ======== INIT ========
 function init() {
   document.getElementById('header-date').textContent = formatDateLabel(currentDate);
@@ -635,6 +650,10 @@ function init() {
   if ('serviceWorker' in navigator) {
     navigator.serviceWorker.register('/web/sw.js').catch(() => {});
   }
+  // 今日・昨日のデータをサーバーから自動ロード
+  tryFetchMeals(currentDate);
+  const yesterday = fmtDate(new Date(new Date().setDate(new Date().getDate() - 1)));
+  tryFetchMeals(yesterday);
 }
 
 // ======== TABS ========
@@ -657,6 +676,7 @@ function changeDate(delta) {
   currentDate = nd;
   document.getElementById('header-date').textContent = formatDateLabel(currentDate);
   switchTab(currentTab);
+  tryFetchMeals(nd); // サーバーから自動ロード試行
 }
 
 // ======== MEALS TAB ========
