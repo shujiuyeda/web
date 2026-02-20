@@ -692,6 +692,24 @@ async function tryFetchSuppl(ds) {
   } catch { /* ネットワークエラーはsilent */ }
 }
 
+async function tryFetchWeights() {
+  try {
+    const res = await fetch(`${DATA_BASE_URL}weights.json`, { cache: 'no-store' });
+    if (!res.ok) return;
+    const remote = await res.json();
+    const local = getWeights();
+    // remoteのデータをlocalにマージ（localが優先）
+    let updated = false;
+    Object.entries(remote).forEach(([ds, w]) => {
+      if (local[ds] == null) { local[ds] = w; updated = true; }
+    });
+    if (updated) {
+      saveWeights(local);
+      if (currentTab === 'weight') switchTab('weight');
+    }
+  } catch { /* ネットワークエラーはsilent */ }
+}
+
 // ======== INIT ========
 function init() {
   document.getElementById('header-date').textContent = formatDateLabel(currentDate);
@@ -707,6 +725,7 @@ function init() {
   tryFetchMeals(yesterday);
   tryFetchSuppl(currentDate);
   tryFetchSuppl(yesterday);
+  tryFetchWeights();
 }
 
 // ======== TABS ========
