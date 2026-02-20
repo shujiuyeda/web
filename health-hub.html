@@ -1188,6 +1188,36 @@ function renderWeight(container) {
     const ds = fmtDate(d);
     chartData.push({ ds, w: weights[ds] ?? null, bf: bodyFat[ds] ?? null });
   }
+
+  // 7日平均・前週比・判定を計算（全体重データを使用）
+  chartData.forEach(row => {
+    // 7日平均（その日を含む過去7日）
+    let s = 0, c = 0;
+    for (let j = 6; j >= 0; j--) {
+      const d2 = new Date(row.ds + 'T12:00:00'); d2.setDate(d2.getDate() - j);
+      const w = weights[fmtDate(d2)];
+      if (w != null) { s += w; c++; }
+    }
+    row.avg7 = c > 0 ? s / c : null;
+
+    // 前週比用: 7日前の7日平均
+    let s2 = 0, c2 = 0;
+    for (let j = 13; j >= 7; j--) {
+      const d2 = new Date(row.ds + 'T12:00:00'); d2.setDate(d2.getDate() - j);
+      const w = weights[fmtDate(d2)];
+      if (w != null) { s2 += w; c2++; }
+    }
+    const prevAvg = c2 >= 4 ? s2 / c2 : null;
+
+    if (row.avg7 != null && prevAvg != null) {
+      row.weekDiff = row.avg7 - prevAvg;
+      row.judge = row.weekDiff <= -0.25 ? '✅' : row.weekDiff < 0 ? '△' : '×';
+    } else {
+      row.weekDiff = null;
+      row.judge = null;
+    }
+  });
+
   const latestW = todayW ?? chartData.slice().reverse().find(d => d.w != null)?.w ?? null;
   const progressPct = latestW
     ? Math.max(0, Math.min(100, ((START_WEIGHT - latestW) / (START_WEIGHT - GOAL_WEIGHT)) * 100))
@@ -1264,35 +1294,30 @@ function renderWeight(container) {
     if (chartData.filter(d => d.w != null).length >= 2) {
       histHtml += buildWeightChart(chartData);
     }
-    // 10-day table: 古→新の順に前日比を計算してから逆順（新→古）で表示
-    let fwdLastW = null;
-    const rowsWithDiff = chartData.map(row => {
-      const diff = (row.w !== null && fwdLastW !== null) ? (row.w - fwdLastW) : null;
-      if (row.w !== null) fwdLastW = row.w;
-      return { ...row, diff };
-    });
-    histHtml += `<table style="width:100%;border-collapse:collapse;margin-top:12px;font-size:13px;">
+    // 10-day table（新→古 の順で表示）
+    const th = (label, align='right') =>
+      `<th style="text-align:${align};padding:4px 4px;color:var(--text-muted);font-weight:600;border-bottom:1px solid var(--border);white-space:nowrap;">${label}</th>`;
+    histHtml += `<table style="width:100%;border-collapse:collapse;margin-top:12px;font-size:12px;">
       <thead><tr>
-        <th style="text-align:left;padding:4px 6px;color:var(--text-muted);font-weight:600;border-bottom:1px solid var(--border);">日付</th>
-        <th style="text-align:right;padding:4px 6px;color:var(--text-muted);font-weight:600;border-bottom:1px solid var(--border);">体重</th>
-        <th style="text-align:right;padding:4px 6px;color:var(--text-muted);font-weight:600;border-bottom:1px solid var(--border);">前日比</th>
-        <th style="text-align:right;padding:4px 6px;color:var(--text-muted);font-weight:600;border-bottom:1px solid var(--border);">体脂肪</th>
+        ${th('日付','left')}${th('体重')}${th('体脂肪')}${th('7日平均')}${th('判定')}
       </tr></thead><tbody>`;
-    [...rowsWithDiff].reverse().forEach(row => {
-      const d = row.diff;
-      const diffStr = d === null ? '—'
-        : d > 0 ? `<span style="color:#C0392B;">+${d.toFixed(2)}</span>`
-        : d < 0 ? `<span style="color:var(--green-mid);">${d.toFixed(2)}</span>`
-        : '<span style="color:var(--text-muted);">±0</span>';
+    [...chartData].reverse().forEach(row => {
       const isToday2 = row.ds === todayStr();
+      const judgeColor = row.judge === '✅' ? 'var(--green-mid)' : row.judge === '△' ? '#E5A020' : row.judge === '×' ? '#C0392B' : 'var(--text-muted)';
+      const judgeStr = row.judge != null
+        ? `<span style="color:${judgeColor};font-weight:700;">${row.judge}</span><br><span style="font-size:10px;color:var(--text-muted);">${row.weekDiff > 0 ? '+' : ''}${row.weekDiff.toFixed(2)}</span>`
+        : '—';
       histHtml += `<tr style="${isToday2 ? 'background:var(--green-pale);' : ''}">
-        <td style="padding:5px 6px;">${row.ds.slice(5).replace('-','/')}${isToday2 ? '&nbsp;<span style="font-size:10px;color:var(--green-mid);">TODAY</span>' : ''}</td>
-        <td style="text-align:right;padding:5px 6px;font-weight:${row.w ? '600' : '400'}">${row.w ? row.w.toFixed(2) + 'kg' : '—'}</td>
-        <td style="text-align:right;padding:5px 6px;">${diffStr}</td>
-        <td style="text-align:right;padding:5px 6px;color:var(--text-muted);">${row.bf != null ? row.bf.toFixed(1) + '%' : '—'}</td>
+        <td style="padding:5px 4px;white-space:nowrap;">${row.ds.slice(5).replace('-','/')}${isToday2 ? '&nbsp;<span style="font-size:9px;color:var(--green-mid);">TODAY</span>' : ''}</td>
+        <td style="text-align:right;padding:5px 4px;font-weight:${row.w ? '600' : '400'}">${row.w != null ? row.w.toFixed(2) : '—'}</td>
+        <td style="text-align:right;padding:5px 4px;color:var(--text-muted);">${row.bf != null ? row.bf.toFixed(1) + '%' : '—'}</td>
+        <td style="text-align:right;padding:5px 4px;">${row.avg7 != null ? row.avg7.toFixed(2) : '—'}</td>
+        <td style="text-align:center;padding:5px 4px;line-height:1.3;">${judgeStr}</td>
       </tr>`;
     });
-    histHtml += `</tbody></table></div>`;
+    histHtml += `</tbody></table>
+    <div style="font-size:10px;color:var(--text-muted);margin-top:6px;">判定: ✅ -0.25kg以上減 ／ △ 微減 ／ × 増加（7日平均の前週比）</div>
+    </div>`;
     container.innerHTML += histHtml;
   }
 
