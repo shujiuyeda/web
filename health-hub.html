@@ -1383,6 +1383,9 @@ function buildWeightChart(data) {
     ? `<circle cx="${xS(i).toFixed(1)}" cy="${yW(d.w).toFixed(1)}" r="3" fill="white" stroke="#2D6A4F" stroke-width="2"/>`
     : '').join('');
 
+  // 7日平均ライン（体重と同じY軸・緑破線）
+  const avg7Pts = data.filter(d => d.avg7 != null).map(d => `${xS(data.indexOf(d)).toFixed(1)},${yW(d.avg7).toFixed(1)}`).join(' ');
+
   // 体脂肪ライン・ドット
   let bfPts = '', bfDots = '';
   if (hasBF) {
@@ -1411,12 +1414,15 @@ function buildWeightChart(data) {
   const legend = `
     <line x1="${PAD.l}" y1="10" x2="${PAD.l+16}" y2="10" stroke="#2D6A4F" stroke-width="2"/>
     <text x="${PAD.l+18}" y="14" font-size="9" fill="#555">体重</text>
-    ${hasBF ? `<line x1="${PAD.l+46}" y1="10" x2="${PAD.l+62}" y2="10" stroke="#E5A020" stroke-width="1.5" stroke-dasharray="4,2"/>
-    <text x="${PAD.l+64}" y="14" font-size="9" fill="#555">体脂肪%</text>` : ''}`;
+    <line x1="${PAD.l+46}" y1="10" x2="${PAD.l+62}" y2="10" stroke="#52B788" stroke-width="1.5" stroke-dasharray="5,3"/>
+    <text x="${PAD.l+64}" y="14" font-size="9" fill="#555">7日平均</text>
+    ${hasBF ? `<line x1="${PAD.l+104}" y1="10" x2="${PAD.l+120}" y2="10" stroke="#E5A020" stroke-width="1.5" stroke-dasharray="4,2"/>
+    <text x="${PAD.l+122}" y="14" font-size="9" fill="#555">体脂肪%</text>` : ''}`;
 
   return `<div class="chart-scroll">
     <svg viewBox="0 0 ${W} ${H}" width="100%" style="overflow:visible;">
       ${wLabels}${bfLabels}
+      ${avg7Pts ? `<polyline points="${avg7Pts}" fill="none" stroke="#52B788" stroke-width="1.5" stroke-dasharray="5,3" opacity="0.85"/>` : ''}
       <polyline points="${wPts}" fill="none" stroke="#2D6A4F" stroke-width="2"/>
       ${hasBF ? `<polyline points="${bfPts}" fill="none" stroke="#E5A020" stroke-width="1.5" stroke-dasharray="4,2"/>` : ''}
       ${wDots}${bfDots}
