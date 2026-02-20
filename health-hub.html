@@ -677,6 +677,14 @@ function getCustomFoods() { return ls('custom_foods') || []; }
 function saveCustomFoods(foods) { ls('custom_foods', foods); }
 function getAllFoods() { return [...BUILT_IN_FOODS, ...getCustomFoods()]; }
 
+function stampLastUpdated() {
+  const now = new Date();
+  const hh = String(now.getHours()).padStart(2,'0');
+  const mm = String(now.getMinutes()).padStart(2,'0');
+  const el = document.getElementById('header-clock');
+  if (el) el.textContent = `${hh}:${mm}`;
+}
+
 // ======== SERVER SYNC ========
 const DATA_BASE_URL = 'https://shujiuyeda.github.io/web/data/';
 
@@ -691,6 +699,7 @@ async function tryFetchMeals(ds) {
     const data = await res.json();
     if (!data.meals || data.meals.length === 0) return;
     saveMeals(ds, data.meals);
+    stampLastUpdated();
     if (ds === currentDate) switchTab(currentTab);
     else if (currentTab === 'weight') switchTab('weight'); // 体重タブも再描画
   } catch { /* ネットワークエラーはsilent */ }
@@ -705,6 +714,7 @@ async function tryFetchSuppl(ds) {
     const data = await res.json();
     if (!data.checks || Object.keys(data.checks).length === 0) return;
     saveSuppl(ds, data.checks);
+    stampLastUpdated();
     if (ds === currentDate && currentTab === 'supplements') switchTab(currentTab);
   } catch { /* ネットワークエラーはsilent */ }
 }
@@ -752,7 +762,10 @@ async function tryFetchWeights() {
       updated = updated || bfUpdated;
     }
 
-    if (updated && currentTab === 'weight') switchTab('weight');
+    if (updated) {
+      stampLastUpdated();
+      if (currentTab === 'weight') switchTab('weight');
+    }
   } catch { /* ネットワークエラーはsilent */ }
 }
 
@@ -777,14 +790,7 @@ async function tryFetchShopping() {
 // ======== INIT ========
 function init() {
   document.getElementById('header-date').textContent = formatDateLabel(currentDate);
-  function updateClock() {
-    const now = new Date();
-    const hh = String(now.getHours()).padStart(2,'0');
-    const mm = String(now.getMinutes()).padStart(2,'0');
-    document.getElementById('header-clock').textContent = `${hh}:${mm}`;
-  }
-  updateClock();
-  setInterval(updateClock, 1000);
+  stampLastUpdated();
   const hash = location.hash.replace('#', '');
   const startTab = ['meals','supplements','weight','shopping'].includes(hash) ? hash : 'meals';
   switchTab(startTab);
