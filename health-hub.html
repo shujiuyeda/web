@@ -811,12 +811,16 @@ function renderMeals(container) {
   // Kcal summary card
   container.innerHTML += `
     <div class="card">
-      <div class="kcal-display">
-        <span class="kcal-num ${kcalOver ? 'over' : ''}">${Math.round(t.kcal)}</span>
-        <span class="kcal-unit">kcal</span>
-        <span class="kcal-target">/ ${TARGETS.kcalMin}〜${TARGETS.kcalMax}</span>
+      <div style="display:flex;align-items:center;justify-content:space-between;gap:8px;">
+        <div class="kcal-display" style="margin-bottom:0;">
+          <span class="kcal-num ${kcalOver ? 'over' : ''}">${Math.round(t.kcal)}</span>
+          <span class="kcal-unit">kcal</span>
+          <span class="kcal-target">/ ${TARGETS.kcalMin}〜${TARGETS.kcalMax}</span>
+        </div>
+        ${isToday ? `<button onclick="toggleMealAdvice()" style="font-size:11px;background:var(--green-pale);color:var(--green-dark);border:1px solid var(--green-light);border-radius:12px;padding:5px 10px;white-space:nowrap;cursor:pointer;flex-shrink:0;-webkit-tap-highlight-color:transparent;">食べるなら？</button>` : ''}
       </div>
-      <div class="remaining">
+      <div id="meal-advice-panel" style="display:none;margin-top:10px;padding:10px;background:#F8FFF9;border-radius:10px;font-size:13px;line-height:1.7;border:1px solid var(--green-light);"></div>
+      <div class="remaining" style="margin-top:6px;">
         ${remaining >= 0
           ? `あと <strong>${Math.round(remaining)}</strong> kcal`
           : `<span style="color:var(--danger)">超過 <strong>${Math.round(-remaining)}</strong> kcal</span>`
@@ -990,6 +994,72 @@ function exportMarkdown() {
   navigator.clipboard.writeText(md)
     .then(() => showToast('コピーしました！'))
     .catch(() => { const ta = document.createElement('textarea'); ta.value = md; document.body.appendChild(ta); ta.select(); document.execCommand('copy'); ta.remove(); showToast('コピーしました！'); });
+}
+
+// ======== MEAL ADVICE ========
+function toggleMealAdvice() {
+  const panel = document.getElementById('meal-advice-panel');
+  if (!panel) return;
+  if (panel.style.display !== 'none') { panel.style.display = 'none'; return; }
+
+  const meals = getMeals(currentDate);
+  const t = totals(meals);
+  const hour = new Date().getHours();
+  const min  = new Date().getMinutes();
+  const timeStr = `${hour}:${String(min).padStart(2,'0')}`;
+  const remaining = Math.round(TARGETS.kcalMax - t.kcal);
+  const pRemain   = Math.max(0, TARGETS.pMin - t.p);
+  const fOver     = Math.max(0, t.f - TARGETS.fMax);
+  const cRemain   = Math.max(0, TARGETS.cMax - t.c);
+  const fiberShort = Math.max(0, TARGETS.fiberTarget - t.fiber);
+
+  // 時刻ごとの方針
+  let timeLine = '';
+  if (hour < 12)       timeLine = '午前中なので、しっかり食べても大丈夫。';
+  else if (hour < 15)  timeLine = '昼食後の時間帯。軽いおやつ程度なら◎。';
+  else if (hour < 18)  timeLine = '夕食前。食べすぎると夕食に影響するかも。';
+  else if (hour < 20)  timeLine = '夕食タイム。バランスよく食べられます。';
+  else if (hour < 22)  timeLine = '夜なので炭水化物・脂質は控えめに。';
+  else                 timeLine = '深夜。消化への負担を考えて、軽いものだけに。';
+
+  // カロリー残り状況
+  let kcalLine = '';
+  if (remaining < 0)        kcalLine = `⚠️ すでに${-remaining}kcal超過。食べるなら超低カロリーのもののみ。`;
+  else if (remaining < 150) kcalLine = `残り${remaining}kcalとわずか。飲み物・ナッツ少量くらいが限界。`;
+  else if (remaining < 300) kcalLine = `残り${remaining}kcal。軽食1品なら入ります。`;
+  else if (remaining < 500) kcalLine = `残り${remaining}kcal。食事1品、またはしっかり目の軽食が◎。`;
+  else                      kcalLine = `残り${remaining}kcal。食事1食分の余裕あり。`;
+
+  // 栄養優先度
+  let nutrLines = [];
+  if (pRemain > 5)    nutrLines.push(`🥩 たんぱく質があと${pRemain.toFixed(0)}g不足 → 卵・豆腐・鶏むね・魚がおすすめ`);
+  if (fOver > 3)      nutrLines.push(`🛑 脂質が${fOver.toFixed(0)}g超過中 → 揚げ物・バター系は避けて`);
+  if (fiberShort > 3) nutrLines.push(`🥦 食物繊維があと${fiberShort.toFixed(1)}g不足 → きのこ・海藻・野菜をプラスすると◎`);
+  if (cRemain < 20 && cRemain >= 0) nutrLines.push(`🍚 炭水化物の残り枠が少ない（残り${cRemain.toFixed(0)}g）。ご飯・パンは控えめに`);
+
+  // おすすめ食材（残りカロリーとたんぱく質不足から）
+  let recommend = '';
+  if (remaining < 0) {
+    recommend = 'ブラックコーヒー・お茶・水 のみ推奨';
+  } else if (remaining < 150) {
+    recommend = 'ゆで卵1個（77kcal）/ プロテインバー半分 / ナッツ10粒程度';
+  } else if (pRemain > 10 && remaining >= 150) {
+    recommend = '鶏むね（100gで約110kcal/P23g）/ 豆腐（150gで約85kcal/P7g）/ ゆで卵2個（154kcal/P13g）/ 刺身';
+  } else if (pRemain > 0 && fOver < 3) {
+    recommend = 'ヨーグルト / チーズ / 卵料理 / 蒸し鶏';
+  } else {
+    recommend = '野菜スープ / 豆腐 / 海藻サラダ / きのこ炒め';
+  }
+
+  panel.innerHTML = `
+    <div style="font-weight:700;margin-bottom:6px;color:var(--green-dark);">🕐 ${timeStr} 現在の状況</div>
+    <div>${timeLine}</div>
+    <div style="margin-top:4px;">${kcalLine}</div>
+    ${nutrLines.length ? `<div style="margin-top:8px;">${nutrLines.join('<br>')}</div>` : ''}
+    <div style="margin-top:8px;padding-top:8px;border-top:1px solid var(--green-light);">
+      <span style="font-weight:700;color:var(--green-dark);">💡 今食べるなら：</span><br>${recommend}
+    </div>`;
+  panel.style.display = 'block';
 }
 
 // ======== MODAL ========
