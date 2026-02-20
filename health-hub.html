@@ -653,8 +653,10 @@ function ls(key, val) {
 
 function getMeals(ds) { return ls(`meals_${ds}`) || []; }
 function saveMeals(ds, meals) { ls(`meals_${ds}`, meals); }
-function getWeights() { return ls('weights') || {}; }
-function saveWeights(w) { ls('weights', w); }
+function getWeights()      { return ls('weights')  || {}; }
+function saveWeights(w)   { ls('weights', w); }
+function getBodyFat()     { return ls('bodyFat')  || {}; }
+function saveBodyFat(bf)  { ls('bodyFat', bf); }
 function getSuppl(ds) { return ls(`suppl_${ds}`) || {}; }
 function saveSuppl(ds, s) { ls(`suppl_${ds}`, s); }
 function getCustomFoods() { return ls('custom_foods') || []; }
@@ -697,16 +699,28 @@ async function tryFetchWeights() {
     const res = await fetch(`${DATA_BASE_URL}weights.json`, { cache: 'no-store' });
     if (!res.ok) return;
     const remote = await res.json();
-    const local = getWeights();
-    // remoteのデータをlocalにマージ（localが優先）
     let updated = false;
-    Object.entries(remote).forEach(([ds, w]) => {
-      if (local[ds] == null) { local[ds] = w; updated = true; }
+
+    // 体重マージ（localが優先）
+    const localW = getWeights();
+    const remoteW = remote.weights || remote; // 旧フォーマット互換
+    Object.entries(remoteW).forEach(([ds, w]) => {
+      if (localW[ds] == null) { localW[ds] = w; updated = true; }
     });
-    if (updated) {
-      saveWeights(local);
-      if (currentTab === 'weight') switchTab('weight');
+    if (updated) saveWeights(localW);
+
+    // 体脂肪マージ（localが優先）
+    if (remote.bodyFat) {
+      const localBF = getBodyFat();
+      let bfUpdated = false;
+      Object.entries(remote.bodyFat).forEach(([ds, bf]) => {
+        if (localBF[ds] == null) { localBF[ds] = bf; bfUpdated = true; }
+      });
+      if (bfUpdated) saveBodyFat(localBF);
+      updated = updated || bfUpdated;
     }
+
+    if (updated && currentTab === 'weight') switchTab('weight');
   } catch { /* ネットワークエラーはsilent */ }
 }
 
@@ -1161,19 +1175,20 @@ function updateCompliance(checks) {
 
 // ======== WEIGHT TAB ========
 function renderWeight(container) {
-  const weights = getWeights();
-  const isToday = currentDate === todayStr();
-  const todayW = weights[currentDate];
+  const weights  = getWeights();
+  const bodyFat  = getBodyFat();
+  const isToday  = currentDate === todayStr();
+  const todayW   = weights[currentDate]  ?? null;
+  const todayBF  = bodyFat[currentDate]  ?? null;
 
   // Last 10 days
   const chartData = [];
   for (let i = 9; i >= 0; i--) {
     const d = new Date(); d.setDate(d.getDate() - i);
     const ds = fmtDate(d);
-    chartData.push({ ds, w: weights[ds] ?? null });
+    chartData.push({ ds, w: weights[ds] ?? null, bf: bodyFat[ds] ?? null });
   }
-  const chartDataFilled = chartData.filter(d => d.w !== null);
-  const latestW = todayW || (chartData.length > 0 ? chartData[chartData.length-1].w : null);
+  const latestW = todayW ?? chartData.slice().reverse().find(d => d.w != null)?.w ?? null;
   const progressPct = latestW
     ? Math.max(0, Math.min(100, ((START_WEIGHT - latestW) / (START_WEIGHT - GOAL_WEIGHT)) * 100))
     : 0;
@@ -1194,17 +1209,25 @@ function renderWeight(container) {
   if (todayW) {
     wHtml += `<div class="weight-hero">
       <div class="weight-big">${todayW.toFixed(2)}<span class="wunit">kg</span></div>
+      ${todayBF != null ? `<div style="font-size:15px;color:var(--text-muted);margin-top:2px;">体脂肪率 ${todayBF.toFixed(1)}%</div>` : ''}
       <div class="weight-sub">${formatDateLabel(currentDate)}の記録</div>
     </div>`;
   }
   wHtml += `<div class="weight-input-row">
     <input type="number" id="weight-input" class="form-input" style="flex:1;"
-           placeholder="${todayW || '88.0'}" step="0.05" min="50" max="300"
-           value="${todayW || ''}">
+           placeholder="${todayW ?? '88.0'}" step="0.05" min="50" max="300"
+           value="${todayW ?? ''}">
     <span style="font-size:14px;color:var(--text-muted);white-space:nowrap;">kg</span>
-    <button class="btn btn-primary" style="width:auto;padding:11px 18px;margin-top:0;"
-            onclick="saveWeight()">保存</button>
-  </div></div>`;
+  </div>
+  <div class="weight-input-row" style="margin-top:8px;">
+    <input type="number" id="bf-input" class="form-input" style="flex:1;"
+           placeholder="${todayBF ?? '31.0'}" step="0.1" min="5" max="60"
+           value="${todayBF ?? ''}">
+    <span style="font-size:14px;color:var(--text-muted);white-space:nowrap;">% 体脂肪</span>
+  </div>
+  <button class="btn btn-primary" style="margin-top:10px;"
+          onclick="saveWeight()">保存</button>
+  </div>`;
   container.innerHTML += wHtml;
 
   // Goal progress
@@ -1238,8 +1261,8 @@ function renderWeight(container) {
   // Chart + 10-day table
   {
     let histHtml = `<div class="card"><div class="card-title">体重推移（直近10日）</div>`;
-    if (chartDataFilled.length >= 2) {
-      histHtml += buildWeightChart(chartDataFilled);
+    if (chartData.filter(d => d.w != null).length >= 2) {
+      histHtml += buildWeightChart(chartData);
     }
     // 10-day table: 古→新の順に前日比を計算してから逆順（新→古）で表示
     let fwdLastW = null;
@@ -1253,6 +1276,7 @@ function renderWeight(container) {
         <th style="text-align:left;padding:4px 6px;color:var(--text-muted);font-weight:600;border-bottom:1px solid var(--border);">日付</th>
         <th style="text-align:right;padding:4px 6px;color:var(--text-muted);font-weight:600;border-bottom:1px solid var(--border);">体重</th>
         <th style="text-align:right;padding:4px 6px;color:var(--text-muted);font-weight:600;border-bottom:1px solid var(--border);">前日比</th>
+        <th style="text-align:right;padding:4px 6px;color:var(--text-muted);font-weight:600;border-bottom:1px solid var(--border);">体脂肪</th>
       </tr></thead><tbody>`;
     [...rowsWithDiff].reverse().forEach(row => {
       const d = row.diff;
@@ -1265,6 +1289,7 @@ function renderWeight(container) {
         <td style="padding:5px 6px;">${row.ds.slice(5).replace('-','/')}${isToday2 ? '&nbsp;<span style="font-size:10px;color:var(--green-mid);">TODAY</span>' : ''}</td>
         <td style="text-align:right;padding:5px 6px;font-weight:${row.w ? '600' : '400'}">${row.w ? row.w.toFixed(2) + 'kg' : '—'}</td>
         <td style="text-align:right;padding:5px 6px;">${diffStr}</td>
+        <td style="text-align:right;padding:5px 6px;color:var(--text-muted);">${row.bf != null ? row.bf.toFixed(1) + '%' : '—'}</td>
       </tr>`;
     });
     histHtml += `</tbody></table></div>`;
@@ -1293,56 +1318,94 @@ function renderWeight(container) {
 }
 
 function buildWeightChart(data) {
-  const W = 320, H = 130;
-  const PAD = {t:18, r:18, b:26, l:40};
+  const W = 320, H = 150;
+  const PAD = {t:20, r:44, b:26, l:40};
   const pw = W - PAD.l - PAD.r;
   const ph = H - PAD.t - PAD.b;
-  const ws = data.map(d => d.w);
-  const minW = Math.floor(Math.min(...ws) * 4) / 4 - 0.3;
-  const maxW = Math.ceil(Math.max(...ws) * 4) / 4 + 0.3;
-  const xS = i => PAD.l + (i / (data.length - 1)) * pw;
-  const yS = v => PAD.t + ph - ((v - minW) / (maxW - minW)) * ph;
+  const n  = data.length;
+  const xS = i => PAD.l + (i / (n - 1)) * pw;
 
-  const pts = data.map((d,i) => `${xS(i).toFixed(1)},${yS(d.w).toFixed(1)}`).join(' ');
-  const avg7 = data.map((_,i) => {
-    const sl = data.slice(Math.max(0,i-6),i+1);
-    return sl.reduce((s,d) => s+d.w, 0) / sl.length;
-  });
-  const avgPts = avg7.map((v,i) => `${xS(i).toFixed(1)},${yS(v).toFixed(1)}`).join(' ');
+  // 体重スケール（左Y軸・緑）
+  const wVals = data.map(d => d.w).filter(v => v != null);
+  const minW = Math.min(...wVals) - 0.5;
+  const maxW = Math.max(...wVals) + 0.5;
+  const yW = v => PAD.t + ph - ((v - minW) / (maxW - minW)) * ph;
 
-  const labels = [minW, (minW+maxW)/2, maxW].map(v =>
-    `<line x1="${PAD.l}" y1="${yS(v).toFixed(1)}" x2="${W-PAD.r}" y2="${yS(v).toFixed(1)}" stroke="#E9ECEF" stroke-width="1"/>
-     <text x="${PAD.l-5}" y="${(yS(v)+4).toFixed(1)}" text-anchor="end" font-size="9" fill="#999">${v.toFixed(1)}</text>`
+  // 体脂肪スケール（右Y軸・オレンジ）
+  const bfVals = data.map(d => d.bf).filter(v => v != null);
+  const hasBF = bfVals.length >= 2;
+  let yBF, minBF, maxBF;
+  if (hasBF) {
+    minBF = Math.min(...bfVals) - 1;
+    maxBF = Math.max(...bfVals) + 1;
+    yBF = v => PAD.t + ph - ((v - minBF) / (maxBF - minBF)) * ph;
+  }
+
+  // 体重ライン・ドット
+  const wPts  = data.filter(d => d.w != null).map(d => `${xS(data.indexOf(d)).toFixed(1)},${yW(d.w).toFixed(1)}`).join(' ');
+  const wDots = data.map((d,i) => d.w != null
+    ? `<circle cx="${xS(i).toFixed(1)}" cy="${yW(d.w).toFixed(1)}" r="3" fill="white" stroke="#2D6A4F" stroke-width="2"/>`
+    : '').join('');
+
+  // 体脂肪ライン・ドット
+  let bfPts = '', bfDots = '';
+  if (hasBF) {
+    bfPts  = data.filter(d => d.bf != null).map(d => `${xS(data.indexOf(d)).toFixed(1)},${yBF(d.bf).toFixed(1)}`).join(' ');
+    bfDots = data.map((d,i) => d.bf != null
+      ? `<circle cx="${xS(i).toFixed(1)}" cy="${yBF(d.bf).toFixed(1)}" r="2.5" fill="white" stroke="#E5A020" stroke-width="2"/>`
+      : '').join('');
+  }
+
+  // 左Y軸ラベル（体重）
+  const wLabels = [minW, (minW+maxW)/2, maxW].map(v =>
+    `<line x1="${PAD.l}" y1="${yW(v).toFixed(1)}" x2="${W-PAD.r}" y2="${yW(v).toFixed(1)}" stroke="#E9ECEF" stroke-width="1"/>
+     <text x="${PAD.l-5}" y="${(yW(v)+4).toFixed(1)}" text-anchor="end" font-size="9" fill="#2D6A4F">${v.toFixed(1)}</text>`
   ).join('');
 
-  const dots = data.map((d,i) =>
-    `<circle cx="${xS(i).toFixed(1)}" cy="${yS(d.w).toFixed(1)}" r="3.5" fill="white" stroke="#2D6A4F" stroke-width="2"/>`
-  ).join('');
+  // 右Y軸ラベル（体脂肪）
+  const bfLabels = hasBF ? [minBF, (minBF+maxBF)/2, maxBF].map(v =>
+    `<text x="${W-PAD.r+5}" y="${(yBF(v)+4).toFixed(1)}" text-anchor="start" font-size="9" fill="#E5A020">${v.toFixed(1)}%</text>`
+  ).join('') : '';
+
+  // X軸日付ラベル
+  const firstDs = data[0].ds.slice(5).replace('-','/');
+  const lastDs  = data[n-1].ds.slice(5).replace('-','/');
+
+  // 凡例
+  const legend = `
+    <line x1="${PAD.l}" y1="10" x2="${PAD.l+16}" y2="10" stroke="#2D6A4F" stroke-width="2"/>
+    <text x="${PAD.l+18}" y="14" font-size="9" fill="#555">体重</text>
+    ${hasBF ? `<line x1="${PAD.l+46}" y1="10" x2="${PAD.l+62}" y2="10" stroke="#E5A020" stroke-width="1.5" stroke-dasharray="4,2"/>
+    <text x="${PAD.l+64}" y="14" font-size="9" fill="#555">体脂肪%</text>` : ''}`;
 
   return `<div class="chart-scroll">
     <svg viewBox="0 0 ${W} ${H}" width="100%" style="overflow:visible;">
-      ${labels}
-      <polyline points="${avgPts}" fill="none" stroke="#52B788" stroke-width="1.5" stroke-dasharray="5,3" opacity="0.7"/>
-      <polyline points="${pts}" fill="none" stroke="#2D6A4F" stroke-width="2"/>
-      ${dots}
-      <text x="${PAD.l}" y="${H-2}" text-anchor="middle" font-size="9" fill="#999">${data[0].ds.slice(5).replace('-','/')}</text>
-      <text x="${W-PAD.r}" y="${H-2}" text-anchor="middle" font-size="9" fill="#999">${data[data.length-1].ds.slice(5).replace('-','/')}</text>
-      <line x1="${W-105}" y1="9" x2="${W-90}" y2="9" stroke="#2D6A4F" stroke-width="2"/>
-      <text x="${W-87}" y="13" font-size="9" fill="#666">実測値</text>
-      <line x1="${W-105}" y1="19" x2="${W-90}" y2="19" stroke="#52B788" stroke-width="1.5" stroke-dasharray="5,3"/>
-      <text x="${W-87}" y="23" font-size="9" fill="#666">7日平均</text>
+      ${wLabels}${bfLabels}
+      <polyline points="${wPts}" fill="none" stroke="#2D6A4F" stroke-width="2"/>
+      ${hasBF ? `<polyline points="${bfPts}" fill="none" stroke="#E5A020" stroke-width="1.5" stroke-dasharray="4,2"/>` : ''}
+      ${wDots}${bfDots}
+      <text x="${PAD.l}" y="${H-2}" text-anchor="middle" font-size="9" fill="#999">${firstDs}</text>
+      <text x="${W-PAD.r}" y="${H-2}" text-anchor="middle" font-size="9" fill="#999">${lastDs}</text>
+      ${legend}
     </svg>
   </div>`;
 }
 
 function saveWeight() {
-  const inp = document.getElementById('weight-input');
-  const val = parseFloat(inp.value);
-  if (!val || val < 30 || val > 300) { showToast('正しい体重を入力してください'); return; }
+  const wInp  = document.getElementById('weight-input');
+  const bfInp = document.getElementById('bf-input');
+  const wVal  = parseFloat(wInp.value);
+  const bfVal = parseFloat(bfInp?.value);
+  if (!wVal || wVal < 30 || wVal > 300) { showToast('正しい体重を入力してください'); return; }
   const w = getWeights();
-  w[currentDate] = val;
+  w[currentDate] = wVal;
   saveWeights(w);
-  showToast(`${val}kg を記録しました ✓`);
+  if (!isNaN(bfVal) && bfVal > 0) {
+    const bf = getBodyFat();
+    bf[currentDate] = bfVal;
+    saveBodyFat(bf);
+  }
+  showToast(`${wVal}kg${!isNaN(bfVal) && bfVal > 0 ? ' / ' + bfVal + '%' : ''} を記録しました ✓`);
   switchTab('weight');
 }
 
