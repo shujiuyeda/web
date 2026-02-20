@@ -496,6 +496,14 @@
             <input type="number" class="form-input" id="c-c" placeholder="0">
           </div>
           <div class="form-field">
+            <label class="form-label">マグネシウム Mg (mg)</label>
+            <input type="number" class="form-input" id="c-mg" placeholder="0">
+          </div>
+          <div class="form-field">
+            <label class="form-label">食物繊維 (g)</label>
+            <input type="number" class="form-input" id="c-fiber" placeholder="0">
+          </div>
+          <div class="form-field">
             <label class="form-label">単位</label>
             <input type="text" class="form-input" id="c-unit" placeholder="例: 1個">
           </div>
@@ -521,36 +529,36 @@
 // ======== FOOD DATABASE ========
 const BUILT_IN_FOODS = [
   // 主食
-  { id:1, name:"パスコ 麦のめぐみ 全粒粉イングリッシュマフィン", unit:"1個", kcal:152, p:5.7, f:1.3, c:30.5, cat:"主食" },
+  { id:1, name:"パスコ 麦のめぐみ 全粒粉イングリッシュマフィン", unit:"1個", kcal:152, p:5.7, f:1.3, c:30.5, mg:20, fiber:2.3, cat:"主食" },
   // 自炊
-  { id:2, name:"無水カレー（小皿1杯 1/6）", unit:"1杯", kcal:165, p:21, f:6, c:9, cat:"自炊" },
-  { id:3, name:"牛すじ無水カレー（1杯 肉170g+ソース）", unit:"1杯", kcal:385, p:53.5, f:6.1, c:31.6, cat:"自炊" },
-  { id:4, name:"牛すじ無水カレー（適量 肉120g+白米150g）", unit:"1食", kcal:525, p:42, f:5, c:78, cat:"自炊" },
-  { id:5, name:"牛すじ無水カレー（肉119g+ソース226g+白米114g）", unit:"1食", kcal:502, p:46, f:5.2, c:67.8, cat:"自炊" },
-  { id:6, name:"味噌汁（豆腐・玉ねぎ・じゃがいも）", unit:"お椀1杯", kcal:196, p:13, f:8.3, c:16.3, cat:"自炊" },
-  { id:7, name:"ブルーベリーヨーグルト（オーバーナイトオーツ）", unit:"全量", kcal:510, p:28, f:17, c:73.7, cat:"自炊" },
-  { id:8, name:"鶏むねキャベツ鍋 1/3量", unit:"1食", kcal:246, p:33, f:6, c:17, cat:"自炊" },
+  { id:2, name:"無水カレー（小皿1杯 1/6）", unit:"1杯", kcal:165, p:21, f:6, c:9, mg:40, fiber:3.0, cat:"自炊" },
+  { id:3, name:"牛すじ無水カレー（1杯 肉170g+ソース）", unit:"1杯", kcal:385, p:53.5, f:6.1, c:31.6, mg:50, fiber:2.5, cat:"自炊" },
+  { id:4, name:"牛すじ無水カレー（適量 肉120g+白米150g）", unit:"1食", kcal:525, p:42, f:5, c:78, mg:45, fiber:2.0, cat:"自炊" },
+  { id:5, name:"牛すじ無水カレー（肉119g+ソース226g+白米114g）", unit:"1食", kcal:502, p:46, f:5.2, c:67.8, mg:50, fiber:2.5, cat:"自炊" },
+  { id:6, name:"味噌汁（豆腐・玉ねぎ・じゃがいも）", unit:"お椀1杯", kcal:196, p:13, f:8.3, c:16.3, mg:50, fiber:2.0, cat:"自炊" },
+  { id:7, name:"ブルーベリーヨーグルト（オーバーナイトオーツ）", unit:"全量", kcal:510, p:28, f:17, c:73.7, mg:60, fiber:5.0, cat:"自炊" },
+  { id:8, name:"鶏むねキャベツ鍋 1/3量", unit:"1食", kcal:246, p:33, f:6, c:17, mg:30, fiber:3.0, cat:"自炊" },
   // コンビニ
-  { id:10, name:"セブン わかめそば", unit:"1食", kcal:278, p:16, f:1.5, c:54.2, cat:"コンビニ" },
-  { id:11, name:"ローソン キャンディーチーズ ブラックペッパー", unit:"5粒", kcal:87, p:5, f:7.2, c:0.5, cat:"コンビニ" },
-  { id:12, name:"ローソン サラダチキンスティック オリーブ&チーズ", unit:"1本(60g)", kcal:98, p:11.1, f:4.4, c:3.5, cat:"コンビニ" },
-  { id:13, name:"ローソン 炭火焼なんこつつくね 青じそ", unit:"1袋(80g)", kcal:128, p:13.9, f:6.2, c:4.5, cat:"コンビニ" },
-  { id:14, name:"ローソン 炙り熟成紅鮭おにぎり", unit:"1個", kcal:174, p:4.6, f:1.7, c:35.7, cat:"コンビニ" },
-  { id:15, name:"セブン 手巻おにぎり 鶏そぼろ", unit:"1個", kcal:192, p:6.2, f:1.9, c:38.4, cat:"コンビニ" },
-  { id:16, name:"セブン 砂肝の炭火焼", unit:"1袋(70g)", kcal:101, p:20.4, f:1.7, c:0.9, cat:"コンビニ" },
-  { id:17, name:"セブン スンドゥブチゲ", unit:"1食", kcal:190, p:18.6, f:9.7, c:8.6, cat:"コンビニ" },
-  { id:18, name:"セブン 大入り豚まん", unit:"1個", kcal:340, p:11.5, f:12.4, c:46.5, cat:"コンビニ" },
-  { id:19, name:"小枝パイ（セブン）", unit:"1本(58g)", kcal:296, p:3, f:21.9, c:22.3, cat:"コンビニ" },
+  { id:10, name:"セブン わかめそば", unit:"1食", kcal:278, p:16, f:1.5, c:54.2, mg:20, fiber:2.0, cat:"コンビニ" },
+  { id:11, name:"ローソン キャンディーチーズ ブラックペッパー", unit:"5粒", kcal:87, p:5, f:7.2, c:0.5, mg:5, fiber:0, cat:"コンビニ" },
+  { id:12, name:"ローソン サラダチキンスティック オリーブ&チーズ", unit:"1本(60g)", kcal:98, p:11.1, f:4.4, c:3.5, mg:8, fiber:0, cat:"コンビニ" },
+  { id:13, name:"ローソン 炭火焼なんこつつくね 青じそ", unit:"1袋(80g)", kcal:128, p:13.9, f:6.2, c:4.5, mg:8, fiber:0.5, cat:"コンビニ" },
+  { id:14, name:"ローソン 炙り熟成紅鮭おにぎり", unit:"1個", kcal:174, p:4.6, f:1.7, c:35.7, mg:8, fiber:0.5, cat:"コンビニ" },
+  { id:15, name:"セブン 手巻おにぎり 鶏そぼろ", unit:"1個", kcal:192, p:6.2, f:1.9, c:38.4, mg:8, fiber:0.5, cat:"コンビニ" },
+  { id:16, name:"セブン 砂肝の炭火焼", unit:"1袋(70g)", kcal:101, p:20.4, f:1.7, c:0.9, mg:10, fiber:0, cat:"コンビニ" },
+  { id:17, name:"セブン スンドゥブチゲ", unit:"1食", kcal:190, p:18.6, f:9.7, c:8.6, mg:20, fiber:1.5, cat:"コンビニ" },
+  { id:18, name:"セブン 大入り豚まん", unit:"1個", kcal:340, p:11.5, f:12.4, c:46.5, mg:15, fiber:1.5, cat:"コンビニ" },
+  { id:19, name:"小枝パイ（セブン）", unit:"1本(58g)", kcal:296, p:3, f:21.9, c:22.3, mg:15, fiber:1.0, cat:"コンビニ" },
   // おやつ
-  { id:20, name:"南部せんべい 落花生", unit:"1枚", kcal:81, p:2.6, f:2.3, c:12.4, cat:"おやつ" },
-  { id:21, name:"うまいせんべい", unit:"1枚", kcal:80, p:1.8, f:0.2, c:17.8, cat:"おやつ" },
-  { id:22, name:"ロッテ リッチアーモンドチョコ ポップジョイ", unit:"1袋", kcal:203, p:3.8, f:13.5, c:16.5, cat:"おやつ" },
-  { id:23, name:"ロッテ クランキーポップジョイ", unit:"1袋(44g)", kcal:248, p:3, f:15.3, c:24.6, cat:"おやつ" },
-  { id:24, name:"スニッカーズ", unit:"1本(51g)", kcal:248, p:4.4, f:12.2, c:29.5, cat:"おやつ" },
+  { id:20, name:"南部せんべい 落花生", unit:"1枚", kcal:81, p:2.6, f:2.3, c:12.4, mg:15, fiber:0.5, cat:"おやつ" },
+  { id:21, name:"うまいせんべい", unit:"1枚", kcal:80, p:1.8, f:0.2, c:17.8, mg:5, fiber:0.2, cat:"おやつ" },
+  { id:22, name:"ロッテ リッチアーモンドチョコ ポップジョイ", unit:"1袋", kcal:203, p:3.8, f:13.5, c:16.5, mg:20, fiber:1.5, cat:"おやつ" },
+  { id:23, name:"ロッテ クランキーポップジョイ", unit:"1袋(44g)", kcal:248, p:3, f:15.3, c:24.6, mg:15, fiber:1.0, cat:"おやつ" },
+  { id:24, name:"スニッカーズ", unit:"1本(51g)", kcal:248, p:4.4, f:12.2, c:29.5, mg:15, fiber:1.0, cat:"おやつ" },
   // フルーツ
-  { id:30, name:"スウィーティオ パイナップル（いつもの量）", unit:"140g", kcal:75, p:1, f:0, c:19, cat:"フルーツ" },
+  { id:30, name:"スウィーティオ パイナップル（いつもの量）", unit:"140g", kcal:75, p:1, f:0, c:19, mg:15, fiber:2.0, cat:"フルーツ" },
   // 調味料
-  { id:40, name:"バター（薄塗り）", unit:"約5g", kcal:37, p:0, f:4.1, c:0, cat:"調味料" },
+  { id:40, name:"バター（薄塗り）", unit:"約5g", kcal:37, p:0, f:4.1, c:0, mg:0, fiber:0, cat:"調味料" },
 ];
 
 // ======== SUPPLEMENTS ========
@@ -576,7 +584,7 @@ const TIMING_LABELS = {
 };
 
 // ======== TARGETS & MILESTONES ========
-const TARGETS = { kcalMin:1700, kcalMax:1800, pMin:80, pMax:100, fMax:50, cMax:220 };
+const TARGETS = { kcalMin:1700, kcalMax:1800, pMin:80, pMax:100, fMax:50, cMax:220, mgTarget:370, fiberTarget:21 };
 const MILESTONES = [
   { label:"10日後チェック",   weight:87.7, date:"2026-02-23" },
   { label:"20日後チェック",   weight:87.0, date:"2026-03-05" },
@@ -588,6 +596,10 @@ const MILESTONES = [
 ];
 const START_WEIGHT = 88.0;
 const GOAL_WEIGHT = 75.0;
+const SUPPL_DOSING = {
+  mg: { perCapsule: 87.5, maxCapsules: 4 },
+  psyllium: { fiberPerCapsule: 0.55, maxCapsules: 4 }
+};
 
 // ======== STATE ========
 let currentTab = 'meals';
@@ -736,6 +748,9 @@ function renderMeals(container) {
     </div>
   `;
 
+  // Supplement guide card
+  container.innerHTML += supplGuideHtml(t);
+
   // Nutrion progress bars
   container.innerHTML += `
     <div class="card">
@@ -744,6 +759,8 @@ function renderMeals(container) {
       ${nutrBar('たんぱく質', t.p, TARGETS.pMax, 'g', t.p > TARGETS.pMax ? 'over' : t.p >= TARGETS.pMin ? 'ok' : 'warn')}
       ${nutrBar('脂質', t.f, TARGETS.fMax, 'g', t.f > TARGETS.fMax ? 'over' : 'ok')}
       ${nutrBar('炭水化物', t.c, TARGETS.cMax, 'g', t.c > TARGETS.cMax ? 'over' : 'ok')}
+      ${nutrBar('食物繊維', t.fiber, TARGETS.fiberTarget, 'g', t.fiber >= TARGETS.fiberTarget ? 'ok' : 'warn')}
+      ${nutrBar('マグネシウム', t.mg, TARGETS.mgTarget, 'mg', t.mg >= TARGETS.mgTarget ? 'ok' : 'warn')}
     </div>
   `;
 
@@ -812,10 +829,70 @@ function nutrBar(label, val, max, unit, status) {
     </div>`;
 }
 
+function supplGuideHtml(t) {
+  const fiberLeft = Math.max(0, TARGETS.fiberTarget - t.fiber);
+  const psylCaps = fiberLeft > 0
+    ? Math.min(Math.ceil(fiberLeft / SUPPL_DOSING.psyllium.fiberPerCapsule), SUPPL_DOSING.psyllium.maxCapsules)
+    : 0;
+  const afterFiber = t.fiber + psylCaps * SUPPL_DOSING.psyllium.fiberPerCapsule;
+
+  const mgLeft = Math.max(0, TARGETS.mgTarget - t.mg);
+  const mgCaps = mgLeft > 0
+    ? Math.min(Math.ceil(mgLeft / SUPPL_DOSING.mg.perCapsule), SUPPL_DOSING.mg.maxCapsules)
+    : 0;
+  const afterMg = t.mg + mgCaps * SUPPL_DOSING.mg.perCapsule;
+
+  const fiberPct = Math.min(t.fiber / TARGETS.fiberTarget * 100, 100).toFixed(1);
+  const mgPct    = Math.min(t.mg    / TARGETS.mgTarget    * 100, 100).toFixed(1);
+
+  let fiberMsg;
+  if (t.fiber >= TARGETS.fiberTarget) {
+    fiberMsg = `<span style="color:var(--success);font-size:12px;">✅ 食事で目標達成！サイリウム不要</span>`;
+  } else {
+    const reachTarget = afterFiber >= TARGETS.fiberTarget;
+    fiberMsg = `<span style="font-size:12px;color:var(--text-muted);">サイリウム<strong style="color:var(--text);">${psylCaps}粒</strong>(${(psylCaps * SUPPL_DOSING.psyllium.fiberPerCapsule).toFixed(1)}g)飲むと → ${afterFiber.toFixed(1)}g${reachTarget ? ' ✅' : ''}</span>`;
+  }
+
+  let mgMsg;
+  if (t.mg >= TARGETS.mgTarget) {
+    mgMsg = `<span style="color:var(--success);font-size:12px;">✅ 食事で目標達成！Mg不要</span>`;
+  } else {
+    const reaches = afterMg >= TARGETS.mgTarget;
+    if (!reaches) {
+      const maxAfterMg = t.mg + SUPPL_DOSING.mg.maxCapsules * SUPPL_DOSING.mg.perCapsule;
+      mgMsg = `<span style="font-size:12px;color:var(--text-muted);">Mg <strong style="color:var(--text);">4粒</strong>(350mg)でも → ${maxAfterMg.toFixed(0)}mg（目標まであと${(TARGETS.mgTarget - maxAfterMg).toFixed(0)}mg）</span>`;
+    } else {
+      mgMsg = `<span style="font-size:12px;color:var(--text-muted);">Mg <strong style="color:var(--text);">${mgCaps}粒</strong>(${(mgCaps * SUPPL_DOSING.mg.perCapsule).toFixed(0)}mg)で → ${afterMg.toFixed(0)}mg ✅</span>`;
+    }
+  }
+
+  return `
+    <div class="card">
+      <div class="card-title">💊 サプリ量ガイド</div>
+      <div style="margin-bottom:14px;">
+        <div style="display:flex;justify-content:space-between;margin-bottom:5px;">
+          <span style="font-size:13px;">🌾 食物繊維</span>
+          <span style="font-size:13px;font-weight:600;">${t.fiber.toFixed(1)}g / ${TARGETS.fiberTarget}g</span>
+        </div>
+        <div class="nutr-bar-track" style="margin-bottom:5px;"><div class="nutr-bar-fill ${t.fiber >= TARGETS.fiberTarget ? 'ok' : 'warn'}" style="width:${fiberPct}%"></div></div>
+        ${fiberMsg}
+      </div>
+      <div>
+        <div style="display:flex;justify-content:space-between;margin-bottom:5px;">
+          <span style="font-size:13px;">🧲 マグネシウム</span>
+          <span style="font-size:13px;font-weight:600;">${Math.round(t.mg)}mg / ${TARGETS.mgTarget}mg</span>
+        </div>
+        <div class="nutr-bar-track" style="margin-bottom:5px;"><div class="nutr-bar-fill ${t.mg >= TARGETS.mgTarget ? 'ok' : 'warn'}" style="width:${mgPct}%"></div></div>
+        ${mgMsg}
+      </div>
+    </div>`;
+}
+
 function totals(meals) {
   return meals.reduce((a, m) => ({
-    kcal: a.kcal + m.kcal, p: a.p + m.p, f: a.f + m.f, c: a.c + m.c
-  }), {kcal:0, p:0, f:0, c:0});
+    kcal: a.kcal + m.kcal, p: a.p + m.p, f: a.f + m.f, c: a.c + m.c,
+    mg: a.mg + (m.mg || 0), fiber: a.fiber + (m.fiber || 0)
+  }), {kcal:0, p:0, f:0, c:0, mg:0, fiber:0});
 }
 
 function deleteMeal(idx) {
@@ -922,6 +999,8 @@ function addFoodRecord() {
       p: selectedFood.p * qty,
       f: selectedFood.f * qty,
       c: selectedFood.c * qty,
+      mg: (selectedFood.mg || 0) * qty,
+      fiber: (selectedFood.fiber || 0) * qty,
     };
   } else {
     const name = document.getElementById('c-name').value.trim();
@@ -933,11 +1012,13 @@ function addFoodRecord() {
     const unit = document.getElementById('c-unit').value || '1食';
     const isFish = document.getElementById('is-fish').checked;
     if (isFish) kcal = kcal - (f * 9 * 0.3);
-    record = { time, name: name + (isFish ? ' 🐟' : ''), kcal, p, f, c };
+    const mg = parseFloat(document.getElementById('c-mg').value) || 0;
+    const fiber = parseFloat(document.getElementById('c-fiber').value) || 0;
+    record = { time, name: name + (isFish ? ' 🐟' : ''), kcal, p, f, c, mg, fiber };
     // Save to custom DB
     const customs = getCustomFoods();
     if (!customs.find(x => x.name === name)) {
-      customs.push({ id: Date.now(), name, unit, kcal: parseFloat(document.getElementById('c-kcal').value)||0, p, f, c, cat:'カスタム' });
+      customs.push({ id: Date.now(), name, unit, kcal: parseFloat(document.getElementById('c-kcal').value)||0, p, f, c, mg, fiber, cat:'カスタム' });
       saveCustomFoods(customs);
     }
   }
