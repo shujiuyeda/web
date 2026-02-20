@@ -829,6 +829,9 @@ function renderMeals(container) {
   const floorGap     = TARGETS.kcalFloor - t.kcal; // 負なら最低ライン達成済み
   const hour         = new Date().getHours();
   const floorRisk    = isToday && floorGap > 0 && hour >= 20; // 20時以降で未達
+  const floorMsg     = hour >= 22
+    ? `夜遅いので今夜は無理せず、明日の午前中にタンパク質をしっかり摂って`
+    : `明日のリバウンド防止に、消化の良いもので補充を`;
 
   // Date nav
   container.innerHTML += `
@@ -864,7 +867,7 @@ function renderMeals(container) {
         ${floorGap <= 0
           ? `<span style="color:var(--green-mid);font-weight:600;">✓ 達成</span>`
           : floorRisk
-            ? `<span style="color:#C0392B;font-weight:600;">⚠ あと${Math.round(floorGap)}kcal — 明日のどか食い防止のため食べて</span>`
+            ? `<span style="color:#C0392B;font-weight:600;">⚠ あと${Math.round(floorGap)}kcal — ${floorMsg}</span>`
             : `<span style="color:var(--text-muted);">あと${Math.round(floorGap)}kcal</span>`
         }
       </div>
