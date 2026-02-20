@@ -1061,8 +1061,8 @@ function toggleMealAdvice() {
   else if (hour < 15)  timeLine = '昼食後の時間帯。軽いおやつ程度なら◎。';
   else if (hour < 18)  timeLine = '夕食前。食べすぎると夕食に影響するかも。';
   else if (hour < 20)  timeLine = '夕食タイム。バランスよく食べられます。';
-  else if (hour < 22)  timeLine = '夜なので炭水化物・脂質は控えめに。';
-  else                 timeLine = '深夜。消化への負担を考えて、軽いものだけに。';
+  else if (hour < 22)  timeLine = '夜なので炭水化物・脂質は控えめに。前日の食べすぎには翌日夕方の空腹感が関係することが多い。';
+  else                 timeLine = '深夜。消化への負担を考えて軽いものだけに。前日少ない→翌夕の爆食いを防ぐには、今夜より明日の朝〜昼のタンパク質が大事。';
 
   // カロリー残り状況
   let kcalLine = '';
@@ -1097,6 +1097,32 @@ function toggleMealAdvice() {
     ? `<div style="margin-top:8px;padding:6px 8px;background:#FFF3CD;border-radius:8px;font-size:12px;color:#856404;">⚠ 最低ライン（${TARGETS.kcalFloor}kcal）未達。あと${Math.round(TARGETS.kcalFloor - t.kcal)}kcal食べないと明日のリバウンド食いリスクあり。</div>`
     : `<div style="font-size:12px;color:var(--green-mid);margin-top:6px;">✓ 最低ライン（${TARGETS.kcalFloor}kcal）クリア済み</div>`;
 
+  // 夜間補充ガイド（20時以降・最低ライン+200kcal未満の時に表示）
+  let nightGuide = '';
+  if (hour >= 20 && t.kcal < TARGETS.kcalFloor + 200) {
+    const toFloor = Math.round(TARGETS.kcalFloor - t.kcal);
+    const needMore = toFloor > 0;
+    // オイコス(120) + ゆで卵2個(154) = 274kcal
+    const oikosCombo = Math.round(t.kcal + 274);
+    nightGuide = `
+    <div style="margin-top:10px;padding:10px;background:#FFF8E1;border-radius:10px;border:1px solid #FFD54F;">
+      <div style="font-weight:700;color:#856404;margin-bottom:6px;">🌙 夜の補充ガイド</div>
+      ${needMore
+        ? `<div style="font-size:12px;margin-bottom:8px;">あと<strong style="color:#C0392B;">${toFloor}kcal</strong>で最低ライン。前日少ない→翌夕に甘いもの爆食いのパターン注意。</div>`
+        : `<div style="font-size:12px;margin-bottom:8px;color:var(--green-mid);">✓ 最低ライン達成済み。無理して食べなくてもOK。</div>`
+      }
+      <div style="font-size:13px;font-weight:700;color:#555;margin-bottom:2px;">😌 お腹が空いていないなら</div>
+      <div style="font-size:12px;color:#666;margin-bottom:8px;padding-left:4px;">今夜より<strong>明日の朝〜昼にタンパク質をしっかり摂る</strong>ほうがリバウンド防止に効果的。コンビニへ行くなら<strong>明日の朝食を先に買っておく</strong>のが◎</div>
+      <div style="font-size:13px;font-weight:700;color:#555;margin-bottom:2px;">🍽️ お腹が空いているなら</div>
+      <div style="font-size:12px;color:#666;padding-left:4px;">消化に良いタンパク質で補充：<br>
+        <strong>オイコス</strong>（約120kcal / P約14g）<br>
+        ＋ <strong>ゆで卵2個</strong>（154kcal / P約13g）<br>
+        → 合計 +274kcal ＝ 今日 <strong style="color:#333;">${oikosCombo}kcal</strong>
+        ${oikosCombo >= TARGETS.kcalFloor ? ' <span style="color:var(--green-mid);font-weight:700;">✓ 最低ラインクリア</span>' : ''}
+      </div>
+    </div>`;
+  }
+
   panel.innerHTML = `
     <div style="font-weight:700;margin-bottom:6px;color:var(--green-dark);">🕐 ${timeStr} 現在の状況</div>
     <div>${timeLine}</div>
@@ -1105,7 +1131,8 @@ function toggleMealAdvice() {
     ${nutrLines.length ? `<div style="margin-top:8px;">${nutrLines.join('<br>')}</div>` : ''}
     <div style="margin-top:8px;padding-top:8px;border-top:1px solid var(--green-light);">
       <span style="font-weight:700;color:var(--green-dark);">💡 今食べるなら：</span><br>${recommend}
-    </div>`;
+    </div>
+    ${nightGuide}`;
   panel.style.display = 'block';
 }
 
