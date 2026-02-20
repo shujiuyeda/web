@@ -643,6 +643,19 @@ async function tryFetchMeals(ds) {
   } catch { /* ネットワークエラーはsilent */ }
 }
 
+async function tryFetchSuppl(ds) {
+  const existing = getSuppl(ds);
+  if (Object.keys(existing).length > 0) return; // 既にデータあり
+  try {
+    const res = await fetch(`${DATA_BASE_URL}suppl-${ds}.json`, { cache: 'no-store' });
+    if (!res.ok) return;
+    const data = await res.json();
+    if (!data.checks || Object.keys(data.checks).length === 0) return;
+    saveSuppl(ds, data.checks);
+    if (ds === currentDate && currentTab === 'supplements') switchTab(currentTab);
+  } catch { /* ネットワークエラーはsilent */ }
+}
+
 // ======== INIT ========
 function init() {
   document.getElementById('header-date').textContent = formatDateLabel(currentDate);
@@ -651,9 +664,11 @@ function init() {
     navigator.serviceWorker.register('/web/sw.js').catch(() => {});
   }
   // 今日・昨日のデータをサーバーから自動ロード
-  tryFetchMeals(currentDate);
   const yesterday = fmtDate(new Date(new Date().setDate(new Date().getDate() - 1)));
+  tryFetchMeals(currentDate);
   tryFetchMeals(yesterday);
+  tryFetchSuppl(currentDate);
+  tryFetchSuppl(yesterday);
 }
 
 // ======== TABS ========
@@ -676,7 +691,8 @@ function changeDate(delta) {
   currentDate = nd;
   document.getElementById('header-date').textContent = formatDateLabel(currentDate);
   switchTab(currentTab);
-  tryFetchMeals(nd); // サーバーから自動ロード試行
+  tryFetchMeals(nd);
+  tryFetchSuppl(nd);
 }
 
 // ======== MEALS TAB ========
