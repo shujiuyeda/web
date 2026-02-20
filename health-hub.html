@@ -1189,6 +1189,14 @@ function renderWeight(container) {
     chartData.push({ ds, w: weights[ds] ?? null, bf: bodyFat[ds] ?? null });
   }
 
+  // 前日摂取カロリーを付加
+  chartData.forEach(row => {
+    const prevD = new Date(row.ds + 'T12:00:00'); prevD.setDate(prevD.getDate() - 1);
+    const prevMeals = getMeals(fmtDate(prevD));
+    const kcal = prevMeals.reduce((s, m) => s + (m.kcal || 0), 0);
+    row.prevKcal = kcal > 0 ? kcal : null;
+  });
+
   // 7日平均・前週比・判定を計算（全体重データを使用）
   chartData.forEach(row => {
     // 7日平均（その日を含む過去7日）
@@ -1299,7 +1307,7 @@ function renderWeight(container) {
       `<th style="text-align:${align};padding:4px 4px;color:var(--text-muted);font-weight:600;border-bottom:1px solid var(--border);white-space:nowrap;">${label}</th>`;
     histHtml += `<table style="width:100%;border-collapse:collapse;margin-top:12px;font-size:12px;">
       <thead><tr>
-        ${th('日付','left')}${th('体重')}${th('体脂肪')}${th('7日平均')}${th('判定')}
+        ${th('日付','left')}${th('前日kcal')}${th('体重')}${th('体脂肪')}${th('7日平均')}${th('判定')}
       </tr></thead><tbody>`;
     [...chartData].reverse().forEach(row => {
       const isToday2 = row.ds === todayStr();
@@ -1309,6 +1317,7 @@ function renderWeight(container) {
         : '—';
       histHtml += `<tr style="${isToday2 ? 'background:var(--green-pale);' : ''}">
         <td style="padding:5px 4px;white-space:nowrap;">${row.ds.slice(5).replace('-','/')}${isToday2 ? '&nbsp;<span style="font-size:9px;color:var(--green-mid);">TODAY</span>' : ''}</td>
+        <td style="text-align:right;padding:5px 4px;color:var(--text-muted);">${row.prevKcal != null ? row.prevKcal.toLocaleString() : '—'}</td>
         <td style="text-align:right;padding:5px 4px;font-weight:${row.w ? '600' : '400'}">${row.w != null ? row.w.toFixed(2) : '—'}</td>
         <td style="text-align:right;padding:5px 4px;color:var(--text-muted);">${row.bf != null ? row.bf.toFixed(1) + '%' : '—'}</td>
         <td style="text-align:right;padding:5px 4px;">${row.avg7 != null ? row.avg7.toFixed(2) : '—'}</td>
