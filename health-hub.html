@@ -1425,12 +1425,24 @@ function renderWeight(container) {
         <div style="text-align:center;font-size:12px;color:var(--text-muted);margin-top:4px;">
           目標まで あと <strong>${(latestW - GOAL_WEIGHT).toFixed(2)}kg</strong>（進捗 ${progressPct.toFixed(1)}%）
         </div>
-        ${nextMS ? `
+        ${nextMS ? (() => {
+          const msDate = new Date(nextMS.date + 'T00:00:00');
+          const now = new Date(); now.setHours(0,0,0,0);
+          const daysLeft = Math.ceil((msDate - now) / 86400000);
+          const diffKg = (latestW - nextMS.weight).toFixed(1);
+          const m = msDate.getMonth() + 1;
+          const d = msDate.getDate();
+          return `
         <div style="margin-top:12px;padding:10px;background:var(--green-pale);border-radius:10px;">
           <div style="font-size:13px;font-weight:700;color:var(--green-mid);">🎯 次のマイルストーン</div>
           <div style="font-size:14px;margin-top:2px;">${nextMS.label}: <strong>${nextMS.weight}kg</strong></div>
-          <div style="font-size:12px;color:var(--text-muted);margin-top:2px;">あと ${(latestW - nextMS.weight).toFixed(2)}kg ／ ${nextMS.date}まで</div>
-        </div>` : `
+          <div style="margin-top:6px;display:flex;align-items:baseline;gap:8px;">
+            <span style="font-size:20px;font-weight:800;color:#333;">${m}月${d}日まで</span>
+            <span style="font-size:13px;color:var(--text-muted);">あと<strong style="color:${daysLeft <= 3 ? 'var(--danger)' : '#856404'};font-size:16px;margin:0 2px;">${daysLeft}</strong>日</span>
+          </div>
+          <div style="font-size:13px;color:var(--text-muted);margin-top:4px;">あと <strong>${diffKg}kg</strong> 落とす</div>
+        </div>`;
+        })() : `
         <div style="margin-top:12px;padding:10px;background:var(--green-pale);border-radius:10px;text-align:center;font-size:15px;font-weight:700;color:var(--green-mid);">
           🎉 全マイルストーン達成！
         </div>`}
