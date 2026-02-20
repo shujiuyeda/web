@@ -48,6 +48,12 @@
     }
     .header h1 { font-size: 16px; font-weight: 700; }
     .header-date { font-size: 13px; opacity: 0.75; }
+    .header-reload {
+      background: none; border: none; color: white; opacity: 0.75;
+      font-size: 20px; padding: 6px 8px; cursor: pointer;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .header-reload:active { opacity: 0.4; }
     .main {
       padding-top: var(--header-height);
       padding-bottom: calc(var(--nav-height) + var(--safe-bottom) + 8px);
@@ -422,7 +428,10 @@
 <div id="app">
   <header class="header">
     <h1>🌿 Health Hub</h1>
-    <span class="header-date" id="header-date"></span>
+    <div style="display:flex;align-items:center;gap:4px;">
+      <span class="header-date" id="header-date"></span>
+      <button class="header-reload" onclick="location.reload()" title="リロード">↻</button>
+    </div>
   </header>
 
   <main class="main" id="main-content"></main>
