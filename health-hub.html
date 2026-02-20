@@ -299,10 +299,20 @@
     }
     .suppl-check.checked { background: var(--green-mid); border-color: var(--green-mid); }
     .suppl-check.checked::after { content: "✓"; color: white; font-size: 15px; font-weight: 800; }
+    .suppl-check.skipped { background: #E9ECEF; border-color: #CCC; }
+    .suppl-check.skipped::after { content: "−"; color: #999; font-size: 20px; font-weight: 700; line-height: 1; }
     .suppl-label { flex: 1; }
     .suppl-name { font-size: 14px; transition: color 0.15s; }
     .suppl-name.checked { text-decoration: line-through; color: var(--text-muted); }
+    .suppl-name.skipped { color: var(--text-muted); }
     .suppl-note { font-size: 11px; color: var(--text-muted); margin-top: 2px; }
+    .suppl-skip-btn {
+      font-size: 11px; color: var(--text-muted); background: #F0F0F0;
+      border: 1px solid #DDD; border-radius: 10px; padding: 3px 8px;
+      cursor: pointer; white-space: nowrap; flex-shrink: 0;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .suppl-skip-btn.active { background: #FFF3CD; border-color: #FFC107; color: #856404; }
     .compliance-bar {
       height: 10px; background: #E9ECEF;
       border-radius: 5px; overflow: hidden; margin: 8px 0 4px;
@@ -563,20 +573,20 @@ const BUILT_IN_FOODS = [
 
 // ======== SUPPLEMENTS ========
 const SUPPLEMENTS = [
-  { id:"m1", timing:"morning", name:"ユリス", note:"処方薬（尿酸値）" },
-  { id:"m2", timing:"morning", name:"マルチビタミン", note:"" },
-  { id:"m3", timing:"morning", name:"CoQ10", note:"" },
-  { id:"m4", timing:"morning", name:"エビオス 10錠", note:"" },
-  { id:"m5", timing:"morning", name:"Align or ビオスリー", note:"どちらか1つ" },
-  { id:"m6", timing:"morning", name:"The Daily Power", note:"飲みきるまで" },
-  { id:"a1", timing:"afternoon", name:"サイリウム 1回目（5粒）", note:"12:30ごろ — ユリスから2h後" },
-  { id:"a2", timing:"afternoon", name:"サイリウム 2回目（5粒）", note:"15:00ごろ — 夕食の薬まで3h" },
-  { id:"a3", timing:"afternoon", name:"サイリウム 3回目（5粒）", note:"20:00ごろ — ロスバスタチンから2h後" },
-  { id:"e1", timing:"evening", name:"ロスバスタチン", note:"処方薬（コレステロール）夕食後" },
-  { id:"e2", timing:"evening", name:"亜鉛 (THORNE)", note:"" },
-  { id:"e3", timing:"evening", name:"エビオス 10錠", note:"" },
-  { id:"e4", timing:"evening", name:"ビオスリー 2錠", note:"" },
-  { id:"b1", timing:"bedtime", name:"マグネシウム", note:"1カプセル≒87.5mg、最大4カプセル" },
+  { id:"m1", timing:"morning",   name:"ユリス",               note:"処方薬（尿酸値）",         catchup:true },
+  { id:"m2", timing:"morning",   name:"マルチビタミン",         note:"",                        catchup:true },
+  { id:"m3", timing:"morning",   name:"CoQ10",                note:"",                        catchup:true },
+  { id:"m4", timing:"morning",   name:"エビオス 10錠",          note:"",                        catchup:true },
+  { id:"m5", timing:"morning",   name:"Align or ビオスリー",    note:"どちらか1つ",              catchup:true },
+  { id:"m6", timing:"morning",   name:"The Daily Power",      note:"飲みきるまで",              catchup:true },
+  { id:"a1", timing:"afternoon", name:"サイリウム 1回目（5粒）", note:"12:30ごろ — ユリスから2h後", catchup:true },
+  { id:"a2", timing:"afternoon", name:"サイリウム 2回目（5粒）", note:"15:00ごろ — 夕食の薬まで3h", catchup:true },
+  { id:"a3", timing:"afternoon", name:"サイリウム 3回目（5粒）", note:"20:00ごろ — ロスバスタチンから2h後", catchup:true },
+  { id:"e1", timing:"evening",   name:"ロスバスタチン",          note:"処方薬（コレステロール）夕食後", catchup:true },
+  { id:"e2", timing:"evening",   name:"亜鉛 (THORNE)",         note:"",                        catchup:true },
+  { id:"e3", timing:"evening",   name:"エビオス 10錠",           note:"",                        catchup:true },
+  { id:"e4", timing:"evening",   name:"ビオスリー 2錠",          note:"",                        catchup:true },
+  { id:"b1", timing:"bedtime",   name:"マグネシウム",            note:"1カプセル≒87.5mg、最大4カプセル", catchup:false },
 ];
 const TIMING_LABELS = {
   morning:   "☀️ 朝（1食目後・10時ごろ）",
@@ -1032,7 +1042,8 @@ function addFoodRecord() {
 function renderSuppl(container) {
   const checks = getSuppl(currentDate);
   const isToday = currentDate === todayStr();
-  const done = SUPPLEMENTS.filter(s => checks[s.id]).length;
+  const done    = SUPPLEMENTS.filter(s => checks[s.id] === true).length;
+  const skipped = SUPPLEMENTS.filter(s => checks[s.id] === 'skip').length;
   const pct = Math.round((done / SUPPLEMENTS.length) * 100);
 
   container.innerHTML += `
@@ -1051,7 +1062,7 @@ function renderSuppl(container) {
       <div class="compliance-bar">
         <div class="compliance-fill ${pct===100?'full':''}" id="comp-fill" style="width:${pct}%;"></div>
       </div>
-      <div style="font-size:12px;color:var(--text-muted);text-align:center;">${done} / ${SUPPLEMENTS.length} 完了</div>
+      <div id="comp-count" style="font-size:12px;color:var(--text-muted);text-align:center;">${done} / ${SUPPLEMENTS.length} 完了${skipped > 0 ? `　<span style="color:#856404;">（飲み忘れ ${skipped}件）</span>` : ''}</div>
     </div>
   `;
 
@@ -1061,14 +1072,17 @@ function renderSuppl(container) {
     const items = SUPPLEMENTS.filter(s => s.timing === t);
     html += `<div class="suppl-timing">${TIMING_LABELS[t]}</div>`;
     items.forEach(s => {
-      const checked = !!checks[s.id];
+      const state = checks[s.id]; // true | 'skip' | falsy
+      const isChecked = state === true;
+      const isSkipped = state === 'skip';
       html += `
         <div class="suppl-item">
-          <div class="suppl-check ${checked ? 'checked' : ''}" id="sc-${s.id}" onclick="toggleSuppl('${s.id}')"></div>
+          <div class="suppl-check ${isChecked ? 'checked' : isSkipped ? 'skipped' : ''}" id="sc-${s.id}" onclick="toggleSuppl('${s.id}')"></div>
           <div class="suppl-label">
-            <div class="suppl-name ${checked ? 'checked' : ''}" id="sn-${s.id}">${esc(s.name)}</div>
+            <div class="suppl-name ${isChecked ? 'checked' : isSkipped ? 'skipped' : ''}" id="sn-${s.id}">${esc(s.name)}</div>
             ${s.note ? `<div class="suppl-note">${esc(s.note)}</div>` : ''}
           </div>
+          ${!s.catchup ? `<div class="suppl-skip-btn ${isSkipped ? 'active' : ''}" id="ss-${s.id}" onclick="skipSuppl('${s.id}')">飲み忘れ</div>` : ''}
         </div>`;
     });
   });
@@ -1078,18 +1092,40 @@ function renderSuppl(container) {
 
 function toggleSuppl(id) {
   const checks = getSuppl(currentDate);
-  checks[id] = !checks[id];
+  checks[id] = checks[id] === true ? false : true; // skip状態からでも「飲んだ」にできる
   saveSuppl(currentDate, checks);
   const sc = document.getElementById(`sc-${id}`);
   const sn = document.getElementById(`sn-${id}`);
-  if (sc) sc.classList.toggle('checked', checks[id]);
-  if (sn) sn.classList.toggle('checked', checks[id]);
-  const done = SUPPLEMENTS.filter(s => checks[s.id]).length;
+  const ss = document.getElementById(`ss-${id}`);
+  if (sc) { sc.className = 'suppl-check' + (checks[id] ? ' checked' : ''); }
+  if (sn) { sn.className = 'suppl-name'  + (checks[id] ? ' checked' : ''); }
+  if (ss) ss.classList.remove('active');
+  updateCompliance(checks);
+}
+
+function skipSuppl(id) {
+  const checks = getSuppl(currentDate);
+  checks[id] = checks[id] === 'skip' ? false : 'skip';
+  saveSuppl(currentDate, checks);
+  const sc = document.getElementById(`sc-${id}`);
+  const sn = document.getElementById(`sn-${id}`);
+  const ss = document.getElementById(`ss-${id}`);
+  if (sc) { sc.className = 'suppl-check' + (checks[id] === 'skip' ? ' skipped' : ''); }
+  if (sn) { sn.className = 'suppl-name'  + (checks[id] === 'skip' ? ' skipped' : ''); }
+  if (ss) ss.classList.toggle('active', checks[id] === 'skip');
+  updateCompliance(checks);
+}
+
+function updateCompliance(checks) {
+  const done    = SUPPLEMENTS.filter(s => checks[s.id] === true).length;
+  const skipped = SUPPLEMENTS.filter(s => checks[s.id] === 'skip').length;
   const pct = Math.round((done / SUPPLEMENTS.length) * 100);
-  const fill = document.getElementById('comp-fill');
+  const fill  = document.getElementById('comp-fill');
   const pctEl = document.getElementById('pct-display');
-  if (fill) { fill.style.width = pct + '%'; fill.classList.toggle('full', pct===100); }
+  const cntEl = document.getElementById('comp-count');
+  if (fill)  { fill.style.width = pct + '%'; fill.classList.toggle('full', pct===100); }
   if (pctEl) { pctEl.textContent = pct + '%'; pctEl.style.color = pct===100 ? 'var(--green-mid)' : 'var(--text-muted)'; }
+  if (cntEl) { cntEl.innerHTML = `${done} / ${SUPPLEMENTS.length} 完了${skipped > 0 ? `　<span style="color:#856404;">（飲み忘れ ${skipped}件）</span>` : ''}`; }
 }
 
 // ======== WEIGHT TAB ========
