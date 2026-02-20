@@ -653,10 +653,12 @@ function ls(key, val) {
 
 function getMeals(ds) { return ls(`meals_${ds}`) || []; }
 function saveMeals(ds, meals) { ls(`meals_${ds}`, meals); }
-function getWeights()      { return ls('weights')  || {}; }
+function getWeights()      { return ls('weights')   || {}; }
 function saveWeights(w)   { ls('weights', w); }
-function getBodyFat()     { return ls('bodyFat')  || {}; }
+function getBodyFat()     { return ls('bodyFat')   || {}; }
 function saveBodyFat(bf)  { ls('bodyFat', bf); }
+function getDailyKcal()   { return ls('dailyKcal') || {}; }
+function saveDailyKcal(d) { ls('dailyKcal', d); }
 function getSuppl(ds) { return ls(`suppl_${ds}`) || {}; }
 function saveSuppl(ds, s) { ls(`suppl_${ds}`, s); }
 function getCustomFoods() { return ls('custom_foods') || []; }
@@ -693,6 +695,23 @@ async function tryFetchSuppl(ds) {
     saveSuppl(ds, data.checks);
     if (ds === currentDate && currentTab === 'supplements') switchTab(currentTab);
   } catch { /* ネットワークエラーはsilent */ }
+}
+
+async function tryFetchDailyKcal() {
+  try {
+    const res = await fetch(`${DATA_BASE_URL}daily-kcal.json`, { cache: 'no-store' });
+    if (!res.ok) return;
+    const remote = await res.json();
+    const local = getDailyKcal();
+    let updated = false;
+    Object.entries(remote).forEach(([ds, kcal]) => {
+      if (local[ds] == null) { local[ds] = kcal; updated = true; }
+    });
+    if (updated) {
+      saveDailyKcal(local);
+      if (currentTab === 'weight') switchTab('weight');
+    }
+  } catch { /* silent */ }
 }
 
 async function tryFetchWeights() {
@@ -742,6 +761,7 @@ function init() {
     if (i < 2) tryFetchSuppl(ds); // サプリは今日・昨日のみ
   }
   tryFetchWeights();
+  tryFetchDailyKcal();
 }
 
 // ======== TABS ========
@@ -1191,12 +1211,14 @@ function renderWeight(container) {
     chartData.push({ ds, w: weights[ds] ?? null, bf: bodyFat[ds] ?? null });
   }
 
-  // 前日摂取カロリーを付加
+  // 前日摂取カロリーを付加（mealデータ優先、なければdailyKcalをフォールバック）
+  const dailyKcal = getDailyKcal();
   chartData.forEach(row => {
     const prevD = new Date(row.ds + 'T12:00:00'); prevD.setDate(prevD.getDate() - 1);
-    const prevMeals = getMeals(fmtDate(prevD));
-    const kcal = prevMeals.reduce((s, m) => s + (m.kcal || 0), 0);
-    row.prevKcal = kcal > 0 ? kcal : null;
+    const prevDs = fmtDate(prevD);
+    const prevMeals = getMeals(prevDs);
+    const fromMeals = prevMeals.reduce((s, m) => s + (m.kcal || 0), 0);
+    row.prevKcal = fromMeals > 0 ? fromMeals : (dailyKcal[prevDs] ?? null);
   });
 
   // 7日平均・前週比・判定を計算（全体重データを使用）
