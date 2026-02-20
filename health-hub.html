@@ -598,7 +598,7 @@ const START_WEIGHT = 88.0;
 const GOAL_WEIGHT = 75.0;
 const SUPPL_DOSING = {
   mg: { perCapsule: 87.5, maxCapsules: 4 },
-  psyllium: { fiberPerCapsule: 0.55, maxCapsules: 4 }
+  psyllium: { fiberPerCapsule: 0.55, capPerServing: 5, maxServings: 3 }
 };
 
 // ======== STATE ========
@@ -831,10 +831,11 @@ function nutrBar(label, val, max, unit, status) {
 
 function supplGuideHtml(t) {
   const fiberLeft = Math.max(0, TARGETS.fiberTarget - t.fiber);
-  const psylCaps = fiberLeft > 0
-    ? Math.min(Math.ceil(fiberLeft / SUPPL_DOSING.psyllium.fiberPerCapsule), SUPPL_DOSING.psyllium.maxCapsules)
+  const fiberPerServing = SUPPL_DOSING.psyllium.fiberPerCapsule * SUPPL_DOSING.psyllium.capPerServing; // 2.75g
+  const servingsNeeded = fiberLeft > 0
+    ? Math.min(Math.ceil(fiberLeft / fiberPerServing), SUPPL_DOSING.psyllium.maxServings)
     : 0;
-  const afterFiber = t.fiber + psylCaps * SUPPL_DOSING.psyllium.fiberPerCapsule;
+  const afterFiber = t.fiber + servingsNeeded * fiberPerServing;
 
   const mgLeft = Math.max(0, TARGETS.mgTarget - t.mg);
   const mgCaps = mgLeft > 0
@@ -849,8 +850,11 @@ function supplGuideHtml(t) {
   if (t.fiber >= TARGETS.fiberTarget) {
     fiberMsg = `<span style="color:var(--success);font-size:12px;">✅ 食事で目標達成！サイリウム不要</span>`;
   } else {
-    const reachTarget = afterFiber >= TARGETS.fiberTarget;
-    fiberMsg = `<span style="font-size:12px;color:var(--text-muted);">サイリウム<strong style="color:var(--text);">${psylCaps}粒</strong>(${(psylCaps * SUPPL_DOSING.psyllium.fiberPerCapsule).toFixed(1)}g)飲むと → ${afterFiber.toFixed(1)}g${reachTarget ? ' ✅' : ''}</span>`;
+    const totalCaps = servingsNeeded * SUPPL_DOSING.psyllium.capPerServing;
+    const totalFiber = (servingsNeeded * fiberPerServing).toFixed(1);
+    const reaches = afterFiber >= TARGETS.fiberTarget;
+    const timesLabel = servingsNeeded === 1 ? '1回分' : `${servingsNeeded}回に分けて`;
+    fiberMsg = `<span style="font-size:12px;color:var(--text-muted);">${timesLabel} <strong style="color:var(--text);">5粒×${servingsNeeded}回</strong>（計${totalCaps}粒・+${totalFiber}g）→ ${afterFiber.toFixed(1)}g${reaches ? ' ✅' : ''}</span>`;
   }
 
   let mgMsg;
