@@ -430,7 +430,7 @@
     <h1>🌿 Health Hub</h1>
     <div style="display:flex;align-items:center;gap:4px;">
       <span class="header-date" id="header-date"></span>
-      <button class="header-reload" onclick="localStorage.setItem('lastTab',currentTab);location.reload()" title="リロード">↻</button>
+      <button class="header-reload" onclick="location.reload()" title="リロード">↻</button>
     </div>
   </header>
 
@@ -695,9 +695,9 @@ async function tryFetchSuppl(ds) {
 // ======== INIT ========
 function init() {
   document.getElementById('header-date').textContent = formatDateLabel(currentDate);
-  const lastTab = localStorage.getItem('lastTab') || 'meals';
-  localStorage.removeItem('lastTab');
-  switchTab(lastTab);
+  const hash = location.hash.replace('#', '');
+  const startTab = ['meals','supplements','weight'].includes(hash) ? hash : 'meals';
+  switchTab(startTab);
   if ('serviceWorker' in navigator) {
     navigator.serviceWorker.register('/web/sw.js').catch(() => {});
   }
@@ -712,6 +712,7 @@ function init() {
 // ======== TABS ========
 function switchTab(tab) {
   currentTab = tab;
+  location.hash = tab;
   document.querySelectorAll('.nav-btn').forEach(b => b.classList.toggle('active', b.dataset.tab === tab));
   document.getElementById('fab-add').classList.toggle('hidden', tab !== 'meals');
   const main = document.getElementById('main-content');
