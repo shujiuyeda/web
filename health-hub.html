@@ -677,7 +677,8 @@ async function tryFetchMeals(ds) {
     const data = await res.json();
     if (!data.meals || data.meals.length === 0) return;
     saveMeals(ds, data.meals);
-    if (ds === currentDate) switchTab(currentTab); // 表示を更新
+    if (ds === currentDate) switchTab(currentTab);
+    else if (currentTab === 'weight') switchTab('weight'); // 体重タブも再描画
   } catch { /* ネットワークエラーはsilent */ }
 }
 
@@ -733,12 +734,13 @@ function init() {
   if ('serviceWorker' in navigator) {
     navigator.serviceWorker.register('/web/sw.js').catch(() => {});
   }
-  // 今日・昨日のデータをサーバーから自動ロード
-  const yesterday = fmtDate(new Date(new Date().setDate(new Date().getDate() - 1)));
-  tryFetchMeals(currentDate);
-  tryFetchMeals(yesterday);
-  tryFetchSuppl(currentDate);
-  tryFetchSuppl(yesterday);
+  // 過去10日分のデータをサーバーから自動ロード
+  for (let i = 0; i < 10; i++) {
+    const d = new Date(); d.setDate(d.getDate() - i);
+    const ds = fmtDate(d);
+    tryFetchMeals(ds);
+    if (i < 2) tryFetchSuppl(ds); // サプリは今日・昨日のみ
+  }
   tryFetchWeights();
 }
 
