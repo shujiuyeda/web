@@ -1467,6 +1467,10 @@ function esc(s) {
 // ======== START ========
 init();
 initImportBtn();
+
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('/web/sw.js').catch(() => {});
+}
 </script>
 </body>
 </html>
