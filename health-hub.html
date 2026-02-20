@@ -1239,36 +1239,40 @@ async function initImportBtn() {
 }
 
 function importFromMarkdown(text, filename) {
-  // Find today's date section in the markdown
-  const [y, m, d] = currentDate.split('-').map(Number);
-  // Possible date formats in the markdown: 2026/02/20, 2026/2/20, 2/20, 02/20
-  const patterns = [
-    `${y}/${pad(m)}/${pad(d)}`,
-    `${y}/${m}/${d}`,
-    `${m}/${d}`,
-    `${pad(m)}/${pad(d)}`,
-  ];
+  // Parse ALL date sections from the file
+  // Supported formats: ### 2026/02/20  ### 2026/2/20  ### 2/20  ### 02/20
+  const DATE_RE = /^#{1,4}\s.*?(\d{4})[\/\-](\d{1,2})[\/\-](\d{1,2})|^#{1,4}\s.*?(\d{1,2})[\/\-](\d{1,2})(?!\d)/;
 
   const lines = text.split('\n');
-  let inSection = false;
-  const parsed = [];
+  // Map: dateStr ("YYYY-MM-DD") → meal[]
+  const byDate = {};
+  let currentDs = null;
 
-  for (let i = 0; i < lines.length; i++) {
-    const line = lines[i].trim();
+  for (const rawLine of lines) {
+    const line = rawLine.trim();
 
-    // Detect date section headers (### or ##)
     if (/^#{1,4}\s/.test(line)) {
-      const isToday = patterns.some(p => line.includes(p));
-      if (isToday) {
-        inSection = true;
+      const m = line.match(/(\d{4})[\/\-](\d{1,2})[\/\-](\d{1,2})/);
+      if (m) {
+        // Full year format: 2026/02/20
+        currentDs = `${m[1]}-${pad(+m[2])}-${pad(+m[3])}`;
+        if (!byDate[currentDs]) byDate[currentDs] = [];
         continue;
-      } else if (inSection) {
-        // Entered a different date/section — stop
-        break;
       }
+      const m2 = line.match(/(\d{1,2})[\/\-](\d{1,2})(?!\d)/);
+      if (m2) {
+        // Month/day only: infer year from currentDate's year
+        const yr = currentDate.split('-')[0];
+        currentDs = `${yr}-${pad(+m2[1])}-${pad(+m2[2])}`;
+        if (!byDate[currentDs]) byDate[currentDs] = [];
+        continue;
+      }
+      // Non-date heading — stop collecting for current date
+      currentDs = null;
+      continue;
     }
 
-    if (!inSection) continue;
+    if (!currentDs) continue;
     if (!line.startsWith('|')) continue;
     if (line.includes('---')) continue;
     if (/合計|目標|時刻/.test(line)) continue;
@@ -1284,26 +1288,37 @@ function importFromMarkdown(text, filename) {
     const c    = parseNum(cells.length > 5 ? cells[5] : '0');
 
     if (!/^\d{1,2}:\d{2}$/.test(time) || !name || kcal <= 0) continue;
-    parsed.push({ time, name, kcal, p, f, c });
+    byDate[currentDs].push({ time, name, kcal, p, f, c });
   }
 
-  if (parsed.length === 0) {
-    showToast(`${m}/${d} の食事記録が見つかりませんでした`);
+  // Remove dates with no meals
+  const dates = Object.keys(byDate).filter(ds => byDate[ds].length > 0);
+
+  if (dates.length === 0) {
+    showToast('食事記録が見つかりませんでした');
     return;
   }
 
-  // Merge: skip exact duplicates (same time + name)
-  const existing = getMeals(currentDate);
-  let added = 0;
-  parsed.forEach(item => {
-    if (!existing.find(e => e.time === item.time && e.name === item.name)) {
-      existing.push(item);
-      added++;
+  // Merge into localStorage for each date
+  let totalAdded = 0;
+  let datesUpdated = 0;
+  dates.forEach(ds => {
+    const existing = getMeals(ds);
+    let added = 0;
+    byDate[ds].forEach(item => {
+      if (!existing.find(e => e.time === item.time && e.name === item.name)) {
+        existing.push(item);
+        added++;
+      }
+    });
+    if (added > 0) {
+      saveMeals(ds, existing);
+      totalAdded += added;
+      datesUpdated++;
     }
   });
 
-  saveMeals(currentDate, existing);
-  showToast(`${added}件 取り込みました ✓（${parsed.length}件中）`);
+  showToast(`${datesUpdated}日分・${totalAdded}件 取り込みました ✓`);
   switchTab('meals');
 }
 
