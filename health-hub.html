@@ -605,7 +605,10 @@ const TIMING_LABELS = {
 };
 
 // ======== TARGETS & MILESTONES ========
-const TARGETS = { kcalMin:1700, kcalMax:1800, pMin:80, pMax:100, fMax:50, cMax:220, mgTarget:370, fiberTarget:21 };
+const TARGETS = { kcalMin:1700, kcalMax:1800, kcalFloor:1400, pMin:80, pMax:100, fMax:50, cMax:220, mgTarget:370, fiberTarget:21 };
+// kcalFloor: どか食い防止の最低ライン（目標の約82%）
+// 根拠: BMR≒1,647kcal。1,700の85%=1,445 → 切りよく1,400。
+// 1,227kcalは目標の72%で強い飢餓感→翌日リバウンド食いを誘発。
 const MILESTONES = [
   { label:"10日後チェック",   weight:87.7, date:"2026-02-23" },
   { label:"20日後チェック",   weight:87.0, date:"2026-03-05" },
@@ -794,8 +797,11 @@ function renderMeals(container) {
   const meals = getMeals(currentDate);
   const t = totals(meals);
   const isToday = currentDate === todayStr();
-  const kcalOver = t.kcal > TARGETS.kcalMax;
-  const remaining = TARGETS.kcalMax - t.kcal;
+  const kcalOver     = t.kcal > TARGETS.kcalMax;
+  const remaining    = TARGETS.kcalMax - t.kcal;
+  const floorGap     = TARGETS.kcalFloor - t.kcal; // 負なら最低ライン達成済み
+  const hour         = new Date().getHours();
+  const floorRisk    = isToday && floorGap > 0 && hour >= 20; // 20時以降で未達
 
   // Date nav
   container.innerHTML += `
@@ -817,13 +823,22 @@ function renderMeals(container) {
           <span class="kcal-unit">kcal</span>
           <span class="kcal-target">/ ${TARGETS.kcalMin}〜${TARGETS.kcalMax}</span>
         </div>
-        ${isToday ? `<button onclick="toggleMealAdvice()" style="font-size:11px;background:var(--green-pale);color:var(--green-dark);border:1px solid var(--green-light);border-radius:12px;padding:5px 10px;white-space:nowrap;cursor:pointer;flex-shrink:0;-webkit-tap-highlight-color:transparent;">食べるなら？</button>` : ''}
+        ${isToday ? `<button onclick="toggleMealAdvice()" style="font-size:11px;background:var(--green-pale);color:var(--green-dark);border:1px solid var(--green-light);border-radius:12px;padding:5px 10px;white-space:nowrap;cursor:pointer;flex-shrink:0;-webkit-tap-highlight-color:transparent;">今食べるなら</button>` : ''}
       </div>
       <div id="meal-advice-panel" style="display:none;margin-top:10px;padding:10px;background:#F8FFF9;border-radius:10px;font-size:13px;line-height:1.7;border:1px solid var(--green-light);"></div>
       <div class="remaining" style="margin-top:6px;">
         ${remaining >= 0
           ? `あと <strong>${Math.round(remaining)}</strong> kcal`
           : `<span style="color:var(--danger)">超過 <strong>${Math.round(-remaining)}</strong> kcal</span>`
+        }
+      </div>
+      <div style="margin-top:5px;font-size:12px;display:flex;align-items:center;gap:6px;">
+        <span style="color:var(--text-muted);">最低ライン ${TARGETS.kcalFloor} kcal</span>
+        ${floorGap <= 0
+          ? `<span style="color:var(--green-mid);font-weight:600;">✓ 達成</span>`
+          : floorRisk
+            ? `<span style="color:#C0392B;font-weight:600;">⚠ あと${Math.round(floorGap)}kcal — 明日のどか食い防止のため食べて</span>`
+            : `<span style="color:var(--text-muted);">あと${Math.round(floorGap)}kcal</span>`
         }
       </div>
       <div class="macros-row">
@@ -1051,10 +1066,15 @@ function toggleMealAdvice() {
     recommend = '野菜スープ / 豆腐 / 海藻サラダ / きのこ炒め';
   }
 
+  const floorStatus = remaining >= (TARGETS.kcalMax - TARGETS.kcalFloor)
+    ? `<div style="margin-top:8px;padding:6px 8px;background:#FFF3CD;border-radius:8px;font-size:12px;color:#856404;">⚠ 最低ライン（${TARGETS.kcalFloor}kcal）未達。あと${Math.round(TARGETS.kcalFloor - t.kcal)}kcal食べないと明日のリバウンド食いリスクあり。</div>`
+    : `<div style="font-size:12px;color:var(--green-mid);margin-top:6px;">✓ 最低ライン（${TARGETS.kcalFloor}kcal）クリア済み</div>`;
+
   panel.innerHTML = `
     <div style="font-weight:700;margin-bottom:6px;color:var(--green-dark);">🕐 ${timeStr} 現在の状況</div>
     <div>${timeLine}</div>
     <div style="margin-top:4px;">${kcalLine}</div>
+    ${floorStatus}
     ${nutrLines.length ? `<div style="margin-top:8px;">${nutrLines.join('<br>')}</div>` : ''}
     <div style="margin-top:8px;padding-top:8px;border-top:1px solid var(--green-light);">
       <span style="font-weight:700;color:var(--green-dark);">💡 今食べるなら：</span><br>${recommend}
