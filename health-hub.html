@@ -1138,22 +1138,107 @@ function saveWeight() {
 }
 
 // ======== IMPORT ========
-function triggerFilePicker() {
-  // Reset so same file can be re-picked
-  const fp = document.getElementById('file-picker');
-  fp.value = '';
-  fp.click();
+// File System Access API (desktop Chrome/Safari) + fallback to <input type="file"> (iOS)
+const supportsFileSystemAccess = 'showOpenFilePicker' in window;
+
+// IndexedDB helpers for persisting FileSystemFileHandle
+function idbOpen() {
+  return new Promise((res, rej) => {
+    const req = indexedDB.open('health-hub', 1);
+    req.onupgradeneeded = e => e.target.result.createObjectStore('handles');
+    req.onsuccess = e => res(e.target.result);
+    req.onerror = () => rej();
+  });
+}
+async function idbGet(key) {
+  try {
+    const db = await idbOpen();
+    return new Promise(res => {
+      const tx = db.transaction('handles', 'readonly');
+      const req = tx.objectStore('handles').get(key);
+      req.onsuccess = () => res(req.result ?? null);
+      req.onerror = () => res(null);
+    });
+  } catch { return null; }
+}
+async function idbPut(key, val) {
+  try {
+    const db = await idbOpen();
+    return new Promise(res => {
+      const tx = db.transaction('handles', 'readwrite');
+      tx.objectStore('handles').put(val, key);
+      tx.oncomplete = res;
+    });
+  } catch {}
+}
+
+async function triggerFilePicker() {
+  if (supportsFileSystemAccess) {
+    await loadWithFSA();
+  } else {
+    // iOS fallback
+    const fp = document.getElementById('file-picker');
+    fp.value = '';
+    fp.click();
+  }
+}
+
+async function loadWithFSA() {
+  // Try saved handle first
+  let handle = await idbGet('health-memo-handle');
+
+  if (handle) {
+    // Check current permission status
+    let perm = await handle.queryPermission({ mode: 'read' });
+    if (perm !== 'granted') {
+      // One-tap permission dialog (no file picker needed)
+      perm = await handle.requestPermission({ mode: 'read' });
+    }
+    if (perm === 'granted') {
+      const file = await handle.getFile();
+      const text = await file.text();
+      importFromMarkdown(text, handle.name);
+      return;
+    }
+  }
+
+  // First time or permission permanently denied — show full file picker
+  try {
+    [handle] = await window.showOpenFilePicker({
+      types: [{ description: 'Markdown files', accept: { 'text/plain': ['.md'] } }],
+      multiple: false,
+    });
+    await idbPut('health-memo-handle', handle);
+    const file = await handle.getFile();
+    const text = await file.text();
+    importFromMarkdown(text, handle.name);
+    updateImportBtnLabel(handle.name);
+  } catch (e) {
+    // User cancelled — silent
+  }
 }
 
 function onFilePicked(event) {
   const file = event.target.files[0];
   if (!file) return;
   const reader = new FileReader();
-  reader.onload = e => importFromMarkdown(e.target.result);
+  reader.onload = e => importFromMarkdown(e.target.result, file.name);
   reader.readAsText(file, 'UTF-8');
 }
 
-function importFromMarkdown(text) {
+function updateImportBtnLabel(filename) {
+  const btn = document.querySelector('.import-btn');
+  if (btn) btn.innerHTML = `📥 取り込む <span style="font-size:11px;opacity:0.7;">（${filename}）</span>`;
+}
+
+// On page load: show saved filename on button if handle exists
+async function initImportBtn() {
+  if (!supportsFileSystemAccess) return;
+  const handle = await idbGet('health-memo-handle');
+  if (handle) updateImportBtnLabel(handle.name);
+}
+
+function importFromMarkdown(text, filename) {
   // Find today's date section in the markdown
   const [y, m, d] = currentDate.split('-').map(Number);
   // Possible date formats in the markdown: 2026/02/20, 2026/2/20, 2/20, 02/20
@@ -1243,6 +1328,7 @@ function esc(s) {
 
 // ======== START ========
 init();
+initImportBtn();
 </script>
 </body>
 </html>
