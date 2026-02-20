@@ -1188,33 +1188,44 @@ async function loadWithFSA() {
   let handle = await idbGet('health-memo-handle');
 
   if (handle) {
-    // Check current permission status
-    let perm = await handle.queryPermission({ mode: 'read' });
-    if (perm !== 'granted') {
-      // One-tap permission dialog (no file picker needed)
-      perm = await handle.requestPermission({ mode: 'read' });
-    }
-    if (perm === 'granted') {
-      const file = await handle.getFile();
-      const text = await file.text();
-      importFromMarkdown(text, handle.name);
-      return;
+    try {
+      let perm = await handle.queryPermission({ mode: 'read' });
+      if (perm !== 'granted') {
+        perm = await handle.requestPermission({ mode: 'read' });
+      }
+      if (perm === 'granted') {
+        showToast('読み込み中...');
+        const file = await handle.getFile();
+        const text = await file.text();
+        importFromMarkdown(text, handle.name);
+        return;
+      }
+    } catch (e) {
+      // Saved handle is stale (file moved/renamed) — fall through to picker
+      await idbPut('health-memo-handle', null);
     }
   }
 
-  // First time or permission permanently denied — show full file picker
+  // First time or stale handle — show file picker
   try {
     [handle] = await window.showOpenFilePicker({
-      types: [{ description: 'Markdown files', accept: { 'text/plain': ['.md'] } }],
+      types: [{ description: 'Markdown / Text', accept: { 'text/*': ['.md', '.txt'] } }],
       multiple: false,
     });
+  } catch (e) {
+    if (e.name !== 'AbortError') showToast('ファイルを開けませんでした: ' + e.message);
+    return;
+  }
+
+  try {
     await idbPut('health-memo-handle', handle);
+    showToast('読み込み中...');
     const file = await handle.getFile();
     const text = await file.text();
     importFromMarkdown(text, handle.name);
     updateImportBtnLabel(handle.name);
   } catch (e) {
-    // User cancelled — silent
+    showToast('読み込みエラー: ' + e.message);
   }
 }
 
