@@ -644,7 +644,10 @@ function getAllFoods() { return [...BUILT_IN_FOODS, ...getCustomFoods()]; }
 const DATA_BASE_URL = 'https://shujiuyeda.github.io/web/data/';
 
 async function tryFetchMeals(ds) {
-  if (getMeals(ds).length > 0) return; // 既にデータあり
+  const existing = getMeals(ds);
+  // mg/fiberが未定義の古いデータはサーバーから上書き取得する
+  const needsRefresh = existing.some(m => m.mg === undefined);
+  if (existing.length > 0 && !needsRefresh) return;
   try {
     const res = await fetch(`${DATA_BASE_URL}meals-${ds}.json`, { cache: 'no-store' });
     if (!res.ok) return;
