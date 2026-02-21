@@ -118,9 +118,33 @@
     .macro-value { font-size: 18px; font-weight: 700; line-height: 1.1; }
     .macro-value .unit { font-size: 11px; font-weight: 400; }
     .macro-target { font-size: 10px; color: var(--text-muted); margin-top: 1px; }
+    .macro-pct { font-size: 12px; font-weight: 600; color: var(--text-muted); margin-top: 1px; }
     .macro-value.over { color: var(--danger); }
     .macro-value.warn { color: var(--warning); }
     .macro-value.ok { color: var(--green-mid); }
+    /* PFCバランスバー */
+    .pfc-bar {
+      display: flex; height: 22px; border-radius: 6px;
+      overflow: hidden; margin: 10px 0 4px;
+    }
+    .pfc-seg {
+      display: flex; align-items: center; justify-content: center;
+      font-size: 10px; font-weight: 700; color: #fff;
+      min-width: 20px; transition: width 0.3s;
+    }
+    .pfc-seg span { text-shadow: 0 1px 2px rgba(0,0,0,0.2); }
+    .pfc-seg.pfc-p { background: #52B788; }
+    .pfc-seg.pfc-f { background: #E5A020; }
+    .pfc-seg.pfc-c { background: #5B9BD5; }
+    .pfc-legend {
+      display: flex; justify-content: center; gap: 12px;
+      font-size: 10px; color: var(--text-muted); margin-bottom: 6px;
+    }
+    .pfc-legend-item { display: flex; align-items: center; gap: 3px; }
+    .pfc-dot { width: 8px; height: 8px; border-radius: 50%; display: inline-block; }
+    .pfc-dot.pfc-p { background: #52B788; }
+    .pfc-dot.pfc-f { background: #E5A020; }
+    .pfc-dot.pfc-c { background: #5B9BD5; }
     .date-nav {
       display: flex; align-items: center; justify-content: space-between;
       padding: 10px 16px; background: white;
@@ -1277,11 +1301,29 @@ function renderMeals(container) {
             : `<span style="color:var(--text-muted);">あと${Math.round(floorGap)}kcal</span>`
         }
       </div>
-      <div class="macros-row">
-        ${macroCard('たんぱく質', t.p, `${TARGETS.pMin}-${TARGETS.pMax}g`, t.p > TARGETS.pMax ? 'over' : t.p >= TARGETS.pMin ? 'ok' : 'warn')}
-        ${macroCard('脂質', t.f, `〜${TARGETS.fMax}g`, t.f > TARGETS.fMax ? 'over' : 'ok')}
-        ${macroCard('炭水化物', t.c, `〜${TARGETS.cMax}g`, t.c > TARGETS.cMax ? 'over' : 'ok')}
-      </div>
+      ${(() => {
+        const pKcal = t.p * 4, fKcal = t.f * 9, cKcal = t.c * 4;
+        const totalMacroKcal = pKcal + fKcal + cKcal || 1;
+        const pPct = Math.round(pKcal / totalMacroKcal * 100);
+        const fPct = Math.round(fKcal / totalMacroKcal * 100);
+        const cPct = 100 - pPct - fPct;
+        return `
+        <div class="pfc-bar">
+          <div class="pfc-seg pfc-p" style="width:${pPct}%"><span>${pPct}</span></div>
+          <div class="pfc-seg pfc-f" style="width:${fPct}%"><span>${fPct}</span></div>
+          <div class="pfc-seg pfc-c" style="width:${cPct}%"><span>${cPct}</span></div>
+        </div>
+        <div class="pfc-legend">
+          <span class="pfc-legend-item"><span class="pfc-dot pfc-p"></span>P</span>
+          <span class="pfc-legend-item"><span class="pfc-dot pfc-f"></span>F</span>
+          <span class="pfc-legend-item"><span class="pfc-dot pfc-c"></span>C</span>
+        </div>
+        <div class="macros-row">
+          ${macroCard('たんぱく質', t.p, `${TARGETS.pMin}-${TARGETS.pMax}g`, t.p > TARGETS.pMax ? 'over' : t.p >= TARGETS.pMin ? 'ok' : 'warn', pPct)}
+          ${macroCard('脂質', t.f, `〜${TARGETS.fMax}g`, t.f > TARGETS.fMax ? 'over' : 'ok', fPct)}
+          ${macroCard('炭水化物', t.c, `〜${TARGETS.cMax}g`, t.c > TARGETS.cMax ? 'over' : 'ok', cPct)}
+        </div>`;
+      })()}
     </div>
   `;
 
@@ -1347,11 +1389,12 @@ function renderMeals(container) {
   container.innerHTML = html;
 }
 
-function macroCard(name, val, target, status) {
+function macroCard(name, val, target, status, pct) {
   return `
     <div class="macro-card">
       <div class="macro-name">${name}</div>
       <div class="macro-value ${status}">${val.toFixed(1)}<span class="unit">g</span></div>
+      <div class="macro-pct">${pct}%</div>
       <div class="macro-target">目標: ${target}</div>
     </div>`;
 }
