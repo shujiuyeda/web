@@ -1935,6 +1935,7 @@ function renderSleep(container) {
       <th style="text-align:right;padding:4px;color:var(--text-muted);font-weight:600;border-bottom:1px solid var(--border);">合計</th>
       <th style="text-align:right;padding:4px;color:var(--text-muted);font-weight:600;border-bottom:1px solid var(--border);">REM</th>
       <th style="text-align:right;padding:4px;color:var(--text-muted);font-weight:600;border-bottom:1px solid var(--border);">REM%</th>
+      <th style="text-align:center;padding:4px;color:var(--text-muted);font-weight:600;border-bottom:1px solid var(--border);"></th>
     </tr></thead><tbody>`;
 
   [...sleepChart].reverse().forEach(row => {
@@ -1945,12 +1946,14 @@ function renderSleep(container) {
     const totalStr  = totalMin != null ? `${Math.floor(totalMin/60)}h${String(totalMin%60).padStart(2,'0')}m` : '—';
     const remStr    = remMin   != null ? `${Math.floor(remMin/60)}h${String(remMin%60).padStart(2,'0')}m`     : '—';
     const goodSleep = row.total != null && row.total >= 7;
+    const sleepIcon = row.total == null ? '' : row.total >= 7 ? '😴' : row.total >= 6 ? '😑' : '🥱';
 
     chartHtml += `<tr style="${isToday2 ? 'background:var(--green-pale);' : ''}">
       <td style="padding:5px 4px;white-space:nowrap;">${row.ds.slice(5).replace('-','/')}${isToday2 ? '&nbsp;<span style="font-size:9px;color:var(--green-mid);">TODAY</span>' : ''}</td>
       <td style="text-align:right;padding:5px 4px;font-weight:600;color:${row.total==null?'var(--text-muted)':goodSleep?'var(--green-mid)':'var(--warning)'};">${totalStr}</td>
       <td style="text-align:right;padding:5px 4px;color:#5B8FB9;font-weight:${row.rem?'600':'400'};">${remStr}</td>
       <td style="text-align:right;padding:5px 4px;color:var(--text-muted);">${remPct2 != null ? remPct2 + '%' : '—'}</td>
+      <td style="text-align:center;padding:5px 4px;font-size:15px;">${sleepIcon}</td>
     </tr>`;
   });
   chartHtml += `</tbody></table>
