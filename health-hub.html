@@ -423,6 +423,33 @@
     .nutr-bar-fill.ok { background: var(--green-light); }
     .nutr-bar-fill.warn { background: var(--warning); }
     .nutr-bar-fill.over { background: var(--danger); }
+    /* Sleep */
+    .sleep-hero {
+      text-align: center; padding: 8px 0 12px;
+    }
+    .sleep-big {
+      font-size: 52px; font-weight: 700;
+      color: #2E4057; line-height: 1;
+    }
+    .sleep-big .sunit { font-size: 18px; color: var(--text-muted); }
+    .sleep-sub { font-size: 13px; color: var(--text-muted); margin-top: 4px; }
+    .sleep-stage-bar {
+      height: 20px; border-radius: 10px; overflow: hidden;
+      display: flex; margin: 12px 0 6px; background: #E9ECEF;
+    }
+    .sleep-stage-rem   { background: #5B8FB9; }
+    .sleep-stage-core  { background: #84B1CE; }
+    .sleep-stage-deep  { background: #2E4057; }
+    .sleep-stage-awake { background: #F4A261; }
+    .sleep-legend {
+      display: flex; flex-wrap: wrap; gap: 8px; margin-top: 4px;
+    }
+    .sleep-legend-item {
+      display: flex; align-items: center; gap: 4px; font-size: 11px; color: var(--text-muted);
+    }
+    .sleep-legend-dot {
+      width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0;
+    }
   </style>
 </head>
 <body>
@@ -465,6 +492,12 @@
         <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/>
       </svg>
       買い物
+    </button>
+    <button class="nav-btn" data-tab="sleep" onclick="switchTab('sleep')">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+      </svg>
+      睡眠
     </button>
   </nav>
 </div>
@@ -673,6 +706,8 @@ function getDailyKcal()   { return ls('dailyKcal') || {}; }
 function saveDailyKcal(d) { ls('dailyKcal', d); }
 function getSuppl(ds) { return ls(`suppl_${ds}`) || {}; }
 function saveSuppl(ds, s) { ls(`suppl_${ds}`, s); }
+function getSleepData() { return ls('sleep') || {}; }
+function saveSleepData(s) { ls('sleep', s); }
 function getCustomFoods() { return ls('custom_foods') || []; }
 function saveCustomFoods(foods) { ls('custom_foods', foods); }
 function getAllFoods() { return [...BUILT_IN_FOODS, ...getCustomFoods()]; }
@@ -787,12 +822,30 @@ async function tryFetchShopping() {
   } catch { /* silent */ }
 }
 
+async function tryFetchSleep() {
+  try {
+    const res = await fetch(`${DATA_BASE_URL}sleep.json`, { cache: 'no-store' });
+    if (!res.ok) return;
+    const remote = await res.json();
+    const local = getSleepData();
+    let updated = false;
+    Object.entries(remote).forEach(([ds, s]) => {
+      if (local[ds] == null) { local[ds] = s; updated = true; }
+    });
+    if (updated) {
+      saveSleepData(local);
+      stampLastUpdated();
+      if (currentTab === 'sleep') switchTab('sleep');
+    }
+  } catch { /* silent */ }
+}
+
 // ======== INIT ========
 function init() {
   document.getElementById('header-date').textContent = formatDateLabel(currentDate);
   stampLastUpdated();
   const hash = location.hash.replace('#', '');
-  const startTab = ['meals','supplements','weight','shopping'].includes(hash) ? hash : 'meals';
+  const startTab = ['meals','supplements','weight','shopping','sleep'].includes(hash) ? hash : 'meals';
   switchTab(startTab);
   if ('serviceWorker' in navigator) {
     navigator.serviceWorker.register('/web/sw.js').catch(() => {});
@@ -807,6 +860,7 @@ function init() {
   tryFetchWeights();
   tryFetchDailyKcal();
   tryFetchShopping();
+  tryFetchSleep();
 }
 
 // ======== TABS ========
@@ -821,6 +875,7 @@ function switchTab(tab) {
   else if (tab === 'supplements') renderSuppl(main);
   else if (tab === 'weight') renderWeight(main);
   else if (tab === 'shopping') renderShopping(main);
+  else if (tab === 'sleep') renderSleep(main);
 }
 
 function changeDate(delta) {
@@ -1646,6 +1701,213 @@ function saveWeight() {
   }
   showToast(`${wVal}kg${!isNaN(bfVal) && bfVal > 0 ? ' / ' + bfVal + '%' : ''} を記録しました ✓`);
   switchTab('weight');
+}
+
+// ======== SLEEP TAB ========
+function renderSleep(container) {
+  const sleepAll = getSleepData();
+  const isToday  = currentDate === todayStr();
+  const todayS   = sleepAll[currentDate] ?? null;
+
+  // 日付ナビ
+  container.innerHTML += `
+    <div class="date-nav">
+      <button class="date-nav-btn" onclick="changeDate(-1)">‹</button>
+      <span class="date-nav-label">
+        ${formatDateLabel(currentDate)}${isToday ? '<span class="today-badge">TODAY</span>' : ''}
+      </span>
+      <button class="date-nav-btn ${isToday ? 'disabled' : ''}" onclick="changeDate(1)">›</button>
+    </div>
+  `;
+
+  // 当日サマリーカード
+  let summaryHtml = `<div class="card"><div class="card-title">🌙 睡眠サマリー</div>`;
+  if (!todayS) {
+    summaryHtml += `<div class="empty-state">
+      <div class="empty-icon">🌙</div>
+      <div class="empty-text">この日の睡眠データがありません<br>Health Auto Exportで同期してください</div>
+    </div>`;
+  } else {
+    const totalH = todayS.total || 0;
+    const remH   = todayS.rem   || 0;
+    const coreH  = todayS.core  || 0;
+    const deepH  = todayS.deep  || 0;
+    const awakeH = todayS.awake || 0;
+    const knownH = remH + coreH + deepH + awakeH;
+    const unknownH = Math.max(0, totalH - knownH); // ステージ不明分
+
+    // 合計を時:分に変換
+    function hrToHM(h) {
+      const totalMin = Math.round(h * 60);
+      return `${Math.floor(totalMin/60)}時間${totalMin%60}分`;
+    }
+
+    // REMの割合
+    const remPct = totalH > 0 ? Math.round((remH / totalH) * 100) : 0;
+
+    // ステージバー（データがある分だけ）
+    let stageBarHtml = '';
+    if (knownH > 0) {
+      const remPctBar   = totalH > 0 ? (remH / totalH * 100).toFixed(1) : 0;
+      const corePctBar  = totalH > 0 ? (coreH / totalH * 100).toFixed(1) : 0;
+      const deepPctBar  = totalH > 0 ? (deepH / totalH * 100).toFixed(1) : 0;
+      const awakePctBar = totalH > 0 ? (awakeH / totalH * 100).toFixed(1) : 0;
+      const unkPctBar   = totalH > 0 ? (unknownH / totalH * 100).toFixed(1) : 0;
+      stageBarHtml = `
+        <div class="sleep-stage-bar">
+          ${remH   > 0 ? `<div class="sleep-stage-rem"   style="width:${remPctBar}%;"   title="REM ${hrToHM(remH)}"></div>` : ''}
+          ${coreH  > 0 ? `<div class="sleep-stage-core"  style="width:${corePctBar}%;"  title="コア ${hrToHM(coreH)}"></div>` : ''}
+          ${deepH  > 0 ? `<div class="sleep-stage-deep"  style="width:${deepPctBar}%;"  title="深い ${hrToHM(deepH)}"></div>` : ''}
+          ${awakeH > 0 ? `<div class="sleep-stage-awake" style="width:${awakePctBar}%;" title="起きている ${hrToHM(awakeH)}"></div>` : ''}
+          ${unknownH > 0 ? `<div style="width:${unkPctBar}%;background:#CCC;"></div>` : ''}
+        </div>
+        <div class="sleep-legend">
+          ${remH   > 0 ? `<div class="sleep-legend-item"><div class="sleep-legend-dot" style="background:#5B8FB9;"></div>REM ${hrToHM(remH)}（${remPct}%）</div>` : ''}
+          ${coreH  > 0 ? `<div class="sleep-legend-item"><div class="sleep-legend-dot" style="background:#84B1CE;"></div>コア ${hrToHM(coreH)}</div>` : ''}
+          ${deepH  > 0 ? `<div class="sleep-legend-item"><div class="sleep-legend-dot" style="background:#2E4057;"></div>深い ${hrToHM(deepH)}</div>` : ''}
+          ${awakeH > 0 ? `<div class="sleep-legend-item"><div class="sleep-legend-dot" style="background:#F4A261;"></div>覚醒 ${hrToHM(awakeH)}</div>` : ''}
+        </div>`;
+    } else {
+      stageBarHtml = `
+        <div class="sleep-stage-bar">
+          ${remH > 0 ? `<div class="sleep-stage-rem" style="width:${remPct}%;" title="REM"></div>` : ''}
+          <div style="flex:1;background:#E9ECEF;"></div>
+        </div>
+        <div style="font-size:11px;color:var(--text-muted);margin-top:4px;">
+          ⚠ Health Auto ExportでCore/Deep/Awakeが出力されていません（TotalとREMのみ表示）
+        </div>`;
+    }
+
+    summaryHtml += `
+      <div class="sleep-hero">
+        <div class="sleep-big">${hrToHM(totalH)}</div>
+        <div class="sleep-sub">${formatDateLabel(currentDate)}の睡眠</div>
+      </div>
+      <div style="display:flex;gap:12px;justify-content:center;margin-bottom:12px;">
+        <div style="text-align:center;">
+          <div style="font-size:22px;font-weight:700;color:#5B8FB9;">${hrToHM(remH)}</div>
+          <div style="font-size:11px;color:var(--text-muted);">REM（${remPct}%）</div>
+        </div>
+        ${totalH > 0 ? `
+        <div style="text-align:center;">
+          <div style="font-size:22px;font-weight:700;color:${totalH >= 7 ? 'var(--green-mid)' : totalH >= 6 ? 'var(--warning)' : 'var(--danger)'};">
+            ${totalH >= 7 ? '😴' : totalH >= 6 ? '😑' : '🥱'}
+          </div>
+          <div style="font-size:11px;color:var(--text-muted);">${totalH >= 7 ? '十分' : totalH >= 6 ? 'やや不足' : '不足'}</div>
+        </div>` : ''}
+      </div>
+      ${stageBarHtml}`;
+  }
+  summaryHtml += `</div>`;
+  container.innerHTML += summaryHtml;
+
+  // 7日間トレンドチャート
+  const chartData = [];
+  for (let i = 6; i >= 0; i--) {
+    const d = new Date(); d.setDate(d.getDate() - i);
+    const ds = fmtDate(d);
+    const s = sleepAll[ds] ?? null;
+    chartData.push({ ds, total: s?.total ?? null, rem: s?.rem ?? null });
+  }
+
+  const hasChart = chartData.filter(d => d.total != null).length >= 2;
+  let chartHtml = `<div class="card"><div class="card-title">睡眠トレンド（直近7日）</div>`;
+  if (hasChart) {
+    chartHtml += buildSleepChart(chartData);
+  }
+
+  // 7日テーブル
+  chartHtml += `<table style="width:100%;border-collapse:collapse;margin-top:12px;font-size:12px;">
+    <thead><tr>
+      <th style="text-align:left;padding:4px;color:var(--text-muted);font-weight:600;border-bottom:1px solid var(--border);">日付</th>
+      <th style="text-align:right;padding:4px;color:var(--text-muted);font-weight:600;border-bottom:1px solid var(--border);">合計</th>
+      <th style="text-align:right;padding:4px;color:var(--text-muted);font-weight:600;border-bottom:1px solid var(--border);">REM</th>
+      <th style="text-align:right;padding:4px;color:var(--text-muted);font-weight:600;border-bottom:1px solid var(--border);">REM%</th>
+    </tr></thead><tbody>`;
+
+  [...chartData].reverse().forEach(row => {
+    const isToday2 = row.ds === todayStr();
+    const totalMin = row.total != null ? Math.round(row.total * 60) : null;
+    const remMin   = row.rem   != null ? Math.round(row.rem   * 60) : null;
+    const remPct2  = (row.total && row.rem != null) ? Math.round(row.rem / row.total * 100) : null;
+    const totalStr = totalMin != null ? `${Math.floor(totalMin/60)}h${totalMin%60}m` : '—';
+    const remStr   = remMin   != null ? `${Math.floor(remMin/60)}h${remMin%60}m`     : '—';
+    const remPctStr = remPct2 != null ? `${remPct2}%` : '—';
+    const goodSleep = row.total != null && row.total >= 7;
+
+    chartHtml += `<tr style="${isToday2 ? 'background:var(--green-pale);' : ''}">
+      <td style="padding:5px 4px;white-space:nowrap;">${row.ds.slice(5).replace('-','/')}${isToday2 ? '&nbsp;<span style="font-size:9px;color:var(--green-mid);">TODAY</span>' : ''}</td>
+      <td style="text-align:right;padding:5px 4px;font-weight:600;color:${row.total==null ? 'var(--text-muted)' : goodSleep ? 'var(--green-mid)' : 'var(--warning)'};">${totalStr}</td>
+      <td style="text-align:right;padding:5px 4px;color:#5B8FB9;font-weight:${row.rem ? '600' : '400'};">${remStr}</td>
+      <td style="text-align:right;padding:5px 4px;color:var(--text-muted);">${remPctStr}</td>
+    </tr>`;
+  });
+  chartHtml += `</tbody></table>
+  <div style="font-size:10px;color:var(--text-muted);margin-top:6px;">目安: 合計7h以上◎ / REM 20〜25%が理想</div>
+  </div><div class="spacer"></div>`;
+  container.innerHTML += chartHtml;
+}
+
+function buildSleepChart(data) {
+  const W = 320, H = 140;
+  const PAD = {t:20, r:20, b:26, l:40};
+  const pw = W - PAD.l - PAD.r;
+  const ph = H - PAD.t - PAD.b;
+  const n  = data.length;
+  const xS = i => PAD.l + (i / (n - 1)) * pw;
+
+  const totalVals = data.map(d => d.total).filter(v => v != null);
+  const minT = Math.max(0, Math.min(...totalVals) - 0.5);
+  const maxT = Math.max(...totalVals) + 0.5;
+  const yT = v => PAD.t + ph - ((v - minT) / (maxT - minT)) * ph;
+
+  // 7h目標ライン
+  const goalY = (7 >= minT && 7 <= maxT) ? yT(7) : null;
+
+  const totalPts = data.filter(d => d.total != null).map(d => `${xS(data.indexOf(d)).toFixed(1)},${yT(d.total).toFixed(1)}`).join(' ');
+  const totalDots = data.map((d,i) => d.total != null
+    ? `<circle cx="${xS(i).toFixed(1)}" cy="${yT(d.total).toFixed(1)}" r="3" fill="white" stroke="#2E4057" stroke-width="2"/>`
+    : '').join('');
+
+  // REM ライン
+  const remVals = data.map(d => d.rem).filter(v => v != null && v > 0);
+  let remPts = '', remDots = '';
+  if (remVals.length >= 2) {
+    remPts  = data.filter(d => d.rem != null && d.rem > 0).map(d => `${xS(data.indexOf(d)).toFixed(1)},${yT(d.rem).toFixed(1)}`).join(' ');
+    remDots = data.map((d,i) => d.rem != null && d.rem > 0
+      ? `<circle cx="${xS(i).toFixed(1)}" cy="${yT(d.rem).toFixed(1)}" r="2.5" fill="white" stroke="#5B8FB9" stroke-width="2"/>`
+      : '').join('');
+  }
+
+  // Y軸ラベル
+  const yLabels = [minT, (minT+maxT)/2, maxT].map(v =>
+    `<line x1="${PAD.l}" y1="${yT(v).toFixed(1)}" x2="${W-PAD.r}" y2="${yT(v).toFixed(1)}" stroke="#E9ECEF" stroke-width="1"/>
+     <text x="${PAD.l-5}" y="${(yT(v)+4).toFixed(1)}" text-anchor="end" font-size="9" fill="#555">${v.toFixed(1)}h</text>`
+  ).join('');
+
+  const firstDs = data[0].ds.slice(5).replace('-','/');
+  const lastDs  = data[n-1].ds.slice(5).replace('-','/');
+
+  const legend = `
+    <line x1="${PAD.l}" y1="10" x2="${PAD.l+16}" y2="10" stroke="#2E4057" stroke-width="2"/>
+    <text x="${PAD.l+18}" y="14" font-size="9" fill="#555">合計</text>
+    ${remPts ? `<line x1="${PAD.l+44}" y1="10" x2="${PAD.l+60}" y2="10" stroke="#5B8FB9" stroke-width="1.5" stroke-dasharray="4,2"/>
+    <text x="${PAD.l+62}" y="14" font-size="9" fill="#555">REM</text>` : ''}
+    ${goalY ? `<line x1="${PAD.l+90}" y1="10" x2="${PAD.l+106}" y2="10" stroke="#28A745" stroke-width="1" stroke-dasharray="3,3"/>
+    <text x="${PAD.l+108}" y="14" font-size="9" fill="#28A745">7h目標</text>` : ''}`;
+
+  return `<div class="chart-scroll">
+    <svg viewBox="0 0 ${W} ${H}" width="100%" style="overflow:visible;">
+      ${yLabels}
+      ${goalY != null ? `<line x1="${PAD.l}" y1="${goalY.toFixed(1)}" x2="${W-PAD.r}" y2="${goalY.toFixed(1)}" stroke="#28A745" stroke-width="1" stroke-dasharray="3,3" opacity="0.6"/>` : ''}
+      <polyline points="${totalPts}" fill="none" stroke="#2E4057" stroke-width="2"/>
+      ${remPts ? `<polyline points="${remPts}" fill="none" stroke="#5B8FB9" stroke-width="1.5" stroke-dasharray="4,2"/>` : ''}
+      ${totalDots}${remDots}
+      <text x="${PAD.l}" y="${H-2}" text-anchor="middle" font-size="9" fill="#999">${firstDs}</text>
+      <text x="${W-PAD.r}" y="${H-2}" text-anchor="middle" font-size="9" fill="#999">${lastDs}</text>
+      ${legend}
+    </svg>
+  </div>`;
 }
 
 // ======== SHOPPING TAB ========
