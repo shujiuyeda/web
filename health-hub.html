@@ -1107,7 +1107,7 @@ function initSwipeNavigation() {
 
     if (goNext || goPrev) {
       _swipeAnimating = true;
-      const dir = goNext ? -1 : 1;
+      const dir = goNext ? 1 : -1;
       // 現在コンテンツをスライドアウト
       main.style.transition = 'transform 0.2s ease-in';
       main.style.transform = `translateX(${dir * -W}px)`;
