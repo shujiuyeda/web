@@ -61,6 +61,7 @@
       padding-top: var(--header-height);
       padding-bottom: calc(var(--nav-height) + var(--safe-bottom) + 8px);
       min-height: 100vh;
+      overflow-x: hidden;
     }
     .bottom-nav {
       position: fixed; bottom: 0; left: 0; right: 0;
@@ -1067,24 +1068,69 @@ function initPullToRefresh() {
 }
 
 // ======== SWIPE NAVIGATION ========
+const TABS = ['meals', 'supplements', 'weight', 'sleep', 'shopping'];
+let _swipeAnimating = false;
+
 function initSwipeNavigation() {
-  const TABS = ['meals', 'supplements', 'weight', 'sleep', 'shopping'];
-  let startX = 0, startY = 0;
+  let startX = 0, startY = 0, lockDir = null;
   const main = document.getElementById('main-content');
 
   main.addEventListener('touchstart', e => {
+    if (_swipeAnimating) return;
     startX = e.touches[0].clientX;
     startY = e.touches[0].clientY;
+    lockDir = null;
+    main.style.transition = '';
   }, { passive: true });
 
-  main.addEventListener('touchend', e => {
-    const dx = e.changedTouches[0].clientX - startX;
-    const dy = e.changedTouches[0].clientY - startY;
-    // 横スワイプ判定：60px以上かつ縦より横が大きい
-    if (Math.abs(dx) < 60 || Math.abs(dy) > Math.abs(dx) * 0.75) return;
+  // passive:false にして横スワイプ確定時に縦スクロールを止める
+  main.addEventListener('touchmove', e => {
+    if (_swipeAnimating || lockDir === 'v') return;
+    const dx = e.touches[0].clientX - startX;
+    const dy = e.touches[0].clientY - startY;
+    if (lockDir === null && (Math.abs(dx) > 8 || Math.abs(dy) > 8)) {
+      lockDir = Math.abs(dx) >= Math.abs(dy) ? 'h' : 'v';
+    }
+    if (lockDir !== 'h') return;
+    e.preventDefault(); // 横スワイプ中は縦スクロール抑止
     const idx = TABS.indexOf(currentTab);
-    if (dx < 0 && idx < TABS.length - 1) switchTab(TABS[idx + 1]); // 左スワイプ → 次のタブ
-    if (dx > 0 && idx > 0) switchTab(TABS[idx - 1]);               // 右スワイプ → 前のタブ
+    // 端のタブは rubber band 効果（15%まで引ける）
+    const rubber = (idx === 0 && dx > 0) || (idx === TABS.length - 1 && dx < 0);
+    main.style.transform = `translateX(${rubber ? dx * 0.15 : dx}px)`;
+  }, { passive: false });
+
+  main.addEventListener('touchend', e => {
+    if (_swipeAnimating || lockDir !== 'h') return;
+    const dx = e.changedTouches[0].clientX - startX;
+    const idx = TABS.indexOf(currentTab);
+    const W = window.innerWidth;
+    const THRESHOLD = 70;
+    const goNext = dx < -THRESHOLD && idx < TABS.length - 1;
+    const goPrev = dx > THRESHOLD && idx > 0;
+
+    if (goNext || goPrev) {
+      _swipeAnimating = true;
+      const dir = goNext ? -1 : 1;
+      // 現在コンテンツをスライドアウト
+      main.style.transition = 'transform 0.2s ease-in';
+      main.style.transform = `translateX(${dir * -W}px)`;
+      setTimeout(() => {
+        main.style.transition = 'none';
+        switchTab(goNext ? TABS[idx + 1] : TABS[idx - 1]);
+        // 新コンテンツを反対側に配置してスライドイン
+        main.style.transform = `translateX(${dir * W}px)`;
+        requestAnimationFrame(() => requestAnimationFrame(() => {
+          main.style.transition = 'transform 0.28s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
+          main.style.transform = '';
+          setTimeout(() => { main.style.transition = ''; _swipeAnimating = false; }, 300);
+        }));
+      }, 200);
+    } else {
+      // スナップバック
+      main.style.transition = 'transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
+      main.style.transform = '';
+      setTimeout(() => { main.style.transition = ''; }, 320);
+    }
   }, { passive: true });
 }
 
@@ -1097,6 +1143,8 @@ function deferRender(tab) {
 }
 
 function switchTab(tab) {
+  const prevIdx = TABS.indexOf(currentTab);
+  const nextIdx = TABS.indexOf(tab);
   currentTab = tab;
   location.hash = tab;
   document.querySelectorAll('.nav-btn').forEach(b => b.classList.toggle('active', b.dataset.tab === tab));
@@ -1108,6 +1156,16 @@ function switchTab(tab) {
   else if (tab === 'weight') renderWeight(main);
   else if (tab === 'shopping') renderShopping(main);
   else if (tab === 'sleep') renderSleep(main);
+  // タップ時のスライドアニメーション（スワイプ中は initSwipeNavigation が担当）
+  if (!_swipeAnimating && prevIdx >= 0 && prevIdx !== nextIdx) {
+    const dir = nextIdx > prevIdx ? 1 : -1;
+    main.style.transform = `translateX(${dir * window.innerWidth}px)`;
+    requestAnimationFrame(() => requestAnimationFrame(() => {
+      main.style.transition = 'transform 0.28s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
+      main.style.transform = '';
+      setTimeout(() => { main.style.transition = ''; }, 300);
+    }));
+  }
 }
 
 function changeDate(delta) {
