@@ -1742,24 +1742,27 @@ function buildSleepTimeline(timeline, bedStart, bedEnd) {
   const toY = stage => PAD.t + (LEVEL[stage] ?? 2) * ROW + ROW / 2;
 
   // コントロールポイント生成：
-  // ① 最初のセグメント開始点
-  // ② 各セグメントの中点
-  // ③ 最後のセグメント終了点
+  // 中点 → 境界点（両ステージの平均Y）→ 中点 → 境界点 ... と交互に配置
+  // 境界点を通過することでステージ切り替わりの時刻が正確になり逆戻りを防止
   const pts = [];
   const firstSeg = timeline[0];
   const lastSeg  = timeline[timeline.length - 1];
   pts.push({ x: toX(parseLocalDate(firstSeg.s).getTime()), y: toY(firstSeg.v) });
-  for (const seg of timeline) {
-    const ms = (parseLocalDate(seg.s).getTime() + parseLocalDate(seg.e).getTime()) / 2;
-    pts.push({ x: toX(ms), y: toY(seg.v) });
+  for (let i = 0; i < timeline.length; i++) {
+    const seg = timeline[i];
+    const midMs = (parseLocalDate(seg.s).getTime() + parseLocalDate(seg.e).getTime()) / 2;
+    pts.push({ x: toX(midMs), y: toY(seg.v) });
+    // セグメント間の境界点を追加（次のセグメントへの切り替わり時刻 / 平均Y）
+    if (i < timeline.length - 1) {
+      const boundMs = parseLocalDate(seg.e).getTime();
+      const midY    = (toY(seg.v) + toY(timeline[i + 1].v)) / 2;
+      pts.push({ x: toX(boundMs), y: midY });
+    }
   }
   pts.push({ x: toX(parseLocalDate(lastSeg.e).getTime()), y: toY(lastSeg.v) });
 
-  // Catmull-Rom → 三次ベジェ変換（tension=0.5）
-  // CP1 = P[i] + (P[i+1] - P[i-1]) / 6
-  // CP2 = P[i+1] - (P[i+2] - P[i]) / 6
+  // Catmull-Rom → 三次ベジェ変換（XYともにクランプしてオーバーシュート防止）
   const f = s => s.toFixed(2);
-  // X方向のオーバーシュートを防ぐため、制御点のXをクランプ（時間の逆戻りを防止）
   const clamp = (v, lo, hi) => Math.max(lo, Math.min(hi, v));
   let d = `M ${f(pts[0].x)},${f(pts[0].y)}`;
   for (let i = 0; i < pts.length - 1; i++) {
@@ -1767,10 +1770,10 @@ function buildSleepTimeline(timeline, bedStart, bedEnd) {
     const p1 = pts[i];
     const p2 = pts[i + 1];
     const p3 = pts[Math.min(pts.length - 1, i + 2)];
-    const cp1x = clamp(p1.x + (p2.x - p0.x) / 4, p1.x, p2.x);
-    const cp1y = clamp(p1.y + (p2.y - p0.y) / 4, Math.min(p1.y, p2.y), Math.max(p1.y, p2.y));
-    const cp2x = clamp(p2.x - (p3.x - p1.x) / 4, p1.x, p2.x);
-    const cp2y = clamp(p2.y - (p3.y - p1.y) / 4, Math.min(p1.y, p2.y), Math.max(p1.y, p2.y));
+    const cp1x = clamp(p1.x + (p2.x - p0.x) / 6, p1.x, p2.x);
+    const cp1y = clamp(p1.y + (p2.y - p0.y) / 6, Math.min(p1.y, p2.y), Math.max(p1.y, p2.y));
+    const cp2x = clamp(p2.x - (p3.x - p1.x) / 6, p1.x, p2.x);
+    const cp2y = clamp(p2.y - (p3.y - p1.y) / 6, Math.min(p1.y, p2.y), Math.max(p1.y, p2.y));
     d += ` C ${f(cp1x)},${f(cp1y)} ${f(cp2x)},${f(cp2y)} ${f(p2.x)},${f(p2.y)}`;
   }
 
