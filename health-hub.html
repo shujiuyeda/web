@@ -791,18 +791,10 @@ function stampLastUpdated() {
 const DATA_BASE_URL = 'https://shujiuyeda.github.io/web/data/';
 
 async function tryFetchMeals(ds) {
-  const existing = getMeals(ds);
-  // kcal未定義（ネスト形式の生データ）またはmg未定義の古いデータはサーバーから上書き取得する
-  const hasNestedData = existing.some(m => m.kcal === undefined);
-  const needsRefresh = existing.some(m => m.mg === undefined) || hasNestedData;
-  if (existing.length > 0 && !needsRefresh) return;
   try {
-    const res = await fetch(`${DATA_BASE_URL}meals-${ds}.json`, { cache: 'no-store' });
-    if (!res.ok) {
-      // 404等でJSONが存在しない場合、ネスト形式の壊れたデータは削除する
-      if (hasNestedData) { saveMeals(ds, []); if (ds === currentDate) switchTab(currentTab); }
-      return;
-    }
+    // キャッシュバスター付きで常にリモートからfetch（localStorageキャッシュをスキップしない）
+    const res = await fetch(`${DATA_BASE_URL}meals-${ds}.json?_=${Date.now()}`, { cache: 'no-store' });
+    if (!res.ok) return;
     const data = await res.json();
     if (!data.meals || data.meals.length === 0) return;
     // JSONのネスト構造 {items, total:{kcal,p,f,c}} をアプリ内形式 {kcal,p,f,c} にフラット化
@@ -815,7 +807,12 @@ async function tryFetchMeals(ds) {
       }
       return m;
     });
-    saveMeals(ds, normalized);
+    // リモート優先でマージ: ローカルにしかない食事（アプリUI手入力分）は保持
+    const local = getMeals(ds);
+    const remoteTimes = new Set(normalized.map(m => m.time));
+    const localOnly = local.filter(m => !remoteTimes.has(m.time));
+    const merged = [...normalized, ...localOnly];
+    saveMeals(ds, merged);
     stampLastUpdated();
     if (ds === currentDate) deferRender(currentTab);
     else if (currentTab === 'weight') deferRender('weight'); // 体重タブも再描画
