@@ -733,7 +733,15 @@ async function tryFetchMeals(ds) {
     if (!res.ok) return;
     const data = await res.json();
     if (!data.meals || data.meals.length === 0) return;
-    saveMeals(ds, data.meals);
+    // JSONのネスト構造 {items, total:{kcal,p,f,c}} をアプリ内形式 {kcal,p,f,c} にフラット化
+    const normalized = data.meals.map(m => {
+      if (m.total && m.kcal === undefined) {
+        const itemNames = m.items?.map(i => i.name).join('、') || m.type || '食事';
+        return { time: m.time, name: itemNames, kcal: m.total.kcal||0, p: m.total.p||0, f: m.total.f||0, c: m.total.c||0, mg: m.total.mg||0, fiber: m.total.fiber||0 };
+      }
+      return m;
+    });
+    saveMeals(ds, normalized);
     stampLastUpdated();
     if (ds === currentDate) switchTab(currentTab);
     else if (currentTab === 'weight') switchTab('weight'); // 体重タブも再描画
