@@ -1819,9 +1819,14 @@ function buildSleepTimeline(timeline, bedStart, bedEnd) {
         <clipPath id="hpClip">
           <path d="${fillD}"/>
         </clipPath>
+        <filter id="hpBlur" x="-5%" width="110%" y="0%" height="100%">
+          <feGaussianBlur stdDeviation="10 0"/>
+        </filter>
       </defs>
       ${yAxis}
-      ${segFills}
+      <g filter="url(#hpBlur)" opacity="0.38">
+        ${segFills}
+      </g>
       <path d="${d}" fill="none" stroke="#3A6B9E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
       ${tLabels}
     </svg>
