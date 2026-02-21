@@ -2171,18 +2171,30 @@ function renderShopping(container) {
       <div style="font-weight:700;font-size:14px;margin-bottom:10px;">買い物リスト</div>
       ${items.length === 0
         ? `<div style="color:var(--text-muted);font-size:13px;text-align:center;padding:20px 0;">リストは空です</div>`
-        : items.map(item => {
-            const checked = !!checks[item.id];
-            return `
-              <label style="display:flex;align-items:flex-start;gap:12px;padding:10px 0;border-bottom:1px solid var(--border);cursor:pointer;-webkit-tap-highlight-color:transparent;">
-                <input type="checkbox" ${checked ? 'checked' : ''} onchange="toggleShoppingItem('${item.id}', this.checked)"
-                  style="width:20px;height:20px;flex-shrink:0;accent-color:var(--green-mid);margin-top:1px;">
-                <div>
-                  <div style="font-size:14px;${checked ? 'text-decoration:line-through;color:var(--text-muted);' : ''}">${item.name}</div>
-                  ${item.note ? `<div style="font-size:11px;color:var(--text-muted);margin-top:2px;">${item.note}</div>` : ''}
-                </div>
-              </label>`;
-          }).join('')
+        : (() => {
+            const renderItems = (list) => list.map(item => {
+              const checked = !!checks[item.id];
+              return `
+                <label style="display:flex;align-items:flex-start;gap:12px;padding:10px 0;border-bottom:1px solid var(--border);cursor:pointer;-webkit-tap-highlight-color:transparent;">
+                  <input type="checkbox" ${checked ? 'checked' : ''} onchange="toggleShoppingItem('${item.id}', this.checked)"
+                    style="width:20px;height:20px;flex-shrink:0;accent-color:var(--green-mid);margin-top:1px;">
+                  <div>
+                    <div style="font-size:14px;${checked ? 'text-decoration:line-through;color:var(--text-muted);' : ''}">${item.name}</div>
+                    ${item.note ? `<div style="font-size:11px;color:var(--text-muted);margin-top:2px;">${item.note}</div>` : ''}
+                  </div>
+                </label>`;
+            }).join('');
+            const foodItems  = items.filter(i => i.category === 'food');
+            const otherItems = items.filter(i => i.category !== 'food');
+            let html = '';
+            if (foodItems.length > 0) {
+              html += `<div style="font-size:11px;font-weight:700;color:var(--text-muted);letter-spacing:.05em;text-transform:uppercase;padding:4px 0 2px;">🥦 食品</div>${renderItems(foodItems)}`;
+            }
+            if (otherItems.length > 0) {
+              html += `<div style="font-size:11px;font-weight:700;color:var(--text-muted);letter-spacing:.05em;text-transform:uppercase;padding:${foodItems.length > 0 ? '12px' : '4px'} 0 2px;">📦 その他</div>${renderItems(otherItems)}`;
+            }
+            return html;
+          })()
       }
       ${items.length > 0 ? `
         <button onclick="clearShoppingChecks()" style="margin-top:10px;font-size:12px;background:none;border:1px solid var(--border);border-radius:8px;padding:6px 12px;color:var(--text-muted);cursor:pointer;width:100%;">チェックをリセット</button>

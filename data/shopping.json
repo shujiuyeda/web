@@ -1,8 +1,8 @@
 {
   "updated": "2026-02-21",
   "items": [
-    { "id": "s1", "name": "ダークチョコレート（カカオ72%以上）", "note": "甘いもの欲求の上位互換として常備" },
-    { "id": "s2", "name": "エゴマ油", "note": "" },
-    { "id": "s3", "name": "Withings Body Comp（約29,990円）", "note": "体組成スマートスケール" }
+    { "id": "s1", "name": "ダークチョコレート（カカオ72%以上）", "note": "甘いもの欲求の上位互換として常備", "category": "food" },
+    { "id": "s2", "name": "エゴマ油", "note": "", "category": "food" },
+    { "id": "s3", "name": "Withings Body Comp（約29,990円）", "note": "体組成スマートスケール", "category": "other" }
   ]
 }
