@@ -1721,14 +1721,14 @@ function hrToHM(h) {
 }
 
 function buildSleepTimeline(timeline, bedStart, bedEnd) {
-  // ヒプノグラム：縦軸=ステージ / 横軸=時刻 / なめらかベジェ曲線
+  // ヒプノグラム：Catmull-Romスプライン（各セグメント中点を通る自然な波）
   const LEVEL = { awake:0, rem:1, core:2, deep:3 };
   const LABEL = { awake:'覚醒', rem:'REM', core:'コア', deep:'深い' };
   const COLOR = { awake:'#F4A261', rem:'#5B8FB9', core:'#84B1CE', deep:'#2E4057' };
 
   const W = 320;
   const PAD = { l:34, r:6, t:14, b:20 };
-  const ROW = 24, LEVELS = 4;
+  const ROW = 28, LEVELS = 4;
   const ph = LEVELS * ROW;
   const H = PAD.t + ph + PAD.b;
   const pw = W - PAD.l - PAD.r;
@@ -1741,53 +1741,47 @@ function buildSleepTimeline(timeline, bedStart, bedEnd) {
   const toX = ms => PAD.l + ((ms - startMs) / totalMs) * pw;
   const toY = stage => PAD.t + (LEVEL[stage] ?? 2) * ROW + ROW / 2;
 
-  // 境界ごとのトランジション幅（px）を事前計算
-  const halfTs = [];
-  for (let i = 0; i < timeline.length - 1; i++) {
-    const wi = toX(parseLocalDate(timeline[i].e).getTime())   - toX(parseLocalDate(timeline[i].s).getTime());
-    const wn = toX(parseLocalDate(timeline[i+1].e).getTime()) - toX(parseLocalDate(timeline[i+1].s).getTime());
-    halfTs.push(Math.min(wi * 0.3, wn * 0.3, 10));
+  // コントロールポイント生成：
+  // ① 最初のセグメント開始点
+  // ② 各セグメントの中点
+  // ③ 最後のセグメント終了点
+  const pts = [];
+  const firstSeg = timeline[0];
+  const lastSeg  = timeline[timeline.length - 1];
+  pts.push({ x: toX(parseLocalDate(firstSeg.s).getTime()), y: toY(firstSeg.v) });
+  for (const seg of timeline) {
+    const ms = (parseLocalDate(seg.s).getTime() + parseLocalDate(seg.e).getTime()) / 2;
+    pts.push({ x: toX(ms), y: toY(seg.v) });
   }
+  pts.push({ x: toX(parseLocalDate(lastSeg.e).getTime()), y: toY(lastSeg.v) });
 
-  // パス構築：フラット区間 + ベジェS字カーブ
-  let d = '';
-  for (let i = 0; i < timeline.length; i++) {
-    const seg = timeline[i];
-    const xS = toX(parseLocalDate(seg.s).getTime());
-    const xE = toX(parseLocalDate(seg.e).getTime());
-    const y  = toY(seg.v);
-    const tIn  = i === 0 ? 0 : halfTs[i - 1];
-    const tOut = i === timeline.length - 1 ? 0 : halfTs[i];
-
-    if (i === 0) d += `M ${xS.toFixed(1)},${y.toFixed(1)} `;
-
-    // フラット区間
-    const flatEnd = xE - tOut;
-    if (flatEnd > xS + tIn + 0.5) {
-      d += `L ${flatEnd.toFixed(1)},${y.toFixed(1)} `;
-    }
-
-    // ベジェ：現在ステージ→次ステージ（両端水平タンジェント）
-    if (i < timeline.length - 1) {
-      const nextY = toY(timeline[i + 1].v);
-      d += `C ${xE.toFixed(1)},${y.toFixed(1)} ${xE.toFixed(1)},${nextY.toFixed(1)} ${(xE + tOut).toFixed(1)},${nextY.toFixed(1)} `;
-    } else {
-      d += `L ${xE.toFixed(1)},${y.toFixed(1)} `;
-    }
+  // Catmull-Rom → 三次ベジェ変換（tension=0.5）
+  // CP1 = P[i] + (P[i+1] - P[i-1]) / 6
+  // CP2 = P[i+1] - (P[i+2] - P[i]) / 6
+  const f = s => s.toFixed(2);
+  let d = `M ${f(pts[0].x)},${f(pts[0].y)}`;
+  for (let i = 0; i < pts.length - 1; i++) {
+    const p0 = pts[Math.max(0, i - 1)];
+    const p1 = pts[i];
+    const p2 = pts[i + 1];
+    const p3 = pts[Math.min(pts.length - 1, i + 2)];
+    const cp1x = p1.x + (p2.x - p0.x) / 6;
+    const cp1y = p1.y + (p2.y - p0.y) / 6;
+    const cp2x = p2.x - (p3.x - p1.x) / 6;
+    const cp2y = p2.y - (p3.y - p1.y) / 6;
+    d += ` C ${f(cp1x)},${f(cp1y)} ${f(cp2x)},${f(cp2y)} ${f(p2.x)},${f(p2.y)}`;
   }
 
   // 塗りつぶし（波形の下を閉じる）
-  const x0  = toX(parseLocalDate(timeline[0].s).getTime());
-  const xN  = toX(parseLocalDate(timeline[timeline.length - 1].e).getTime());
   const bot = PAD.t + ph + 2;
-  const fillD = d + `L ${xN.toFixed(1)},${bot} L ${x0},${bot} Z`;
+  const fillD = d + ` L ${f(pts[pts.length-1].x)},${bot} L ${f(pts[0].x)},${bot} Z`;
 
   // Y軸：ステージラベル＋グリッド線
   let yAxis = '';
   ['awake','rem','core','deep'].forEach(s => {
     const y = toY(s);
-    yAxis += `<line x1="${PAD.l}" y1="${y.toFixed(1)}" x2="${W-PAD.r}" y2="${y.toFixed(1)}" stroke="#F0F0F0" stroke-width="1"/>`;
-    yAxis += `<text x="${PAD.l-4}" y="${(y+3.5).toFixed(1)}" text-anchor="end" font-size="9" fill="${COLOR[s]}" font-weight="700">${LABEL[s]}</text>`;
+    yAxis += `<line x1="${PAD.l}" y1="${f(y)}" x2="${W-PAD.r}" y2="${f(y)}" stroke="#EBEBEB" stroke-width="1" stroke-dasharray="3,3"/>`;
+    yAxis += `<text x="${PAD.l-4}" y="${f(y+3.5)}" text-anchor="end" font-size="9" fill="${COLOR[s]}" font-weight="700">${LABEL[s]}</text>`;
   });
 
   // 時刻ラベル（下段）
@@ -1801,7 +1795,7 @@ function buildSleepTimeline(timeline, bedStart, bedEnd) {
     if (h % 2 === 0) {
       const mx = toX(tick.getTime());
       if (mx > PAD.l + 22 && mx < W - PAD.r - 22) {
-        tLabels += `<text x="${mx.toFixed(1)}" y="${H-2}" text-anchor="middle" font-size="9" fill="#CCC">${h}:00</text>`;
+        tLabels += `<text x="${f(mx)}" y="${H-2}" text-anchor="middle" font-size="9" fill="#BBB">${h}:00</text>`;
       }
     }
     tick.setHours(tick.getHours() + 1);
@@ -1811,13 +1805,13 @@ function buildSleepTimeline(timeline, bedStart, bedEnd) {
     <svg viewBox="0 0 ${W} ${H}" width="100%" style="overflow:visible;">
       <defs>
         <linearGradient id="hpGrad" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0%" stop-color="#5B8FB9" stop-opacity="0.2"/>
-          <stop offset="100%" stop-color="#2E4057" stop-opacity="0.04"/>
+          <stop offset="0%" stop-color="#5B8FB9" stop-opacity="0.25"/>
+          <stop offset="100%" stop-color="#2E4057" stop-opacity="0.05"/>
         </linearGradient>
       </defs>
       ${yAxis}
       <path d="${fillD}" fill="url(#hpGrad)" stroke="none"/>
-      <path d="${d.trim()}" fill="none" stroke="#3A6B9E" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+      <path d="${d}" fill="none" stroke="#3A6B9E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
       ${tLabels}
     </svg>
   </div>`;
@@ -1873,14 +1867,6 @@ function renderSleep(container) {
     // タイムライン波形（Apple Watchデータがある日）
     if (hasTimeline) {
       summaryHtml += buildSleepTimeline(todayS.timeline, todayS.bedStart, todayS.bedEnd);
-      // 凡例
-      summaryHtml += `
-        <div class="sleep-legend" style="margin-bottom:4px;">
-          <div class="sleep-legend-item"><div class="sleep-legend-dot" style="background:#84B1CE;"></div>コア</div>
-          <div class="sleep-legend-item"><div class="sleep-legend-dot" style="background:#5B8FB9;"></div>REM</div>
-          <div class="sleep-legend-item"><div class="sleep-legend-dot" style="background:#2E4057;"></div>深い</div>
-          <div class="sleep-legend-item"><div class="sleep-legend-dot" style="background:#F4A261;"></div>覚醒</div>
-        </div>`;
     } else if (remH > 0) {
       // タイムラインなし・REMのみ
       const remPct = Math.round((remH / totalH) * 100);
