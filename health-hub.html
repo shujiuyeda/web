@@ -845,18 +845,12 @@ async function tryFetchWeights() {
 
 async function tryFetchShopping() {
   try {
-    const res = await fetch(`/web/data/shopping.json?_=${Date.now()}`);
+    const res = await fetch(`${DATA_BASE_URL}shopping.json?_=${Date.now()}`, { cache: 'no-store' });
     if (!res.ok) return;
     const remote = await res.json();
     if (!remote.items) return;
-    // localStorageのアイテムとマージ（remoteが最新リスト、チェック状態は別管理）
-    const existing = JSON.parse(localStorage.getItem('shopping_items') || '[]');
-    const existingIds = new Set(existing.map(i => i.id));
-    let merged = [...existing];
-    remote.items.forEach(ri => {
-      if (!existingIds.has(ri.id)) merged.push(ri);
-    });
-    localStorage.setItem('shopping_items', JSON.stringify(merged));
+    // remoteを正（source of truth）として上書き（チェック状態は shopping_checks で別管理）
+    localStorage.setItem('shopping_items', JSON.stringify(remote.items));
     if (currentTab === 'shopping') renderShopping(document.getElementById('main-content'));
   } catch { /* silent */ }
 }
