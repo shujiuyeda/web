@@ -1,4 +1,4 @@
-const CACHE = 'health-hub-v5';
+const CACHE = 'health-hub-v6';
 const ASSETS = [
   '/web/health-hub.html',
   '/web/manifest.json',
@@ -21,6 +21,11 @@ self.addEventListener('activate', e => {
 
 self.addEventListener('fetch', e => {
   if (e.request.method !== 'GET') return;
+  // /data/ パスは常にネットワークから取得（キャッシュしない）
+  if (new URL(e.request.url).pathname.includes('/data/')) {
+    e.respondWith(fetch(e.request).catch(() => new Response('', { status: 503 })));
+    return;
+  }
   e.respondWith(
     caches.match(e.request).then(cached => {
       const fetchPromise = fetch(e.request).then(res => {

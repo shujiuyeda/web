@@ -21,6 +21,7 @@
       --text: #1A1A2E;
       --text-muted: #6C757D;
       --border: #DEE2E6;
+      --accent: #52B788;
       --danger: #DC3545;
       --warning: #E5A020;
       --success: #28A745;
@@ -807,14 +808,16 @@ async function tryFetchMeals(ds) {
     const normalized = data.meals.map(m => {
       if (m.total && m.kcal === undefined) {
         const itemNames = m.items?.map(i => i.name).join('、') || m.type || '食事';
-        return { time: m.time, name: itemNames, kcal: m.total.kcal||0, p: m.total.p||0, f: m.total.f||0, c: m.total.c||0, mg: m.total.mg||0, fiber: m.total.fiber||0 };
+        const mgSum = m.total.mg || m.items?.reduce((s, i) => s + (i.mg || 0), 0) || 0;
+        const fiberSum = m.total.fiber || m.items?.reduce((s, i) => s + (i.fiber || 0), 0) || 0;
+        return { time: m.time, name: itemNames, kcal: m.total.kcal||0, p: m.total.p||0, f: m.total.f||0, c: m.total.c||0, mg: mgSum, fiber: fiberSum };
       }
       return m;
     });
     saveMeals(ds, normalized);
     stampLastUpdated();
-    if (ds === currentDate) switchTab(currentTab);
-    else if (currentTab === 'weight') switchTab('weight'); // 体重タブも再描画
+    if (ds === currentDate) deferRender(currentTab);
+    else if (currentTab === 'weight') deferRender('weight'); // 体重タブも再描画
   } catch { /* ネットワークエラーはsilent */ }
 }
 
@@ -832,7 +835,7 @@ async function tryFetchSuppl(ds) {
     if (updated || Object.keys(local).length === 0) {
       saveSuppl(ds, Object.keys(local).length > 0 ? local : data.checks);
       stampLastUpdated();
-      if (ds === currentDate && currentTab === 'supplements') switchTab(currentTab);
+      if (ds === currentDate && currentTab === 'supplements') deferRender(currentTab);
     }
   } catch { /* ネットワークエラーはsilent */ }
 }
@@ -849,7 +852,7 @@ async function tryFetchDailyKcal() {
     });
     if (updated) {
       saveDailyKcal(local);
-      if (currentTab === 'weight') switchTab('weight');
+      if (currentTab === 'weight') deferRender('weight');
     }
   } catch { /* silent */ }
 }
@@ -882,7 +885,7 @@ async function tryFetchWeights() {
 
     if (updated) {
       stampLastUpdated();
-      if (currentTab === 'weight') switchTab('weight');
+      if (currentTab === 'weight') deferRender('weight');
     }
   } catch { /* ネットワークエラーはsilent */ }
 }
@@ -895,7 +898,7 @@ async function tryFetchShopping() {
     if (!remote.items) return;
     // remoteを正（source of truth）として上書き（チェック状態は shopping_checks で別管理）
     localStorage.setItem('shopping_items', JSON.stringify(remote.items));
-    if (currentTab === 'shopping') renderShopping(document.getElementById('main-content'));
+    if (currentTab === 'shopping') deferRender('shopping');
   } catch { /* silent */ }
 }
 
@@ -915,7 +918,7 @@ async function tryFetchSleep() {
     if (updated) {
       saveSleepData(local);
       stampLastUpdated();
-      if (currentTab === 'sleep') switchTab('sleep');
+      if (currentTab === 'sleep') deferRender('sleep');
     }
   } catch { /* silent */ }
 }
@@ -930,7 +933,7 @@ async function tryFetchAdvice() {
     const data = await res.json();
     adviceData = data;
     if (['meals','supplements','weight','sleep'].includes(currentTab)) {
-      switchTab(currentTab);
+      deferRender(currentTab);
     }
   } catch { /* silent */ }
 }
@@ -1063,6 +1066,13 @@ function initPullToRefresh() {
 }
 
 // ======== TABS ========
+// fetchが完了するたびに即座にre-renderするのを防ぐ（初回ロード時の10回以上のフルDOM再描画を1回に削減）
+let _renderTimer = null;
+function deferRender(tab) {
+  clearTimeout(_renderTimer);
+  _renderTimer = setTimeout(() => switchTab(tab), 80);
+}
+
 function switchTab(tab) {
   currentTab = tab;
   location.hash = tab;
@@ -1078,7 +1088,7 @@ function switchTab(tab) {
 }
 
 function changeDate(delta) {
-  const d = new Date(currentDate);
+  const d = new Date(currentDate + 'T12:00:00');
   d.setDate(d.getDate() + delta);
   const nd = fmtDate(d);
   if (nd > todayStr()) return;
@@ -1104,7 +1114,8 @@ function renderMeals(container) {
     : `明日のリバウンド防止に、消化の良いもので補充を`;
 
   // Date nav
-  container.innerHTML += `
+  let html = '';
+  html += `
     <div class="date-nav">
       <button class="date-nav-btn" onclick="changeDate(-1)">‹</button>
       <span class="date-nav-label">
@@ -1115,10 +1126,10 @@ function renderMeals(container) {
   `;
 
   // AI Overall banner
-  container.innerHTML += renderOverallBanner();
+  html += renderOverallBanner();
 
   // Kcal summary card
-  container.innerHTML += `
+  html += `
     <div class="card">
       <div style="display:flex;align-items:center;justify-content:space-between;gap:8px;">
         <div class="kcal-display" style="margin-bottom:0;">
@@ -1153,13 +1164,13 @@ function renderMeals(container) {
   `;
 
   // AI Meals advice card
-  container.innerHTML += renderAdviceCard('meals');
+  html += renderAdviceCard('meals');
 
   // Supplement guide card
-  container.innerHTML += supplGuideHtml(t);
+  html += supplGuideHtml(t);
 
   // Nutrion progress bars
-  container.innerHTML += `
+  html += `
     <div class="card">
       <div class="card-title">栄養バランス</div>
       ${nutrBar('カロリー', t.kcal, TARGETS.kcalMax, 'kcal', t.kcal > TARGETS.kcalMax ? 'over' : t.kcal > TARGETS.kcalMin ? 'ok' : 'warn')}
@@ -1199,10 +1210,10 @@ function renderMeals(container) {
       </div>`;
   }
   mealHtml += `</div>`;
-  container.innerHTML += mealHtml;
+  html += mealHtml;
 
   // Import / Export buttons
-  container.innerHTML += `
+  html += `
     <button class="import-btn" onclick="triggerFilePicker()">
       📥 今日の記録を取り込む（01_健康メモ.md）
     </button>
@@ -1211,6 +1222,7 @@ function renderMeals(container) {
     </button>
     <div class="spacer"></div>
   `;
+  container.innerHTML = html;
 }
 
 function macroCard(name, val, target, status) {
@@ -1295,6 +1307,7 @@ function totals(meals) {
 }
 
 function deleteMeal(idx) {
+  if (!confirm('この記録を削除しますか？')) return;
   const meals = getMeals(currentDate);
   meals.splice(idx, 1);
   saveMeals(currentDate, meals);
@@ -1515,7 +1528,7 @@ function addFoodRecord() {
     // Save to custom DB
     const customs = getCustomFoods();
     if (!customs.find(x => x.name === name)) {
-      customs.push({ id: Date.now(), name, unit, kcal: parseFloat(document.getElementById('c-kcal').value)||0, p, f, c, mg, fiber, cat:'カスタム' });
+      customs.push({ id: Date.now(), name, unit, kcal, p, f, c, mg, fiber, cat:'カスタム' });
       saveCustomFoods(customs);
     }
   }
@@ -2517,9 +2530,6 @@ function esc(s) {
 init();
 initImportBtn();
 
-if ('serviceWorker' in navigator) {
-  navigator.serviceWorker.register('/web/sw.js').catch(() => {});
-}
 </script>
 </body>
 </html>
