@@ -1818,7 +1818,7 @@ function buildSleepTimeline(timeline, bedStart, bedEnd) {
   const segFills = timeline.map(seg => {
     const x1 = toX(parseLocalDate(seg.s).getTime());
     const x2 = toX(parseLocalDate(seg.e).getTime());
-    return `<rect x="${f(x1)}" y="${PAD.t}" width="${f(Math.max(x2-x1,0.5))}" height="${ph+2}" fill="${COLOR[seg.v] ?? '#84B1CE'}" opacity="0.28" clip-path="url(#hpClip)"/>`;
+    return `<rect x="${f(x1)}" y="${PAD.t}" width="${f(Math.max(x2-x1,0.5))}" height="${ph+2}" fill="${COLOR[seg.v] ?? '#84B1CE'}" opacity="0.55" clip-path="url(#hpClip)"/>`;
   }).join('');
 
   return `<div style="margin:10px 0 6px;">
@@ -1832,7 +1832,7 @@ function buildSleepTimeline(timeline, bedStart, bedEnd) {
         </filter>
       </defs>
       ${yAxis}
-      <g filter="url(#hpBlur)" opacity="0.9">
+      <g filter="url(#hpBlur)" opacity="1.0">
         ${segFills}
       </g>
       <path d="${d}" fill="none" stroke="#3A6B9E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
