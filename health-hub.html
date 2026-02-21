@@ -1806,16 +1806,22 @@ function buildSleepTimeline(timeline, bedStart, bedEnd) {
     tick.setHours(tick.getHours() + 1);
   }
 
+  // 各ステージの色帯（Y帯域）：覚醒/REM/コア/深い
+  const bandY = [PAD.t, PAD.t + ROW, PAD.t + 2*ROW, PAD.t + 3*ROW];
+  const bandColors = ['#F4A261', '#5B8FB9', '#84B1CE', '#2E4057'];
+  const bandOpacity = [0.22, 0.22, 0.22, 0.28];
+
   return `<div style="margin:10px 0 6px;">
     <svg viewBox="0 0 ${W} ${H}" width="100%" style="overflow:visible;">
       <defs>
-        <linearGradient id="hpGrad" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0%" stop-color="#5B8FB9" stop-opacity="0.25"/>
-          <stop offset="100%" stop-color="#2E4057" stop-opacity="0.05"/>
-        </linearGradient>
+        <clipPath id="hpClip">
+          <path d="${fillD}"/>
+        </clipPath>
       </defs>
       ${yAxis}
-      <path d="${fillD}" fill="url(#hpGrad)" stroke="none"/>
+      ${bandColors.map((c, i) =>
+        `<rect x="${PAD.l}" y="${bandY[i]}" width="${pw}" height="${ROW + (i===3?4:0)}" fill="${c}" opacity="${bandOpacity[i]}" clip-path="url(#hpClip)"/>`
+      ).join('')}
       <path d="${d}" fill="none" stroke="#3A6B9E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
       ${tLabels}
     </svg>
