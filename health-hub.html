@@ -34,6 +34,7 @@
       color: var(--text);
       min-height: 100vh;
       overflow-x: hidden;
+      overscroll-behavior-y: none;
       -webkit-font-smoothing: antialiased;
     }
     .header {
@@ -484,13 +485,13 @@
 
     /* Pull-to-refresh */
     #ptr-indicator {
-      position: fixed; top: 0; left: 0; right: 0;
+      position: fixed; top: var(--header-height); left: 0; right: 0;
       display: flex; align-items: center; justify-content: center;
       height: 0; overflow: hidden;
       transition: height 0.2s ease;
-      background: var(--bg); z-index: 200;
+      background: var(--bg); z-index: 90;
     }
-    #ptr-indicator.visible { height: 56px; }
+    #ptr-indicator.visible { height: 48px; }
     #ptr-spinner {
       width: 28px; height: 28px;
       border: 3px solid var(--border);
