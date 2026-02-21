@@ -450,6 +450,14 @@
     .nutr-bar-fill.ok { background: var(--green-light); }
     .nutr-bar-fill.warn { background: var(--warning); }
     .nutr-bar-fill.over { background: var(--danger); }
+    .nutr-group-label {
+      font-size: 11px; font-weight: 600; color: var(--text-secondary);
+      margin: 12px 0 4px 0; padding-top: 8px;
+      border-top: 1px solid var(--border);
+    }
+    .nutr-group-label:first-of-type {
+      margin-top: 0; padding-top: 0; border-top: none;
+    }
     /* Sleep */
     .sleep-hero {
       text-align: center; padding: 8px 0 12px;
@@ -645,6 +653,22 @@
             <input type="number" class="form-input" id="c-fiber" placeholder="0">
           </div>
           <div class="form-field">
+            <label class="form-label">飽和脂肪酸 (g)</label>
+            <input type="number" class="form-input" id="c-satfat" placeholder="0">
+          </div>
+          <div class="form-field">
+            <label class="form-label">塩分 (g)</label>
+            <input type="number" class="form-input" id="c-salt" placeholder="0">
+          </div>
+          <div class="form-field">
+            <label class="form-label">カルシウム Ca (mg)</label>
+            <input type="number" class="form-input" id="c-ca" placeholder="0">
+          </div>
+          <div class="form-field">
+            <label class="form-label">カリウム K (mg)</label>
+            <input type="number" class="form-input" id="c-k" placeholder="0">
+          </div>
+          <div class="form-field">
             <label class="form-label">単位</label>
             <input type="text" class="form-input" id="c-unit" placeholder="例: 1個">
           </div>
@@ -670,36 +694,36 @@
 // ======== FOOD DATABASE ========
 const BUILT_IN_FOODS = [
   // 主食
-  { id:1, name:"パスコ 麦のめぐみ 全粒粉イングリッシュマフィン", unit:"1個", kcal:152, p:5.7, f:1.3, c:30.5, mg:20, fiber:2.3, cat:"主食" },
+  { id:1, name:"パスコ 麦のめぐみ 全粒粉イングリッシュマフィン", unit:"1個", kcal:152, p:5.7, f:1.3, c:30.5, mg:20, fiber:2.3, satFat:0.3, salt:0.6, ca:30, k:90, cat:"主食" },
   // 自炊
-  { id:2, name:"無水カレー（小皿1杯 1/6）", unit:"1杯", kcal:165, p:21, f:6, c:9, mg:40, fiber:3.0, cat:"自炊" },
-  { id:3, name:"牛すじ無水カレー（1杯 肉170g+ソース）", unit:"1杯", kcal:385, p:53.5, f:6.1, c:31.6, mg:50, fiber:2.5, cat:"自炊" },
-  { id:4, name:"牛すじ無水カレー（適量 肉120g+白米150g）", unit:"1食", kcal:525, p:42, f:5, c:78, mg:45, fiber:2.0, cat:"自炊" },
-  { id:5, name:"牛すじ無水カレー（肉119g+ソース226g+白米114g）", unit:"1食", kcal:502, p:46, f:5.2, c:67.8, mg:50, fiber:2.5, cat:"自炊" },
-  { id:6, name:"味噌汁（豆腐・玉ねぎ・じゃがいも）", unit:"お椀1杯", kcal:196, p:13, f:8.3, c:16.3, mg:50, fiber:2.0, cat:"自炊" },
-  { id:7, name:"ブルーベリーヨーグルト（オーバーナイトオーツ）", unit:"全量", kcal:510, p:28, f:17, c:73.7, mg:60, fiber:5.0, cat:"自炊" },
-  { id:8, name:"鶏むねキャベツ鍋 1/3量", unit:"1食", kcal:246, p:33, f:6, c:17, mg:30, fiber:3.0, cat:"自炊" },
+  { id:2, name:"無水カレー（小皿1杯 1/6）", unit:"1杯", kcal:165, p:21, f:6, c:9, mg:40, fiber:3.0, satFat:2.0, salt:1.0, ca:40, k:400, cat:"自炊" },
+  { id:3, name:"牛すじ無水カレー（1杯 肉170g+ソース）", unit:"1杯", kcal:385, p:53.5, f:6.1, c:31.6, mg:50, fiber:2.5, satFat:2.2, salt:1.5, ca:50, k:600, cat:"自炊" },
+  { id:4, name:"牛すじ無水カレー（適量 肉120g+白米150g）", unit:"1食", kcal:525, p:42, f:5, c:78, mg:45, fiber:2.0, satFat:1.8, salt:1.3, ca:40, k:500, cat:"自炊" },
+  { id:5, name:"牛すじ無水カレー（肉119g+ソース226g+白米114g）", unit:"1食", kcal:502, p:46, f:5.2, c:67.8, mg:50, fiber:2.5, satFat:1.9, salt:1.4, ca:45, k:520, cat:"自炊" },
+  { id:6, name:"味噌汁（豆腐・玉ねぎ・じゃがいも）", unit:"お椀1杯", kcal:196, p:13, f:8.3, c:16.3, mg:50, fiber:2.0, satFat:1.2, salt:1.5, ca:80, k:350, cat:"自炊" },
+  { id:7, name:"ブルーベリーヨーグルト（オーバーナイトオーツ）", unit:"全量", kcal:510, p:28, f:17, c:73.7, mg:60, fiber:5.0, satFat:5.0, salt:0.3, ca:300, k:500, cat:"自炊" },
+  { id:8, name:"鶏むねキャベツ鍋 1/3量", unit:"1食", kcal:246, p:33, f:6, c:17, mg:30, fiber:3.0, satFat:1.5, salt:1.2, ca:60, k:450, cat:"自炊" },
   // コンビニ
-  { id:10, name:"セブン わかめそば", unit:"1食", kcal:278, p:16, f:1.5, c:54.2, mg:20, fiber:2.0, cat:"コンビニ" },
-  { id:11, name:"ローソン キャンディーチーズ ブラックペッパー", unit:"5粒", kcal:87, p:5, f:7.2, c:0.5, mg:5, fiber:0, cat:"コンビニ" },
-  { id:12, name:"ローソン サラダチキンスティック オリーブ&チーズ", unit:"1本(60g)", kcal:98, p:11.1, f:4.4, c:3.5, mg:8, fiber:0, cat:"コンビニ" },
-  { id:13, name:"ローソン 炭火焼なんこつつくね 青じそ", unit:"1袋(80g)", kcal:128, p:13.9, f:6.2, c:4.5, mg:8, fiber:0.5, cat:"コンビニ" },
-  { id:14, name:"ローソン 炙り熟成紅鮭おにぎり", unit:"1個", kcal:174, p:4.6, f:1.7, c:35.7, mg:8, fiber:0.5, cat:"コンビニ" },
-  { id:15, name:"セブン 手巻おにぎり 鶏そぼろ", unit:"1個", kcal:192, p:6.2, f:1.9, c:38.4, mg:8, fiber:0.5, cat:"コンビニ" },
-  { id:16, name:"セブン 砂肝の炭火焼", unit:"1袋(70g)", kcal:101, p:20.4, f:1.7, c:0.9, mg:10, fiber:0, cat:"コンビニ" },
-  { id:17, name:"セブン スンドゥブチゲ", unit:"1食", kcal:190, p:18.6, f:9.7, c:8.6, mg:20, fiber:1.5, cat:"コンビニ" },
-  { id:18, name:"セブン 大入り豚まん", unit:"1個", kcal:340, p:11.5, f:12.4, c:46.5, mg:15, fiber:1.5, cat:"コンビニ" },
-  { id:19, name:"小枝パイ（セブン）", unit:"1本(58g)", kcal:296, p:3, f:21.9, c:22.3, mg:15, fiber:1.0, cat:"コンビニ" },
+  { id:10, name:"セブン わかめそば", unit:"1食", kcal:278, p:16, f:1.5, c:54.2, mg:20, fiber:2.0, satFat:0.3, salt:3.5, ca:60, k:200, cat:"コンビニ" },
+  { id:11, name:"ローソン キャンディーチーズ ブラックペッパー", unit:"5粒", kcal:87, p:5, f:7.2, c:0.5, mg:5, fiber:0, satFat:4.5, salt:0.5, ca:120, k:20, cat:"コンビニ" },
+  { id:12, name:"ローソン サラダチキンスティック オリーブ&チーズ", unit:"1本(60g)", kcal:98, p:11.1, f:4.4, c:3.5, mg:8, fiber:0, satFat:1.5, salt:0.8, ca:50, k:150, cat:"コンビニ" },
+  { id:13, name:"ローソン 炭火焼なんこつつくね 青じそ", unit:"1袋(80g)", kcal:128, p:13.9, f:6.2, c:4.5, mg:8, fiber:0.5, satFat:1.8, salt:1.2, ca:20, k:200, cat:"コンビニ" },
+  { id:14, name:"ローソン 炙り熟成紅鮭おにぎり", unit:"1個", kcal:174, p:4.6, f:1.7, c:35.7, mg:8, fiber:0.5, satFat:0.4, salt:1.0, ca:10, k:80, cat:"コンビニ" },
+  { id:15, name:"セブン 手巻おにぎり 鶏そぼろ", unit:"1個", kcal:192, p:6.2, f:1.9, c:38.4, mg:8, fiber:0.5, satFat:0.5, salt:1.1, ca:10, k:90, cat:"コンビニ" },
+  { id:16, name:"セブン 砂肝の炭火焼", unit:"1袋(70g)", kcal:101, p:20.4, f:1.7, c:0.9, mg:10, fiber:0, satFat:0.5, salt:1.0, ca:10, k:200, cat:"コンビニ" },
+  { id:17, name:"セブン スンドゥブチゲ", unit:"1食", kcal:190, p:18.6, f:9.7, c:8.6, mg:20, fiber:1.5, satFat:2.8, salt:2.0, ca:80, k:300, cat:"コンビニ" },
+  { id:18, name:"セブン 大入り豚まん", unit:"1個", kcal:340, p:11.5, f:12.4, c:46.5, mg:15, fiber:1.5, satFat:4.5, salt:1.5, ca:30, k:200, cat:"コンビニ" },
+  { id:19, name:"小枝パイ（セブン）", unit:"1本(58g)", kcal:296, p:3, f:21.9, c:22.3, mg:15, fiber:1.0, satFat:11.0, salt:0.5, ca:30, k:100, cat:"コンビニ" },
   // おやつ
-  { id:20, name:"南部せんべい 落花生", unit:"1枚", kcal:81, p:2.6, f:2.3, c:12.4, mg:15, fiber:0.5, cat:"おやつ" },
-  { id:21, name:"うまいせんべい", unit:"1枚", kcal:80, p:1.8, f:0.2, c:17.8, mg:5, fiber:0.2, cat:"おやつ" },
-  { id:22, name:"ロッテ リッチアーモンドチョコ ポップジョイ", unit:"1袋", kcal:203, p:3.8, f:13.5, c:16.5, mg:20, fiber:1.5, cat:"おやつ" },
-  { id:23, name:"ロッテ クランキーポップジョイ", unit:"1袋(44g)", kcal:248, p:3, f:15.3, c:24.6, mg:15, fiber:1.0, cat:"おやつ" },
-  { id:24, name:"スニッカーズ", unit:"1本(51g)", kcal:248, p:4.4, f:12.2, c:29.5, mg:15, fiber:1.0, cat:"おやつ" },
+  { id:20, name:"南部せんべい 落花生", unit:"1枚", kcal:81, p:2.6, f:2.3, c:12.4, mg:15, fiber:0.5, satFat:0.5, salt:0.2, ca:10, k:90, cat:"おやつ" },
+  { id:21, name:"うまいせんべい", unit:"1枚", kcal:80, p:1.8, f:0.2, c:17.8, mg:5, fiber:0.2, satFat:0.1, salt:0.4, ca:5, k:30, cat:"おやつ" },
+  { id:22, name:"ロッテ リッチアーモンドチョコ ポップジョイ", unit:"1袋", kcal:203, p:3.8, f:13.5, c:16.5, mg:20, fiber:1.5, satFat:6.0, salt:0.1, ca:40, k:150, cat:"おやつ" },
+  { id:23, name:"ロッテ クランキーポップジョイ", unit:"1袋(44g)", kcal:248, p:3, f:15.3, c:24.6, mg:15, fiber:1.0, satFat:7.5, salt:0.2, ca:30, k:100, cat:"おやつ" },
+  { id:24, name:"スニッカーズ", unit:"1本(51g)", kcal:248, p:4.4, f:12.2, c:29.5, mg:15, fiber:1.0, satFat:4.5, salt:0.2, ca:50, k:150, cat:"おやつ" },
   // フルーツ
-  { id:30, name:"スウィーティオ パイナップル（いつもの量）", unit:"140g", kcal:75, p:1, f:0, c:19, mg:15, fiber:2.0, cat:"フルーツ" },
+  { id:30, name:"スウィーティオ パイナップル（いつもの量）", unit:"140g", kcal:75, p:1, f:0, c:19, mg:15, fiber:2.0, satFat:0, salt:0, ca:15, k:200, cat:"フルーツ" },
   // 調味料
-  { id:40, name:"バター（薄塗り）", unit:"約5g", kcal:37, p:0, f:4.1, c:0, mg:0, fiber:0, cat:"調味料" },
+  { id:40, name:"バター（薄塗り）", unit:"約5g", kcal:37, p:0, f:4.1, c:0, mg:0, fiber:0, satFat:2.5, salt:0.1, ca:1, k:1, cat:"調味料" },
 ];
 
 // ======== SUPPLEMENTS ========
@@ -730,7 +754,11 @@ const TIMING_LABELS = {
 const TARGETS = {
   kcalMin:1700, kcalMax:1800, kcalFloor:1400,
   pfcP:25, pfcF:25, pfcC:50,  // PFC目標比率(%)
-  mgTarget:370, fiberTarget:21
+  mgTarget:370, fiberTarget:21,
+  saltTarget:6,      // 塩分(g) — 厚労省男性7.5g未満より厳しく6g
+  satFatPct:7,       // 飽和脂肪酸 — 総カロリーの7%以下（AHAガイドライン）
+  caTarget:750,      // カルシウム(mg) — 厚労省50-64歳男性推奨量
+  kTarget:2600       // カリウム(mg) — 厚労省男性目標量
 };
 // kcalFloor: どか食い防止の最低ライン（目標の約82%）
 // 根拠: BMR≒1,647kcal。1,700の85%=1,445 → 切りよく1,400。
@@ -742,6 +770,8 @@ TARGETS.fMin = Math.round(TARGETS.pfcF/100 * TARGETS.kcalMin / 9);  // 47
 TARGETS.fMax = Math.round(TARGETS.pfcF/100 * TARGETS.kcalMax / 9);  // 50
 TARGETS.cMin = Math.round(TARGETS.pfcC/100 * TARGETS.kcalMin / 4);  // 213
 TARGETS.cMax = Math.round(TARGETS.pfcC/100 * TARGETS.kcalMax / 4);  // 225
+TARGETS.satFatMax = Math.round(TARGETS.satFatPct/100 * TARGETS.kcalMax / 9);  // 14g
+TARGETS.unsatFatMin = TARGETS.fMin - TARGETS.satFatMax;  // 33g
 const MILESTONES = [
   { label:"10日後チェック",   weight:87.7, date:"2026-02-23" },
   { label:"20日後チェック",   weight:87.0, date:"2026-03-05" },
@@ -1345,15 +1375,23 @@ function renderMeals(container) {
   html += supplGuideHtml(t);
 
   // Nutrion progress bars
+  const unsatFat = Math.max(0, t.f - t.satFat);
   html += `
     <div class="card">
       <div class="card-title">栄養バランス</div>
+      <div class="nutr-group-label">マクロ栄養素</div>
       ${nutrBar('カロリー', t.kcal, TARGETS.kcalMax, 'kcal', t.kcal > TARGETS.kcalMax ? 'over' : t.kcal > TARGETS.kcalMin ? 'ok' : 'warn')}
       ${nutrBar('たんぱく質', t.p, TARGETS.pMax, 'g', t.p > TARGETS.pMax ? 'over' : t.p >= TARGETS.pMin ? 'ok' : 'warn')}
-      ${nutrBar('脂質', t.f, TARGETS.fMax, 'g', t.f > TARGETS.fMax ? 'over' : t.f >= TARGETS.fMin ? 'ok' : 'warn')}
       ${nutrBar('炭水化物', t.c, TARGETS.cMax, 'g', t.c > TARGETS.cMax ? 'over' : t.c >= TARGETS.cMin ? 'ok' : 'warn')}
+      <div class="nutr-group-label">脂質の質</div>
+      ${nutrBar('飽和脂肪酸（控えめに）', t.satFat, TARGETS.satFatMax, 'g', t.satFat > TARGETS.satFatMax ? 'over' : 'ok')}
+      ${nutrBar('不飽和脂肪酸（積極的に）', unsatFat, TARGETS.unsatFatMin, 'g', unsatFat >= TARGETS.unsatFatMin ? 'ok' : 'warn')}
+      <div class="nutr-group-label">ミネラル・その他</div>
       ${nutrBar('食物繊維', t.fiber, TARGETS.fiberTarget, 'g', t.fiber >= TARGETS.fiberTarget ? 'ok' : 'warn')}
+      ${nutrBar('塩分', t.salt, TARGETS.saltTarget, 'g', t.salt > TARGETS.saltTarget ? 'over' : 'ok')}
       ${nutrBar('マグネシウム', t.mg, TARGETS.mgTarget, 'mg', t.mg >= TARGETS.mgTarget ? 'ok' : 'warn')}
+      ${nutrBar('カルシウム', t.ca, TARGETS.caTarget, 'mg', t.ca >= TARGETS.caTarget ? 'ok' : 'warn')}
+      ${nutrBar('カリウム', t.k, TARGETS.kTarget, 'mg', t.k >= TARGETS.kTarget ? 'ok' : 'warn')}
     </div>
   `;
 
@@ -1478,8 +1516,10 @@ function supplGuideHtml(t) {
 function totals(meals) {
   return meals.reduce((a, m) => ({
     kcal: a.kcal + (m.kcal || 0), p: a.p + (m.p || 0), f: a.f + (m.f || 0), c: a.c + (m.c || 0),
-    mg: a.mg + (m.mg || 0), fiber: a.fiber + (m.fiber || 0)
-  }), {kcal:0, p:0, f:0, c:0, mg:0, fiber:0});
+    mg: a.mg + (m.mg || 0), fiber: a.fiber + (m.fiber || 0),
+    salt: a.salt + (m.salt || 0), satFat: a.satFat + (m.satFat || 0),
+    ca: a.ca + (m.ca || 0), k: a.k + (m.k || 0)
+  }), {kcal:0, p:0, f:0, c:0, mg:0, fiber:0, salt:0, satFat:0, ca:0, k:0});
 }
 
 function deleteMeal(idx) {
@@ -1687,6 +1727,10 @@ function addFoodRecord() {
       c: selectedFood.c * qty,
       mg: (selectedFood.mg || 0) * qty,
       fiber: (selectedFood.fiber || 0) * qty,
+      satFat: (selectedFood.satFat || 0) * qty,
+      salt: (selectedFood.salt || 0) * qty,
+      ca: (selectedFood.ca || 0) * qty,
+      k: (selectedFood.k || 0) * qty,
     };
   } else {
     const name = document.getElementById('c-name').value.trim();
@@ -1700,11 +1744,15 @@ function addFoodRecord() {
     if (isFish) kcal = kcal - (f * 9 * 0.3);
     const mg = parseFloat(document.getElementById('c-mg').value) || 0;
     const fiber = parseFloat(document.getElementById('c-fiber').value) || 0;
-    record = { time, name: name + (isFish ? ' 🐟' : ''), kcal, p, f, c, mg, fiber };
+    const satFat = parseFloat(document.getElementById('c-satfat').value) || 0;
+    const salt = parseFloat(document.getElementById('c-salt').value) || 0;
+    const ca = parseFloat(document.getElementById('c-ca').value) || 0;
+    const k = parseFloat(document.getElementById('c-k').value) || 0;
+    record = { time, name: name + (isFish ? ' 🐟' : ''), kcal, p, f, c, mg, fiber, satFat, salt, ca, k };
     // Save to custom DB
     const customs = getCustomFoods();
     if (!customs.find(x => x.name === name)) {
-      customs.push({ id: Date.now(), name, unit, kcal, p, f, c, mg, fiber, cat:'カスタム' });
+      customs.push({ id: Date.now(), name, unit, kcal, p, f, c, mg, fiber, satFat, salt, ca, k, cat:'カスタム' });
       saveCustomFoods(customs);
     }
   }
