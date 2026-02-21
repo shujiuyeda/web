@@ -830,7 +830,10 @@ async function tryFetchSleep() {
     const local = getSleepData();
     let updated = false;
     Object.entries(remote).forEach(([ds, s]) => {
-      if (local[ds] == null) { local[ds] = s; updated = true; }
+      // ローカルにない or リモートにタイムラインがあってローカルにない場合は更新
+      if (local[ds] == null || (s.timeline && !local[ds].timeline)) {
+        local[ds] = s; updated = true;
+      }
     });
     if (updated) {
       saveSleepData(local);
