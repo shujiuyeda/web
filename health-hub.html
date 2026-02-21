@@ -1721,10 +1721,16 @@ function hrToHM(h) {
 }
 
 function buildSleepTimeline(timeline, bedStart, bedEnd) {
-  const COLORS = { core:'#84B1CE', deep:'#2E4057', rem:'#5B8FB9', awake:'#F4A261' };
-  const W = 320, barH = 38;
-  const PAD = { l:4, r:4, t:4, b:18 };
-  const H = PAD.t + barH + PAD.b;
+  // ヒプノグラム：縦軸=ステージ / 横軸=時刻 / なめらかベジェ曲線
+  const LEVEL = { awake:0, rem:1, core:2, deep:3 };
+  const LABEL = { awake:'覚醒', rem:'REM', core:'コア', deep:'深い' };
+  const COLOR = { awake:'#F4A261', rem:'#5B8FB9', core:'#84B1CE', deep:'#2E4057' };
+
+  const W = 320;
+  const PAD = { l:34, r:6, t:14, b:20 };
+  const ROW = 24, LEVELS = 4;
+  const ph = LEVELS * ROW;
+  const H = PAD.t + ph + PAD.b;
   const pw = W - PAD.l - PAD.r;
 
   const startMs = parseLocalDate(bedStart).getTime();
@@ -1733,42 +1739,87 @@ function buildSleepTimeline(timeline, bedStart, bedEnd) {
   if (totalMs <= 0) return '';
 
   const toX = ms => PAD.l + ((ms - startMs) / totalMs) * pw;
+  const toY = stage => PAD.t + (LEVEL[stage] ?? 2) * ROW + ROW / 2;
 
-  // 背景
-  let rects = `<rect x="${PAD.l}" y="${PAD.t}" width="${pw}" height="${barH}" fill="#E9ECEF" rx="5"/>`;
-  // ステージセグメント
-  timeline.forEach((seg, idx) => {
-    const sMs = parseLocalDate(seg.s).getTime();
-    const eMs = parseLocalDate(seg.e).getTime();
-    const x = toX(sMs);
-    const w = Math.max(1.5, toX(eMs) - x);
-    rects += `<rect x="${x.toFixed(1)}" y="${PAD.t}" width="${w.toFixed(1)}" height="${barH}" fill="${COLORS[seg.v] || '#CCC'}"/>`;
+  // 境界ごとのトランジション幅（px）を事前計算
+  const halfTs = [];
+  for (let i = 0; i < timeline.length - 1; i++) {
+    const wi = toX(parseLocalDate(timeline[i].e).getTime())   - toX(parseLocalDate(timeline[i].s).getTime());
+    const wn = toX(parseLocalDate(timeline[i+1].e).getTime()) - toX(parseLocalDate(timeline[i+1].s).getTime());
+    halfTs.push(Math.min(wi * 0.3, wn * 0.3, 10));
+  }
+
+  // パス構築：フラット区間 + ベジェS字カーブ
+  let d = '';
+  for (let i = 0; i < timeline.length; i++) {
+    const seg = timeline[i];
+    const xS = toX(parseLocalDate(seg.s).getTime());
+    const xE = toX(parseLocalDate(seg.e).getTime());
+    const y  = toY(seg.v);
+    const tIn  = i === 0 ? 0 : halfTs[i - 1];
+    const tOut = i === timeline.length - 1 ? 0 : halfTs[i];
+
+    if (i === 0) d += `M ${xS.toFixed(1)},${y.toFixed(1)} `;
+
+    // フラット区間
+    const flatEnd = xE - tOut;
+    if (flatEnd > xS + tIn + 0.5) {
+      d += `L ${flatEnd.toFixed(1)},${y.toFixed(1)} `;
+    }
+
+    // ベジェ：現在ステージ→次ステージ（両端水平タンジェント）
+    if (i < timeline.length - 1) {
+      const nextY = toY(timeline[i + 1].v);
+      d += `C ${xE.toFixed(1)},${y.toFixed(1)} ${xE.toFixed(1)},${nextY.toFixed(1)} ${(xE + tOut).toFixed(1)},${nextY.toFixed(1)} `;
+    } else {
+      d += `L ${xE.toFixed(1)},${y.toFixed(1)} `;
+    }
+  }
+
+  // 塗りつぶし（波形の下を閉じる）
+  const x0  = toX(parseLocalDate(timeline[0].s).getTime());
+  const xN  = toX(parseLocalDate(timeline[timeline.length - 1].e).getTime());
+  const bot = PAD.t + ph + 2;
+  const fillD = d + `L ${xN.toFixed(1)},${bot} L ${x0},${bot} Z`;
+
+  // Y軸：ステージラベル＋グリッド線
+  let yAxis = '';
+  ['awake','rem','core','deep'].forEach(s => {
+    const y = toY(s);
+    yAxis += `<line x1="${PAD.l}" y1="${y.toFixed(1)}" x2="${W-PAD.r}" y2="${y.toFixed(1)}" stroke="#F0F0F0" stroke-width="1"/>`;
+    yAxis += `<text x="${PAD.l-4}" y="${(y+3.5).toFixed(1)}" text-anchor="end" font-size="9" fill="${COLOR[s]}" font-weight="700">${LABEL[s]}</text>`;
   });
 
-  // 時刻ラベル（就寝・起床 + 2時間ごと）
-  let labels = '';
-  // 就寝ラベル
-  labels += `<text x="${PAD.l}" y="${H}" text-anchor="start" font-size="9" fill="#888">${bedStart.slice(11,16)}</text>`;
-  // 起床ラベル
-  labels += `<text x="${W-PAD.r}" y="${H}" text-anchor="end" font-size="9" fill="#888">${bedEnd.slice(11,16)}</text>`;
-  // 2時間ごとのマーカー
-  const startD = parseLocalDate(bedStart);
-  let tick = new Date(startD.getFullYear(), startD.getMonth(), startD.getDate(), startD.getHours() + 1, 0, 0);
+  // 時刻ラベル（下段）
+  let tLabels = `
+    <text x="${PAD.l}" y="${H-2}" text-anchor="start" font-size="9" fill="#888">${bedStart.slice(11,16)}</text>
+    <text x="${W-PAD.r}" y="${H-2}" text-anchor="end" font-size="9" fill="#888">${bedEnd.slice(11,16)}</text>`;
+  const sd = parseLocalDate(bedStart);
+  let tick = new Date(sd.getFullYear(), sd.getMonth(), sd.getDate(), sd.getHours() + 1, 0, 0);
   while (tick.getTime() < endMs) {
     const h = tick.getHours();
     if (h % 2 === 0) {
       const mx = toX(tick.getTime());
-      // 端から20px以上離れているときだけ表示
-      if (mx > PAD.l + 20 && mx < W - PAD.r - 20) {
-        labels += `<line x1="${mx.toFixed(1)}" y1="${PAD.t}" x2="${mx.toFixed(1)}" y2="${PAD.t+barH}" stroke="rgba(255,255,255,0.35)" stroke-width="1"/>`;
-        labels += `<text x="${mx.toFixed(1)}" y="${H}" text-anchor="middle" font-size="9" fill="${h===0?'#AAA':'#BBB'}">${h}:00</text>`;
+      if (mx > PAD.l + 22 && mx < W - PAD.r - 22) {
+        tLabels += `<text x="${mx.toFixed(1)}" y="${H-2}" text-anchor="middle" font-size="9" fill="#CCC">${h}:00</text>`;
       }
     }
     tick.setHours(tick.getHours() + 1);
   }
 
-  return `<div style="margin:10px 0 4px;">
-    <svg viewBox="0 0 ${W} ${H}" width="100%" style="overflow:visible;">${rects}${labels}</svg>
+  return `<div style="margin:10px 0 6px;">
+    <svg viewBox="0 0 ${W} ${H}" width="100%" style="overflow:visible;">
+      <defs>
+        <linearGradient id="hpGrad" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stop-color="#5B8FB9" stop-opacity="0.2"/>
+          <stop offset="100%" stop-color="#2E4057" stop-opacity="0.04"/>
+        </linearGradient>
+      </defs>
+      ${yAxis}
+      <path d="${fillD}" fill="url(#hpGrad)" stroke="none"/>
+      <path d="${d.trim()}" fill="none" stroke="#3A6B9E" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+      ${tLabels}
+    </svg>
   </div>`;
 }
 
