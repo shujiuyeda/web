@@ -727,10 +727,21 @@ const TIMING_LABELS = {
 };
 
 // ======== TARGETS & MILESTONES ========
-const TARGETS = { kcalMin:1700, kcalMax:1800, kcalFloor:1400, pMin:80, pMax:100, fMax:50, cMax:220, mgTarget:370, fiberTarget:21 };
+const TARGETS = {
+  kcalMin:1700, kcalMax:1800, kcalFloor:1400,
+  pfcP:25, pfcF:25, pfcC:50,  // PFC目標比率(%)
+  mgTarget:370, fiberTarget:21
+};
 // kcalFloor: どか食い防止の最低ライン（目標の約82%）
 // 根拠: BMR≒1,647kcal。1,700の85%=1,445 → 切りよく1,400。
 // 1,227kcalは目標の72%で強い飢餓感→翌日リバウンド食いを誘発。
+// PFCから目標グラムを自動計算
+TARGETS.pMin = Math.round(TARGETS.pfcP/100 * TARGETS.kcalMin / 4);  // 106
+TARGETS.pMax = Math.round(TARGETS.pfcP/100 * TARGETS.kcalMax / 4);  // 113
+TARGETS.fMin = Math.round(TARGETS.pfcF/100 * TARGETS.kcalMin / 9);  // 47
+TARGETS.fMax = Math.round(TARGETS.pfcF/100 * TARGETS.kcalMax / 9);  // 50
+TARGETS.cMin = Math.round(TARGETS.pfcC/100 * TARGETS.kcalMin / 4);  // 213
+TARGETS.cMax = Math.round(TARGETS.pfcC/100 * TARGETS.kcalMax / 4);  // 225
 const MILESTONES = [
   { label:"10日後チェック",   weight:87.7, date:"2026-02-23" },
   { label:"20日後チェック",   weight:87.0, date:"2026-03-05" },
@@ -1314,14 +1325,14 @@ function renderMeals(container) {
           <div class="pfc-seg pfc-c" style="width:${cPct}%"><span>${cPct}</span></div>
         </div>
         <div class="pfc-legend">
-          <span class="pfc-legend-item"><span class="pfc-dot pfc-p"></span>P</span>
-          <span class="pfc-legend-item"><span class="pfc-dot pfc-f"></span>F</span>
-          <span class="pfc-legend-item"><span class="pfc-dot pfc-c"></span>C</span>
+          <span class="pfc-legend-item"><span class="pfc-dot pfc-p"></span>P 目標${TARGETS.pfcP}%</span>
+          <span class="pfc-legend-item"><span class="pfc-dot pfc-f"></span>F 目標${TARGETS.pfcF}%</span>
+          <span class="pfc-legend-item"><span class="pfc-dot pfc-c"></span>C 目標${TARGETS.pfcC}%</span>
         </div>
         <div class="macros-row">
           ${macroCard('たんぱく質', t.p, `${TARGETS.pMin}-${TARGETS.pMax}g`, t.p > TARGETS.pMax ? 'over' : t.p >= TARGETS.pMin ? 'ok' : 'warn', pPct)}
-          ${macroCard('脂質', t.f, `〜${TARGETS.fMax}g`, t.f > TARGETS.fMax ? 'over' : 'ok', fPct)}
-          ${macroCard('炭水化物', t.c, `〜${TARGETS.cMax}g`, t.c > TARGETS.cMax ? 'over' : 'ok', cPct)}
+          ${macroCard('脂質', t.f, `${TARGETS.fMin}-${TARGETS.fMax}g`, t.f > TARGETS.fMax ? 'over' : t.f >= TARGETS.fMin ? 'ok' : 'warn', fPct)}
+          ${macroCard('炭水化物', t.c, `${TARGETS.cMin}-${TARGETS.cMax}g`, t.c > TARGETS.cMax ? 'over' : t.c >= TARGETS.cMin ? 'ok' : 'warn', cPct)}
         </div>`;
       })()}
     </div>
@@ -1339,8 +1350,8 @@ function renderMeals(container) {
       <div class="card-title">栄養バランス</div>
       ${nutrBar('カロリー', t.kcal, TARGETS.kcalMax, 'kcal', t.kcal > TARGETS.kcalMax ? 'over' : t.kcal > TARGETS.kcalMin ? 'ok' : 'warn')}
       ${nutrBar('たんぱく質', t.p, TARGETS.pMax, 'g', t.p > TARGETS.pMax ? 'over' : t.p >= TARGETS.pMin ? 'ok' : 'warn')}
-      ${nutrBar('脂質', t.f, TARGETS.fMax, 'g', t.f > TARGETS.fMax ? 'over' : 'ok')}
-      ${nutrBar('炭水化物', t.c, TARGETS.cMax, 'g', t.c > TARGETS.cMax ? 'over' : 'ok')}
+      ${nutrBar('脂質', t.f, TARGETS.fMax, 'g', t.f > TARGETS.fMax ? 'over' : t.f >= TARGETS.fMin ? 'ok' : 'warn')}
+      ${nutrBar('炭水化物', t.c, TARGETS.cMax, 'g', t.c > TARGETS.cMax ? 'over' : t.c >= TARGETS.cMin ? 'ok' : 'warn')}
       ${nutrBar('食物繊維', t.fiber, TARGETS.fiberTarget, 'g', t.fiber >= TARGETS.fiberTarget ? 'ok' : 'warn')}
       ${nutrBar('マグネシウム', t.mg, TARGETS.mgTarget, 'mg', t.mg >= TARGETS.mgTarget ? 'ok' : 'warn')}
     </div>
