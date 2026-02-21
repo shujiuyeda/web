@@ -1569,6 +1569,9 @@ function renderSuppl(container) {
     </div>
   `;
 
+  // AI Supplements advice card
+  container.innerHTML += renderAdviceCard('supplements');
+
   let html = `<div class="card">`;
   const timings = ['morning','afternoon','evening','bedtime'];
   timings.forEach(t => {
@@ -1727,6 +1730,9 @@ function renderWeight(container) {
           onclick="saveWeight()">保存</button>
   </div>`;
   container.innerHTML += wHtml;
+
+  // AI Weight advice card
+  container.innerHTML += renderAdviceCard('weight');
 
   // Goal progress
   if (latestW) {
@@ -2121,6 +2127,9 @@ function renderSleep(container) {
   }
   summaryHtml += `</div>`;
   container.innerHTML += summaryHtml;
+
+  // AI Sleep advice card
+  container.innerHTML += renderAdviceCard('sleep');
 
   // ===== 7日間トレンド =====
   const sleepChart = [];
