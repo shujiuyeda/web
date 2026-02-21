@@ -1732,7 +1732,7 @@ function buildSleepTimeline(timeline, bedStart, bedEnd) {
   // ヒプノグラム：Catmull-Romスプライン（各セグメント中点を通る自然な波）
   const LEVEL = { awake:0, rem:1, core:2, deep:3 };
   const LABEL = { awake:'覚醒', rem:'REM', core:'コア', deep:'深い' };
-  const COLOR = { awake:'#F4A261', rem:'#5B8FB9', core:'#84B1CE', deep:'#2E4057' };
+  const COLOR = { awake:'#C8956A', rem:'#4A7FA8', core:'#6BAED6', deep:'#2C4A6E' };
 
   const W = 320;
   const PAD = { l:34, r:6, t:14, b:20 };
@@ -1818,7 +1818,7 @@ function buildSleepTimeline(timeline, bedStart, bedEnd) {
   const segFills = timeline.map(seg => {
     const x1 = toX(parseLocalDate(seg.s).getTime());
     const x2 = toX(parseLocalDate(seg.e).getTime());
-    return `<rect x="${f(x1)}" y="${PAD.t}" width="${f(Math.max(x2-x1,0.5))}" height="${ph+2}" fill="${COLOR[seg.v] ?? '#84B1CE'}" opacity="0.55" clip-path="url(#hpClip)"/>`;
+    return `<rect x="${f(x1)}" y="${PAD.t}" width="${f(Math.max(x2-x1,0.5))}" height="${ph+2}" fill="${COLOR[seg.v] ?? '#6BAED6'}"/>`;
   }).join('');
 
   return `<div style="margin:10px 0 6px;">
@@ -1827,12 +1827,12 @@ function buildSleepTimeline(timeline, bedStart, bedEnd) {
         <clipPath id="hpClip">
           <path d="${fillD}"/>
         </clipPath>
-        <filter id="hpBlur" x="-5%" width="110%" y="0%" height="100%">
+        <filter id="hpBlur" x="-5%" width="110%" y="-5%" height="110%">
           <feGaussianBlur stdDeviation="10 0"/>
         </filter>
       </defs>
       ${yAxis}
-      <g filter="url(#hpBlur)" opacity="1.0">
+      <g filter="url(#hpBlur)" clip-path="url(#hpClip)" opacity="0.6">
         ${segFills}
       </g>
       <path d="${d}" fill="none" stroke="#3A6B9E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
