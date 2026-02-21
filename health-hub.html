@@ -1009,6 +1009,7 @@ function init() {
   tryFetchSleep();
   tryFetchAdvice();
   initPullToRefresh();
+  initSwipeNavigation();
 }
 
 // ======== PULL TO REFRESH ========
@@ -1062,6 +1063,28 @@ function initPullToRefresh() {
       setTimeout(() => indicator.classList.remove('visible'), 300);
       refreshing = false;
     });
+  }, { passive: true });
+}
+
+// ======== SWIPE NAVIGATION ========
+function initSwipeNavigation() {
+  const TABS = ['meals', 'supplements', 'weight', 'sleep', 'shopping'];
+  let startX = 0, startY = 0;
+  const main = document.getElementById('main-content');
+
+  main.addEventListener('touchstart', e => {
+    startX = e.touches[0].clientX;
+    startY = e.touches[0].clientY;
+  }, { passive: true });
+
+  main.addEventListener('touchend', e => {
+    const dx = e.changedTouches[0].clientX - startX;
+    const dy = e.changedTouches[0].clientY - startY;
+    // 横スワイプ判定：60px以上かつ縦より横が大きい
+    if (Math.abs(dx) < 60 || Math.abs(dy) > Math.abs(dx) * 0.75) return;
+    const idx = TABS.indexOf(currentTab);
+    if (dx < 0 && idx < TABS.length - 1) switchTab(TABS[idx + 1]); // 左スワイプ → 次のタブ
+    if (dx > 0 && idx > 0) switchTab(TABS[idx - 1]);               // 右スワイプ → 前のタブ
   }, { passive: true });
 }
 
