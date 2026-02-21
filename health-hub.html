@@ -750,7 +750,18 @@ function ls(key, val) {
   localStorage.setItem(key, JSON.stringify(val));
 }
 
-function getMeals(ds) { return ls(`meals_${ds}`) || []; }
+function getMeals(ds) {
+  return (ls(`meals_${ds}`) || []).map(m => {
+    if (m.kcal !== undefined) return m; // 正常形式
+    if (m.total) { // ネスト形式 → フラット化
+      const itemNames = m.items?.map(i => i.name).join('、') || m.type || '食事';
+      return { time: m.time, name: itemNames,
+        kcal: m.total.kcal||0, p: m.total.p||0, f: m.total.f||0, c: m.total.c||0,
+        mg: m.total.mg||0, fiber: m.total.fiber||0 };
+    }
+    return null; // 読めないデータは除外
+  }).filter(Boolean);
+}
 function saveMeals(ds, meals) { ls(`meals_${ds}`, meals); }
 function getWeights()      { return ls('weights')   || {}; }
 function saveWeights(w)   { ls('weights', w); }
