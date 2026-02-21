@@ -1732,7 +1732,7 @@ function buildSleepTimeline(timeline, bedStart, bedEnd) {
   // ヒプノグラム：Catmull-Romスプライン（各セグメント中点を通る自然な波）
   const LEVEL = { awake:0, rem:1, core:2, deep:3 };
   const LABEL = { awake:'覚醒', rem:'REM', core:'コア', deep:'深い' };
-  const COLOR = { awake:'#C8956A', rem:'#4A7FA8', core:'#6BAED6', deep:'#2C4A6E' };
+  const COLOR = { awake:'#FBBF24', rem:'#A78BFA', core:'#60C6F1', deep:'#3B9EEB' };
 
   const W = 320;
   const PAD = { l:34, r:6, t:14, b:20 };
@@ -1835,7 +1835,7 @@ function buildSleepTimeline(timeline, bedStart, bedEnd) {
       <g filter="url(#hpBlur)" clip-path="url(#hpClip)" opacity="0.6">
         ${segFills}
       </g>
-      <path d="${d}" fill="none" stroke="#3A6B9E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+      <path d="${d}" fill="none" stroke="#2E7FC1" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
       ${tLabels}
     </svg>
   </div>`;
