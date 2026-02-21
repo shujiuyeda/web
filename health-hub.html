@@ -803,16 +803,21 @@ async function tryFetchMeals(ds) {
 }
 
 async function tryFetchSuppl(ds) {
-  const existing = getSuppl(ds);
-  if (Object.keys(existing).length > 0) return; // 既にデータあり
   try {
     const res = await fetch(`${DATA_BASE_URL}suppl-${ds}.json`, { cache: 'no-store' });
     if (!res.ok) return;
     const data = await res.json();
     if (!data.checks || Object.keys(data.checks).length === 0) return;
-    saveSuppl(ds, data.checks);
-    stampLastUpdated();
-    if (ds === currentDate && currentTab === 'supplements') switchTab(currentTab);
+    const local = getSuppl(ds);
+    let updated = false;
+    Object.entries(data.checks).forEach(([k, v]) => {
+      if (local[k] == null) { local[k] = v; updated = true; }
+    });
+    if (updated || Object.keys(local).length === 0) {
+      saveSuppl(ds, Object.keys(local).length > 0 ? local : data.checks);
+      stampLastUpdated();
+      if (ds === currentDate && currentTab === 'supplements') switchTab(currentTab);
+    }
   } catch { /* ネットワークエラーはsilent */ }
 }
 
