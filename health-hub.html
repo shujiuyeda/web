@@ -450,6 +450,37 @@
     .sleep-legend-dot {
       width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0;
     }
+    /* AI Advice Cards */
+    .advice-card {
+      background: linear-gradient(135deg, #1B4332 0%, #2D6A4F 100%);
+      border-radius: 14px; padding: 14px 16px; margin: 8px 12px;
+      color: white; box-shadow: 0 2px 8px rgba(27,67,50,0.3);
+    }
+    .advice-card.stale { opacity: 0.55; }
+    .advice-card-label {
+      font-size: 10px; font-weight: 700; letter-spacing: 0.8px;
+      opacity: 0.7; text-transform: uppercase; margin-bottom: 6px;
+    }
+    .advice-headline { font-size: 15px; font-weight: 700; line-height: 1.5; margin-bottom: 8px; }
+    .advice-score-row { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; }
+    .advice-score-num { font-size: 38px; font-weight: 800; line-height: 1; }
+    .advice-score-meta { flex: 1; }
+    .advice-score-bar { height: 6px; background: rgba(255,255,255,0.2); border-radius: 3px; overflow: hidden; margin-bottom: 2px; }
+    .advice-score-fill { height: 100%; border-radius: 3px; background: #74C69D; }
+    .advice-top-action {
+      background: rgba(255,255,255,0.18); border-radius: 8px;
+      padding: 8px 10px; font-size: 13px; font-weight: 700;
+      line-height: 1.4; margin-top: 6px;
+    }
+    .advice-insight { font-size: 13px; line-height: 1.6; opacity: 0.95; margin-bottom: 8px; }
+    .advice-week-trend { font-size: 12px; opacity: 0.8; margin-bottom: 6px; }
+    .advice-tips { margin: 0 0 8px; padding-left: 16px; font-size: 12px; line-height: 1.8; opacity: 0.9; }
+    .advice-box {
+      background: rgba(255,255,255,0.15); border-radius: 8px;
+      padding: 8px 10px; font-size: 12px; line-height: 1.5; margin-top: 6px;
+    }
+    .advice-box.green { background: rgba(116,198,157,0.25); }
+    .advice-stale-note { font-size: 10px; opacity: 0.55; margin-top: 6px; text-align: right; }
   </style>
 </head>
 <body>
@@ -851,6 +882,69 @@ async function tryFetchSleep() {
   } catch { /* silent */ }
 }
 
+// ======== ADVICE ========
+let adviceData = null;
+
+async function tryFetchAdvice() {
+  try {
+    const res = await fetch(`${DATA_BASE_URL}advice.json?_=${Date.now()}`, { cache: 'no-store' });
+    if (!res.ok) return;
+    const data = await res.json();
+    adviceData = data;
+    if (['meals','supplements','weight','sleep'].includes(currentTab)) {
+      switchTab(currentTab);
+    }
+  } catch { /* silent */ }
+}
+
+function isAdviceStale() {
+  if (!adviceData?.generated) return true;
+  return (Date.now() - new Date(adviceData.generated).getTime()) > 24 * 60 * 60 * 1000;
+}
+
+function renderOverallBanner() {
+  if (!adviceData?.overall) return '';
+  const stale = isAdviceStale();
+  const o = adviceData.overall;
+  const score = o.score ?? 0;
+  return `
+    <div class="advice-card${stale ? ' stale' : ''}">
+      <div class="advice-card-label">🌿 今日の健康スコア</div>
+      <div class="advice-headline">${esc(o.headline)}</div>
+      <div class="advice-score-row">
+        <span class="advice-score-num">${score}</span>
+        <div class="advice-score-meta">
+          <div class="advice-score-bar"><div class="advice-score-fill" style="width:${score}%;"></div></div>
+          <div style="font-size:10px;opacity:0.6;">/ 100</div>
+        </div>
+      </div>
+      ${o.topAction ? `<div class="advice-top-action">⚡ 今すぐやること：${esc(o.topAction)}</div>` : ''}
+      ${stale ? '<div class="advice-stale-note">24時間以上更新されていません</div>' : ''}
+    </div>`;
+}
+
+function renderAdviceCard(tab) {
+  if (!adviceData) return '';
+  const stale = isAdviceStale();
+  const data = adviceData[tab];
+  const cross = (adviceData.crossDomain || []).filter(x => !x.relatedTabs || x.relatedTabs.includes(tab));
+  if (!data && !cross.length) return '';
+  let html = `<div class="advice-card${stale ? ' stale' : ''}"><div class="advice-card-label">🤖 AI分析</div>`;
+  if (data) {
+    if (data.insight) html += `<div class="advice-insight">${esc(data.insight)}</div>`;
+    if (tab === 'sleep' && data.weekTrend) html += `<div class="advice-week-trend">${esc(data.weekTrend)}</div>`;
+    if (data.tips?.length) html += `<ul class="advice-tips">${data.tips.map(t => `<li>${esc(t)}</li>`).join('')}</ul>`;
+    if (data.correlation) html += `<div class="advice-box">💡 ${esc(data.correlation)}</div>`;
+    if (data.projection) html += `<div class="advice-box green">📈 ${esc(data.projection)}</div>`;
+  }
+  cross.forEach(item => {
+    html += `<div class="advice-box" style="margin-top:8px;">🔗 <strong>${esc(item.title)}</strong><br><span style="opacity:0.9;">${esc(item.body)}</span></div>`;
+  });
+  if (stale) html += '<div class="advice-stale-note">データ更新待ち</div>';
+  html += '</div>';
+  return html;
+}
+
 // ======== INIT ========
 function init() {
   document.getElementById('header-date').textContent = formatDateLabel(currentDate);
@@ -872,6 +966,7 @@ function init() {
   tryFetchDailyKcal();
   tryFetchShopping();
   tryFetchSleep();
+  tryFetchAdvice();
 }
 
 // ======== TABS ========
@@ -926,6 +1021,9 @@ function renderMeals(container) {
     </div>
   `;
 
+  // AI Overall banner
+  container.innerHTML += renderOverallBanner();
+
   // Kcal summary card
   container.innerHTML += `
     <div class="card">
@@ -960,6 +1058,9 @@ function renderMeals(container) {
       </div>
     </div>
   `;
+
+  // AI Meals advice card
+  container.innerHTML += renderAdviceCard('meals');
 
   // Supplement guide card
   container.innerHTML += supplGuideHtml(t);
@@ -1362,6 +1463,10 @@ function renderSuppl(container) {
     </div>
   `;
 
+  // AI Overall banner + Suppl advice
+  container.innerHTML += renderOverallBanner();
+  container.innerHTML += renderAdviceCard('supplements');
+
   let html = `<div class="card">`;
   const timings = ['morning','afternoon','evening','bedtime'];
   timings.forEach(t => {
@@ -1495,6 +1600,9 @@ function renderWeight(container) {
     </div>
   `;
 
+  // AI Overall banner
+  container.innerHTML += renderOverallBanner();
+
   // Weight entry card
   let wHtml = `<div class="card"><div class="card-title">体重を記録</div>`;
   if (todayW) {
@@ -1560,6 +1668,9 @@ function renderWeight(container) {
         </div>`}
       </div>`;
   }
+
+  // AI Weight advice card
+  container.innerHTML += renderAdviceCard('weight');
 
   // Chart + 10-day table
   {
@@ -1856,6 +1967,9 @@ function renderSleep(container) {
       <button class="date-nav-btn ${isToday ? 'disabled' : ''}" onclick="changeDate(1)">›</button>
     </div>`;
 
+  // AI Overall banner
+  container.innerHTML += renderOverallBanner();
+
   // ===== サマリーカード =====
   let summaryHtml = `<div class="card"><div class="card-title">🌙 睡眠サマリー</div>`;
   if (!todayS) {
@@ -1914,6 +2028,9 @@ function renderSleep(container) {
   }
   summaryHtml += `</div>`;
   container.innerHTML += summaryHtml;
+
+  // AI Sleep advice card
+  container.innerHTML += renderAdviceCard('sleep');
 
   // ===== 7日間トレンド =====
   const sleepChart = [];
