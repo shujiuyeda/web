@@ -1535,10 +1535,6 @@ function renderSuppl(container) {
     </div>
   `;
 
-  // AI Overall banner + Suppl advice
-  container.innerHTML += renderOverallBanner();
-  container.innerHTML += renderAdviceCard('supplements');
-
   let html = `<div class="card">`;
   const timings = ['morning','afternoon','evening','bedtime'];
   timings.forEach(t => {
@@ -1672,9 +1668,6 @@ function renderWeight(container) {
     </div>
   `;
 
-  // AI Overall banner
-  container.innerHTML += renderOverallBanner();
-
   // Weight entry card
   let wHtml = `<div class="card"><div class="card-title">体重を記録</div>`;
   if (todayW) {
@@ -1740,9 +1733,6 @@ function renderWeight(container) {
         </div>`}
       </div>`;
   }
-
-  // AI Weight advice card
-  container.innerHTML += renderAdviceCard('weight');
 
   // Chart + 10-day table
   {
@@ -2039,9 +2029,6 @@ function renderSleep(container) {
       <button class="date-nav-btn ${isToday ? 'disabled' : ''}" onclick="changeDate(1)">›</button>
     </div>`;
 
-  // AI Overall banner
-  container.innerHTML += renderOverallBanner();
-
   // ===== サマリーカード =====
   let summaryHtml = `<div class="card"><div class="card-title">🌙 睡眠サマリー</div>`;
   if (!todayS) {
@@ -2100,9 +2087,6 @@ function renderSleep(container) {
   }
   summaryHtml += `</div>`;
   container.innerHTML += summaryHtml;
-
-  // AI Sleep advice card
-  container.innerHTML += renderAdviceCard('sleep');
 
   // ===== 7日間トレンド =====
   const sleepChart = [];
