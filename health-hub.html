@@ -779,12 +779,17 @@ const DATA_BASE_URL = 'https://shujiuyeda.github.io/web/data/';
 
 async function tryFetchMeals(ds) {
   const existing = getMeals(ds);
-  // mg/fiberが未定義の古いデータはサーバーから上書き取得する
-  const needsRefresh = existing.some(m => m.mg === undefined);
+  // kcal未定義（ネスト形式の生データ）またはmg未定義の古いデータはサーバーから上書き取得する
+  const hasNestedData = existing.some(m => m.kcal === undefined);
+  const needsRefresh = existing.some(m => m.mg === undefined) || hasNestedData;
   if (existing.length > 0 && !needsRefresh) return;
   try {
     const res = await fetch(`${DATA_BASE_URL}meals-${ds}.json`, { cache: 'no-store' });
-    if (!res.ok) return;
+    if (!res.ok) {
+      // 404等でJSONが存在しない場合、ネスト形式の壊れたデータは削除する
+      if (hasNestedData) { saveMeals(ds, []); if (ds === currentDate) switchTab(currentTab); }
+      return;
+    }
     const data = await res.json();
     if (!data.meals || data.meals.length === 0) return;
     // JSONのネスト構造 {items, total:{kcal,p,f,c}} をアプリ内形式 {kcal,p,f,c} にフラット化
@@ -1273,7 +1278,7 @@ function supplGuideHtml(t) {
 
 function totals(meals) {
   return meals.reduce((a, m) => ({
-    kcal: a.kcal + m.kcal, p: a.p + m.p, f: a.f + m.f, c: a.c + m.c,
+    kcal: a.kcal + (m.kcal || 0), p: a.p + (m.p || 0), f: a.f + (m.f || 0), c: a.c + (m.c || 0),
     mg: a.mg + (m.mg || 0), fiber: a.fiber + (m.fiber || 0)
   }), {kcal:0, p:0, f:0, c:0, mg:0, fiber:0});
 }
