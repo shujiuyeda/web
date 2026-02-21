@@ -1806,10 +1806,12 @@ function buildSleepTimeline(timeline, bedStart, bedEnd) {
     tick.setHours(tick.getHours() + 1);
   }
 
-  // 各ステージの色帯（Y帯域）：覚醒/REM/コア/深い
-  const bandY = [PAD.t, PAD.t + ROW, PAD.t + 2*ROW, PAD.t + 3*ROW];
-  const bandColors = ['#F4A261', '#5B8FB9', '#84B1CE', '#2E4057'];
-  const bandOpacity = [0.22, 0.22, 0.22, 0.28];
+  // 時間軸ベースのステージ色分け：各セグメントの時間窓をステージ色でクリップ塗り
+  const segFills = timeline.map(seg => {
+    const x1 = toX(parseLocalDate(seg.s).getTime());
+    const x2 = toX(parseLocalDate(seg.e).getTime());
+    return `<rect x="${f(x1)}" y="${PAD.t}" width="${f(Math.max(x2-x1,0.5))}" height="${ph+2}" fill="${COLOR[seg.v] ?? '#84B1CE'}" opacity="0.28" clip-path="url(#hpClip)"/>`;
+  }).join('');
 
   return `<div style="margin:10px 0 6px;">
     <svg viewBox="0 0 ${W} ${H}" width="100%" style="overflow:visible;">
@@ -1819,9 +1821,7 @@ function buildSleepTimeline(timeline, bedStart, bedEnd) {
         </clipPath>
       </defs>
       ${yAxis}
-      ${bandColors.map((c, i) =>
-        `<rect x="${PAD.l}" y="${bandY[i]}" width="${pw}" height="${ROW + (i===3?4:0)}" fill="${c}" opacity="${bandOpacity[i]}" clip-path="url(#hpClip)"/>`
-      ).join('')}
+      ${segFills}
       <path d="${d}" fill="none" stroke="#3A6B9E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
       ${tLabels}
     </svg>
