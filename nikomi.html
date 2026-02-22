@@ -1,0 +1,552 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <meta name="theme-color" content="#1B4332">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="今日の煮込み">
+  <title>🫕 今日の煮込み</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --green-dark: #1B4332;
+      --green-mid: #2D6A4F;
+      --green-light: #52B788;
+      --green-pale: #D8F3DC;
+      --bg: #F0F4F0;
+      --card: #FFFFFF;
+      --text: #1A1A2E;
+      --text-muted: #6C757D;
+      --border: #DEE2E6;
+      --danger: #DC3545;
+      --warning: #E5A020;
+      --success: #28A745;
+      --safe-top: env(safe-area-inset-top, 0px);
+      --safe-bottom: env(safe-area-inset-bottom, 0px);
+    }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Hiragino Kaku Gothic ProN', 'Hiragino Sans', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+    .header {
+      position: fixed; top: 0; left: 0; right: 0;
+      background: var(--green-dark);
+      color: white;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 16px;
+      padding-top: var(--safe-top);
+      height: calc(52px + var(--safe-top));
+      z-index: 100;
+    }
+    .header h1 { font-size: 16px; font-weight: 700; }
+    .header-sub { font-size: 12px; opacity: 0.75; }
+    .main {
+      padding-top: calc(52px + var(--safe-top));
+      padding-bottom: calc(24px + var(--safe-bottom));
+    }
+    .card {
+      background: var(--card); border-radius: 14px;
+      padding: 14px 16px; margin: 8px 12px;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.07);
+    }
+    .card-title {
+      font-size: 11px; font-weight: 700;
+      color: var(--text-muted); text-transform: uppercase;
+      letter-spacing: 0.6px; margin-bottom: 12px;
+    }
+    .btn-primary {
+      width: 100%; padding: 16px;
+      background: var(--green-mid); color: white;
+      border: none; border-radius: 12px;
+      font-size: 17px; font-weight: 700;
+      cursor: pointer; -webkit-tap-highlight-color: transparent;
+      transition: opacity 0.15s, transform 0.1s;
+    }
+    .btn-primary:active { opacity: 0.75; transform: scale(0.98); }
+    .btn-primary:disabled { opacity: 0.55; cursor: default; transform: none; }
+    .btn-secondary {
+      width: 100%; padding: 13px;
+      background: var(--bg); color: var(--green-mid);
+      border: 1.5px solid var(--green-light); border-radius: 12px;
+      font-size: 15px; font-weight: 600;
+      cursor: pointer; -webkit-tap-highlight-color: transparent;
+      transition: opacity 0.15s;
+    }
+    .btn-secondary:active { opacity: 0.7; }
+    .btn-success {
+      width: 100%; padding: 14px;
+      background: var(--success); color: white;
+      border: none; border-radius: 12px;
+      font-size: 15px; font-weight: 700;
+      cursor: pointer; -webkit-tap-highlight-color: transparent;
+      transition: opacity 0.15s, transform 0.1s;
+    }
+    .btn-success:active { opacity: 0.75; transform: scale(0.98); }
+    .btn-success:disabled { opacity: 0.5; cursor: default; transform: none; }
+    .ingredient-row {
+      display: flex; align-items: flex-start; gap: 8px;
+      padding: 9px 0; border-bottom: 1px solid var(--border);
+    }
+    .ingredient-row:last-child { border-bottom: none; }
+    .ingredient-left { flex: 1; min-width: 0; }
+    .ingredient-name { font-size: 15px; font-weight: 600; color: var(--text); }
+    .ingredient-feature { font-size: 11px; color: var(--green-mid); margin-top: 2px; }
+    .ingredient-amount { font-size: 13px; color: var(--text-muted); white-space: nowrap; padding-top: 2px; }
+    .tag {
+      display: inline-block; padding: 1px 7px;
+      border-radius: 10px; font-size: 10px; font-weight: 700;
+      margin-left: 5px; vertical-align: middle;
+    }
+    .tag-meat    { background: #FFE4E4; color: #B71C1C; }
+    .tag-seafood { background: #E3F2FD; color: #0D47A1; }
+    .tag-always  { background: var(--green-pale); color: var(--green-dark); }
+    .tag-ferment { background: #E8F5E9; color: #1B5E20; }
+    .oil-note {
+      background: #FFFDE7; border: 1px solid #FFF176;
+      border-radius: 8px; padding: 9px 12px;
+      font-size: 13px; color: #6D4C00; margin-top: 8px;
+      line-height: 1.5;
+    }
+    .base-detail {
+      background: var(--green-pale); border-radius: 8px;
+      padding: 9px 12px; font-size: 13px; color: var(--green-dark);
+      margin: 6px 0 4px; line-height: 1.6;
+    }
+    .base-feature { font-size: 12px; color: var(--text-muted); }
+    .hero-emoji { font-size: 72px; line-height: 1; margin-bottom: 12px; }
+    .loading-wrap {
+      text-align: center; padding: 40px 16px;
+    }
+    .loading-emoji {
+      font-size: 48px;
+      animation: pulse 1s ease-in-out infinite;
+    }
+    @keyframes pulse { 0%,100% { transform: scale(1); } 50% { transform: scale(1.12); } }
+    .spinner {
+      display: inline-block; width: 15px; height: 15px;
+      border: 2px solid rgba(255,255,255,0.4); border-top-color: white;
+      border-radius: 50%; animation: spin 0.7s linear infinite;
+      vertical-align: middle; margin-right: 5px;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .toast {
+      position: fixed; bottom: calc(20px + var(--safe-bottom));
+      left: 50%; transform: translateX(-50%);
+      background: rgba(20,20,20,0.88); color: white;
+      padding: 10px 20px; border-radius: 20px;
+      font-size: 14px; white-space: nowrap;
+      opacity: 0; transition: opacity 0.3s;
+      pointer-events: none; z-index: 999;
+    }
+    .toast.show { opacity: 1; }
+    .back-link {
+      display: inline-flex; align-items: center; gap: 4px;
+      font-size: 13px; color: rgba(255,255,255,0.75);
+      text-decoration: none; padding: 4px 0;
+    }
+    .back-link:active { opacity: 0.6; }
+    .section-divider {
+      height: 1px; background: var(--border);
+      margin: 4px 0 12px;
+    }
+  </style>
+</head>
+<body>
+
+<div class="header">
+  <h1>🫕 今日の煮込み</h1>
+  <span class="header-sub" id="today-date"></span>
+</div>
+
+<div class="main">
+
+  <!-- ===== HERO ===== -->
+  <div class="card" id="hero-card">
+    <div style="text-align:center; padding: 28px 0 20px;">
+      <div class="hero-emoji">🫕</div>
+      <div style="font-size:13px; color:var(--text-muted); margin-bottom:5px;">ストウブ 丸型26cm（5L）</div>
+      <div style="font-size:12px; color:var(--text-muted); margin-bottom:24px;">直近3日の食事ログから被らない食材を選びます</div>
+      <button class="btn-primary" id="gen-btn" onclick="generateRecipe()">今日の煮込みは？</button>
+    </div>
+  </div>
+
+  <!-- ===== LOADING ===== -->
+  <div class="card" id="loading-card" style="display:none;">
+    <div class="loading-wrap">
+      <div class="loading-emoji">🫕</div>
+      <div style="color:var(--text-muted); font-size:14px; margin-top:12px;">食事ログを確認中...</div>
+    </div>
+  </div>
+
+  <!-- ===== RESULT ===== -->
+  <div id="result-section" style="display:none;">
+
+    <!-- Protein -->
+    <div class="card">
+      <div class="card-title">🥩 たんぱく質</div>
+      <div id="protein-content"></div>
+    </div>
+
+    <!-- Mushrooms -->
+    <div class="card">
+      <div class="card-title">🍄 きのこ</div>
+      <div id="mushrooms-content"></div>
+    </div>
+
+    <!-- Vegetables -->
+    <div class="card">
+      <div class="card-title">🥬 野菜</div>
+      <div id="vegetables-content"></div>
+    </div>
+
+    <!-- Base -->
+    <div class="card">
+      <div class="card-title">🫕 ベース（味付け）</div>
+      <div id="base-content"></div>
+    </div>
+
+    <!-- Actions -->
+    <div class="card">
+      <button class="btn-success" id="shop-btn" onclick="addToShoppingList()">
+        🛒 この材料で買い物リストに追加
+      </button>
+      <div style="height:8px;"></div>
+      <button class="btn-secondary" onclick="generateRecipe()">
+        🔀 別の組み合わせ
+      </button>
+    </div>
+
+  </div><!-- /result-section -->
+
+</div><!-- /main -->
+
+<div class="toast" id="toast"></div>
+
+<script>
+// ===== MASTER DATA =====
+
+const PROTEINS = [
+  { id: 'sunagimo',  name: '砂肝',           keywords: ['砂肝'],   type: 'meat',    amount: '500g',            feature: '鉄・亜鉛◎',               needsOil: true  },
+  { id: 'gyusuji',   name: '牛すじ',          keywords: ['牛すじ'],  type: 'meat',    amount: '600g（茹でこぼし2回）',  feature: 'コラーゲン◎・低脂質',         needsOil: false },
+  { id: 'torimomo',  name: '鶏もも（皮なし）',   keywords: ['鶏もも'],  type: 'meat',    amount: '500g',            feature: 'バランス型',               needsOil: false },
+  { id: 'torimune',  name: '鶏むね（皮なし）',   keywords: ['鶏むね'],  type: 'meat',    amount: '500g',            feature: '最高P効率',               needsOil: true  },
+  { id: 'butamomo',  name: '豚もも',          keywords: ['豚もも'],  type: 'meat',    amount: '500g',            feature: 'ビタミンB1◎（糖質代謝）',     needsOil: false },
+  { id: 'tebasamoto',name: '鶏手羽元',         keywords: ['手羽元'],  type: 'meat',    amount: '500g',            feature: 'コラーゲン・煮込み旨味◎',      needsOil: false },
+  { id: 'tebasaki',  name: '鶏手羽先',         keywords: ['手羽先'],  type: 'meat',    amount: '500g',            feature: 'コラーゲン・出汁が出る◎',      needsOil: false },
+  { id: 'ika',       name: 'イカ（下処理済み）', keywords: ['イカ'],   type: 'seafood', amount: '400g',            feature: 'タウリン◎・肝臓サポート',      needsOil: true  },
+  { id: 'tako',      name: 'タコ（ゆで）',      keywords: ['タコ'],   type: 'seafood', amount: '400g',            feature: 'タウリン◎・最低脂質',         needsOil: true  },
+  { id: 'ebi',       name: 'エビ（むき）',      keywords: ['エビ'],   type: 'seafood', amount: '400g',            feature: '高P・アスタキサンチン',        needsOil: true  },
+  { id: 'sake',      name: '鮭（生）',          keywords: ['鮭'],    type: 'seafood', amount: '400g（切り身）',     feature: 'オメガ3・ビタミンD',          needsOil: false },
+];
+
+const MUSHROOMS = [
+  { id: 'maitake',  name: 'まいたけ',      amount: '1袋（100g）', feature: 'ビタミンD最強・免疫◎', always: true  },
+  { id: 'enoki',    name: 'えのき',        amount: '1袋（200g）', feature: '食物繊維◎・安い',      always: false },
+  { id: 'shimeji',  name: 'しめじ',        amount: '1袋（100g）', feature: '旨味・食感',          always: false },
+  { id: 'eringi',   name: 'エリンギ',      amount: '1袋（100g）', feature: '食感◎・食物繊維',      always: false },
+  { id: 'shiitake', name: '椎茸',          amount: '1袋（100g）', feature: '旨味・ビタミンD',      always: false },
+  { id: 'mashroom', name: 'マッシュルーム', amount: '1袋（100g）', feature: 'カリウム◎・洋風向き',  always: false },
+];
+
+// compat: 'all' or array of base IDs
+const VEGETABLES = [
+  { id: 'tamanegi', name: '玉ねぎ',       amount: '大1個（200g）',    compat: 'all',                                       feature: '甘み・旨味の土台',          always: true  },
+  { id: 'tomato',   name: 'トマト',       amount: '2個',              compat: ['curry','tomato','shio'],                   feature: '水分・リコピン◎'                          },
+  { id: 'nasu',     name: 'ナス',         amount: '2本',              compat: ['curry','tomato','shio'],                   feature: '水分・食感'                               },
+  { id: 'kyabetsu', name: 'キャベツ',     amount: '1/4玉（300g）',    compat: ['white','miso','shio'],                     feature: 'ビタミンC・食物繊維'                       },
+  { id: 'broccoli', name: 'ブロッコリー', amount: '小1株（200g）',    compat: ['white','curry','tomato','shio'],            feature: 'ビタミンC・スルフォラファン'                },
+  { id: 'paprika',  name: 'パプリカ（赤・黄）', amount: '各1個',      compat: 'all',                                       feature: 'ビタミンC最強・彩り◎'                      },
+  { id: 'celery',   name: 'セロリ',       amount: '2本',              compat: ['white','tomato','shio','demi'],             feature: '香味・カリウム'                            },
+  { id: 'kabocha',  name: 'かぼちゃ',     amount: '1/4個（300g）',    compat: ['white','miso','shoyu'],                    feature: 'β-カロテン・甘み'                          },
+  { id: 'horenso',  name: 'ほうれん草',   amount: '1束（仕上げに投入）',compat: ['white','curry','shoyu','miso'],            feature: '鉄・Mg（仕上げ専用）'                      },
+  { id: 'zucchini', name: 'ズッキーニ',   amount: '1本',              compat: ['curry','tomato','shio'],                   feature: '低カロリー・食感'                          },
+  { id: 'ninjin',   name: 'にんじん',     amount: '1本',              compat: ['white','demi','shoyu','shio'],              feature: 'β-カロテン'                               },
+  { id: 'jagaimo',  name: 'じゃがいも',   amount: '2個',              compat: ['white','curry','shio','demi'],              feature: '満腹感・カリウム'                          },
+  { id: 'gobo',     name: 'ごぼう',       amount: '1/2本（100g）',    compat: ['shoyu','miso'],                            feature: '食物繊維◎（イヌリン）'                     },
+  { id: 'daikon',   name: '大根',         amount: '1/3本（200g）',    compat: ['shoyu','miso'],                            feature: '消化酵素・低カロリー'                      },
+  { id: 'satoimo',  name: '里芋',         amount: '6個（300g）',      compat: ['shoyu','miso'],                            feature: 'カリウム◎・とろみ'                         },
+];
+
+const BASES = [
+  { id: 'curry',  name: 'カレー',           seasoning: 'カレー粉 大さじ2・ケチャップ 小さじ2・ウスターソース 大さじ1',  feature: '定番。食欲↑。にんにく2片あると◎' },
+  { id: 'tomato', name: 'トマト煮',          seasoning: 'トマト缶 1缶・コンソメ 2個・にんにく 2片',                   feature: 'さっぱり・リコピン◎' },
+  { id: 'white',  name: 'ホワイトシチュー',  seasoning: '牛乳 200ml・シチュールー 1/2箱・コンソメ 1個',              feature: 'カルシウム◎' },
+  { id: 'demi',   name: 'デミグラス系',      seasoning: 'デミグラス缶 1缶・赤ワイン 50ml・ケチャップ 大さじ1',        feature: 'コクが深い' },
+  { id: 'miso',   name: '味噌煮込み',        seasoning: '味噌 大さじ2・みりん 大さじ2・だし 200ml',                   feature: '発酵食品◎ 腸活スコア↑', fermented: true },
+  { id: 'shoyu',  name: '醤油ベース（煮物）', seasoning: '醤油 大さじ2・みりん 大さじ2・酒 大さじ2・だし 200ml',      feature: '和食の王道' },
+  { id: 'shio',   name: '塩ベース（ポトフ風）',seasoning: 'コンソメ 2個・塩 小さじ1・にんにく 2片',                   feature: 'あっさり・素材の味が活きる' },
+];
+
+// ===== CONSTANTS =====
+const DATA_BASE_URL = 'https://shujiuyeda.github.io/web/data/';
+const GH_REPO = 'shujiuyeda/web';
+const GH_API  = 'https://api.github.com';
+
+// ===== UTILS =====
+function ls(key, val) {
+  if (val === undefined) {
+    try { return JSON.parse(localStorage.getItem(key)); } catch { return null; }
+  }
+  localStorage.setItem(key, JSON.stringify(val));
+}
+function ghToken() { return ls('gh_pat') || ''; }
+function rand(arr) { return arr[Math.floor(Math.random() * arr.length)]; }
+function shuffle(arr) {
+  const a = [...arr];
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+function todayStr() {
+  const d = new Date();
+  return [d.getFullYear(), String(d.getMonth()+1).padStart(2,'0'), String(d.getDate()).padStart(2,'0')].join('-');
+}
+function dateOffsetStr(offset) {
+  const d = new Date(); d.setDate(d.getDate() + offset);
+  return [d.getFullYear(), String(d.getMonth()+1).padStart(2,'0'), String(d.getDate()).padStart(2,'0')].join('-');
+}
+function showToast(msg, ms=2800) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), ms);
+}
+
+// ===== GITHUB API =====
+async function ghGetFileSha(path) {
+  try {
+    const res = await fetch(`${GH_API}/repos/${GH_REPO}/contents/${path}?_=${Date.now()}`, {
+      headers: { 'Authorization': `Bearer ${ghToken()}`, 'Accept': 'application/vnd.github+json' }
+    });
+    if (!res.ok) return null;
+    return (await res.json()).sha || null;
+  } catch { return null; }
+}
+async function ghPutFile(path, content, message) {
+  const sha = await ghGetFileSha(path);
+  const body = { message, content: btoa(unescape(encodeURIComponent(content))) };
+  if (sha) body.sha = sha;
+  try {
+    const res = await fetch(`${GH_API}/repos/${GH_REPO}/contents/${path}`, {
+      method: 'PUT',
+      headers: {
+        'Authorization': `Bearer ${ghToken()}`,
+        'Accept': 'application/vnd.github+json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(body)
+    });
+    return res.ok;
+  } catch { return false; }
+}
+
+// ===== MEAL FETCHING =====
+async function fetchRecentMealNames() {
+  const names = [];
+  for (let i = 0; i >= -2; i--) {
+    const ds = dateOffsetStr(i);
+    try {
+      const res = await fetch(`${DATA_BASE_URL}meals-${ds}.json?_=${Date.now()}`, { cache: 'no-store' });
+      if (!res.ok) continue;
+      const data = await res.json();
+      if (Array.isArray(data.meals)) {
+        data.meals.forEach(m => { if (m.name) names.push(m.name); });
+      }
+    } catch { /* ignore */ }
+  }
+  return names;
+}
+
+function extractUsedProteinIds(mealNames) {
+  const used = new Set();
+  mealNames.forEach(name => {
+    PROTEINS.forEach(p => {
+      if (p.keywords.some(kw => name.includes(kw))) used.add(p.id);
+    });
+  });
+  return used;
+}
+
+// ===== RECIPE GENERATION =====
+let currentRecipe = null;
+
+async function generateRecipe() {
+  const btn = document.getElementById('gen-btn');
+  btn.disabled = true;
+  document.getElementById('hero-card').style.display = 'none';
+  document.getElementById('result-section').style.display = 'none';
+  document.getElementById('loading-card').style.display = '';
+
+  // Fetch recent meals
+  const mealNames = await fetchRecentMealNames();
+  const usedIds = extractUsedProteinIds(mealNames);
+
+  // Select protein
+  let available = PROTEINS.filter(p => !usedIds.has(p.id));
+  if (available.length === 0) available = [...PROTEINS];
+  const protein = rand(available);
+
+  // Select base (avoid last used)
+  const lastBaseId = ls('nikomi_last_base');
+  const availBases = BASES.filter(b => b.id !== lastBaseId);
+  const base = rand(availBases.length ? availBases : BASES);
+  ls('nikomi_last_base', base.id);
+
+  // Select mushrooms: always まいたけ + 1 or 2 others
+  const fixedMushrooms = MUSHROOMS.filter(m => m.always);
+  const optMushrooms   = shuffle(MUSHROOMS.filter(m => !m.always));
+  const extraMush = Math.random() < 0.5 ? 1 : 2;
+  const mushrooms = [...fixedMushrooms, ...optMushrooms.slice(0, extraMush)];
+
+  // Select vegetables: always 玉ねぎ + 2 or 3 compatible
+  const fixedVeg = VEGETABLES.filter(v => v.always);
+  const compatVeg = shuffle(VEGETABLES.filter(v =>
+    !v.always && (v.compat === 'all' || v.compat.includes(base.id))
+  ));
+  const extraVeg = Math.random() < 0.4 ? 2 : 3;
+  const vegetables = [...fixedVeg, ...compatVeg.slice(0, extraVeg)];
+
+  currentRecipe = { protein, mushrooms, vegetables, base };
+
+  // Hide loading, show result
+  document.getElementById('loading-card').style.display = 'none';
+  document.getElementById('hero-card').style.display = '';
+  document.getElementById('result-section').style.display = '';
+  btn.disabled = false;
+
+  renderRecipe(currentRecipe);
+  // Scroll to result
+  setTimeout(() => {
+    document.getElementById('result-section').scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }, 80);
+}
+
+// ===== RENDER =====
+function renderRecipe({ protein, mushrooms, vegetables, base }) {
+  // Protein
+  const typeTag = protein.type === 'meat'
+    ? '<span class="tag tag-meat">肉</span>'
+    : '<span class="tag tag-seafood">魚介</span>';
+  let pHtml = `
+    <div class="ingredient-row">
+      <div class="ingredient-left">
+        <div class="ingredient-name">${protein.name}${typeTag}</div>
+        <div class="ingredient-feature">${protein.feature}</div>
+      </div>
+      <div class="ingredient-amount">${protein.amount}</div>
+    </div>`;
+  if (protein.needsOil) {
+    pHtml += `<div class="oil-note">💛 エゴマ油 大さじ1 — 脂質が少ないため仕上げにかける（オメガ3・抗炎症）</div>`;
+  }
+  document.getElementById('protein-content').innerHTML = pHtml;
+
+  // Mushrooms
+  document.getElementById('mushrooms-content').innerHTML = mushrooms.map(m => `
+    <div class="ingredient-row">
+      <div class="ingredient-left">
+        <div class="ingredient-name">${m.name}${m.always ? '<span class="tag tag-always">必須</span>' : ''}</div>
+        <div class="ingredient-feature">${m.feature}</div>
+      </div>
+      <div class="ingredient-amount">${m.amount}</div>
+    </div>`).join('');
+
+  // Vegetables
+  document.getElementById('vegetables-content').innerHTML = vegetables.map(v => `
+    <div class="ingredient-row">
+      <div class="ingredient-left">
+        <div class="ingredient-name">${v.name}</div>
+        <div class="ingredient-feature">${v.feature}</div>
+      </div>
+      <div class="ingredient-amount">${v.amount}</div>
+    </div>`).join('');
+
+  // Base
+  const fermentTag = base.fermented ? '<span class="tag tag-ferment">発酵◎</span>' : '';
+  document.getElementById('base-content').innerHTML = `
+    <div style="font-size:17px; font-weight:700; color:var(--green-dark); margin-bottom:6px;">
+      ${base.name}${fermentTag}
+    </div>
+    <div class="base-detail">${base.seasoning}</div>
+    <div class="base-feature">${base.feature}</div>`;
+
+  // Reset shop button
+  const shopBtn = document.getElementById('shop-btn');
+  shopBtn.disabled = false;
+  shopBtn.innerHTML = '🛒 この材料で買い物リストに追加';
+}
+
+// ===== SHOPPING LIST =====
+async function addToShoppingList() {
+  if (!currentRecipe) return;
+  if (!ghToken()) {
+    showToast('⚠️ GitHubトークン未設定（Health Hubで設定してください）');
+    return;
+  }
+
+  const shopBtn = document.getElementById('shop-btn');
+  shopBtn.disabled = true;
+  shopBtn.innerHTML = '<span class="spinner"></span>追加中...';
+
+  const today = todayStr();
+  const { protein, mushrooms, vegetables, base } = currentRecipe;
+
+  // Fetch current shopping.json
+  let existing = { updated: today, items: [], checks: {} };
+  try {
+    const res = await fetch(`${DATA_BASE_URL}shopping.json?_=${Date.now()}`, { cache: 'no-store' });
+    if (res.ok) existing = await res.json();
+  } catch { /* use default */ }
+
+  const existingItems = existing.items || [];
+  let maxId = 0;
+  existingItems.forEach(item => {
+    const m = item.id && item.id.match(/^s(\d+)$/);
+    if (m) maxId = Math.max(maxId, parseInt(m[1]));
+  });
+
+  // Build new items
+  const candidates = [];
+  let counter = maxId + 1;
+  candidates.push({ id: `s${counter++}`, name: protein.name, note: protein.amount, category: 'food' });
+  mushrooms.forEach(m => candidates.push({ id: `s${counter++}`, name: m.name, note: m.amount, category: 'food' }));
+  vegetables.forEach(v => candidates.push({ id: `s${counter++}`, name: v.name, note: v.amount, category: 'food' }));
+  if (protein.needsOil) {
+    candidates.push({ id: `s${counter++}`, name: 'エゴマ油', note: '大さじ1以上（仕上げ用）', category: 'food' });
+  }
+
+  // Dedup by name
+  const existingNames = new Set(existingItems.map(i => i.name));
+  const toAdd = candidates.filter(c => !existingNames.has(c.name));
+  const merged = [...existingItems, ...toAdd];
+
+  const content = JSON.stringify({
+    updated: today,
+    items: merged,
+    checks: existing.checks || {}
+  }, null, 2);
+
+  const ok = await ghPutFile('data/shopping.json', content, `nikomi: ingredients ${today}`);
+
+  if (ok) {
+    shopBtn.innerHTML = '✅ 追加しました！';
+    showToast(`${toAdd.length}品を買い物リストに追加しました`);
+  } else {
+    shopBtn.disabled = false;
+    shopBtn.innerHTML = '🛒 この材料で買い物リストに追加';
+    showToast('❌ 追加失敗。GitHubトークンを確認してください');
+  }
+}
+
+// ===== INIT =====
+document.getElementById('today-date').textContent = todayStr();
+</script>
+</body>
+</html>

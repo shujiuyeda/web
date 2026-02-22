@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <meta name="theme-color" content="#1B4332">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="購買記録">
+  <title>🛒 購買記録</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --green-dark: #1B4332;
+      --green-mid: #2D6A4F;
+      --green-light: #52B788;
+      --green-pale: #D8F3DC;
+      --bg: #F0F4F0;
+      --card: #FFFFFF;
+      --text: #1A1A2E;
+      --text-muted: #6C757D;
+      --border: #DEE2E6;
+      --danger: #DC3545;
+      --success: #28A745;
+      --safe-top: env(safe-area-inset-top, 0px);
+      --safe-bottom: env(safe-area-inset-bottom, 0px);
+    }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Hiragino Kaku Gothic ProN', 'Hiragino Sans', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+    .header {
+      position: fixed; top: 0; left: 0; right: 0;
+      background: var(--green-dark);
+      color: white;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 16px;
+      padding-top: var(--safe-top);
+      height: calc(52px + var(--safe-top));
+      z-index: 100;
+    }
+    .header h1 { font-size: 16px; font-weight: 700; }
+    .header-sub { font-size: 12px; opacity: 0.75; }
+    .main {
+      padding-top: calc(52px + var(--safe-top));
+      padding-bottom: calc(24px + var(--safe-bottom));
+    }
+    .card {
+      background: var(--card); border-radius: 14px;
+      padding: 14px 16px; margin: 8px 12px;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.07);
+    }
+    .card-title {
+      font-size: 11px; font-weight: 700;
+      color: var(--text-muted); text-transform: uppercase;
+      letter-spacing: 0.6px; margin-bottom: 12px;
+    }
+    .form-group { margin-bottom: 14px; }
+    .form-label {
+      display: block; font-size: 12px; font-weight: 600;
+      color: var(--text-muted); margin-bottom: 5px;
+    }
+    .form-input, .form-textarea, .form-select {
+      width: 100%; padding: 10px 12px;
+      border: 1.5px solid var(--border); border-radius: 10px;
+      font-size: 15px; color: var(--text);
+      background: var(--bg);
+      font-family: inherit;
+      -webkit-appearance: none;
+      outline: none;
+      transition: border-color 0.15s;
+    }
+    .form-input:focus, .form-textarea:focus, .form-select:focus {
+      border-color: var(--green-light);
+      background: #fff;
+    }
+    .form-textarea {
+      min-height: 100px; resize: vertical;
+      line-height: 1.6;
+    }
+    .form-row { display: flex; gap: 10px; }
+    .form-row .form-group { flex: 1; }
+    .btn-primary {
+      width: 100%; padding: 14px;
+      background: var(--green-mid); color: white;
+      border: none; border-radius: 12px;
+      font-size: 16px; font-weight: 700;
+      cursor: pointer; -webkit-tap-highlight-color: transparent;
+      transition: opacity 0.15s, transform 0.1s;
+    }
+    .btn-primary:active { opacity: 0.75; transform: scale(0.98); }
+    .btn-primary:disabled { opacity: 0.5; cursor: default; transform: none; }
+    .spinner {
+      display: inline-block; width: 15px; height: 15px;
+      border: 2px solid rgba(255,255,255,0.4); border-top-color: white;
+      border-radius: 50%; animation: spin 0.7s linear infinite;
+      vertical-align: middle; margin-right: 5px;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .history-item {
+      border-bottom: 1px solid var(--border);
+      padding: 10px 0;
+    }
+    .history-item:last-child { border-bottom: none; }
+    .history-header {
+      display: flex; align-items: baseline; justify-content: space-between;
+      margin-bottom: 4px;
+    }
+    .history-date { font-size: 12px; color: var(--text-muted); }
+    .history-store { font-size: 15px; font-weight: 700; color: var(--text); }
+    .history-total {
+      font-size: 15px; font-weight: 700;
+      color: var(--green-dark);
+    }
+    .history-items {
+      font-size: 13px; color: var(--text-muted);
+      line-height: 1.5; white-space: pre-wrap;
+      word-break: break-all;
+    }
+    .empty-state {
+      text-align: center; padding: 32px 16px;
+      color: var(--text-muted); font-size: 14px;
+    }
+    .empty-icon { font-size: 40px; margin-bottom: 8px; }
+    .toast {
+      position: fixed; bottom: calc(20px + var(--safe-bottom));
+      left: 50%; transform: translateX(-50%);
+      background: rgba(20,20,20,0.88); color: white;
+      padding: 10px 20px; border-radius: 20px;
+      font-size: 14px; white-space: nowrap;
+      opacity: 0; transition: opacity 0.3s;
+      pointer-events: none; z-index: 999;
+    }
+    .toast.show { opacity: 1; }
+    .stats-row {
+      display: flex; gap: 8px; margin-bottom: 14px;
+    }
+    .stat-box {
+      flex: 1; background: var(--bg); border-radius: 10px;
+      padding: 10px 8px; text-align: center;
+    }
+    .stat-value { font-size: 18px; font-weight: 700; color: var(--green-dark); }
+    .stat-label { font-size: 10px; color: var(--text-muted); margin-top: 2px; }
+    .section-badge {
+      display: inline-block; padding: 2px 8px;
+      background: var(--green-pale); color: var(--green-dark);
+      border-radius: 8px; font-size: 11px; font-weight: 600;
+      margin-left: 6px;
+    }
+  </style>
+</head>
+<body>
+
+<div class="header">
+  <h1>🛒 購買記録</h1>
+  <span class="header-sub" id="today-label"></span>
+</div>
+
+<div class="main">
+
+  <!-- ===== INPUT FORM ===== -->
+  <div class="card">
+    <div class="card-title">新しい購買記録</div>
+
+    <div class="form-row">
+      <div class="form-group">
+        <label class="form-label" for="input-date">日付</label>
+        <input type="date" id="input-date" class="form-input">
+      </div>
+      <div class="form-group">
+        <label class="form-label" for="input-total">合計金額（円）</label>
+        <input type="number" id="input-total" class="form-input" placeholder="例: 2500" min="0" inputmode="numeric">
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label class="form-label" for="input-store">店舗名</label>
+      <input type="text" id="input-store" class="form-input" placeholder="例: ライフ、業務スーパー" list="store-list">
+      <datalist id="store-list">
+        <option value="ライフ">
+        <option value="マルエツ">
+        <option value="オーケー">
+        <option value="業務スーパー">
+        <option value="成城石井">
+        <option value="コンビニ（セブン）">
+        <option value="コンビニ（ローソン）">
+        <option value="コンビニ（ファミマ）">
+        <option value="ドラッグストア">
+        <option value="Amazon">
+        <option value="iHerb">
+      </datalist>
+    </div>
+
+    <div class="form-group">
+      <label class="form-label" for="input-items">購入品目（1行1品）</label>
+      <textarea id="input-items" class="form-textarea" placeholder="牛すじ&#10;にんじん&#10;ナス&#10;まいたけ"></textarea>
+    </div>
+
+    <div class="form-group">
+      <label class="form-label" for="input-note">メモ（任意）</label>
+      <input type="text" id="input-note" class="form-input" placeholder="セール品など">
+    </div>
+
+    <button class="btn-primary" id="save-btn" onclick="savePurchase()">
+      💾 記録を保存
+    </button>
+  </div>
+
+  <!-- ===== STATS ===== -->
+  <div class="card" id="stats-card" style="display:none;">
+    <div class="card-title">📊 集計（今月）</div>
+    <div class="stats-row" id="stats-row"></div>
+  </div>
+
+  <!-- ===== HISTORY ===== -->
+  <div class="card">
+    <div class="card-title">
+      📋 購買履歴
+      <span class="section-badge" id="history-count">0件</span>
+    </div>
+    <div id="history-list">
+      <div class="empty-state">
+        <div class="empty-icon">🛒</div>
+        <div>まだ記録がありません</div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+// ===== CONSTANTS =====
+const DATA_BASE_URL = 'https://shujiuyeda.github.io/web/data/';
+const GH_REPO = 'shujiuyeda/web';
+const GH_API  = 'https://api.github.com';
+
+// ===== UTILS =====
+function ls(key, val) {
+  if (val === undefined) {
+    try { return JSON.parse(localStorage.getItem(key)); } catch { return null; }
+  }
+  localStorage.setItem(key, JSON.stringify(val));
+}
+function ghToken() { return ls('gh_pat') || ''; }
+function todayStr() {
+  const d = new Date();
+  return [d.getFullYear(), String(d.getMonth()+1).padStart(2,'0'), String(d.getDate()).padStart(2,'0')].join('-');
+}
+function formatDate(ds) {
+  // YYYY-MM-DD → M月D日(曜日)
+  const d = new Date(ds + 'T00:00:00');
+  const days = ['日','月','火','水','木','金','土'];
+  return `${d.getMonth()+1}月${d.getDate()}日（${days[d.getDay()]}）`;
+}
+function showToast(msg, ms=2800) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), ms);
+}
+function yen(n) {
+  if (!n && n !== 0) return '—';
+  return `¥${Number(n).toLocaleString()}`;
+}
+
+// ===== GITHUB API =====
+async function ghGetFileSha(path) {
+  try {
+    const res = await fetch(`${GH_API}/repos/${GH_REPO}/contents/${path}?_=${Date.now()}`, {
+      headers: { 'Authorization': `Bearer ${ghToken()}`, 'Accept': 'application/vnd.github+json' }
+    });
+    if (!res.ok) return null;
+    return (await res.json()).sha || null;
+  } catch { return null; }
+}
+async function ghPutFile(path, content, message) {
+  const sha = await ghGetFileSha(path);
+  const body = { message, content: btoa(unescape(encodeURIComponent(content))) };
+  if (sha) body.sha = sha;
+  try {
+    const res = await fetch(`${GH_API}/repos/${GH_REPO}/contents/${path}`, {
+      method: 'PUT',
+      headers: {
+        'Authorization': `Bearer ${ghToken()}`,
+        'Accept': 'application/vnd.github+json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(body)
+    });
+    return res.ok;
+  } catch { return false; }
+}
+
+// ===== DATA =====
+let purchasesData = { purchases: [] };
+
+async function loadPurchases() {
+  // Try localStorage cache first
+  const cached = ls('purchases_cache');
+  if (cached) {
+    purchasesData = cached;
+    renderHistory();
+    renderStats();
+  }
+  // Fetch from GitHub Pages
+  try {
+    const res = await fetch(`${DATA_BASE_URL}purchases.json?_=${Date.now()}`, { cache: 'no-store' });
+    if (res.ok) {
+      purchasesData = await res.json();
+      ls('purchases_cache', purchasesData);
+      renderHistory();
+      renderStats();
+    }
+  } catch { /* use cached */ }
+}
+
+async function savePurchase() {
+  const date  = document.getElementById('input-date').value;
+  const store = document.getElementById('input-store').value.trim();
+  const items = document.getElementById('input-items').value.trim();
+  const total = document.getElementById('input-total').value;
+  const note  = document.getElementById('input-note').value.trim();
+
+  if (!date)  { showToast('⚠️ 日付を入力してください'); return; }
+  if (!store) { showToast('⚠️ 店舗名を入力してください'); return; }
+  if (!items) { showToast('⚠️ 購入品目を入力してください'); return; }
+  if (!ghToken()) { showToast('⚠️ GitHubトークン未設定（Health Hubで設定）'); return; }
+
+  const btn = document.getElementById('save-btn');
+  btn.disabled = true;
+  btn.innerHTML = '<span class="spinner"></span>保存中...';
+
+  // Build new entry
+  const existing = purchasesData.purchases || [];
+  let maxId = 0;
+  existing.forEach(p => {
+    const m = p.id && p.id.match(/^p(\d+)$/);
+    if (m) maxId = Math.max(maxId, parseInt(m[1]));
+  });
+
+  const entry = {
+    id: `p${maxId + 1}`,
+    date,
+    store,
+    items,
+    total: total ? parseInt(total) : null,
+    note: note || null
+  };
+
+  // Prepend (newest first)
+  const updated = { purchases: [entry, ...existing] };
+  const content = JSON.stringify(updated, null, 2);
+
+  const ok = await ghPutFile('data/purchases.json', content, `kaimono: ${date} ${store}`);
+
+  if (ok) {
+    purchasesData = updated;
+    ls('purchases_cache', purchasesData);
+    renderHistory();
+    renderStats();
+    // Clear form (keep date)
+    document.getElementById('input-store').value = '';
+    document.getElementById('input-items').value = '';
+    document.getElementById('input-total').value = '';
+    document.getElementById('input-note').value = '';
+    btn.innerHTML = '✅ 保存しました！';
+    showToast('購買記録を保存しました');
+    setTimeout(() => {
+      btn.disabled = false;
+      btn.innerHTML = '💾 記録を保存';
+    }, 2000);
+  } else {
+    btn.disabled = false;
+    btn.innerHTML = '💾 記録を保存';
+    showToast('❌ 保存失敗。GitHubトークンを確認してください');
+  }
+}
+
+// ===== RENDER =====
+function renderHistory() {
+  const list = document.getElementById('history-list');
+  const purchases = purchasesData.purchases || [];
+  document.getElementById('history-count').textContent = `${purchases.length}件`;
+
+  if (purchases.length === 0) {
+    list.innerHTML = `<div class="empty-state">
+      <div class="empty-icon">🛒</div>
+      <div>まだ記録がありません</div>
+    </div>`;
+    return;
+  }
+
+  // Show latest 20
+  const recent = purchases.slice(0, 20);
+  list.innerHTML = recent.map(p => `
+    <div class="history-item">
+      <div class="history-header">
+        <div>
+          <span class="history-date">${formatDate(p.date)}</span>
+          <div class="history-store">${escHtml(p.store)}</div>
+        </div>
+        <div class="history-total">${p.total ? yen(p.total) : '—'}</div>
+      </div>
+      <div class="history-items">${escHtml(p.items)}</div>
+      ${p.note ? `<div style="font-size:12px;color:var(--text-muted);margin-top:3px;">📝 ${escHtml(p.note)}</div>` : ''}
+    </div>`).join('');
+}
+
+function renderStats() {
+  const purchases = purchasesData.purchases || [];
+  if (purchases.length === 0) {
+    document.getElementById('stats-card').style.display = 'none';
+    return;
+  }
+
+  const now = new Date();
+  const thisMonth = `${now.getFullYear()}-${String(now.getMonth()+1).padStart(2,'0')}`;
+  const monthPurchases = purchases.filter(p => p.date && p.date.startsWith(thisMonth));
+  const totalSpend = monthPurchases.reduce((sum, p) => sum + (p.total || 0), 0);
+
+  document.getElementById('stats-row').innerHTML = `
+    <div class="stat-box">
+      <div class="stat-value">${monthPurchases.length}</div>
+      <div class="stat-label">今月の回数</div>
+    </div>
+    <div class="stat-box">
+      <div class="stat-value">${totalSpend ? yen(totalSpend) : '—'}</div>
+      <div class="stat-label">今月の合計</div>
+    </div>
+    <div class="stat-box">
+      <div class="stat-value">${purchases.length}</div>
+      <div class="stat-label">総記録数</div>
+    </div>`;
+  document.getElementById('stats-card').style.display = '';
+}
+
+function escHtml(s) {
+  return String(s || '')
+    .replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')
+    .replace(/"/g,'&quot;');
+}
+
+// ===== INIT =====
+const today = todayStr();
+document.getElementById('today-label').textContent = today;
+document.getElementById('input-date').value = today;
+loadPurchases();
+</script>
+</body>
+</html>
