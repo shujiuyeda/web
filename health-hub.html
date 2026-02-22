@@ -1331,13 +1331,17 @@ function renderGutCard() {
 
   if (g.factors) {
     const labels = {
-      fiber:      ['🥬 食物繊維', 20],
-      probiotics: ['💊 プロバイオ', 20],
-      fermented:  ['🫘 発酵食品', 15],
+      fiber:      ['🥬 食物繊維', 15],
+      diversity:  ['🌱 植物多様性', 10],
+      fermented:  ['🫘 発酵食品', 12],
+      polyphenol: ['🫐 ポリフェノール', 8],
+      regularity: ['⏰ 食事リズム', 10],
+      probiotics: ['💊 プロバイオ', 8],
+      prebiotics: ['🌿 プレバイオ', 7],
       bowel:      ['💩 お通じ', 15],
-      water:      ['💧 水分', 10],
-      sleep:      ['😴 睡眠', 10],
-      regularity: ['⏰ 食事リズム', 10]
+      water:      ['💧 水分', 6],
+      sleep:      ['😴 睡眠', 6],
+      steps:      ['🚶 歩数', 3]
     };
     html += `<div style="margin-top:10px;">`;
     for (const [key, [label, max]] of Object.entries(labels)) {
@@ -1345,7 +1349,7 @@ function renderGutCard() {
       if (!f) continue;
       const pct = Math.round(f.pts / max * 100);
       html += `<div style="display:flex;align-items:center;gap:6px;margin:4px 0;font-size:11px;">`;
-      html += `<span style="width:90px;opacity:0.8;">${label}</span>`;
+      html += `<span style="width:100px;opacity:0.8;">${label}</span>`;
       html += `<div style="flex:1;height:4px;background:rgba(255,255,255,0.15);border-radius:2px;">`;
       html += `<div style="width:${pct}%;height:100%;background:${barColor};border-radius:2px;"></div>`;
       html += `</div>`;
