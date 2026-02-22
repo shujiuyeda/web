@@ -2997,6 +2997,17 @@ function toggleShoppingItem(id, checked, el) {
     nameEl.style.textDecoration = checked ? 'line-through' : 'none';
     nameEl.style.color = checked ? 'var(--text-muted)' : '';
   }
+  // 削除ボタンの活性状態を更新
+  const items = JSON.parse(localStorage.getItem('shopping_items') || '[]');
+  const checkedCount = items.filter(i => checks[i.id]).length;
+  const delBtn = document.querySelector('[onclick="deleteCheckedShoppingItems()"]');
+  if (delBtn) {
+    delBtn.disabled = checkedCount === 0;
+    delBtn.style.borderColor = checkedCount === 0 ? 'var(--border)' : 'var(--danger)';
+    delBtn.style.color = checkedCount === 0 ? 'var(--text-muted)' : 'var(--danger)';
+    delBtn.style.cursor = checkedCount === 0 ? 'default' : 'pointer';
+    delBtn.style.opacity = checkedCount === 0 ? '0.4' : '1';
+  }
   syncShoppingToGitHub();
 }
 
