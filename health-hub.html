@@ -1059,6 +1059,57 @@ function renderOverallBanner() {
     </div>`;
 }
 
+function renderGutCard() {
+  if (!adviceData || !adviceData.gut) return '';
+  const g = adviceData.gut;
+  const stale = isAdviceStale() ? ' stale' : '';
+  const barColor = g.score >= 70 ? '#74C69D' : g.score >= 40 ? '#F4A261' : '#E76F51';
+
+  let html = `<div class="advice-card${stale}" style="background:linear-gradient(135deg,#1A3A2A 0%,#2A5A3F 100%);">`;
+  html += `<div class="advice-card-label">🦠 腸内環境スコア</div>`;
+  html += `<div class="advice-score-row">`;
+  html += `<span class="advice-score-num">${g.score}</span>`;
+  html += `<div class="advice-score-meta">`;
+  html += `<div class="advice-score-bar"><div class="advice-score-fill" style="width:${g.score}%;background:${barColor};"></div></div>`;
+  html += `<div style="font-size:10px;opacity:0.6;">/ 100</div>`;
+  html += `</div></div>`;
+
+  if (g.factors) {
+    const labels = {
+      fiber:      ['🥬 食物繊維', 25],
+      probiotics: ['💊 プロバイオ', 25],
+      fermented:  ['🫘 発酵食品', 20],
+      sleep:      ['😴 睡眠', 15],
+      regularity: ['⏰ 食事リズム', 15]
+    };
+    html += `<div style="margin-top:10px;">`;
+    for (const [key, [label, max]] of Object.entries(labels)) {
+      const f = g.factors[key];
+      if (!f) continue;
+      const pct = Math.round(f.pts / max * 100);
+      html += `<div style="display:flex;align-items:center;gap:6px;margin:4px 0;font-size:11px;">`;
+      html += `<span style="width:90px;opacity:0.8;">${label}</span>`;
+      html += `<div style="flex:1;height:4px;background:rgba(255,255,255,0.15);border-radius:2px;">`;
+      html += `<div style="width:${pct}%;height:100%;background:${barColor};border-radius:2px;"></div>`;
+      html += `</div>`;
+      html += `<span style="width:32px;text-align:right;opacity:0.7;">${f.pts}/${max}</span>`;
+      html += `</div>`;
+    }
+    html += `</div>`;
+  }
+
+  if (g.insight) html += `<div class="advice-insight" style="margin-top:10px;">${esc(g.insight)}</div>`;
+  if (g.tips?.length) {
+    html += '<ul class="advice-tips">';
+    g.tips.forEach(t => html += `<li>${esc(t)}</li>`);
+    html += '</ul>';
+  }
+  if (g.correlation) html += `<div class="advice-box">💡 ${esc(g.correlation)}</div>`;
+  if (stale) html += '<div class="advice-stale-note">データ更新待ち</div>';
+  html += '</div>';
+  return html;
+}
+
 function renderAdviceCard(tab) {
   if (!adviceData) return '';
   const stale = isAdviceStale();
@@ -1347,6 +1398,7 @@ function renderMeals(container) {
 
   // AI Overall banner
   html += renderOverallBanner();
+  html += renderGutCard();
 
   // Kcal summary card
   html += `
