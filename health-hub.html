@@ -458,6 +458,13 @@
     .nutr-group-label:first-of-type {
       margin-top: 0; padding-top: 0; border-top: none;
     }
+    .nutr-bar-note {
+      display: block;
+      font-size: 10px;
+      font-weight: 400;
+      color: var(--text-muted);
+      margin-top: 1px;
+    }
     /* Sleep */
     .sleep-hero {
       text-align: center; padding: 8px 0 12px;
@@ -1380,18 +1387,19 @@ function renderMeals(container) {
     <div class="card">
       <div class="card-title">栄養バランス</div>
       <div class="nutr-group-label">マクロ栄養素</div>
-      ${nutrBar('カロリー', t.kcal, TARGETS.kcalMax, 'kcal', t.kcal > TARGETS.kcalMax ? 'over' : t.kcal > TARGETS.kcalMin ? 'ok' : 'warn')}
-      ${nutrBar('たんぱく質', t.p, TARGETS.pMax, 'g', t.p > TARGETS.pMax ? 'over' : t.p >= TARGETS.pMin ? 'ok' : 'warn')}
-      ${nutrBar('炭水化物', t.c, TARGETS.cMax, 'g', t.c > TARGETS.cMax ? 'over' : t.c >= TARGETS.cMin ? 'ok' : 'warn')}
-      <div class="nutr-group-label">脂質の質</div>
-      ${nutrBar('飽和脂肪酸（控えめに）', t.satFat, TARGETS.satFatMax, 'g', t.satFat > TARGETS.satFatMax ? 'over' : 'ok')}
-      ${nutrBar('不飽和脂肪酸（積極的に）', unsatFat, TARGETS.unsatFatMin, 'g', unsatFat >= TARGETS.unsatFatMin ? 'ok' : 'warn')}
+      ${nutrBar('カロリー', t.kcal, TARGETS.kcalMax, 'kcal', t.kcal > TARGETS.kcalMax ? 'over' : t.kcal > TARGETS.kcalMin ? 'ok' : 'warn', '減量ペース維持の基本')}
+      ${nutrBar('たんぱく質', t.p, TARGETS.pMax, 'g', t.p > TARGETS.pMax ? 'over' : t.p >= TARGETS.pMin ? 'ok' : 'warn', '筋肉を守る・満腹感キープ')}
+      ${nutrBar('脂質', t.f, TARGETS.fMax, 'g', t.f > TARGETS.fMax ? 'over' : t.f >= TARGETS.fMin ? 'ok' : 'warn', 'ホルモン・細胞膜の材料')}
+      ${nutrBar('炭水化物', t.c, TARGETS.cMax, 'g', t.c > TARGETS.cMax ? 'over' : t.c >= TARGETS.cMin ? 'ok' : 'warn', '脳と体のエネルギー源')}
+      <div class="nutr-group-label">脂質の質 — 量より中身が大事</div>
+      ${nutrBar('🔴 悪い脂（控えめに）', t.satFat, TARGETS.satFatMax, 'g', t.satFat > TARGETS.satFatMax ? 'over' : 'ok', '肉・バター・チーズ・菓子の油 → LDLコレステロール↑')}
+      ${nutrBar('🟢 良い脂（積極的に）', unsatFat, TARGETS.unsatFatMin, 'g', unsatFat >= TARGETS.unsatFatMin ? 'ok' : 'warn', '魚(ω3)・オリーブ油(ω9)・ナッツ(ω6) → 血管を守る')}
       <div class="nutr-group-label">ミネラル・その他</div>
-      ${nutrBar('食物繊維', t.fiber, TARGETS.fiberTarget, 'g', t.fiber >= TARGETS.fiberTarget ? 'ok' : 'warn')}
-      ${nutrBar('塩分', t.salt, TARGETS.saltTarget, 'g', t.salt > TARGETS.saltTarget ? 'over' : 'ok')}
-      ${nutrBar('マグネシウム', t.mg, TARGETS.mgTarget, 'mg', t.mg >= TARGETS.mgTarget ? 'ok' : 'warn')}
-      ${nutrBar('カルシウム', t.ca, TARGETS.caTarget, 'mg', t.ca >= TARGETS.caTarget ? 'ok' : 'warn')}
-      ${nutrBar('カリウム', t.k, TARGETS.kTarget, 'mg', t.k >= TARGETS.kTarget ? 'ok' : 'warn')}
+      ${nutrBar('食物繊維（積極的に）', t.fiber, TARGETS.fiberTarget, 'g', t.fiber >= TARGETS.fiberTarget ? 'ok' : 'warn', '腸内環境・血糖値の急上昇を抑える')}
+      ${nutrBar('塩分（控えめに）', t.salt, TARGETS.saltTarget, 'g', t.salt > TARGETS.saltTarget ? 'over' : 'ok', '血圧・むくみの原因 → 日本人の最大リスク')}
+      ${nutrBar('マグネシウム（積極的に）', t.mg, TARGETS.mgTarget, 'mg', t.mg >= TARGETS.mgTarget ? 'ok' : 'warn', '睡眠の質・筋肉のリラックス')}
+      ${nutrBar('カルシウム（積極的に）', t.ca, TARGETS.caTarget, 'mg', t.ca >= TARGETS.caTarget ? 'ok' : 'warn', '骨・歯を守る → 減量中に不足しがち')}
+      ${nutrBar('カリウム（積極的に）', t.k, TARGETS.kTarget, 'mg', t.k >= TARGETS.kTarget ? 'ok' : 'warn', '塩分を体外に排出 → 野菜・果物・芋に多い')}
     </div>
   `;
 
@@ -1448,12 +1456,12 @@ function macroCard(name, val, target, status, pct) {
     </div>`;
 }
 
-function nutrBar(label, val, max, unit, status) {
+function nutrBar(label, val, max, unit, status, note) {
   const pct = Math.min((val / max) * 100, 100);
   return `
     <div class="nutr-bar">
       <div class="nutr-bar-header">
-        <span class="nutr-bar-label">${label}</span>
+        <span class="nutr-bar-label">${label}${note ? `<span class="nutr-bar-note">${note}</span>` : ''}</span>
         <span class="nutr-bar-val">${label === 'カロリー' ? Math.round(val) : val.toFixed(1)}${unit} / ${label === 'カロリー' ? max : max}${unit}</span>
       </div>
       <div class="nutr-bar-track">
