@@ -192,8 +192,10 @@
     .meal-group-label { font-size: 12px; font-weight: 600; color: var(--text-muted); flex: 1; }
     .meal-group-kcal { font-size: 15px; font-weight: 700; color: var(--green-mid); flex-shrink: 0; }
     .meal-group-items { margin: 0 0 6px 46px; }
-    .meal-group-item { display: flex; align-items: center; padding: 2px 0; }
-    .meal-group-item-name { font-size: 13px; flex: 1; line-height: 1.4; color: var(--text); }
+    .meal-group-item { display: flex; align-items: center; padding: 3px 0; }
+    .meal-group-item-info { flex: 1; min-width: 0; }
+    .meal-group-item-name { font-size: 13px; line-height: 1.4; color: var(--text); display: block; }
+    .meal-group-item-macros { font-size: 11px; color: var(--text-muted); }
     .meal-group-footer { display: flex; gap: 10px; flex-wrap: wrap; font-size: 11px; color: var(--text-muted); padding-left: 46px; }
     .summary-row {
       display: flex; justify-content: space-between; align-items: center;
@@ -1733,7 +1735,7 @@ function renderMeals(container) {
         mealGroups.push(g);
       }
       const g = timeMap[m.time];
-      g.items.push({ name: m.name, idx: i });
+      g.items.push({ name: m.name, kcal: m.kcal||0, p: m.p||0, f: m.f||0, c: m.c||0, idx: i });
       g.kcal  += m.kcal  || 0;
       g.p     += m.p     || 0;
       g.f     += m.f     || 0;
@@ -1753,7 +1755,10 @@ function renderMeals(container) {
         <div class="meal-group-items">`;
       g.items.forEach(item => {
         mealHtml += `<div class="meal-group-item">
-            <span class="meal-group-item-name">• ${esc(item.name)}</span>
+            <div class="meal-group-item-info">
+              <span class="meal-group-item-name">• ${esc(item.name)}</span>
+              <span class="meal-group-item-macros">${Math.round(item.kcal)}kcal　P${item.p.toFixed(1)} F${item.f.toFixed(1)} C${item.c.toFixed(1)}</span>
+            </div>
             <button class="meal-del" onclick="deleteMeal(${item.idx})">×</button>
           </div>`;
       });
