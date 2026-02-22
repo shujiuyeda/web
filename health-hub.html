@@ -1419,6 +1419,7 @@ function init() {
   stampLastUpdated();
   const hash = location.hash.replace('#', '');
   const startTab = ['meals','supplements','weight','shopping','sleep'].includes(hash) ? hash : 'meals';
+  currentTab = startTab; // アニメーションをスキップするため先にセット
   switchTab(startTab);
   if ('serviceWorker' in navigator) {
     navigator.serviceWorker.register('/web/sw.js').catch(() => {});
