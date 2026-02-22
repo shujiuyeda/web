@@ -41,13 +41,40 @@
       "correlation": "体重単独データのため詳細相関分析は困難。食事・睡眠記録が揃うと精度が大幅に上がる。"
     },
     "gut": {
-      "score": 15,
+      "score": 5,
       "factors": {
-        "fiber":      { "avg": 0, "target": 21, "pts": 0 },
-        "probiotics": { "rate": 0, "pts": 0 },
-        "fermented":  { "daysHit": 0, "items": [], "pts": 0 },
-        "sleep":      { "avgHrs": 0, "pts": 0 },
-        "regularity": { "score": 0.5, "pts": 8 }
+        "fiber": {
+          "avg": 0,
+          "target": 21,
+          "pts": 0
+        },
+        "probiotics": {
+          "rate": 0,
+          "pts": 0
+        },
+        "fermented": {
+          "daysHit": 0,
+          "items": [],
+          "pts": 0
+        },
+        "bowel": {
+          "daysHit": 0,
+          "status": "unknown",
+          "pts": 0
+        },
+        "water": {
+          "avgL": 0,
+          "target": 2.0,
+          "pts": 0
+        },
+        "sleep": {
+          "avgHrs": 0,
+          "pts": 0
+        },
+        "regularity": {
+          "score": 0.5,
+          "pts": 5
+        }
       },
       "insight": "食事・サプリ・睡眠の記録がないため、腸内環境スコアを算出できません。データが揃った日は詳細なスコアが自動計算されます。",
       "tips": [
@@ -60,11 +87,12 @@
       {
         "title": "体脂肪30.8%は2月最低記録",
         "body": "2/16の体脂肪30.8%は2月中で最も低い値。体重88.45kgは前日比微増だが体脂肪の低さは筋肉量維持の兆候。食事・睡眠データがあれば原因分析が可能だった。今後の記録継続が重要。",
-        "relatedTabs": ["weight"]
+        "relatedTabs": [
+          "weight"
+        ]
       }
     ]
   },
-
   "2026-02-17": {
     "generated": "2026-02-22T10:10:00",
     "overall": {
@@ -108,13 +136,40 @@
       "correlation": "睡眠3.6h→コルチゾール上昇→筋肉分解促進・脂肪蓄積のリスク。体重トレンドを維持するには睡眠確保が最優先。"
     },
     "gut": {
-      "score": 12,
+      "score": 5,
       "factors": {
-        "fiber":      { "avg": 0, "target": 21, "pts": 0 },
-        "probiotics": { "rate": 0, "pts": 0 },
-        "fermented":  { "daysHit": 0, "items": [], "pts": 0 },
-        "sleep":      { "avgHrs": 3.6, "pts": 2 },
-        "regularity": { "score": 0.4, "pts": 6 }
+        "fiber": {
+          "avg": 0,
+          "target": 21,
+          "pts": 0
+        },
+        "probiotics": {
+          "rate": 0,
+          "pts": 0
+        },
+        "fermented": {
+          "daysHit": 0,
+          "items": [],
+          "pts": 0
+        },
+        "bowel": {
+          "daysHit": 0,
+          "status": "unknown",
+          "pts": 0
+        },
+        "water": {
+          "avgL": 0,
+          "target": 2.0,
+          "pts": 0
+        },
+        "sleep": {
+          "avgHrs": 3.6,
+          "pts": 1
+        },
+        "regularity": {
+          "score": 0.4,
+          "pts": 4
+        }
       },
       "insight": "食事・サプリ記録がなく、睡眠も3.6hと極端に少ない日。睡眠不足は腸の蠕動運動を乱し、腸内細菌叢のバランスを崩しやすい。",
       "tips": [
@@ -127,11 +182,13 @@
       {
         "title": "睡眠3.6hが体全体に影響",
         "body": "この日の睡眠3.6hは週の中で最も短い。翌日2/18に7.1hで回復しているが、慢性的な睡眠不足は食欲増加・代謝低下・腸内環境悪化を引き起こす。就寝前マグネシウム（b1）の習慣化が最も効果的な対策。",
-        "relatedTabs": ["sleep", "weight"]
+        "relatedTabs": [
+          "sleep",
+          "weight"
+        ]
       }
     ]
   },
-
   "2026-02-18": {
     "generated": "2026-02-22T10:10:00",
     "overall": {
@@ -176,13 +233,40 @@
       "correlation": "7h睡眠→成長ホルモン分泌→体脂肪燃焼促進の効果が翌日以降に現れる。体脂肪率は遅れて反映される。"
     },
     "gut": {
-      "score": 22,
+      "score": 15,
       "factors": {
-        "fiber":      { "avg": 0, "target": 21, "pts": 0 },
-        "probiotics": { "rate": 0, "pts": 0 },
-        "fermented":  { "daysHit": 0, "items": [], "pts": 0 },
-        "sleep":      { "avgHrs": 7.1, "pts": 15 },
-        "regularity": { "score": 0.5, "pts": 8 }
+        "fiber": {
+          "avg": 0,
+          "target": 21,
+          "pts": 0
+        },
+        "probiotics": {
+          "rate": 0,
+          "pts": 0
+        },
+        "fermented": {
+          "daysHit": 0,
+          "items": [],
+          "pts": 0
+        },
+        "bowel": {
+          "daysHit": 0,
+          "status": "unknown",
+          "pts": 0
+        },
+        "water": {
+          "avgL": 0,
+          "target": 2.0,
+          "pts": 0
+        },
+        "sleep": {
+          "avgHrs": 7.1,
+          "pts": 10
+        },
+        "regularity": {
+          "score": 0.5,
+          "pts": 5
+        }
       },
       "insight": "食事・サプリ記録はないが、睡眠7.1hは腸の回復に大きく貢献。良質な睡眠は腸の蠕動運動を正常化し、腸内細菌叢の多様性維持にも寄与する。",
       "tips": [
@@ -195,11 +279,13 @@
       {
         "title": "睡眠7hが翌日の体重回復を加速",
         "body": "2/18の7.1h良質睡眠後、翌2/19は88.0kgへ自然回復。成長ホルモンが睡眠中に分泌され、体脂肪燃焼と筋肉修復が促進される。良質な睡眠は最も効果的な「受動的ダイエット」。",
-        "relatedTabs": ["sleep", "weight"]
+        "relatedTabs": [
+          "sleep",
+          "weight"
+        ]
       }
     ]
   },
-
   "2026-02-19": {
     "generated": "2026-02-22T10:10:00",
     "overall": {
@@ -244,13 +330,40 @@
       "correlation": "体重の下降トレンドは維持できているが、睡眠不足が続くと代謝低下のリスクあり。睡眠確保が体重管理の土台。"
     },
     "gut": {
-      "score": 22,
+      "score": 9,
       "factors": {
-        "fiber":      { "avg": 0, "target": 21, "pts": 0 },
-        "probiotics": { "rate": 0, "pts": 0 },
-        "fermented":  { "daysHit": 0, "items": [], "pts": 0 },
-        "sleep":      { "avgHrs": 5.2, "pts": 5 },
-        "regularity": { "score": 0.5, "pts": 8 }
+        "fiber": {
+          "avg": 0,
+          "target": 21,
+          "pts": 0
+        },
+        "probiotics": {
+          "rate": 0,
+          "pts": 0
+        },
+        "fermented": {
+          "daysHit": 0,
+          "items": [],
+          "pts": 0
+        },
+        "bowel": {
+          "daysHit": 0,
+          "status": "unknown",
+          "pts": 0
+        },
+        "water": {
+          "avgL": 0,
+          "target": 2.0,
+          "pts": 0
+        },
+        "sleep": {
+          "avgHrs": 5.2,
+          "pts": 4
+        },
+        "regularity": {
+          "score": 0.5,
+          "pts": 5
+        }
       },
       "insight": "食事・サプリ記録がなく、睡眠5.2hは腸への十分な回復時間を提供できていない。腸の蠕動運動は睡眠中に促進されるため、5h台では不十分。",
       "tips": [
@@ -263,11 +376,13 @@
       {
         "title": "体重88.0kgは先週比-0.75kg、順調な下降",
         "body": "2/12の88.75kgから1週間で-0.75kg。週-0.5〜1.0kgの適切なペースで減量継続中。ただし睡眠5.2h→5.6h→3.7hと悪化傾向が続き、翌週に改善が必要だった。",
-        "relatedTabs": ["weight", "sleep"]
+        "relatedTabs": [
+          "weight",
+          "sleep"
+        ]
       }
     ]
   },
-
   "2026-02-20": {
     "generated": "2026-02-22T10:10:00",
     "overall": {
@@ -313,13 +428,40 @@
       "correlation": "カロリー1,156kcal（不足）→睡眠の断片化→コルチゾール上昇→体脂肪燃焼の抑制。食事と睡眠の両方を改善することが体重管理の鍵。"
     },
     "gut": {
-      "score": 40,
+      "score": 31,
       "factors": {
-        "fiber":      { "avg": 7.7, "target": 21, "pts": 9 },
-        "probiotics": { "rate": 0.76, "pts": 19 },
-        "fermented":  { "daysHit": 0, "items": [], "pts": 0 },
-        "sleep":      { "avgHrs": 5.6, "pts": 5 },
-        "regularity": { "score": 0.55, "pts": 8 }
+        "fiber": {
+          "avg": 7.7,
+          "target": 21,
+          "pts": 7
+        },
+        "probiotics": {
+          "rate": 0.76,
+          "pts": 15
+        },
+        "fermented": {
+          "daysHit": 0,
+          "items": [],
+          "pts": 0
+        },
+        "bowel": {
+          "daysHit": 0,
+          "status": "unknown",
+          "pts": 0
+        },
+        "water": {
+          "avgL": 0,
+          "target": 2.0,
+          "pts": 0
+        },
+        "sleep": {
+          "avgHrs": 5.6,
+          "pts": 4
+        },
+        "regularity": {
+          "score": 0.55,
+          "pts": 5
+        }
       },
       "insight": "食物繊維7.7g（目標21gの37%）と大幅不足。発酵食品ゼロ（カレー・チョコ中心の食事）が腸活スコアを下げた主因。プロバイオ系サプリ（m5・m4・e3・e4・a1）の服用率は高く76%と良好。",
       "tips": [
@@ -333,16 +475,21 @@
       {
         "title": "マグネシウム未服用が連鎖的な問題を引き起こす",
         "body": "就寝前b1未服用→深夜3時間覚醒→睡眠密度低下→翌日の疲労・食欲増加のリスク。2/20・2/21連続でb1未服用になったことが2/21の睡眠崩壊（3.7h）につながった。b1は歯磨きとセットでルーティン化することが解決策。",
-        "relatedTabs": ["sleep", "supplements"]
+        "relatedTabs": [
+          "sleep",
+          "supplements"
+        ]
       },
       {
         "title": "低カロリー1,156kcalが翌日の過食リスクを生む",
         "body": "カロリー1,156kcalは推奨の約70%。慢性的なカロリー不足は基礎代謝を下げるだけでなく、翌日の強い食欲（リバウンド）を引き起こしやすい。翌2/21は1,455kcalに自然と増えているが、これは前日の不足への補正反応でもある。",
-        "relatedTabs": ["meals", "weight"]
+        "relatedTabs": [
+          "meals",
+          "weight"
+        ]
       }
     ]
   },
-
   "2026-02-21": {
     "generated": "2026-02-22T10:10:00",
     "overall": {
@@ -388,13 +535,44 @@
       "correlation": "食事1,455kcal（適切）・早い夕食（18:30）→体重86.75kgへの大幅減少に貢献。ただし睡眠3.7hは代謝への悪影響があり、良い睡眠との組み合わせが理想。"
     },
     "gut": {
-      "score": 46,
+      "score": 34,
       "factors": {
-        "fiber":      { "avg": 15.0, "target": 21, "pts": 18 },
-        "probiotics": { "rate": 0.56, "pts": 14 },
-        "fermented":  { "daysHit": 1, "items": ["納豆", "味噌", "西京漬け"], "pts": 3 },
-        "sleep":      { "avgHrs": 3.7, "pts": 2 },
-        "regularity": { "score": 0.7, "pts": 9 }
+        "fiber": {
+          "avg": 15.0,
+          "target": 21,
+          "pts": 14
+        },
+        "probiotics": {
+          "rate": 0.56,
+          "pts": 11
+        },
+        "fermented": {
+          "daysHit": 1,
+          "items": [
+            "納豆",
+            "味噌",
+            "西京漬け"
+          ],
+          "pts": 2
+        },
+        "bowel": {
+          "daysHit": 0,
+          "status": "unknown",
+          "pts": 0
+        },
+        "water": {
+          "avgL": 0,
+          "target": 2.0,
+          "pts": 0
+        },
+        "sleep": {
+          "avgHrs": 3.7,
+          "pts": 1
+        },
+        "regularity": {
+          "score": 0.7,
+          "pts": 6
+        }
       },
       "insight": "食物繊維15g（今週最高）・発酵食品3種（納豆・味噌・鮭の西京漬け）と腸活面では今週ベスト。しかし睡眠3.7h（REM・深い睡眠ゼロ）が腸の蠕動運動を乱し、せっかくの良い食事の効果を相殺した。",
       "tips": [
@@ -408,21 +586,30 @@
       {
         "title": "食事は今週最高なのに睡眠は今週最低",
         "body": "2/21は食物繊維15g・発酵食品3種・夕食18:30と食事面で今週ベスト。一方で睡眠3.7h（REM・Deep ゼロ・覚醒4.4h）と最悪。夜サプリ全欠（b1含む）が最大の原因。翌2/22にb1を服用→6.9hの良眠で劇的に回復した。",
-        "relatedTabs": ["meals", "sleep", "supplements"]
+        "relatedTabs": [
+          "meals",
+          "sleep",
+          "supplements"
+        ]
       },
       {
         "title": "体重-1.15kgの大幅減少を分析",
         "body": "87.9kg→86.75kgの-1.15kgは一部が水分・消化物減少だが、前後の体重も安定しており実質的な体重減少が含まれる。夕食18:30と1,455kcalの適切なカロリーが翌朝の体重に好影響を与えた。良い食習慣が体重減少を加速する証拠。",
-        "relatedTabs": ["meals", "weight"]
+        "relatedTabs": [
+          "meals",
+          "weight"
+        ]
       },
       {
         "title": "外食後の夜サプリ忘れパターンに注意",
         "body": "新八食堂（外食・18:30）→スタバ（20:00）→帰宅後に夜サプリ全忘れのパターンが発生。外食時は帰宅後のルーティンが崩れやすい。「帰宅したらすぐサプリ」というトリガーを作ることで防止できる。",
-        "relatedTabs": ["supplements", "sleep"]
+        "relatedTabs": [
+          "supplements",
+          "sleep"
+        ]
       }
     ]
   },
-
   "2026-02-22": {
     "generated": "2026-02-22T09:14:00",
     "overall": {
@@ -468,13 +655,43 @@
       "correlation": "十分な食事（1,500kcal以上）→良質な睡眠→翌日の体重安定、という好サイクルを作ることが減量の鍵。"
     },
     "gut": {
-      "score": 57,
+      "score": 37,
       "factors": {
-        "fiber":      { "avg": 9.1, "target": 21, "pts": 11 },
-        "probiotics": { "rate": 0.66, "pts": 17 },
-        "fermented":  { "daysHit": 2, "items": ["納豆", "味噌"], "pts": 13 },
-        "sleep":      { "avgHrs": 5.4, "pts": 6 },
-        "regularity": { "score": 0.67, "pts": 10 }
+        "fiber": {
+          "avg": 9.1,
+          "target": 21,
+          "pts": 9
+        },
+        "probiotics": {
+          "rate": 0.66,
+          "pts": 13
+        },
+        "fermented": {
+          "daysHit": 2,
+          "items": [
+            "納豆",
+            "味噌"
+          ],
+          "pts": 4
+        },
+        "bowel": {
+          "daysHit": 0,
+          "status": "unknown",
+          "pts": 0
+        },
+        "water": {
+          "avgL": 0,
+          "target": 2.0,
+          "pts": 0
+        },
+        "sleep": {
+          "avgHrs": 5.4,
+          "pts": 4
+        },
+        "regularity": {
+          "score": 0.67,
+          "pts": 7
+        }
       },
       "insight": "食物繊維が3日平均9.1g（目標21gの43%）とまだ不足。ただし今朝の和朝食（納豆・味噌汁）は腸活に理想的なスタート。プロバイオ系サプリ（Align/エビオス/ビオスリー）の服用率は66%で及第点。",
       "tips": [
@@ -488,17 +705,26 @@
       {
         "title": "今朝の和朝食は満点スタート",
         "body": "納豆（プロバイオティクス・食物繊維）+白米（エネルギー）+味噌汁（ミネラル・たんぱく質）の組み合わせは腸活・減量・筋肉維持に理想的。この朝食パターンを続けると体重・腸内環境ともに改善しやすい。",
-        "relatedTabs": ["meals", "weight"]
+        "relatedTabs": [
+          "meals",
+          "weight"
+        ]
       },
       {
         "title": "マグネシウムが睡眠を守る",
         "body": "2/20・2/21と連続でマグネシウム未服用→睡眠3.7h（覚醒4時間超）に崩壊。今夜は6.9hで見事回復。今夜も就寝前b1を必ず服用。マグネシウムは神経の興奮を抑え深い眠りを促す。",
-        "relatedTabs": ["sleep", "supplements"]
+        "relatedTabs": [
+          "sleep",
+          "supplements"
+        ]
       },
       {
         "title": "良質な睡眠が体重減少を加速する",
         "body": "昨夜6.9h・REM2.1hの良眠で今朝86.95kg。睡眠中に成長ホルモンが分泌されて体脂肪が燃焼する。睡眠7h確保＋マグネシウム服用が減量の最強の助っ人。",
-        "relatedTabs": ["weight", "sleep"]
+        "relatedTabs": [
+          "weight",
+          "sleep"
+        ]
       }
     ]
   }
