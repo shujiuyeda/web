@@ -974,6 +974,29 @@ function syncSupplToGitHub(ds) {
   });
 }
 
+function syncWeightsToGitHub() {
+  if (!ghSyncEnabled()) return;
+  _syncQueue = _syncQueue.then(async () => {
+    setSyncStatus('syncing');
+    try {
+      const weights = getWeights();
+      const bodyFat = getBodyFat();
+      const content = JSON.stringify({ weights, bodyFat }, null, 2);
+      const ds = currentDate;
+      const ok = await ghPutFile('data/weights.json', content, `weight sync: ${ds}`);
+      setSyncStatus(ok ? 'ok' : 'error');
+      if (!ok) {
+        const pending = ls('pending_syncs') || [];
+        if (!pending.includes('weights')) ls('pending_syncs', [...pending, 'weights']);
+      }
+    } catch {
+      setSyncStatus('error');
+      const pending = ls('pending_syncs') || [];
+      if (!pending.includes('weights')) ls('pending_syncs', [...pending, 'weights']);
+    }
+  });
+}
+
 async function flushPendingSyncs() {
   if (!ghSyncEnabled()) return;
   for (const ds of (ls('pending_syncs') || [])) await syncSupplToGitHub(ds);
@@ -2295,15 +2318,21 @@ function renderWeight(container) {
   `;
 
   // Weight entry card
+  const formHidden = todayW != null;
   let wHtml = `<div class="card"><div class="card-title">体重を記録</div>`;
   if (todayW) {
     wHtml += `<div class="weight-hero">
       <div class="weight-big">${todayW.toFixed(2)}<span class="wunit">kg</span></div>
       ${todayBF != null ? `<div style="font-size:15px;color:var(--text-muted);margin-top:2px;">体脂肪率 ${todayBF.toFixed(1)}%</div>` : ''}
       <div class="weight-sub">${formatDateLabel(currentDate)}の記録</div>
+    </div>
+    <div style="text-align:center;margin-top:8px;">
+      <button class="btn" style="font-size:13px;padding:4px 14px;"
+              onclick="document.getElementById('weight-form').style.display='block';this.style.display='none';">✏️ 手入力</button>
     </div>`;
   }
-  wHtml += `<div class="weight-input-row">
+  wHtml += `<div id="weight-form" style="${formHidden ? 'display:none;' : ''}margin-top:${todayW ? '10px' : '0'};">
+  <div class="weight-input-row">
     <input type="number" id="weight-input" class="form-input" style="flex:1;"
            placeholder="${todayW ?? '88.0'}" step="0.05" min="50" max="300"
            value="${todayW ?? ''}">
@@ -2317,6 +2346,7 @@ function renderWeight(container) {
   </div>
   <button class="btn btn-primary" style="margin-top:10px;"
           onclick="saveWeight()">保存</button>
+  </div>
   </div>`;
   container.innerHTML += wHtml;
 
@@ -2512,6 +2542,7 @@ function saveWeight() {
     bf[currentDate] = bfVal;
     saveBodyFat(bf);
   }
+  syncWeightsToGitHub();
   showToast(`${wVal}kg${!isNaN(bfVal) && bfVal > 0 ? ' / ' + bfVal + '%' : ''} を記録しました ✓`);
   switchTab('weight');
 }
