@@ -1,4 +1,4 @@
-const CACHE = 'health-hub-v6';
+const CACHE = 'health-hub-v7';
 const ASSETS = [
   '/web/health-hub.html',
   '/web/manifest.json',

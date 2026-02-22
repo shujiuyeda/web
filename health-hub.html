@@ -544,6 +544,49 @@
       animation: ptr-spin 0.7s linear infinite;
     }
     @keyframes ptr-spin { to { transform: rotate(360deg); } }
+    /* Sync dot */
+    .sync-dot {
+      background: none; border: none; color: #aaa;
+      font-size: 14px; padding: 4px 6px; cursor: pointer;
+      -webkit-tap-highlight-color: transparent;
+      transition: color 0.2s;
+      line-height: 1;
+    }
+    .sync-dot:active { opacity: 0.5; }
+    /* Sync settings modal */
+    #sync-modal-overlay {
+      position: fixed; inset: 0; background: rgba(0,0,0,0.5);
+      z-index: 200; display: flex; align-items: flex-end; justify-content: center;
+    }
+    #sync-modal-overlay.hidden { display: none; }
+    .sync-modal {
+      background: white; border-radius: 20px 20px 0 0;
+      width: 100%; padding: 20px 20px calc(20px + env(safe-area-inset-bottom, 0px));
+    }
+    .sync-modal-title { font-size: 17px; font-weight: 700; margin-bottom: 4px; text-align: center; }
+    .sync-modal-sub { font-size: 13px; color: var(--text-muted); text-align: center; margin-bottom: 20px; }
+    .sync-input {
+      width: 100%; padding: 12px 14px; border: 1.5px solid var(--border);
+      border-radius: 10px; font-size: 15px; background: var(--bg);
+      font-family: monospace; letter-spacing: 0.05em;
+      outline: none;
+    }
+    .sync-input:focus { border-color: var(--green-light); }
+    .sync-btn-row { display: flex; gap: 10px; margin-top: 14px; }
+    .sync-btn {
+      flex: 1; padding: 12px; border: none; border-radius: 10px;
+      font-size: 15px; font-weight: 600; cursor: pointer;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .sync-btn.primary { background: var(--green-mid); color: white; }
+    .sync-btn.secondary { background: var(--bg); color: var(--text); }
+    .sync-btn.danger { background: #DC3545; color: white; }
+    .sync-status-row {
+      display: flex; align-items: center; gap: 10px;
+      padding: 14px; background: var(--bg); border-radius: 10px;
+      margin-bottom: 14px; font-size: 14px;
+    }
+    .sync-status-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
   </style>
 </head>
 <body>
@@ -554,6 +597,7 @@
     <div style="display:flex;align-items:center;gap:4px;">
       <span class="header-date" id="header-date"></span>
       <span class="header-clock" id="header-clock"></span>
+      <button class="sync-dot" id="sync-dot" onclick="openSyncSettings()" title="同期設定">●</button>
       <button class="header-reload" onclick="location.reload()" title="リロード">↻</button>
     </div>
   </header>
@@ -693,6 +737,16 @@
   </div>
 </div>
 
+<!-- Sync Settings Modal -->
+<div id="sync-modal-overlay" class="hidden" onclick="if(event.target===this)closeSyncSettings()">
+  <div class="sync-modal">
+    <span class="modal-handle" style="width:40px;height:4px;background:var(--border);border-radius:2px;margin:-8px auto 16px;display:block;"></span>
+    <div class="sync-modal-title">🔄 GitHub 同期設定</div>
+    <div class="sync-modal-sub">iPhoneでチェック → GitHubに自動保存</div>
+    <div id="sync-config-view"></div>
+  </div>
+</div>
+
 <!-- Hidden file input for import -->
 <input type="file" id="file-picker" accept=".md,text/plain,text/markdown"
        style="display:none" onchange="onFilePicked(event)">
@@ -739,7 +793,7 @@ const SUPPLEMENTS = [
   { id:"m2", timing:"morning",   name:"マルチビタミン",         note:"",                        catchup:true },
   { id:"m3", timing:"morning",   name:"CoQ10",                note:"",                        catchup:true },
   { id:"m4", timing:"morning",   name:"エビオス 10錠",          note:"",                        catchup:false },
-  { id:"m5", timing:"morning",   name:"Align or ビオスリー",    note:"どちらか1つ",              catchup:false },
+  { id:"m5", timing:"morning",   name:"ビオスリー",              note:"",                        catchup:false },
   { id:"m6", timing:"morning",   name:"The Daily Power",      note:"飲みきるまで",              catchup:true },
   { id:"a1", timing:"afternoon", name:"サイリウム 1回目（5粒）", note:"12:30ごろ — ユリスから2h後", catchup:false },
   { id:"a2", timing:"afternoon", name:"サイリウム 2回目（5粒）", note:"15:00ごろ — 夕食の薬まで3h", catchup:false },
@@ -862,6 +916,154 @@ function stampLastUpdated() {
 // ======== SERVER SYNC ========
 const DATA_BASE_URL = 'https://shujiuyeda.github.io/web/data/';
 
+// ======== GITHUB SYNC ========
+const GH_REPO = 'shujiuyeda/web';
+const GH_API  = 'https://api.github.com';
+
+function ghToken()       { return ls('gh_pat') || ''; }
+function ghSyncEnabled() { return !!ghToken(); }
+
+function setSyncStatus(status) {
+  const dot = document.getElementById('sync-dot');
+  if (!dot) return;
+  const colors = { ok:'#28A745', syncing:'#E5A020', error:'#DC3545', none:'#aaa' };
+  dot.style.color = colors[status] || colors.none;
+}
+
+async function ghGetFileSha(path) {
+  try {
+    const res = await fetch(`${GH_API}/repos/${GH_REPO}/contents/${path}`, {
+      headers: { 'Authorization': `Bearer ${ghToken()}`, 'Accept': 'application/vnd.github+json' }
+    });
+    if (!res.ok) return null;
+    return (await res.json()).sha || null;
+  } catch { return null; }
+}
+
+async function ghPutFile(path, content, message) {
+  const sha = await ghGetFileSha(path);
+  const body = { message, content: btoa(unescape(encodeURIComponent(content))) };
+  if (sha) body.sha = sha;
+  try {
+    const res = await fetch(`${GH_API}/repos/${GH_REPO}/contents/${path}`, {
+      method: 'PUT',
+      headers: {
+        'Authorization': `Bearer ${ghToken()}`,
+        'Accept': 'application/vnd.github+json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(body)
+    });
+    return res.ok;
+  } catch { return false; }
+}
+
+let _syncQueue = Promise.resolve();
+function syncSupplToGitHub(ds) {
+  if (!ghSyncEnabled()) return;
+  _syncQueue = _syncQueue.then(async () => {
+    setSyncStatus('syncing');
+    try {
+      const checks = getSuppl(ds);
+      const saved = {};
+      Object.entries(checks).forEach(([k, v]) => { if (v === true) saved[k] = true; });
+      const content = JSON.stringify({ date: ds, checks: saved }, null, 2);
+      const ok = await ghPutFile(`data/suppl-${ds}.json`, content, `suppl sync: ${ds}`);
+      setSyncStatus(ok ? 'ok' : 'error');
+      if (ok) {
+        const pending = (ls('pending_syncs') || []).filter(p => p !== ds);
+        ls('pending_syncs', pending);
+      } else {
+        const pending = ls('pending_syncs') || [];
+        if (!pending.includes(ds)) ls('pending_syncs', [...pending, ds]);
+      }
+    } catch {
+      setSyncStatus('error');
+      const pending = ls('pending_syncs') || [];
+      if (!pending.includes(ds)) ls('pending_syncs', [...pending, ds]);
+    }
+  });
+}
+
+async function flushPendingSyncs() {
+  if (!ghSyncEnabled()) return;
+  for (const ds of (ls('pending_syncs') || [])) await syncSupplToGitHub(ds);
+}
+
+async function testGhToken(token) {
+  try {
+    const res = await fetch(`${GH_API}/repos/${GH_REPO}`, {
+      headers: { 'Authorization': `Bearer ${token}`, 'Accept': 'application/vnd.github+json' }
+    });
+    return res.ok;
+  } catch { return false; }
+}
+
+function openSyncSettings() {
+  document.getElementById('sync-modal-overlay').classList.remove('hidden');
+  renderSyncConfig();
+}
+function closeSyncSettings() {
+  document.getElementById('sync-modal-overlay').classList.add('hidden');
+}
+function renderSyncConfig() {
+  const view = document.getElementById('sync-config-view');
+  const token = ghToken();
+  if (token) {
+    const masked = '••••••••' + token.slice(-6);
+    view.innerHTML = `
+      <div class="sync-status-row">
+        <div class="sync-status-dot" style="background:#28A745"></div>
+        <span>接続済み: <code style="font-family:monospace">${masked}</code></span>
+      </div>
+      <div class="sync-btn-row">
+        <button class="sync-btn secondary" onclick="testAndShowResult()">接続テスト</button>
+        <button class="sync-btn danger" onclick="disconnectGh()">切断</button>
+      </div>
+      <div id="sync-test-result" style="margin-top:12px;font-size:14px;text-align:center;"></div>
+      <button class="sync-btn secondary" style="width:100%;margin-top:10px" onclick="closeSyncSettings()">閉じる</button>`;
+  } else {
+    view.innerHTML = `
+      <p style="font-size:13px;color:var(--text-muted);margin-bottom:14px;line-height:1.6">
+        Fine-grained PAT（<code>shujiuyeda/web</code> の Contents: Read and write）を入力してください。
+      </p>
+      <input type="password" class="sync-input" id="pat-input" placeholder="github_pat_...">
+      <div class="sync-btn-row">
+        <button class="sync-btn secondary" onclick="closeSyncSettings()">キャンセル</button>
+        <button class="sync-btn primary" onclick="saveGhToken()">接続テスト＆保存</button>
+      </div>
+      <div id="sync-test-result" style="margin-top:12px;font-size:14px;text-align:center;"></div>`;
+  }
+}
+async function saveGhToken() {
+  const input = document.getElementById('pat-input');
+  const token = (input?.value || '').trim();
+  if (!token) return;
+  const result = document.getElementById('sync-test-result');
+  result.textContent = '接続テスト中...';
+  const ok = await testGhToken(token);
+  if (ok) {
+    ls('gh_pat', token);
+    setSyncStatus('ok');
+    result.textContent = '✅ 接続OK！保存しました';
+    setTimeout(() => { closeSyncSettings(); flushPendingSyncs(); }, 1200);
+  } else {
+    result.textContent = '❌ 接続失敗。トークンを確認してください';
+  }
+}
+async function testAndShowResult() {
+  const result = document.getElementById('sync-test-result');
+  result.textContent = '接続テスト中...';
+  const ok = await testGhToken(ghToken());
+  result.textContent = ok ? '✅ 接続OK' : '❌ 接続失敗';
+}
+function disconnectGh() {
+  if (!confirm('GitHub同期を切断しますか？')) return;
+  localStorage.removeItem('gh_pat');
+  setSyncStatus('none');
+  renderSyncConfig();
+}
+
 async function tryFetchMeals(ds) {
   try {
     // キャッシュバスター付きで常にリモートからfetch（localStorageキャッシュをスキップしない）
@@ -893,20 +1095,26 @@ async function tryFetchMeals(ds) {
 
 async function tryFetchSuppl(ds) {
   try {
-    const res = await fetch(`${DATA_BASE_URL}suppl-${ds}.json`, { cache: 'no-store' });
+    const res = await fetch(`${DATA_BASE_URL}suppl-${ds}.json?_=${Date.now()}`, { cache: 'no-store' });
     if (!res.ok) return;
     const data = await res.json();
     if (!data.checks || Object.keys(data.checks).length === 0) return;
-    const local = getSuppl(ds);
-    let updated = false;
-    Object.entries(data.checks).forEach(([k, v]) => {
-      if (local[k] == null) { local[k] = v; updated = true; }
-    });
-    if (updated || Object.keys(local).length === 0) {
-      saveSuppl(ds, Object.keys(local).length > 0 ? local : data.checks);
-      stampLastUpdated();
-      if (ds === currentDate && currentTab === 'supplements') deferRender(currentTab);
+    if (ghSyncEnabled()) {
+      // 同期モード: リモートが正（iPhone側のチェックを反映）
+      saveSuppl(ds, data.checks);
+    } else {
+      // 読み取り専用モード: localが優先でマージ
+      const local = getSuppl(ds);
+      let updated = false;
+      Object.entries(data.checks).forEach(([k, v]) => {
+        if (local[k] == null) { local[k] = v; updated = true; }
+      });
+      if (updated || Object.keys(local).length === 0) {
+        saveSuppl(ds, Object.keys(local).length > 0 ? local : data.checks);
+      } else { return; }
     }
+    stampLastUpdated();
+    if (ds === currentDate && currentTab === 'supplements') deferRender(currentTab);
   } catch { /* ネットワークエラーはsilent */ }
 }
 
@@ -1938,6 +2146,7 @@ function toggleSuppl(id) {
   if (sn) { sn.className = 'suppl-name'  + (checks[id] ? ' checked' : ''); }
   if (ss) ss.classList.remove('active');
   updateCompliance(checks);
+  syncSupplToGitHub(currentDate);
 }
 
 function skipSuppl(id) {
@@ -1951,6 +2160,7 @@ function skipSuppl(id) {
   if (sn) { sn.className = 'suppl-name'  + (checks[id] === 'skip' ? ' skipped' : ''); }
   if (ss) ss.classList.toggle('active', checks[id] === 'skip');
   updateCompliance(checks);
+  syncSupplToGitHub(currentDate);
 }
 
 function updateCompliance(checks) {
@@ -2869,6 +3079,9 @@ function esc(s) {
 // ======== START ========
 init();
 initImportBtn();
+setSyncStatus(ghSyncEnabled() ? 'ok' : 'none');
+if (navigator.onLine) flushPendingSyncs();
+window.addEventListener('online', () => flushPendingSyncs());
 
 </script>
 </body>
