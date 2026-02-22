@@ -77,15 +77,15 @@
     }
     .nav-btn {
       flex: 1; display: flex; flex-direction: column;
-      align-items: center; justify-content: center; gap: 3px;
+      align-items: center; justify-content: center; gap: 2px;
       border: none; background: none;
-      color: var(--text-muted); font-size: 10px;
+      color: var(--text-muted); font-size: 9px;
       cursor: pointer; -webkit-tap-highlight-color: transparent;
-      padding: 6px 0;
+      padding: 6px 2px;
       transition: color 0.15s;
     }
     .nav-btn.active { color: var(--green-mid); }
-    .nav-btn svg { width: 22px; height: 22px; }
+    .nav-btn svg { width: 20px; height: 20px; }
     .card {
       background: var(--card); border-radius: 14px;
       padding: 14px 16px; margin: 8px 12px;
@@ -618,6 +618,12 @@
       </svg>
       体重
     </button>
+    <button class="nav-btn" data-tab="exercise" onclick="switchTab('exercise')">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/>
+      </svg>
+      運動
+    </button>
     <button class="nav-btn" data-tab="sleep" onclick="switchTab('sleep')">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
         <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
@@ -870,6 +876,8 @@ function saveCustomFoods(foods) { ls('custom_foods', foods); }
 function getAllFoods() { return [...BUILT_IN_FOODS, ...getCustomFoods()]; }
 function getHealthLog()    { return ls('healthLog') || {}; }
 function saveHealthLog(d)  { ls('healthLog', d); }
+function getWorkoutLog()   { return ls('workoutLog') || { sessions: [] }; }
+function saveWorkoutLog(d) { ls('workoutLog', d); }
 
 function stampLastUpdated() {
   const now = new Date();
@@ -1248,6 +1256,40 @@ async function tryFetchSleep() {
   } catch { /* silent */ }
 }
 
+async function tryFetchWorkoutLog() {
+  try {
+    const res = await fetch(`${DATA_BASE_URL}workout-log.json?_=${Date.now()}`, { cache: 'no-store' });
+    if (!res.ok) return;
+    const remote = await res.json();
+    if (!remote.sessions) return;
+    // リモートのsessionsをマージ（日付ベースで、ローカルにない日付を追加）
+    const local = getWorkoutLog();
+    const localDates = new Set((local.sessions || []).map(s => s.date));
+    let updated = false;
+    remote.sessions.forEach(s => {
+      if (!localDates.has(s.date)) { local.sessions.push(s); updated = true; }
+    });
+    if (updated) {
+      local.sessions.sort((a, b) => a.date.localeCompare(b.date));
+      saveWorkoutLog(local);
+      if (currentTab === 'exercise') deferRender('exercise');
+    }
+  } catch { /* silent */ }
+}
+
+function syncStretchToGitHub(ds) {
+  if (!ghSyncEnabled()) return;
+  _syncQueue = _syncQueue.then(async () => {
+    setSyncStatus('syncing');
+    try {
+      const log = getHealthLog();
+      const content = JSON.stringify(log, null, 4);
+      const ok = await ghPutFile('data/health-log.json', content, `stretch sync: ${ds}`);
+      setSyncStatus(ok ? 'ok' : 'error');
+    } catch { setSyncStatus('error'); }
+  });
+}
+
 // ======== ADVICE ========
 let adviceStore = {};   // 全日付分 { "YYYY-MM-DD": {...} }
 let adviceData = null;  // 現在表示中の日付分（既存関数との互換用）
@@ -1399,7 +1441,7 @@ function init() {
   document.getElementById('header-date').textContent = formatDateLabel(currentDate);
   stampLastUpdated();
   const hash = location.hash.replace('#', '');
-  const startTab = ['meals','supplements','weight','shopping','sleep'].includes(hash) ? hash : 'meals';
+  const startTab = ['meals','supplements','weight','exercise','shopping','sleep'].includes(hash) ? hash : 'meals';
   currentTab = startTab; // アニメーションをスキップするため先にセット
   switchTab(startTab);
   if ('serviceWorker' in navigator) {
@@ -1414,6 +1456,7 @@ function init() {
   }
   tryFetchWeights();
   tryFetchHealthLog();
+  tryFetchWorkoutLog();
   tryFetchShopping();
   tryFetchSleep();
   tryFetchAdvice();
@@ -1464,7 +1507,7 @@ function initPullToRefresh() {
       fetches.push(tryFetchMeals(fmtDate(d)));
       if (i < 2) fetches.push(tryFetchSuppl(fmtDate(d)));
     }
-    fetches.push(loadFoodDb(), tryFetchWeights(), tryFetchHealthLog(), tryFetchShopping(), tryFetchSleep(), tryFetchAdvice());
+    fetches.push(loadFoodDb(), tryFetchWeights(), tryFetchHealthLog(), tryFetchWorkoutLog(), tryFetchShopping(), tryFetchSleep(), tryFetchAdvice());
     Promise.all(fetches).finally(() => {
       switchTab(currentTab);
       spinner.classList.remove('spinning');
@@ -1488,7 +1531,7 @@ function reloadData() {
     fetches.push(tryFetchMeals(fmtDate(d)));
     if (i < 2) fetches.push(tryFetchSuppl(fmtDate(d)));
   }
-  fetches.push(loadFoodDb(), tryFetchWeights(), tryFetchHealthLog(), tryFetchShopping(), tryFetchSleep(), tryFetchAdvice());
+  fetches.push(loadFoodDb(), tryFetchWeights(), tryFetchHealthLog(), tryFetchWorkoutLog(), tryFetchShopping(), tryFetchSleep(), tryFetchAdvice());
   Promise.all(fetches).finally(() => {
     switchTab(currentTab);
     if (btn) btn.classList.remove('spinning');
@@ -1498,7 +1541,7 @@ function reloadData() {
 }
 
 // ======== SWIPE NAVIGATION ========
-const TABS = ['meals', 'supplements', 'weight', 'sleep', 'shopping'];
+const TABS = ['meals', 'supplements', 'weight', 'exercise', 'sleep', 'shopping'];
 let _swipeAnimating = false;
 
 function initSwipeNavigation() {
@@ -1524,6 +1567,7 @@ function initSwipeNavigation() {
     if (targetTab === 'meals') renderMeals(ghostEl);
     else if (targetTab === 'supplements') renderSuppl(ghostEl);
     else if (targetTab === 'weight') renderWeight(ghostEl);
+    else if (targetTab === 'exercise') renderExercise(ghostEl);
     else if (targetTab === 'shopping') renderShopping(ghostEl);
     else if (targetTab === 'sleep') renderSleep(ghostEl);
     document.body.appendChild(ghostEl);
@@ -1628,6 +1672,7 @@ function switchTab(tab) {
   if (tab === 'meals') renderMeals(main);
   else if (tab === 'supplements') renderSuppl(main);
   else if (tab === 'weight') renderWeight(main);
+  else if (tab === 'exercise') renderExercise(main);
   else if (tab === 'shopping') renderShopping(main);
   else if (tab === 'sleep') renderSleep(main);
   // タップ時のスライドアニメーション（スワイプ中は initSwipeNavigation が担当）
@@ -2895,6 +2940,280 @@ function buildSleepChart(data) {
       <text x="${W-PAD.r}" y="${H-2}" text-anchor="middle" font-size="9" fill="#999">${lastDs}</text>
       ${legend}
     </svg>
+  </div>`;
+}
+
+// ======== EXERCISE TAB ========
+const STRETCH_ITEMS = [
+  { id: 'st1', name: 'もものストレッチ',       note: '深呼吸3回×左右3回' },
+  { id: 'st2', name: '丹田を狙った腹筋',       note: '体育座り、10秒' },
+  { id: 'st3', name: '内転筋スクワット（壁）', note: '開脚、深めに' },
+  { id: 'st4', name: '内股スクワット',         note: 'かかと浮かせ' }
+];
+
+function toggleStretch(id) {
+  const log = getHealthLog();
+  if (!log[currentDate]) log[currentDate] = {};
+  const s = log[currentDate].stretch || {};
+  s[id] = !s[id];
+  log[currentDate].stretch = s;
+  saveHealthLog(log);
+  // DOM更新
+  const cb = document.getElementById(`st-${id}`);
+  if (cb) cb.checked = !!s[id];
+  const done = STRETCH_ITEMS.filter(i => s[i.id]).length;
+  const counter = document.getElementById('stretch-counter');
+  if (counter) counter.textContent = `${done}/${STRETCH_ITEMS.length} 完了`;
+  syncStretchToGitHub(currentDate);
+}
+
+function renderExercise(container) {
+  const log = getHealthLog();
+  const isToday = currentDate === todayStr();
+  const entry = log[currentDate] || {};
+  const wl = getWorkoutLog();
+
+  // 日付ナビ
+  container.innerHTML = `
+    <div class="date-nav">
+      <button class="date-nav-btn" onclick="changeDate(-1)">‹</button>
+      <span class="date-nav-label">
+        ${formatDateLabel(currentDate)}${isToday ? '<span class="today-badge">TODAY</span>' : ''}
+      </span>
+      <button class="date-nav-btn ${isToday ? 'disabled' : ''}" onclick="changeDate(1)">›</button>
+    </div>`;
+
+  // カード2: アクティビティグリッド
+  const fmt1 = v => v != null ? String(v) : '---';
+  const fmtN = (v, dec) => v != null ? Number(v).toFixed(dec) : '---';
+  const steps = entry.steps;
+  const stepsLabel = steps == null ? '---' : steps < 100 ? `${steps}<span style="font-size:9px;color:var(--warning);"> 同期待ち</span>` : steps.toLocaleString();
+
+  container.innerHTML += `
+    <div class="card">
+      <div class="card-title">今日のアクティビティ</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;">
+        <div style="text-align:center;background:var(--bg);border-radius:10px;padding:10px 6px;">
+          <div style="font-size:20px;font-weight:700;color:${steps && steps >= 8000 ? 'var(--success)' : steps && steps >= 6000 ? 'var(--warning)' : 'var(--text)'};">${stepsLabel}</div>
+          <div style="font-size:10px;color:var(--text-muted);margin-top:3px;">歩数</div>
+        </div>
+        <div style="text-align:center;background:var(--bg);border-radius:10px;padding:10px 6px;">
+          <div style="font-size:20px;font-weight:700;color:${entry.stride && entry.stride >= 75 ? 'var(--success)' : entry.stride ? 'var(--warning)' : 'var(--text-muted)'};">${fmtN(entry.stride, 1)}</div>
+          <div style="font-size:10px;color:var(--text-muted);margin-top:3px;">歩幅 cm</div>
+        </div>
+        <div style="text-align:center;background:var(--bg);border-radius:10px;padding:10px 6px;">
+          <div style="font-size:20px;font-weight:700;">${fmtN(entry.walkSpeed, 1)}</div>
+          <div style="font-size:10px;color:var(--text-muted);margin-top:3px;">歩行速度 km/h</div>
+        </div>
+        <div style="text-align:center;background:var(--bg);border-radius:10px;padding:10px 6px;">
+          <div style="font-size:20px;font-weight:700;">${fmtN(entry.walkDistance, 1)}</div>
+          <div style="font-size:10px;color:var(--text-muted);margin-top:3px;">歩行距離 km</div>
+        </div>
+        <div style="text-align:center;background:var(--bg);border-radius:10px;padding:10px 6px;">
+          <div style="font-size:20px;font-weight:700;color:var(--green-mid);">${fmt1(entry.rhr)}</div>
+          <div style="font-size:10px;color:var(--text-muted);margin-top:3px;">安静時心拍 bpm</div>
+        </div>
+        <div style="text-align:center;background:var(--bg);border-radius:10px;padding:10px 6px;">
+          <div style="font-size:20px;font-weight:700;color:#5B8FB9;">${fmt1(entry.hrv)}</div>
+          <div style="font-size:10px;color:var(--text-muted);margin-top:3px;">HRV ms</div>
+        </div>
+      </div>
+    </div>`;
+
+  // カード3: ストレッチ
+  const stretch = entry.stretch || {};
+  const doneCnt = STRETCH_ITEMS.filter(i => stretch[i.id]).length;
+  let stretchHtml = `
+    <div class="card">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;">
+        <div class="card-title" style="margin-bottom:0;">🧘 ストレッチ</div>
+        <div id="stretch-counter" style="font-size:12px;color:var(--text-muted);">${doneCnt}/${STRETCH_ITEMS.length} 完了</div>
+      </div>`;
+  STRETCH_ITEMS.forEach(item => {
+    const chk = !!stretch[item.id];
+    stretchHtml += `
+      <label style="display:flex;align-items:center;gap:12px;padding:9px 0;border-bottom:1px solid var(--border);cursor:pointer;-webkit-tap-highlight-color:transparent;">
+        <input type="checkbox" id="st-${item.id}" ${chk ? 'checked' : ''} onchange="toggleStretch('${item.id}')"
+          style="width:20px;height:20px;flex-shrink:0;accent-color:var(--green-mid);">
+        <div>
+          <div style="font-size:14px;${chk ? 'text-decoration:line-through;color:var(--text-muted);' : ''}">${item.name}</div>
+          <div style="font-size:11px;color:var(--text-muted);margin-top:1px;">${item.note}</div>
+        </div>
+      </label>`;
+  });
+  stretchHtml += `</div>`;
+  container.innerHTML += stretchHtml;
+
+  // カード4: 筋トレログ（当日セッションがある場合のみ）
+  const sessions = (wl.sessions || []).filter(s => s.date === currentDate);
+  if (sessions.length > 0) {
+    sessions.forEach(session => {
+      const typeLabel = session.type === 'personal' ? 'パーソナル' : session.type === 'seitai' ? '整体' : '自主トレ';
+      const exRows = session.exercises.filter(e => e.reps !== '—').map(e =>
+        `<tr><td style="padding:5px 4px;">${esc(e.name)}</td><td style="padding:5px 4px;text-align:center;">${esc(e.weight)}</td><td style="padding:5px 4px;text-align:center;">${esc(e.reps)}</td><td style="padding:5px 4px;text-align:center;color:var(--text-muted);font-size:11px;">${esc(e.bodyPart)}</td></tr>`
+      ).join('');
+      container.innerHTML += `
+        <div class="card">
+          <div class="card-title">💪 筋トレログ — ${typeLabel}</div>
+          ${exRows ? `<table style="width:100%;border-collapse:collapse;font-size:13px;">
+            <thead><tr style="border-bottom:2px solid var(--border);">
+              <th style="padding:4px;text-align:left;font-weight:600;font-size:11px;color:var(--text-muted);">種目</th>
+              <th style="padding:4px;text-align:center;font-weight:600;font-size:11px;color:var(--text-muted);">重量</th>
+              <th style="padding:4px;text-align:center;font-weight:600;font-size:11px;color:var(--text-muted);">レップ</th>
+              <th style="padding:4px;text-align:center;font-weight:600;font-size:11px;color:var(--text-muted);">部位</th>
+            </thead><tbody>${exRows}</tbody></table>` : ''}
+          ${session.totalSets > 0 ? `<div style="margin-top:8px;text-align:right;font-size:12px;color:var(--text-muted);">合計: ${session.totalSets}セット</div>` : ''}
+          ${session.notes ? `<div style="margin-top:6px;font-size:12px;color:var(--text-muted);line-height:1.5;">${esc(session.notes)}</div>` : ''}
+        </div>`;
+    });
+  }
+
+  // カード5: 7日歩数トレンド
+  const last7 = [];
+  for (let i = 6; i >= 0; i--) {
+    const d = new Date(); d.setDate(d.getDate() - i);
+    const ds = fmtDate(d);
+    const e2 = log[ds] || {};
+    last7.push({ ds, steps: e2.steps ?? null, stride: e2.stride ?? null, walkSpeed: e2.walkSpeed ?? null, walkDistance: e2.walkDistance ?? null });
+  }
+
+  const maxSteps = Math.max(...last7.map(r => r.steps ?? 0), 10000);
+  let barsHtml = `<div style="display:flex;align-items:flex-end;gap:4px;height:80px;margin-bottom:6px;">`;
+  last7.forEach(r => {
+    const pct = r.steps != null ? Math.min(100, Math.round((r.steps / maxSteps) * 100)) : 0;
+    const color = r.steps == null ? '#E9ECEF' : r.steps >= 8000 ? 'var(--success)' : r.steps >= 6000 ? 'var(--warning)' : '#B0BEC5';
+    const isCurrentDate = r.ds === currentDate;
+    barsHtml += `<div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;">
+      <div style="font-size:9px;color:var(--text-muted);">${r.steps != null ? (r.steps >= 1000 ? (r.steps/1000).toFixed(1)+'k' : r.steps) : ''}</div>
+      <div style="width:100%;background:${color};height:${Math.max(pct, r.steps != null ? 4 : 0)}%;border-radius:4px 4px 0 0;${isCurrentDate ? 'outline:2px solid var(--green-mid);' : ''}"></div>
+      <div style="font-size:9px;color:${isCurrentDate ? 'var(--green-mid)' : 'var(--text-muted)'};">${r.ds.slice(5).replace('-','/')}</div>
+    </div>`;
+  });
+  barsHtml += `</div>`;
+
+  let tableRows = last7.map(r => {
+    const isCurrentDate2 = r.ds === currentDate;
+    return `<tr style="${isCurrentDate2 ? 'background:var(--green-pale);' : ''}">
+      <td style="padding:5px 4px;white-space:nowrap;">${r.ds.slice(5).replace('-','/')}${isCurrentDate2 ? '&nbsp;<span style="font-size:9px;color:var(--green-mid);">TODAY</span>' : ''}</td>
+      <td style="text-align:right;padding:5px 4px;font-weight:600;color:${r.steps == null ? 'var(--text-muted)' : r.steps >= 8000 ? 'var(--success)' : r.steps >= 6000 ? 'var(--warning)' : 'var(--text)'};">${r.steps != null ? r.steps.toLocaleString() : '—'}</td>
+      <td style="text-align:right;padding:5px 4px;color:${r.stride && r.stride >= 75 ? 'var(--success)' : 'var(--text)'};">${r.stride != null ? r.stride.toFixed(1) : '—'}</td>
+      <td style="text-align:right;padding:5px 4px;">${r.walkSpeed != null ? r.walkSpeed.toFixed(1) : '—'}</td>
+      <td style="text-align:right;padding:5px 4px;color:var(--text-muted);">${r.walkDistance != null ? r.walkDistance.toFixed(1) : '—'}</td>
+    </tr>`;
+  }).join('');
+
+  container.innerHTML += `
+    <div class="card">
+      <div class="card-title">🚶 歩数トレンド（7日）</div>
+      ${barsHtml}
+      <table style="width:100%;border-collapse:collapse;font-size:12px;">
+        <thead><tr style="border-bottom:2px solid var(--border);">
+          <th style="padding:4px;text-align:left;font-size:10px;color:var(--text-muted);">日付</th>
+          <th style="padding:4px;text-align:right;font-size:10px;color:var(--text-muted);">歩数</th>
+          <th style="padding:4px;text-align:right;font-size:10px;color:var(--text-muted);">歩幅cm</th>
+          <th style="padding:4px;text-align:right;font-size:10px;color:var(--text-muted);">速度km/h</th>
+          <th style="padding:4px;text-align:right;font-size:10px;color:var(--text-muted);">距離km</th>
+        </tr></thead>
+        <tbody>${tableRows}</tbody>
+      </table>
+      <div style="font-size:10px;color:var(--text-muted);margin-top:6px;">目安: 8,000歩以上◎ / 歩幅75cm目標</div>
+    </div>`;
+
+  // カード6: 心拍データ（7日）
+  let heartRows = last7.map(r => {
+    const isCurrentDate3 = r.ds === currentDate;
+    return `<tr style="${isCurrentDate3 ? 'background:var(--green-pale);' : ''}">
+      <td style="padding:5px 4px;white-space:nowrap;">${r.ds.slice(5).replace('-','/')}${isCurrentDate3 ? '&nbsp;<span style="font-size:9px;color:var(--green-mid);">TODAY</span>' : ''}</td>
+      <td style="text-align:right;padding:5px 4px;font-weight:600;color:var(--green-mid);">${(log[r.ds]?.rhr) != null ? log[r.ds].rhr : '—'}</td>
+      <td style="text-align:right;padding:5px 4px;color:#5B8FB9;">${(log[r.ds]?.hrv) != null ? log[r.ds].hrv : '—'}</td>
+    </tr>`;
+  }).join('');
+
+  container.innerHTML += `
+    <div class="card">
+      <div class="card-title">💓 心拍データ（7日）</div>
+      <table style="width:100%;border-collapse:collapse;font-size:12px;">
+        <thead><tr style="border-bottom:2px solid var(--border);">
+          <th style="padding:4px;text-align:left;font-size:10px;color:var(--text-muted);">日付</th>
+          <th style="padding:4px;text-align:right;font-size:10px;color:var(--text-muted);">安静時心拍 bpm</th>
+          <th style="padding:4px;text-align:right;font-size:10px;color:var(--text-muted);">HRV ms</th>
+        </tr></thead>
+        <tbody>${heartRows}</tbody>
+      </table>
+      <div style="font-size:10px;color:var(--text-muted);margin-top:6px;">安静時心拍: 低いほど心肺機能良好 / HRV: 高いほど回復力高い</div>
+    </div>`;
+
+  // カード7: 歩幅の推移（14日折れ線グラフ）
+  const STRIDE_GOAL = 75; // 167.5cm × 0.45
+  const last14 = [];
+  for (let i = 13; i >= 0; i--) {
+    const d = new Date(); d.setDate(d.getDate() - i);
+    const ds = fmtDate(d);
+    last14.push({ ds, stride: (log[ds] || {}).stride ?? null });
+  }
+  const strideVals = last14.map(r => r.stride).filter(v => v != null);
+  if (strideVals.length >= 2) {
+    container.innerHTML += buildStrideChart(last14, STRIDE_GOAL);
+  } else {
+    container.innerHTML += `
+      <div class="card">
+        <div class="card-title">📏 歩幅の推移（14日）</div>
+        <div style="text-align:center;padding:20px;color:var(--text-muted);font-size:13px;">データ収集中（2日以上必要）</div>
+      </div>`;
+  }
+
+  container.innerHTML += `<div class="spacer"></div>`;
+}
+
+function buildStrideChart(data, goalCm) {
+  const W = 320, H = 130;
+  const PAD = { t: 20, r: 20, b: 26, l: 42 };
+  const pw = W - PAD.l - PAD.r;
+  const ph = H - PAD.t - PAD.b;
+  const n = data.length;
+  const validVals = data.map(r => r.stride).filter(v => v != null);
+  const minV = Math.min(...validVals, goalCm) - 3;
+  const maxV = Math.max(...validVals, goalCm) + 3;
+  const xS = i => PAD.l + (i / (n - 1)) * pw;
+  const yS = v => PAD.t + ph - ((v - minV) / (maxV - minV)) * ph;
+  const goalY = yS(goalCm);
+
+  // ポリライン（連続している点のみ）
+  const pts = data.map((r, i) => r.stride != null ? `${xS(i).toFixed(1)},${yS(r.stride).toFixed(1)}` : null);
+  let segments = [];
+  let cur = [];
+  pts.forEach((p, i) => {
+    if (p) { cur.push(p); }
+    else if (cur.length > 0) { segments.push(cur.join(' ')); cur = []; }
+  });
+  if (cur.length > 0) segments.push(cur.join(' '));
+
+  const lines = segments.map(s => `<polyline points="${s}" fill="none" stroke="#2E7FC1" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>`).join('');
+  const dots = data.map((r, i) => r.stride != null
+    ? `<circle cx="${xS(i).toFixed(1)}" cy="${yS(r.stride).toFixed(1)}" r="3" fill="white" stroke="#2E7FC1" stroke-width="2"/>`
+    : '').join('');
+
+  const yLabels = [minV, goalCm, maxV].map(v =>
+    `<line x1="${PAD.l}" y1="${yS(v).toFixed(1)}" x2="${W - PAD.r}" y2="${yS(v).toFixed(1)}" stroke="#E9ECEF" stroke-width="1"/>
+     <text x="${PAD.l - 5}" y="${(yS(v) + 4).toFixed(1)}" text-anchor="end" font-size="9" fill="#555">${Math.round(v)}</text>`
+  ).join('');
+
+  const firstDs = data[0].ds.slice(5).replace('-', '/');
+  const lastDs = data[n - 1].ds.slice(5).replace('-', '/');
+
+  return `<div class="card">
+    <div class="card-title">📏 歩幅の推移（14日） — 目標 ${goalCm}cm（股関節改善トラッキング）</div>
+    <div class="chart-scroll">
+      <svg viewBox="0 0 ${W} ${H}" width="100%" style="overflow:visible;">
+        ${yLabels}
+        <line x1="${PAD.l}" y1="${goalY.toFixed(1)}" x2="${W - PAD.r}" y2="${goalY.toFixed(1)}" stroke="#28A745" stroke-width="1.5" stroke-dasharray="4,3" opacity="0.8"/>
+        <text x="${W - PAD.r + 3}" y="${(goalY + 4).toFixed(1)}" font-size="9" fill="#28A745">目標</text>
+        ${lines}${dots}
+        <text x="${PAD.l}" y="${H - 2}" text-anchor="middle" font-size="9" fill="#999">${firstDs}</text>
+        <text x="${W - PAD.r}" y="${H - 2}" text-anchor="middle" font-size="9" fill="#999">${lastDs}</text>
+      </svg>
+    </div>
+    <div style="font-size:10px;color:var(--text-muted);margin-top:4px;">目標75cm = 身長167.5cm × 0.45 / 歩幅が広がるほど股関節が改善されている証拠</div>
   </div>`;
 }
 

@@ -1,0 +1,42 @@
+{
+  "sessions": [
+    {
+      "date": "2026-02-11",
+      "type": "personal",
+      "exercises": [
+        { "name": "ダンベルプレス", "weight": "12kg", "reps": "15×3", "bodyPart": "胸" },
+        { "name": "ラットプルダウン", "weight": "プレート5枚", "reps": "15×3", "bodyPart": "背中" },
+        { "name": "ケーブルロー（シーテッド）", "weight": "プレート4枚", "reps": "15×3", "bodyPart": "背中" },
+        { "name": "ワンレッグRDL", "weight": "12kg", "reps": "12×3（左右各）", "bodyPart": "脚・臀部" },
+        { "name": "フロントレイズ（正面）", "weight": "2kg×両手", "reps": "15×3", "bodyPart": "肩（前部）" },
+        { "name": "サイドレイズ（斜め45度）", "weight": "2kg×両手", "reps": "15×3", "bodyPart": "肩（中部）" },
+        { "name": "リアレイズ（前かがみ）", "weight": "2kg×両手", "reps": "15×3", "bodyPart": "肩（後部）" }
+      ],
+      "totalSets": 24,
+      "notes": "ずっと座りっぱなしの日々。なまった体にはよい時間。右肩の痛みでベンチプレスは見送り"
+    },
+    {
+      "date": "2026-02-18",
+      "type": "personal",
+      "exercises": [],
+      "totalSets": 0,
+      "notes": "小さい筋肉（スタビライザー系）に効かせるアプローチに切り替え。ランジが全然できなかった（体幹・バランス・小さい筋肉が必要）"
+    },
+    {
+      "date": "2026-02-22",
+      "type": "personal",
+      "exercises": [
+        { "name": "足首ストレッチ", "weight": "—", "reps": "—", "bodyPart": "足首" },
+        { "name": "肩ストレッチ", "weight": "—", "reps": "—", "bodyPart": "肩" },
+        { "name": "ラットプルダウン", "weight": "25kg", "reps": "15×3", "bodyPart": "背中" },
+        { "name": "プーリーロー", "weight": "18.5kg", "reps": "15×3", "bodyPart": "背中" },
+        { "name": "2本足スクワット", "weight": "自重", "reps": "15×1", "bodyPart": "脚・臀部" },
+        { "name": "上から片足ランジ", "weight": "自重", "reps": "15×3（両足）", "bodyPart": "脚・臀部・体幹" },
+        { "name": "小胸筋トレーニング", "weight": "2kg", "reps": "30×2", "bodyPart": "胸（小胸筋）" },
+        { "name": "腹筋", "weight": "—", "reps": "30×1 + 20×1", "bodyPart": "腹部" }
+      ],
+      "totalSets": 17,
+      "notes": ""
+    }
+  ]
+}

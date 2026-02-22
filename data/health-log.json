@@ -1,4 +1,38 @@
 {
+    "2026-02-14": {
+        "water": null,
+        "bowel": null,
+        "mood": null,
+        "energy": null,
+        "weather": null,
+        "sleep_feel": null,
+        "body_note": null,
+        "steps": 5775,
+        "rhr": null,
+        "hrv": null,
+        "waterBonus": null,
+        "stride": 65.8,
+        "walkSpeed": 4.3,
+        "walkDistance": 3.6,
+        "stretch": null
+    },
+    "2026-02-15": {
+        "water": null,
+        "bowel": null,
+        "mood": null,
+        "energy": null,
+        "weather": null,
+        "sleep_feel": null,
+        "body_note": null,
+        "steps": 5199,
+        "rhr": null,
+        "hrv": null,
+        "waterBonus": null,
+        "stride": 66.0,
+        "walkSpeed": 4.5,
+        "walkDistance": 3.36,
+        "stretch": null
+    },
     "2026-02-16": {
         "water": null,
         "bowel": null,
@@ -10,7 +44,11 @@
         "steps": 8027,
         "rhr": 66.0,
         "hrv": 16.9,
-        "waterBonus": null
+        "waterBonus": null,
+        "stride": 69.9,
+        "walkSpeed": 4.8,
+        "walkDistance": 4.97,
+        "stretch": null
     },
     "2026-02-17": {
         "water": null,
@@ -23,7 +61,11 @@
         "steps": 7572,
         "rhr": 59.0,
         "hrv": 33.0,
-        "waterBonus": null
+        "waterBonus": null,
+        "stride": 64.2,
+        "walkSpeed": 4.4,
+        "walkDistance": 4.66,
+        "stretch": null
     },
     "2026-02-18": {
         "water": null,
@@ -36,7 +78,11 @@
         "steps": 14174,
         "rhr": 59.0,
         "hrv": 34.3,
-        "waterBonus": null
+        "waterBonus": null,
+        "stride": 72.8,
+        "walkSpeed": 5.0,
+        "walkDistance": 9.01,
+        "stretch": null
     },
     "2026-02-19": {
         "water": null,
@@ -49,7 +95,11 @@
         "steps": 1524,
         "rhr": 58.0,
         "hrv": 31.0,
-        "waterBonus": null
+        "waterBonus": null,
+        "stride": 67.5,
+        "walkSpeed": 4.7,
+        "walkDistance": 0.94,
+        "stretch": null
     },
     "2026-02-20": {
         "water": null,
@@ -62,7 +112,11 @@
         "steps": 4259,
         "rhr": 56.0,
         "hrv": 33.7,
-        "waterBonus": null
+        "waterBonus": null,
+        "stride": 68.0,
+        "walkSpeed": 4.6,
+        "walkDistance": 2.67,
+        "stretch": null
     },
     "2026-02-21": {
         "water": null,
@@ -72,10 +126,14 @@
         "weather": null,
         "sleep_feel": null,
         "body_note": null,
-        "steps": 39,
+        "steps": 8692,
         "rhr": 55.0,
         "hrv": 25.5,
-        "waterBonus": null
+        "waterBonus": null,
+        "stride": null,
+        "walkSpeed": null,
+        "walkDistance": null,
+        "stretch": null
     },
     "2026-02-22": {
         "water": 2.5,
@@ -92,6 +150,10 @@
         "steps": null,
         "rhr": null,
         "hrv": null,
-        "waterBonus": 0.43
+        "waterBonus": 0.43,
+        "stride": null,
+        "walkSpeed": null,
+        "walkDistance": null,
+        "stretch": null
     }
 }
