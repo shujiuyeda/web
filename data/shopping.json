@@ -1,9 +1,33 @@
 {
   "updated": "2026-02-22",
   "items": [
-    { "id": "s1", "name": "にんにく玉本舗 イヌリン スティック（5g×30包）", "note": "サイリウムがなくなったら切り替え。チコリ由来・機能性表示食品。1日2包で10g、持ち運び便利", "category": "supplement" },
-    { "id": "s2", "name": "ダークチョコレート（カカオ72%以上）", "note": "甘いもの欲求の上位互換として常備", "category": "food" },
-    { "id": "s3", "name": "エゴマ油", "note": "", "category": "food" },
-    { "id": "s4", "name": "Withings Body Comp（約29,990円）", "note": "体組成スマートスケール", "category": "other" }
-  ]
+    {
+      "id": "s1",
+      "name": "にんにく玉本舗 イヌリン スティック（5g×30包）",
+      "note": "サイリウムがなくなったら切り替え。チコリ由来・機能性表示食品。1日2包で10g、持ち運び便利",
+      "category": "supplement"
+    },
+    {
+      "id": "s2",
+      "name": "ダークチョコレート（カカオ72%以上）",
+      "note": "甘いもの欲求の上位互換として常備",
+      "category": "food"
+    },
+    {
+      "id": "s3",
+      "name": "エゴマ油",
+      "note": "",
+      "category": "food"
+    },
+    {
+      "id": "s4",
+      "name": "Withings Body Comp（約29,990円）",
+      "note": "体組成スマートスケール",
+      "category": "other"
+    }
+  ],
+  "checks": {
+    "s1": true,
+    "s2": true
+  }
 }
