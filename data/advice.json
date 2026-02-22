@@ -43,38 +43,13 @@
     "gut": {
       "score": 5,
       "factors": {
-        "fiber": {
-          "avg": 0,
-          "target": 21,
-          "pts": 0
-        },
-        "probiotics": {
-          "rate": 0,
-          "pts": 0
-        },
-        "fermented": {
-          "daysHit": 0,
-          "items": [],
-          "pts": 0
-        },
-        "bowel": {
-          "daysHit": 0,
-          "status": "unknown",
-          "pts": 0
-        },
-        "water": {
-          "avgL": 0,
-          "target": 2.0,
-          "pts": 0
-        },
-        "sleep": {
-          "avgHrs": 0,
-          "pts": 0
-        },
-        "regularity": {
-          "score": 0.5,
-          "pts": 5
-        }
+        "fiber": { "avg": 0, "target": 21, "pts": 0 },
+        "probiotics": { "rate": 0, "pts": 0 },
+        "fermented": { "daysHit": 0, "items": [], "pts": 0 },
+        "bowel": { "daysHit": 0, "status": "unknown", "pts": 0 },
+        "water": { "avgL": 0, "target": 2.0, "pts": 0 },
+        "sleep": { "avgHrs": 0, "pts": 0 },
+        "regularity": { "score": 0.5, "pts": 5 }
       },
       "insight": "食事・サプリ・睡眠の記録がないため、腸内環境スコアを算出できません。データが揃った日は詳細なスコアが自動計算されます。",
       "tips": [
@@ -87,9 +62,7 @@
       {
         "title": "体脂肪30.8%は2月最低記録",
         "body": "2/16の体脂肪30.8%は2月中で最も低い値。体重88.45kgは前日比微増だが体脂肪の低さは筋肉量維持の兆候。食事・睡眠データがあれば原因分析が可能だった。今後の記録継続が重要。",
-        "relatedTabs": [
-          "weight"
-        ]
+        "relatedTabs": ["weight"]
       }
     ]
   },
@@ -138,38 +111,13 @@
     "gut": {
       "score": 5,
       "factors": {
-        "fiber": {
-          "avg": 0,
-          "target": 21,
-          "pts": 0
-        },
-        "probiotics": {
-          "rate": 0,
-          "pts": 0
-        },
-        "fermented": {
-          "daysHit": 0,
-          "items": [],
-          "pts": 0
-        },
-        "bowel": {
-          "daysHit": 0,
-          "status": "unknown",
-          "pts": 0
-        },
-        "water": {
-          "avgL": 0,
-          "target": 2.0,
-          "pts": 0
-        },
-        "sleep": {
-          "avgHrs": 3.6,
-          "pts": 1
-        },
-        "regularity": {
-          "score": 0.4,
-          "pts": 4
-        }
+        "fiber": { "avg": 0, "target": 21, "pts": 0 },
+        "probiotics": { "rate": 0, "pts": 0 },
+        "fermented": { "daysHit": 0, "items": [], "pts": 0 },
+        "bowel": { "daysHit": 0, "status": "unknown", "pts": 0 },
+        "water": { "avgL": 0, "target": 2.0, "pts": 0 },
+        "sleep": { "avgHrs": 3.6, "pts": 1 },
+        "regularity": { "score": 0.4, "pts": 4 }
       },
       "insight": "食事・サプリ記録がなく、睡眠も3.6hと極端に少ない日。睡眠不足は腸の蠕動運動を乱し、腸内細菌叢のバランスを崩しやすい。",
       "tips": [
@@ -182,10 +130,7 @@
       {
         "title": "睡眠3.6hが体全体に影響",
         "body": "この日の睡眠3.6hは週の中で最も短い。翌日2/18に7.1hで回復しているが、慢性的な睡眠不足は食欲増加・代謝低下・腸内環境悪化を引き起こす。就寝前マグネシウム（b1）の習慣化が最も効果的な対策。",
-        "relatedTabs": [
-          "sleep",
-          "weight"
-        ]
+        "relatedTabs": ["sleep", "weight"]
       }
     ]
   },
@@ -235,38 +180,13 @@
     "gut": {
       "score": 15,
       "factors": {
-        "fiber": {
-          "avg": 0,
-          "target": 21,
-          "pts": 0
-        },
-        "probiotics": {
-          "rate": 0,
-          "pts": 0
-        },
-        "fermented": {
-          "daysHit": 0,
-          "items": [],
-          "pts": 0
-        },
-        "bowel": {
-          "daysHit": 0,
-          "status": "unknown",
-          "pts": 0
-        },
-        "water": {
-          "avgL": 0,
-          "target": 2.0,
-          "pts": 0
-        },
-        "sleep": {
-          "avgHrs": 7.1,
-          "pts": 10
-        },
-        "regularity": {
-          "score": 0.5,
-          "pts": 5
-        }
+        "fiber": { "avg": 0, "target": 21, "pts": 0 },
+        "probiotics": { "rate": 0, "pts": 0 },
+        "fermented": { "daysHit": 0, "items": [], "pts": 0 },
+        "bowel": { "daysHit": 0, "status": "unknown", "pts": 0 },
+        "water": { "avgL": 0, "target": 2.0, "pts": 0 },
+        "sleep": { "avgHrs": 7.1, "pts": 10 },
+        "regularity": { "score": 0.5, "pts": 5 }
       },
       "insight": "食事・サプリ記録はないが、睡眠7.1hは腸の回復に大きく貢献。良質な睡眠は腸の蠕動運動を正常化し、腸内細菌叢の多様性維持にも寄与する。",
       "tips": [
@@ -279,10 +199,7 @@
       {
         "title": "睡眠7hが翌日の体重回復を加速",
         "body": "2/18の7.1h良質睡眠後、翌2/19は88.0kgへ自然回復。成長ホルモンが睡眠中に分泌され、体脂肪燃焼と筋肉修復が促進される。良質な睡眠は最も効果的な「受動的ダイエット」。",
-        "relatedTabs": [
-          "sleep",
-          "weight"
-        ]
+        "relatedTabs": ["sleep", "weight"]
       }
     ]
   },
@@ -332,38 +249,13 @@
     "gut": {
       "score": 9,
       "factors": {
-        "fiber": {
-          "avg": 0,
-          "target": 21,
-          "pts": 0
-        },
-        "probiotics": {
-          "rate": 0,
-          "pts": 0
-        },
-        "fermented": {
-          "daysHit": 0,
-          "items": [],
-          "pts": 0
-        },
-        "bowel": {
-          "daysHit": 0,
-          "status": "unknown",
-          "pts": 0
-        },
-        "water": {
-          "avgL": 0,
-          "target": 2.0,
-          "pts": 0
-        },
-        "sleep": {
-          "avgHrs": 5.2,
-          "pts": 4
-        },
-        "regularity": {
-          "score": 0.5,
-          "pts": 5
-        }
+        "fiber": { "avg": 0, "target": 21, "pts": 0 },
+        "probiotics": { "rate": 0, "pts": 0 },
+        "fermented": { "daysHit": 0, "items": [], "pts": 0 },
+        "bowel": { "daysHit": 0, "status": "unknown", "pts": 0 },
+        "water": { "avgL": 0, "target": 2.0, "pts": 0 },
+        "sleep": { "avgHrs": 5.2, "pts": 4 },
+        "regularity": { "score": 0.5, "pts": 5 }
       },
       "insight": "食事・サプリ記録がなく、睡眠5.2hは腸への十分な回復時間を提供できていない。腸の蠕動運動は睡眠中に促進されるため、5h台では不十分。",
       "tips": [
@@ -376,10 +268,7 @@
       {
         "title": "体重88.0kgは先週比-0.75kg、順調な下降",
         "body": "2/12の88.75kgから1週間で-0.75kg。週-0.5〜1.0kgの適切なペースで減量継続中。ただし睡眠5.2h→5.6h→3.7hと悪化傾向が続き、翌週に改善が必要だった。",
-        "relatedTabs": [
-          "weight",
-          "sleep"
-        ]
+        "relatedTabs": ["weight", "sleep"]
       }
     ]
   },
@@ -430,38 +319,13 @@
     "gut": {
       "score": 31,
       "factors": {
-        "fiber": {
-          "avg": 7.7,
-          "target": 21,
-          "pts": 7
-        },
-        "probiotics": {
-          "rate": 0.76,
-          "pts": 15
-        },
-        "fermented": {
-          "daysHit": 0,
-          "items": [],
-          "pts": 0
-        },
-        "bowel": {
-          "daysHit": 0,
-          "status": "unknown",
-          "pts": 0
-        },
-        "water": {
-          "avgL": 0,
-          "target": 2.0,
-          "pts": 0
-        },
-        "sleep": {
-          "avgHrs": 5.6,
-          "pts": 4
-        },
-        "regularity": {
-          "score": 0.55,
-          "pts": 5
-        }
+        "fiber": { "avg": 7.7, "target": 21, "pts": 7 },
+        "probiotics": { "rate": 0.76, "pts": 15 },
+        "fermented": { "daysHit": 0, "items": [], "pts": 0 },
+        "bowel": { "daysHit": 0, "status": "unknown", "pts": 0 },
+        "water": { "avgL": 0, "target": 2.0, "pts": 0 },
+        "sleep": { "avgHrs": 5.6, "pts": 4 },
+        "regularity": { "score": 0.55, "pts": 5 }
       },
       "insight": "食物繊維7.7g（目標21gの37%）と大幅不足。発酵食品ゼロ（カレー・チョコ中心の食事）が腸活スコアを下げた主因。プロバイオ系サプリ（m5・m4・e3・e4・a1）の服用率は高く76%と良好。",
       "tips": [
@@ -475,18 +339,12 @@
       {
         "title": "マグネシウム未服用が連鎖的な問題を引き起こす",
         "body": "就寝前b1未服用→深夜3時間覚醒→睡眠密度低下→翌日の疲労・食欲増加のリスク。2/20・2/21連続でb1未服用になったことが2/21の睡眠崩壊（3.7h）につながった。b1は歯磨きとセットでルーティン化することが解決策。",
-        "relatedTabs": [
-          "sleep",
-          "supplements"
-        ]
+        "relatedTabs": ["sleep", "supplements"]
       },
       {
         "title": "低カロリー1,156kcalが翌日の過食リスクを生む",
         "body": "カロリー1,156kcalは推奨の約70%。慢性的なカロリー不足は基礎代謝を下げるだけでなく、翌日の強い食欲（リバウンド）を引き起こしやすい。翌2/21は1,455kcalに自然と増えているが、これは前日の不足への補正反応でもある。",
-        "relatedTabs": [
-          "meals",
-          "weight"
-        ]
+        "relatedTabs": ["meals", "weight"]
       }
     ]
   },
@@ -537,42 +395,13 @@
     "gut": {
       "score": 34,
       "factors": {
-        "fiber": {
-          "avg": 15.0,
-          "target": 21,
-          "pts": 14
-        },
-        "probiotics": {
-          "rate": 0.56,
-          "pts": 11
-        },
-        "fermented": {
-          "daysHit": 1,
-          "items": [
-            "納豆",
-            "味噌",
-            "西京漬け"
-          ],
-          "pts": 2
-        },
-        "bowel": {
-          "daysHit": 0,
-          "status": "unknown",
-          "pts": 0
-        },
-        "water": {
-          "avgL": 0,
-          "target": 2.0,
-          "pts": 0
-        },
-        "sleep": {
-          "avgHrs": 3.7,
-          "pts": 1
-        },
-        "regularity": {
-          "score": 0.7,
-          "pts": 6
-        }
+        "fiber": { "avg": 15.0, "target": 21, "pts": 14 },
+        "probiotics": { "rate": 0.56, "pts": 11 },
+        "fermented": { "daysHit": 1, "items": ["納豆", "味噌", "西京漬け"], "pts": 2 },
+        "bowel": { "daysHit": 0, "status": "unknown", "pts": 0 },
+        "water": { "avgL": 0, "target": 2.0, "pts": 0 },
+        "sleep": { "avgHrs": 3.7, "pts": 1 },
+        "regularity": { "score": 0.7, "pts": 6 }
       },
       "insight": "食物繊維15g（今週最高）・発酵食品3種（納豆・味噌・鮭の西京漬け）と腸活面では今週ベスト。しかし睡眠3.7h（REM・深い睡眠ゼロ）が腸の蠕動運動を乱し、せっかくの良い食事の効果を相殺した。",
       "tips": [
@@ -586,27 +415,17 @@
       {
         "title": "食事は今週最高なのに睡眠は今週最低",
         "body": "2/21は食物繊維15g・発酵食品3種・夕食18:30と食事面で今週ベスト。一方で睡眠3.7h（REM・Deep ゼロ・覚醒4.4h）と最悪。夜サプリ全欠（b1含む）が最大の原因。翌2/22にb1を服用→6.9hの良眠で劇的に回復した。",
-        "relatedTabs": [
-          "meals",
-          "sleep",
-          "supplements"
-        ]
+        "relatedTabs": ["meals", "sleep", "supplements"]
       },
       {
         "title": "体重-1.15kgの大幅減少を分析",
         "body": "87.9kg→86.75kgの-1.15kgは一部が水分・消化物減少だが、前後の体重も安定しており実質的な体重減少が含まれる。夕食18:30と1,455kcalの適切なカロリーが翌朝の体重に好影響を与えた。良い食習慣が体重減少を加速する証拠。",
-        "relatedTabs": [
-          "meals",
-          "weight"
-        ]
+        "relatedTabs": ["meals", "weight"]
       },
       {
         "title": "外食後の夜サプリ忘れパターンに注意",
         "body": "新八食堂（外食・18:30）→スタバ（20:00）→帰宅後に夜サプリ全忘れのパターンが発生。外食時は帰宅後のルーティンが崩れやすい。「帰宅したらすぐサプリ」というトリガーを作ることで防止できる。",
-        "relatedTabs": [
-          "supplements",
-          "sleep"
-        ]
+        "relatedTabs": ["supplements", "sleep"]
       }
     ]
   },
@@ -653,63 +472,17 @@
     "gut": {
       "score": 46,
       "factors": {
-        "fiber": {
-          "avg": 14.1,
-          "target": 21,
-          "pts": 10
-        },
-        "diversity": {
-          "plantCount": 14,
-          "pts": 5
-        },
-        "fermented": {
-          "daysHit": 2,
-          "items": [
-            "納豆",
-            "味噌"
-          ],
-          "pts": 3
-        },
-        "polyphenol": {
-          "daysHit": 2,
-          "items": [
-            "チョコ",
-            "コーヒー（スタバラテ）"
-          ],
-          "pts": 2
-        },
-        "regularity": {
-          "score": 0.8,
-          "pts": 8
-        },
-        "probiotics": {
-          "rate": 0.29,
-          "pts": 2
-        },
-        "prebiotics": {
-          "rate": 0.31,
-          "type": "サイリウム",
-          "pts": 1
-        },
-        "bowel": {
-          "freqDays": 1,
-          "status": "良好",
-          "regScore": 0.14,
-          "pts": 6
-        },
-        "water": {
-          "avgL": 2.3,
-          "target": 2.0,
-          "pts": 6
-        },
-        "sleep": {
-          "avgHrs": 5.4,
-          "pts": 3
-        },
-        "steps": {
-          "avgSteps": null,
-          "pts": 0
-        }
+        "fiber": { "avg": 14.1, "target": 21, "pts": 10 },
+        "diversity": { "plantCount": 14, "pts": 5 },
+        "fermented": { "daysHit": 2, "items": ["納豆", "味噌"], "pts": 3 },
+        "polyphenol": { "daysHit": 2, "items": ["チョコ", "コーヒー（スタバラテ）"], "pts": 2 },
+        "regularity": { "score": 0.8, "pts": 8 },
+        "probiotics": { "rate": 0.29, "pts": 2 },
+        "prebiotics": { "rate": 0.31, "type": "サイリウム", "pts": 1 },
+        "bowel": { "freqDays": 1, "status": "良好", "regScore": 0.14, "pts": 6 },
+        "water": { "avgL": 2.3, "target": 2.0, "pts": 6 },
+        "sleep": { "avgHrs": 5.4, "pts": 3 },
+        "steps": { "avgSteps": null, "pts": 0 }
       },
       "insight": "新スコアリング（11要素・100点）で46点。水分2.3L✨と食事リズム（19:39夕食）が高評価。プロバイオスコアが低いのは夜サプリ（e3エビオス・e4ビオスリー）の服用が少ない週が続いたため。ポリフェノール・植物多様性も伸びしろあり。",
       "tips": [
@@ -723,25 +496,15 @@
       {
         "title": "パーソナル×タンパク質",
         "body": "今日のP98.6gはパーソナル後の筋肉修復に最適なタイミング。就寝中の成長ホルモン分泌と合わせて筋肉量維持に貢献。",
-        "relatedTabs": [
-          "meals",
-          "supplements"
-        ]
+        "relatedTabs": ["meals", "supplements"]
       },
       {
         "title": "睡眠×マグネシウム",
         "body": "就寝前マグネシウムは深い睡眠（deep sleep）を促し、筋肉の回復と翌日のエネルギーに影響。飲み忘れに注意。",
-        "relatedTabs": [
-          "sleep",
-          "supplements"
-        ]
+        "relatedTabs": ["sleep", "supplements"]
       }
     ],
-    "todayWater": {
-      "current": 2.3,
-      "target": 2.0,
-      "max": 3.3
-    },
+    "todayWater": { "current": 2.3, "target": 2.0, "max": 3.3 },
     "exercise": {
       "insight": "本日パーソナルトレーニング（17セット）を実施。ラットプルダウン・プーリーロー・ランジ中心で背中・脚・体幹を強化。歩数データは明朝のCSV取得後に更新予定。",
       "tips": [
@@ -752,5 +515,91 @@
       "weekAvgSteps": null,
       "todayWorkout": "パーソナル（17セット）"
     }
+  },
+  "2026-02-23": {
+    "generated": "2026-02-23T07:30:00",
+    "overall": {
+      "headline": "パーソナル翌日・体重86kg台定着中！7日間で-1.5kg達成",
+      "score": 58,
+      "topAction": "パーソナル翌日の体のケアを最優先に。夜サプリ・b1マグネシウムを欠かさず、水分2L目標"
+    },
+    "meals": {
+      "insight": "直近3日（2/20〜2/22）の平均1,348kcal（P:82g / F:22g / C:140g / 食物繊維15.9g）。2/22は食物繊維24gと今週最高値を達成。カレー→外食和食→砂肝カレーと食事パターンが安定してきた。発酵食品は2/21・2/22の2日で摂取できており良好。",
+      "tips": [
+        "食物繊維は2/22の24gが目標21gを超えた。この調子でバーリーマックス米とサイリウムを継続しよう",
+        "発酵食品（納豆・味噌汁）を朝食の定番にすると腸活スコアが安定する",
+        "パーソナル翌日はタンパク質多めの食事（P80g以上）で筋肉修復をサポート"
+      ],
+      "correlation": "2/22のタンパク質98.6g・食物繊維24gが今朝の体調（パーソナル翌日の回復）に好影響を与えている可能性が高い"
+    },
+    "sleep": {
+      "insight": "2/23は2時就寝・4時前トイレ覚醒と寝不足を自覚。直近7日（2/17〜2/22）の平均睡眠5.36hと改善途上。2/22はb1マグネシウムを服用した結果6.9hと今週最長を記録しており、サプリの効果が明確に出ている。",
+      "tips": [
+        "2/23もb1マグネシウムを就寝前に必ず服用。パーソナル翌日の深い睡眠が筋肉修復の鍵",
+        "就寝時刻を23時前に前倒しすると睡眠時間が確保しやすい",
+        "トイレ覚醒を減らすには就寝2時間前の水分摂取を控えめにするのも有効"
+      ],
+      "weekTrend": "2/17: 3.6h → 2/18: 7.1h → 2/19: 5.2h → 2/20: 5.6h（覚醒3.3h）→ 2/21: 3.7h → 2/22: 6.9h（b1服用で回復）",
+      "correlation": "b1マグネシウム服用日（2/22）の睡眠6.9hは未服用日（2/20・2/21）の3.7〜5.6hを大きく上回る。b1との相関が非常に明確。"
+    },
+    "supplements": {
+      "insight": "2/22はm1〜m6（朝）・a1・a2（サイリウム2回）・e1〜e4（夜）・b1（マグネシウム）と全サプリを完璧に服用。これが6.9hの良質な睡眠につながった。今日も同じパターンで継続しよう。",
+      "tips": [
+        "今日の夜サプリ（e1ロスバスタチン・e2亜鉛・e3エビオス・e4ビオスリー）を夕食後に服用",
+        "b1マグネシウムは就寝30分前が最も効果的。パーソナル翌日の筋肉回復にも貢献",
+        "サイリウムa3（3回目）を追加すると食物繊維目標21gに近づき腸活スコアが上がる"
+      ]
+    },
+    "weight": {
+      "insight": "2/22: 86.95kg（体脂肪31.6%）。2/10の88.5kgから13日間で-1.55kgと着実な減量継続中。86〜87kg台に定着しつつある。7日平均（2/16〜2/22）は87.77kgで、先週比（2/9〜2/15推定）から-0.5〜0.7kgペースで下降。",
+      "tips": [
+        "86.95kgは今月最低水準。このまま86kg台を定着させることが次の目標",
+        "パーソナル翌日は筋肉内の水分・グリコーゲンで一時的に増加することがあるが、3日後の体重が真のトレンド",
+        "体脂肪31.6%→31%台前半を目標に。食物繊維・発酵食品の継続と睡眠確保が体脂肪燃焼の鍵"
+      ],
+      "projection": "週-0.4〜0.6kgペースが維持できれば3月中旬に85kg台突入。パーソナルと食事記録の継続が鍵。",
+      "correlation": "2/22のタンパク質98.6g・パーソナル（17セット）→筋肉維持・体脂肪燃焼の相乗効果。良質な睡眠（b1服用）との組み合わせで代謝が最大化される。"
+    },
+    "gut": {
+      "score": 40,
+      "factors": {
+        "fiber": { "avg": 6.69, "target": 21, "pts": 4.8 },
+        "diversity": { "plantCount": 14, "pts": 5 },
+        "fermented": { "daysHit": 2, "items": ["納豆", "味噌", "西京漬け"], "pts": 3.4 },
+        "polyphenol": { "daysHit": 2, "items": ["スタバ ラテ", "チョコレート効果カカオ72%"], "pts": 2.3 },
+        "regularity": { "score": 0.8, "pts": 8 },
+        "probiotics": { "rate": 0.71, "pts": 5.7 },
+        "prebiotics": { "rate": 0.24, "type": "サイリウム", "pts": 1.1 },
+        "bowel": { "freqDays": 1, "status": "硬め", "regScore": 0.14, "pts": 4.1 },
+        "water": { "avgL": 0.44, "target": 2.0, "pts": 1.3 },
+        "sleep": { "avgHrs": 5.36, "pts": 2 },
+        "steps": { "avgSteps": 6014, "pts": 2 }
+      },
+      "insight": "gut スコア40点。プロバイオ（5.7pt）と食事リズム（8pt）が高評価。食物繊維と水分の記録が少ない週（2/16〜2/19データなし）だったため実際より低めに出ている可能性あり。2/22の食物繊維24g・水分3.1Lの実績を今後も継続できれば、スコアは50〜60点台へ向上できる。",
+      "tips": [
+        "水分記録を毎日つけると7日平均が上がりスコアが改善。2/22の3.1Lは素晴らしい達成値",
+        "サイリウムa3を追加すれば週平均プレバイオが上がり、さらに+1pt",
+        "排便が「硬め」だった2/22。水分2L以上＋サイリウム3回の組み合わせを続けると改善しやすい"
+      ],
+      "correlation": "水分不足の週が多いと排便の質が「硬め」になりやすい。水分2L目標の習慣化が排便スコア改善の最短ルート。"
+    },
+    "crossDomain": [
+      {
+        "title": "b1マグネシウムの効果が数字で実証された",
+        "body": "2/20・2/21の連続未服用→3.7〜5.6h睡眠、2/22の服用→6.9h睡眠。この差は体感だけでなくデータでも明確。b1を毎日服用することが体全体のパフォーマンスに直結している。継続率100%を目指そう。",
+        "relatedTabs": ["sleep", "supplements"]
+      },
+      {
+        "title": "パーソナル翌日の回復最適化",
+        "body": "2/22のパーソナル（17セット）後: P98.6g（筋修復に最適）・食物繊維24g・b1服用・睡眠6.9h。これらが揃うと筋肉修復と体脂肪燃焼が最大化される。今日2/23もタンパク質を意識した食事と夜サプリ完遂が重要。",
+        "relatedTabs": ["meals", "sleep", "supplements"]
+      },
+      {
+        "title": "歩数6,014歩/日平均と体重-1.5kgの相関",
+        "body": "7日間平均歩数6,014歩（2/16〜2/22）と体重88.45→86.95kgの-1.5kg減が一致。2/18は14,174歩と突出して多く体重も翌日以降に好影響。毎日6,000〜8,000歩をキープするだけで減量ペースが維持できる。",
+        "relatedTabs": ["weight", "meals"]
+      }
+    ],
+    "todayWater": { "current": 0, "target": 2.0, "max": 3.3 }
   }
 }
