@@ -1,0 +1,14 @@
+{
+  "2026-02-22": {
+    "water": 1.2,
+    "bowel": { "status": "hard", "time": "10:30", "note": "少量、やや硬め・スムーズではないが支障なし" },
+    "mood": null,
+    "energy": null,
+    "weather": null,
+    "sleep_feel": null,
+    "body_note": null,
+    "steps": null,
+    "rhr": null,
+    "hrv": null
+  }
+}
