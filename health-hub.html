@@ -994,33 +994,58 @@ async function tryFetchSleep() {
 }
 
 // ======== ADVICE ========
-let adviceData = null;
+let adviceStore = {};   // 全日付分 { "YYYY-MM-DD": {...} }
+let adviceData = null;  // 現在表示中の日付分（既存関数との互換用）
 
 async function tryFetchAdvice() {
   try {
     const res = await fetch(`${DATA_BASE_URL}advice.json?_=${Date.now()}`, { cache: 'no-store' });
     if (!res.ok) return;
     const data = await res.json();
-    adviceData = data;
-    if (['meals','supplements','weight','sleep'].includes(currentTab)) {
-      deferRender(currentTab);
+    if (data.generated) {
+      adviceStore = { [todayStr()]: data };  // 旧構造：今日の日付でラップ
+    } else {
+      adviceStore = data;                     // 新構造：そのまま格納
     }
+    syncAdviceToCurrentDate();
   } catch { /* silent */ }
+}
+
+function syncAdviceToCurrentDate() {
+  adviceData = adviceStore[currentDate] || null;
+  if (['meals','supplements','weight','sleep'].includes(currentTab)) {
+    deferRender(currentTab);
+  }
 }
 
 function isAdviceStale() {
   if (!adviceData?.generated) return true;
+  if (currentDate !== todayStr()) return false;  // 過去日は固定データとして扱う
   return (Date.now() - new Date(adviceData.generated).getTime()) > 24 * 60 * 60 * 1000;
 }
 
+function getAdviceDateLabel() {
+  if (currentDate === todayStr()) return '今日の健康スコア';
+  const [, m, d] = currentDate.split('-').map(Number);
+  return `${m}月${d}日の健康スコア`;
+}
+
 function renderOverallBanner() {
-  if (!adviceData?.overall) return '';
+  if (!adviceData?.overall) {
+    if (currentDate !== todayStr()) {
+      return `<div class="advice-card" style="opacity:0.6;text-align:center;padding:16px;">
+        <div class="advice-card-label">🌿 ${getAdviceDateLabel()}</div>
+        <div style="font-size:13px;color:var(--text-muted);margin-top:8px;">この日のAI分析データはありません</div>
+      </div>`;
+    }
+    return '';
+  }
   const stale = isAdviceStale();
   const o = adviceData.overall;
   const score = o.score ?? 0;
   return `
     <div class="advice-card${stale ? ' stale' : ''}">
-      <div class="advice-card-label">🌿 今日の健康スコア</div>
+      <div class="advice-card-label">🌿 ${getAdviceDateLabel()}</div>
       <div class="advice-headline">${esc(o.headline)}</div>
       <div class="advice-score-row">
         <span class="advice-score-num">${score}</span>
@@ -1040,7 +1065,7 @@ function renderAdviceCard(tab) {
   const data = adviceData[tab];
   const cross = (adviceData.crossDomain || []).filter(x => !x.relatedTabs || x.relatedTabs.includes(tab));
   if (!data && !cross.length) return '';
-  let html = `<div class="advice-card${stale ? ' stale' : ''}"><div class="advice-card-label">🤖 AI分析</div>`;
+  let html = `<div class="advice-card${stale ? ' stale' : ''}"><div class="advice-card-label">🤖 AI分析${currentDate !== todayStr() ? `（${currentDate.split('-').slice(1).map(Number).join('/')}）` : ''}</div>`;
   if (data) {
     if (data.insight) html += `<div class="advice-insight">${esc(data.insight)}</div>`;
     if (tab === 'sleep' && data.weekTrend) html += `<div class="advice-week-trend">${esc(data.weekTrend)}</div>`;
@@ -1288,6 +1313,7 @@ function changeDate(delta) {
   if (nd > todayStr()) return;
   currentDate = nd;
   document.getElementById('header-date').textContent = formatDateLabel(currentDate);
+  syncAdviceToCurrentDate();
   switchTab(currentTab);
   tryFetchMeals(nd);
   tryFetchSuppl(nd);
