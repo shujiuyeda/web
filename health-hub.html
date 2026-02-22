@@ -1735,7 +1735,7 @@ function renderMeals(container) {
         mealGroups.push(g);
       }
       const g = timeMap[m.time];
-      g.items.push({ name: m.name, kcal: m.kcal||0, p: m.p||0, f: m.f||0, c: m.c||0, idx: i });
+      g.items.push({ name: m.name, kcal: m.kcal||0, p: m.p||0, f: m.f||0, c: m.c||0, fiber: m.fiber||0, mg: m.mg||0, idx: i });
       g.kcal  += m.kcal  || 0;
       g.p     += m.p     || 0;
       g.f     += m.f     || 0;
@@ -1757,7 +1757,7 @@ function renderMeals(container) {
         mealHtml += `<div class="meal-group-item">
             <div class="meal-group-item-info">
               <span class="meal-group-item-name">• ${esc(item.name)}</span>
-              <span class="meal-group-item-macros">${Math.round(item.kcal)}kcal　P${item.p.toFixed(1)} F${item.f.toFixed(1)} C${item.c.toFixed(1)}</span>
+              <span class="meal-group-item-macros">${Math.round(item.kcal)}kcal　P${item.p.toFixed(1)} F${item.f.toFixed(1)} C${item.c.toFixed(1)} 食物繊維${item.fiber.toFixed(1)}g Mg${Math.round(item.mg)}mg</span>
             </div>
             <button class="meal-del" onclick="deleteMeal(${item.idx})">×</button>
           </div>`;
