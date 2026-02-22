@@ -943,8 +943,12 @@ async function ghPutFile(path, content, message) {
       },
       body: JSON.stringify(body)
     });
+    if (!res.ok) {
+      const errBody = await res.text().catch(() => '');
+      console.error(`ghPutFile failed: ${res.status} ${res.statusText}`, errBody);
+    }
     return res.ok;
-  } catch { return false; }
+  } catch (e) { console.error('ghPutFile exception:', e); return false; }
 }
 
 let _syncQueue = Promise.resolve();
