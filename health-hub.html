@@ -55,8 +55,11 @@
       background: none; border: none; color: white; opacity: 0.75;
       font-size: 20px; padding: 6px 8px; cursor: pointer;
       -webkit-tap-highlight-color: transparent;
+      transition: transform 0.1s;
+      display: inline-block;
     }
     .header-reload:active { opacity: 0.4; }
+    .header-reload.spinning { animation: ptr-spin 0.7s linear infinite; }
     .main {
       padding-top: var(--header-height);
       padding-bottom: calc(var(--nav-height) + var(--safe-bottom) + 8px);
@@ -610,7 +613,7 @@
       <span class="header-date" id="header-date"></span>
       <span class="header-clock" id="header-clock"></span>
       <button class="sync-dot" id="sync-dot" onclick="openSyncSettings()" title="同期設定">●</button>
-      <button class="header-reload" onclick="location.reload()" title="リロード">↻</button>
+      <button class="header-reload" onclick="reloadData()" title="リロード">↻</button>
     </div>
   </header>
 
@@ -1492,6 +1495,28 @@ function initPullToRefresh() {
       refreshing = false;
     });
   }, { passive: true });
+}
+
+// ======== RELOAD BUTTON ========
+let _reloading = false;
+function reloadData() {
+  if (_reloading) return;
+  _reloading = true;
+  const btn = document.querySelector('.header-reload');
+  if (btn) btn.classList.add('spinning');
+  const fetches = [];
+  for (let i = 0; i < 10; i++) {
+    const d = new Date(); d.setDate(d.getDate() - i);
+    fetches.push(tryFetchMeals(fmtDate(d)));
+    if (i < 2) fetches.push(tryFetchSuppl(fmtDate(d)));
+  }
+  fetches.push(loadFoodDb(), tryFetchWeights(), tryFetchHealthLog(), tryFetchShopping(), tryFetchSleep(), tryFetchAdvice());
+  Promise.all(fetches).finally(() => {
+    switchTab(currentTab);
+    if (btn) btn.classList.remove('spinning');
+    showToast('更新しました');
+    _reloading = false;
+  });
 }
 
 // ======== SWIPE NAVIGATION ========
