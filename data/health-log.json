@@ -1,6 +1,6 @@
 {
     "2026-02-22": {
-        "water": 1.2,
+        "water": 3.1,
         "bowel": {
             "status": "hard",
             "time": "10:30",
@@ -11,17 +11,20 @@
         "weather": null,
         "sleep_feel": null,
         "body_note": null,
-        "steps": null,
-        "rhr": null,
-        "hrv": null,
-        "waterBonus": 0.43,
+        "steps": 6504,
+        "rhr": 64.0,
+        "hrv": 30.2,
+        "waterBonus": 0.44,
         "stretch": {
             "st1": true,
             "st2": true,
             "st3": true
         },
-        "vo2max": null,
-        "walkHR": null
+        "vo2max": 27.5,
+        "walkHR": 110,
+        "stride": 68.2,
+        "walkSpeed": 4.6,
+        "walkDistance": 4.08
     },
     "2026-02-21": {
         "water": null,
@@ -41,7 +44,10 @@
             "st3": true
         },
         "vo2max": null,
-        "walkHR": null
+        "walkHR": null,
+        "walkDistance": 0.03,
+        "stride": null,
+        "walkSpeed": null
     },
     "2026-02-20": {
         "water": null,
@@ -250,5 +256,24 @@
         "stretch": null,
         "vo2max": null,
         "walkHR": 90
+    },
+    "2026-02-23": {
+        "water": 0,
+        "bowel": null,
+        "mood": null,
+        "energy": 2.3,
+        "weather": "sunny",
+        "sleep_feel": "寝不足（2時就寝、4時前トイレ起き）",
+        "body_note": "パーソナル翌日: お尻・右肩後ろ・腰張り。右肩継続",
+        "steps": null,
+        "rhr": null,
+        "hrv": null,
+        "stride": null,
+        "walkSpeed": null,
+        "walkDistance": null,
+        "vo2max": null,
+        "walkHR": null,
+        "stretch": null,
+        "waterBonus": null
     }
 }
