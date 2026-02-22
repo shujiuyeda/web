@@ -307,33 +307,49 @@ const MUSHROOMS = [
 ];
 
 // compat: 'all' or array of base IDs
+// water: 野菜の水分放出度 3=多い / 2=やや多い / 1=普通 / 0=少ない / -1=吸水する
 const VEGETABLES = [
-  { id: 'tamanegi', name: '玉ねぎ',       amount: '大1個（200g）',    compat: 'all',                                       feature: '甘み・旨味の土台',          always: true  },
-  { id: 'tomato',   name: 'トマト',       amount: '2個',              compat: ['curry','tomato','shio'],                   feature: '水分・リコピン◎'                          },
-  { id: 'nasu',     name: 'ナス',         amount: '2本',              compat: ['curry','tomato','shio'],                   feature: '水分・食感'                               },
-  { id: 'kyabetsu', name: 'キャベツ',     amount: '1/4玉（300g）',    compat: ['white','miso','shio'],                     feature: 'ビタミンC・食物繊維'                       },
-  { id: 'broccoli', name: 'ブロッコリー', amount: '小1株（200g）',    compat: ['white','curry','tomato','shio'],            feature: 'ビタミンC・スルフォラファン'                },
-  { id: 'paprika',  name: 'パプリカ（赤・黄）', amount: '各1個',      compat: 'all',                                       feature: 'ビタミンC最強・彩り◎'                      },
-  { id: 'celery',   name: 'セロリ',       amount: '2本',              compat: ['white','tomato','shio','demi'],             feature: '香味・カリウム'                            },
-  { id: 'kabocha',  name: 'かぼちゃ',     amount: '1/4個（300g）',    compat: ['white','miso','shoyu'],                    feature: 'β-カロテン・甘み'                          },
-  { id: 'horenso',  name: 'ほうれん草',   amount: '1束（仕上げに投入）',compat: ['white','curry','shoyu','miso'],            feature: '鉄・Mg（仕上げ専用）'                      },
-  { id: 'zucchini', name: 'ズッキーニ',   amount: '1本',              compat: ['curry','tomato','shio'],                   feature: '低カロリー・食感'                          },
-  { id: 'ninjin',   name: 'にんじん',     amount: '1本',              compat: ['white','demi','shoyu','shio'],              feature: 'β-カロテン'                               },
-  { id: 'jagaimo',  name: 'じゃがいも',   amount: '2個',              compat: ['white','curry','shio','demi'],              feature: '満腹感・カリウム'                          },
-  { id: 'gobo',     name: 'ごぼう',       amount: '1/2本（100g）',    compat: ['shoyu','miso'],                            feature: '食物繊維◎（イヌリン）'                     },
-  { id: 'daikon',   name: '大根',         amount: '1/3本（200g）',    compat: ['shoyu','miso'],                            feature: '消化酵素・低カロリー'                      },
-  { id: 'satoimo',  name: '里芋',         amount: '6個（300g）',      compat: ['shoyu','miso'],                            feature: 'カリウム◎・とろみ'                         },
+  { id: 'tamanegi', name: '玉ねぎ',       amount: '大1個（200g）',      compat: 'all',                                       water:  1, feature: '甘み・旨味の土台',          always: true  },
+  { id: 'tomato',   name: 'トマト',       amount: '2個',                compat: ['curry','tomato','shio'],                   water:  3, feature: '水分・リコピン◎'                          },
+  { id: 'nasu',     name: 'ナス',         amount: '2本',                compat: ['curry','tomato','shio'],                   water:  3, feature: '水分・食感'                               },
+  { id: 'kyabetsu', name: 'キャベツ',     amount: '1/4玉（300g）',      compat: ['white','miso','shio'],                     water:  2, feature: 'ビタミンC・食物繊維'                       },
+  { id: 'broccoli', name: 'ブロッコリー', amount: '小1株（200g）',      compat: ['white','curry','tomato','shio'],            water:  1, feature: 'ビタミンC・スルフォラファン'                },
+  { id: 'paprika',  name: 'パプリカ（赤・黄）', amount: '各1個',        compat: 'all',                                       water:  2, feature: 'ビタミンC最強・彩り◎'                      },
+  { id: 'celery',   name: 'セロリ',       amount: '2本',                compat: ['white','tomato','shio','demi'],             water:  2, feature: '香味・カリウム'                            },
+  { id: 'kabocha',  name: 'かぼちゃ',     amount: '1/4個（300g）',      compat: ['white','miso','shoyu'],                    water:  0, feature: 'β-カロテン・甘み'                          },
+  { id: 'horenso',  name: 'ほうれん草',   amount: '1束（仕上げに投入）', compat: ['white','curry','shoyu','miso'],            water:  2, feature: '鉄・Mg（仕上げ専用）'                      },
+  { id: 'zucchini', name: 'ズッキーニ',   amount: '1本',                compat: ['curry','tomato','shio'],                   water:  3, feature: '低カロリー・食感'                          },
+  { id: 'ninjin',   name: 'にんじん',     amount: '1本',                compat: ['white','demi','shoyu','shio'],              water:  0, feature: 'β-カロテン'                               },
+  { id: 'jagaimo',  name: 'じゃがいも',   amount: '2個',                compat: ['white','curry','shio','demi'],              water: -1, feature: '満腹感・カリウム'                          },
+  { id: 'gobo',     name: 'ごぼう',       amount: '1/2本（100g）',      compat: ['shoyu','miso'],                            water: -1, feature: '食物繊維◎（イヌリン）'                     },
+  { id: 'daikon',   name: '大根',         amount: '1/3本（200g）',      compat: ['shoyu','miso'],                            water:  1, feature: '消化酵素・低カロリー'                      },
+  { id: 'satoimo',  name: '里芋',         amount: '6個（300g）',        compat: ['shoyu','miso'],                            water: -1, feature: 'カリウム◎・とろみ'                         },
 ];
 
 const BASES = [
-  { id: 'curry',  name: 'カレー',           seasoning: 'カレー粉 大さじ2・ケチャップ 小さじ2・ウスターソース 大さじ1',  feature: '定番。食欲↑。にんにく2片あると◎' },
-  { id: 'tomato', name: 'トマト煮',          seasoning: 'トマト缶 1缶・コンソメ 2個・にんにく 2片',                   feature: 'さっぱり・リコピン◎' },
-  { id: 'white',  name: 'ホワイトシチュー',  seasoning: '牛乳 200ml・シチュールー 1/2箱・コンソメ 1個',              feature: 'カルシウム◎' },
-  { id: 'demi',   name: 'デミグラス系',      seasoning: 'デミグラス缶 1缶・赤ワイン 50ml・ケチャップ 大さじ1',        feature: 'コクが深い' },
-  { id: 'miso',   name: '味噌煮込み',        seasoning: '味噌 大さじ2・みりん 大さじ2・だし 200ml',                   feature: '発酵食品◎ 腸活スコア↑', fermented: true },
-  { id: 'shoyu',  name: '醤油ベース（煮物）', seasoning: '醤油 大さじ3・みりん 大さじ3・酒 大さじ3・だし 350〜400ml',  feature: '和食の王道。根菜は水分を出さないのでだし多めが安心' },
-  { id: 'shio',   name: '塩ベース（ポトフ風）',seasoning: 'コンソメ 2個・塩 小さじ1・にんにく 2片',                   feature: 'あっさり・素材の味が活きる' },
+  { id: 'curry',  name: 'カレー',            seasoning: 'カレー粉 大さじ2・ケチャップ 小さじ2・ウスターソース 大さじ1',  feature: '定番。食欲↑。にんにく2片あると◎' },
+  { id: 'tomato', name: 'トマト煮',           seasoning: 'トマト缶 1缶・コンソメ 2個・にんにく 2片',                    feature: 'さっぱり・リコピン◎' },
+  { id: 'white',  name: 'ホワイトシチュー',   seasoning: '牛乳 200ml・シチュールー 1/2箱・コンソメ 1個',               feature: 'カルシウム◎' },
+  { id: 'demi',   name: 'デミグラス系',       seasoning: 'デミグラス缶 1缶・赤ワイン 50ml・ケチャップ 大さじ1',         feature: 'コクが深い' },
+  { id: 'miso',   name: '味噌煮込み',         seasoning: '味噌 大さじ2・みりん 大さじ2',                                feature: '発酵食品◎ 腸活スコア↑', fermented: true, needsDashi: true },
+  { id: 'shoyu',  name: '醤油ベース（煮物）',  seasoning: '醤油 大さじ3・みりん 大さじ3・酒 大さじ3',                    feature: '和食の王道' ,                                              needsDashi: true },
+  { id: 'shio',   name: '塩ベース（ポトフ風）', seasoning: 'コンソメ 2個・塩 小さじ1・にんにく 2片',                    feature: 'あっさり・素材の味が活きる',                               needsDashi: true, dashiLabel: '水（またはだし）' },
 ];
+
+// 選んだ野菜に合わせてだし量を動的に計算
+function calcDashi(vegetables, base) {
+  if (!base.needsDashi) return null;
+  const score = vegetables.reduce((sum, v) => sum + (v.water ?? 1), 0);
+  const avg = score / vegetables.length;
+  if (base.id === 'shio') {
+    // ポトフ系は元々スープ仕立て：常に500〜600ml
+    return { ml: '500〜600ml', note: 'ポトフ仕立てのためたっぷり使う' };
+  }
+  // miso / shoyu
+  if (avg >= 1.8) return { ml: '100〜150ml', note: 'トマト・ナス等の水分が出るため少なめでOK' };
+  if (avg >= 0.5) return { ml: '200〜250ml', note: '標準量' };
+  return { ml: '350〜400ml', note: '根菜メインのため多めに（吸水するので）' };
+}
 
 // ===== CONSTANTS =====
 const DATA_BASE_URL = 'https://shujiuyeda.github.io/web/data/';
@@ -592,12 +608,22 @@ function renderRecipe({ protein, mushrooms, vegetables, base }) {
 
   // Base（ベースは除外ボタンなし・将来拡張で追加可能）
   const fermentTag = base.fermented ? '<span class="tag tag-ferment">発酵◎</span>' : '';
+  const dashi = calcDashi(vegetables, base);
+  const dashiLabel = base.dashiLabel || 'だし';
+  const dashiHtml = dashi
+    ? `<div style="display:flex;align-items:baseline;gap:6px;margin-top:8px;padding:8px 10px;background:#EDF7F0;border-radius:8px;">
+        <span style="font-size:13px;color:var(--green-dark);">💧 ${dashiLabel}</span>
+        <span style="font-size:16px;font-weight:700;color:var(--green-dark);">${dashi.ml}</span>
+        <span style="font-size:11px;color:var(--text-muted);">${dashi.note}</span>
+       </div>`
+    : '';
   document.getElementById('base-content').innerHTML = `
     <div style="font-size:17px; font-weight:700; color:var(--green-dark); margin-bottom:6px;">
       ${base.name}${fermentTag}
     </div>
     <div class="base-detail">${base.seasoning}</div>
-    <div class="base-feature">${base.feature}</div>`;
+    <div class="base-feature">${base.feature}</div>
+    ${dashiHtml}`;
 
   // Reset shop button
   const shopBtn = document.getElementById('shop-btn');
