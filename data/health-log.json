@@ -1,4 +1,82 @@
 {
+    "2026-02-16": {
+        "water": null,
+        "bowel": null,
+        "mood": null,
+        "energy": null,
+        "weather": null,
+        "sleep_feel": null,
+        "body_note": null,
+        "steps": 8027,
+        "rhr": 66.0,
+        "hrv": 16.9,
+        "waterBonus": null
+    },
+    "2026-02-17": {
+        "water": null,
+        "bowel": null,
+        "mood": null,
+        "energy": null,
+        "weather": null,
+        "sleep_feel": null,
+        "body_note": null,
+        "steps": 7572,
+        "rhr": 59.0,
+        "hrv": 33.0,
+        "waterBonus": null
+    },
+    "2026-02-18": {
+        "water": null,
+        "bowel": null,
+        "mood": null,
+        "energy": null,
+        "weather": null,
+        "sleep_feel": null,
+        "body_note": null,
+        "steps": 14174,
+        "rhr": 59.0,
+        "hrv": 34.3,
+        "waterBonus": null
+    },
+    "2026-02-19": {
+        "water": null,
+        "bowel": null,
+        "mood": null,
+        "energy": null,
+        "weather": null,
+        "sleep_feel": null,
+        "body_note": null,
+        "steps": 1524,
+        "rhr": 58.0,
+        "hrv": 31.0,
+        "waterBonus": null
+    },
+    "2026-02-20": {
+        "water": null,
+        "bowel": null,
+        "mood": null,
+        "energy": null,
+        "weather": null,
+        "sleep_feel": null,
+        "body_note": null,
+        "steps": 4259,
+        "rhr": 56.0,
+        "hrv": 33.7,
+        "waterBonus": null
+    },
+    "2026-02-21": {
+        "water": null,
+        "bowel": null,
+        "mood": null,
+        "energy": null,
+        "weather": null,
+        "sleep_feel": null,
+        "body_note": null,
+        "steps": 39,
+        "rhr": 55.0,
+        "hrv": 25.5,
+        "waterBonus": null
+    },
     "2026-02-22": {
         "water": 2.5,
         "bowel": {
