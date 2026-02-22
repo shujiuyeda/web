@@ -2935,7 +2935,7 @@ function renderShopping(container) {
               const checked = !!checks[item.id];
               return `
                 <label style="display:flex;align-items:flex-start;gap:12px;padding:10px 0;border-bottom:1px solid var(--border);cursor:pointer;-webkit-tap-highlight-color:transparent;">
-                  <input type="checkbox" ${checked ? 'checked' : ''} onchange="toggleShoppingItem('${item.id}', this.checked)"
+                  <input type="checkbox" ${checked ? 'checked' : ''} onchange="toggleShoppingItem('${item.id}', this.checked, this)"
                     style="width:20px;height:20px;flex-shrink:0;accent-color:var(--green-mid);margin-top:1px;">
                   <div>
                     <div style="font-size:14px;${checked ? 'text-decoration:line-through;color:var(--text-muted);' : ''}">${item.name}</div>
@@ -2962,12 +2962,17 @@ function renderShopping(container) {
   `;
 }
 
-function toggleShoppingItem(id, checked) {
+function toggleShoppingItem(id, checked, el) {
   const checks = JSON.parse(localStorage.getItem('shopping_checks') || '{}');
   if (checked) checks[id] = true;
   else delete checks[id];
   localStorage.setItem('shopping_checks', JSON.stringify(checks));
-  renderShopping(document.getElementById('main-content'));
+  // 直接DOM操作でストライクスルーを切り替え（renderShopping()のDOM置換を避ける）
+  const nameEl = el && el.nextElementSibling && el.nextElementSibling.firstElementChild;
+  if (nameEl) {
+    nameEl.style.textDecoration = checked ? 'line-through' : 'none';
+    nameEl.style.color = checked ? 'var(--text-muted)' : '';
+  }
   syncShoppingToGitHub();
 }
 
