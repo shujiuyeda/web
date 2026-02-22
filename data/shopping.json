@@ -1,8 +1,9 @@
 {
-  "updated": "2026-02-21",
+  "updated": "2026-02-22",
   "items": [
-    { "id": "s1", "name": "ダークチョコレート（カカオ72%以上）", "note": "甘いもの欲求の上位互換として常備", "category": "food" },
-    { "id": "s2", "name": "エゴマ油", "note": "", "category": "food" },
-    { "id": "s3", "name": "Withings Body Comp（約29,990円）", "note": "体組成スマートスケール", "category": "other" }
+    { "id": "s1", "name": "NICHIGAイヌリン 1.7kg", "note": "サイリウムからの切り替え。鈴木祐推奨・チコリ由来・鉛問題なし。10g/日で約6ヶ月分・約2,000円", "category": "supplement" },
+    { "id": "s2", "name": "ダークチョコレート（カカオ72%以上）", "note": "甘いもの欲求の上位互換として常備", "category": "food" },
+    { "id": "s3", "name": "エゴマ油", "note": "", "category": "food" },
+    { "id": "s4", "name": "Withings Body Comp（約29,990円）", "note": "体組成スマートスケール", "category": "other" }
   ]
 }
