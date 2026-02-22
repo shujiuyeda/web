@@ -2918,6 +2918,7 @@ function buildSleepChart(data) {
 function renderShopping(container) {
   const items = JSON.parse(localStorage.getItem('shopping_items') || '[]');
   const checks = JSON.parse(localStorage.getItem('shopping_checks') || '{}');
+  const checkedCount = items.filter(i => checks[i.id]).length;
 
   // 今日の栄養残り計算
   const todayMeals = getMeals(todayStr());
@@ -2976,7 +2977,10 @@ function renderShopping(container) {
           })()
       }
       ${items.length > 0 ? `
-        <button onclick="clearShoppingChecks()" style="margin-top:10px;font-size:12px;background:none;border:1px solid var(--border);border-radius:8px;padding:6px 12px;color:var(--text-muted);cursor:pointer;width:100%;">チェックをリセット</button>
+        <div style="display:flex;gap:8px;margin-top:10px;">
+          <button onclick="clearShoppingChecks()" style="flex:1;font-size:12px;background:none;border:1px solid var(--border);border-radius:8px;padding:6px 12px;color:var(--text-muted);cursor:pointer;">チェックをリセット</button>
+          <button onclick="deleteCheckedShoppingItems()" ${checkedCount === 0 ? 'disabled' : ''} style="flex:1;font-size:12px;background:none;border:1px solid ${checkedCount === 0 ? 'var(--border)' : 'var(--danger)'};border-radius:8px;padding:6px 12px;color:${checkedCount === 0 ? 'var(--text-muted)' : 'var(--danger)'};cursor:${checkedCount === 0 ? 'default' : 'pointer'};opacity:${checkedCount === 0 ? '0.4' : '1'};">チェック済みを削除</button>
+        </div>
       ` : ''}
     </div>
   `;
@@ -2997,6 +3001,19 @@ function toggleShoppingItem(id, checked, el) {
 }
 
 function clearShoppingChecks() {
+  localStorage.removeItem('shopping_checks');
+  renderShopping(document.getElementById('main-content'));
+  syncShoppingToGitHub();
+}
+
+function deleteCheckedShoppingItems() {
+  const items = JSON.parse(localStorage.getItem('shopping_items') || '[]');
+  const checks = JSON.parse(localStorage.getItem('shopping_checks') || '{}');
+  const checkedCount = items.filter(i => checks[i.id]).length;
+  if (checkedCount === 0) return;
+  if (!confirm(`チェック済みの${checkedCount}件を削除しますか？`)) return;
+  const remaining = items.filter(i => !checks[i.id]);
+  localStorage.setItem('shopping_items', JSON.stringify(remaining));
   localStorage.removeItem('shopping_checks');
   renderShopping(document.getElementById('main-content'));
   syncShoppingToGitHub();
