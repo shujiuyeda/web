@@ -1892,9 +1892,6 @@ function renderMeals(container) {
     <button class="import-btn" onclick="triggerFilePicker()">
       📥 今日の記録を取り込む（01_健康メモ.md）
     </button>
-    <button class="export-btn" onclick="exportMarkdown()">
-      📋 Obsidian用マークダウンをコピー
-    </button>
     <div class="spacer"></div>
   `;
 
@@ -1997,21 +1994,6 @@ function deleteMeal(idx) {
   switchTab('meals');
 }
 
-function exportMarkdown() {
-  const meals = getMeals(currentDate);
-  if (!meals.length) { showToast('記録がありません'); return; }
-  const t = totals(meals);
-  const [,m,d] = currentDate.split('-').map(Number);
-  let md = `### ${m}/${d}\n| 時刻 | 内容 | kcal | P | F | C |\n|------|------|------|---|---|---|\n`;
-  meals.forEach(ml => {
-    md += `| ${ml.time} | ${ml.name} | ${Math.round(ml.kcal)} | ${ml.p.toFixed(1)}g | ${ml.f.toFixed(1)}g | ${ml.c.toFixed(1)}g |\n`;
-  });
-  md += `| **合計** | | **${Math.round(t.kcal)}** | **${t.p.toFixed(1)}g** | **${t.f.toFixed(1)}g** | **${t.c.toFixed(1)}g** |\n`;
-  md += `| **目標** | 1,700-1,800kcal | | **80-100g** | **〜50g** | **〜220g** |`;
-  navigator.clipboard.writeText(md)
-    .then(() => showToast('コピーしました！'))
-    .catch(() => { const ta = document.createElement('textarea'); ta.value = md; document.body.appendChild(ta); ta.select(); document.execCommand('copy'); ta.remove(); showToast('コピーしました！'); });
-}
 
 // ======== MEAL ADVICE ========
 function toggleMealAdvice() {
