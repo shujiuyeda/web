@@ -8,6 +8,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="apple-mobile-web-app-title" content="購買記録">
   <title>🛒 購買記録</title>
+  <link rel="manifest" href="kaimono-manifest.json">
+  <link rel="apple-touch-icon" href="kaimono-icon.svg">
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     :root {
@@ -451,6 +453,34 @@ const today = todayStr();
 document.getElementById('today-label').textContent = today;
 document.getElementById('input-date').value = today;
 loadPurchases();
+
+// iOS ホーム画面アイコン生成（canvas → PNG data URI）
+(function() {
+  try {
+    const c = document.createElement('canvas');
+    c.width = c.height = 180;
+    const ctx = c.getContext('2d');
+    // 背景（ダークブルーグリーン）
+    ctx.fillStyle = '#1A4A6B';
+    ctx.beginPath();
+    ctx.roundRect(0, 0, 180, 180, 22);
+    ctx.fill();
+    // 絵文字
+    ctx.font = '90px serif';
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    ctx.fillText('🛒', 90, 82);
+    // テキスト
+    ctx.fillStyle = 'white';
+    ctx.font = 'bold 21px -apple-system, Hiragino Kaku Gothic ProN, sans-serif';
+    ctx.textBaseline = 'alphabetic';
+    ctx.fillText('購買記録', 90, 162);
+    const link = document.querySelector("link[rel='apple-touch-icon']") || document.createElement('link');
+    link.rel = 'apple-touch-icon';
+    link.href = c.toDataURL('image/png');
+    document.head.appendChild(link);
+  } catch(e) { /* fallback to SVG */ }
+})();
 </script>
 </body>
 </html>

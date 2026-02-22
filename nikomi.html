@@ -8,6 +8,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="apple-mobile-web-app-title" content="今日の煮込み">
   <title>🫕 今日の煮込み</title>
+  <link rel="manifest" href="nikomi-manifest.json">
+  <link rel="apple-touch-icon" href="nikomi-icon.svg">
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     :root {
@@ -547,6 +549,34 @@ async function addToShoppingList() {
 
 // ===== INIT =====
 document.getElementById('today-date').textContent = todayStr();
+
+// iOS ホーム画面アイコン生成（canvas → PNG data URI）
+(function() {
+  try {
+    const c = document.createElement('canvas');
+    c.width = c.height = 180;
+    const ctx = c.getContext('2d');
+    // 背景
+    ctx.fillStyle = '#1B4332';
+    ctx.beginPath();
+    ctx.roundRect(0, 0, 180, 180, 22);
+    ctx.fill();
+    // 絵文字
+    ctx.font = '90px serif';
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    ctx.fillText('🫕', 90, 82);
+    // テキスト
+    ctx.fillStyle = 'white';
+    ctx.font = 'bold 21px -apple-system, Hiragino Kaku Gothic ProN, sans-serif';
+    ctx.textBaseline = 'alphabetic';
+    ctx.fillText('今日の煮込み', 90, 162);
+    const link = document.querySelector("link[rel='apple-touch-icon']") || document.createElement('link');
+    link.rel = 'apple-touch-icon';
+    link.href = c.toDataURL('image/png');
+    document.head.appendChild(link);
+  } catch(e) { /* fallback to SVG */ }
+})();
 </script>
 </body>
 </html>

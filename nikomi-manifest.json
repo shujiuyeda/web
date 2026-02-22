@@ -1,0 +1,20 @@
+{
+  "name": "今日の煮込み",
+  "short_name": "今日の煮込み",
+  "description": "ストウブ煮込みレシピ提案アプリ",
+  "start_url": "/web/nikomi.html",
+  "scope": "/web/",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "theme_color": "#1B4332",
+  "background_color": "#F0F4F0",
+  "lang": "ja",
+  "icons": [
+    {
+      "src": "nikomi-icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}

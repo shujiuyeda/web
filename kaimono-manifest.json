@@ -1,0 +1,20 @@
+{
+  "name": "購買記録",
+  "short_name": "購買記録",
+  "description": "購買記録・分析アプリ",
+  "start_url": "/web/kaimono-analytics.html",
+  "scope": "/web/",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "theme_color": "#1A4A6B",
+  "background_color": "#F0F4F0",
+  "lang": "ja",
+  "icons": [
+    {
+      "src": "kaimono-icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}
