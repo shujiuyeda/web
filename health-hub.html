@@ -2127,7 +2127,7 @@ function renderSuppl(container) {
             <div class="suppl-name ${isChecked ? 'checked' : isSkipped ? 'skipped' : ''}" id="sn-${s.id}">${esc(s.name)}</div>
             ${s.note ? `<div class="suppl-note">${esc(s.note)}</div>` : ''}
           </div>
-          ${!s.catchup ? `<div class="suppl-skip-btn ${isSkipped ? 'active' : ''}" id="ss-${s.id}" onclick="skipSuppl('${s.id}')">飲み忘れ</div>` : ''}
+          ${!s.catchup && !isChecked ? `<div class="suppl-skip-btn ${isSkipped ? 'active' : ''}" id="ss-${s.id}" onclick="skipSuppl('${s.id}')">飲み忘れ</div>` : ''}
         </div>`;
     });
   });
@@ -2144,7 +2144,7 @@ function toggleSuppl(id) {
   const ss = document.getElementById(`ss-${id}`);
   if (sc) { sc.className = 'suppl-check' + (checks[id] ? ' checked' : ''); }
   if (sn) { sn.className = 'suppl-name'  + (checks[id] ? ' checked' : ''); }
-  if (ss) ss.classList.remove('active');
+  if (ss) { ss.classList.remove('active'); ss.style.display = checks[id] ? 'none' : ''; }
   updateCompliance(checks);
   syncSupplToGitHub(currentDate);
 }
