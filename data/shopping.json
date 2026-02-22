@@ -28,6 +28,7 @@
   ],
   "checks": {
     "s2": true,
-    "s3": true
+    "s3": true,
+    "s1": true
   }
 }
