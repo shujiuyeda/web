@@ -1,0 +1,9 @@
+{
+    "benchmarks": {
+        "gripStrength": { "avg": 45, "strong": 48.5, "unit": "kg", "source": "NIH Toolbox 55-59歳" },
+        "singleLegStance": { "good": 37, "excellent": 45, "danger": 10, "unit": "sec", "source": "BJSM 2022" },
+        "sitToStand30": { "good": 15, "excellent": 20, "unit": "reps", "source": "Jones 1999 50s male" },
+        "vo2max": { "poor": 27, "fair": 31, "good": 35, "excellent": 40, "unit": "ml/kg/min", "source": "Cooper Institute 55-59" }
+    },
+    "checks": []
+}

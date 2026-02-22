@@ -876,8 +876,10 @@ function saveCustomFoods(foods) { ls('custom_foods', foods); }
 function getAllFoods() { return [...BUILT_IN_FOODS, ...getCustomFoods()]; }
 function getHealthLog()    { return ls('healthLog') || {}; }
 function saveHealthLog(d)  { ls('healthLog', d); }
-function getWorkoutLog()   { return ls('workoutLog') || { sessions: [] }; }
-function saveWorkoutLog(d) { ls('workoutLog', d); }
+function getWorkoutLog()     { return ls('workoutLog') || { sessions: [] }; }
+function saveWorkoutLog(d)  { ls('workoutLog', d); }
+function getFitnessCheck()  { return ls('fitnessCheck') || { benchmarks: {}, checks: [] }; }
+function saveFitnessCheck(d){ ls('fitnessCheck', d); }
 
 function stampLastUpdated() {
   const now = new Date();
@@ -1277,6 +1279,17 @@ async function tryFetchWorkoutLog() {
   } catch { /* silent */ }
 }
 
+async function tryFetchFitnessCheck() {
+  try {
+    const res = await fetch(`${DATA_BASE_URL}fitness-check.json?_=${Date.now()}`, { cache: 'no-store' });
+    if (!res.ok) return;
+    const remote = await res.json();
+    if (!remote.checks) return;
+    saveFitnessCheck(remote);
+    if (currentTab === 'exercise') deferRender('exercise');
+  } catch { /* silent */ }
+}
+
 function syncStretchToGitHub(ds) {
   if (!ghSyncEnabled()) return;
   _syncQueue = _syncQueue.then(async () => {
@@ -1457,6 +1470,7 @@ function init() {
   tryFetchWeights();
   tryFetchHealthLog();
   tryFetchWorkoutLog();
+  tryFetchFitnessCheck();
   tryFetchShopping();
   tryFetchSleep();
   tryFetchAdvice();
@@ -1507,7 +1521,7 @@ function initPullToRefresh() {
       fetches.push(tryFetchMeals(fmtDate(d)));
       if (i < 2) fetches.push(tryFetchSuppl(fmtDate(d)));
     }
-    fetches.push(loadFoodDb(), tryFetchWeights(), tryFetchHealthLog(), tryFetchWorkoutLog(), tryFetchShopping(), tryFetchSleep(), tryFetchAdvice());
+    fetches.push(loadFoodDb(), tryFetchWeights(), tryFetchHealthLog(), tryFetchWorkoutLog(), tryFetchFitnessCheck(), tryFetchShopping(), tryFetchSleep(), tryFetchAdvice());
     Promise.all(fetches).finally(() => {
       switchTab(currentTab);
       spinner.classList.remove('spinning');
@@ -1531,7 +1545,7 @@ function reloadData() {
     fetches.push(tryFetchMeals(fmtDate(d)));
     if (i < 2) fetches.push(tryFetchSuppl(fmtDate(d)));
   }
-  fetches.push(loadFoodDb(), tryFetchWeights(), tryFetchHealthLog(), tryFetchWorkoutLog(), tryFetchShopping(), tryFetchSleep(), tryFetchAdvice());
+  fetches.push(loadFoodDb(), tryFetchWeights(), tryFetchHealthLog(), tryFetchWorkoutLog(), tryFetchFitnessCheck(), tryFetchShopping(), tryFetchSleep(), tryFetchAdvice());
   Promise.all(fetches).finally(() => {
     switchTab(currentTab);
     if (btn) btn.classList.remove('spinning');
@@ -2972,6 +2986,7 @@ function renderExercise(container) {
   const isToday = currentDate === todayStr();
   const entry = log[currentDate] || {};
   const wl = getWorkoutLog();
+  const fc = getFitnessCheck();
 
   // 日付ナビ
   container.innerHTML = `
@@ -2983,40 +2998,42 @@ function renderExercise(container) {
       <button class="date-nav-btn ${isToday ? 'disabled' : ''}" onclick="changeDate(1)">›</button>
     </div>`;
 
-  // カード2: アクティビティグリッド
+  // カード2: アクティビティグリッド（2セクション）
   const fmt1 = v => v != null ? String(v) : '---';
   const fmtN = (v, dec) => v != null ? Number(v).toFixed(dec) : '---';
   const steps = entry.steps;
   const stepsLabel = steps == null ? '---' : steps < 100 ? `${steps}<span style="font-size:9px;color:var(--warning);"> 同期待ち</span>` : steps.toLocaleString();
 
+  // VO2 Max カラー（目標35+, Poor=27以下）
+  const vo2Color = entry.vo2max == null ? 'var(--text-muted)' :
+    entry.vo2max >= 35 ? 'var(--success)' :
+    entry.vo2max >= 31 ? 'var(--warning)' : 'var(--danger)';
+  // Walking HR カラー（低いほど良い: <90=green, 90-110=warning, >110=danger）
+  const whrColor = entry.walkHR == null ? 'var(--text-muted)' :
+    entry.walkHR < 90 ? 'var(--success)' :
+    entry.walkHR <= 110 ? 'var(--warning)' : 'var(--danger)';
+
+  const gridCell = (val, label, color = 'var(--text)') => `
+    <div style="text-align:center;background:var(--bg);border-radius:10px;padding:10px 6px;">
+      <div style="font-size:20px;font-weight:700;color:${color};">${val}</div>
+      <div style="font-size:10px;color:var(--text-muted);margin-top:3px;">${label}</div>
+    </div>`;
+
   container.innerHTML += `
     <div class="card">
-      <div class="card-title">今日のアクティビティ</div>
-      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;">
-        <div style="text-align:center;background:var(--bg);border-radius:10px;padding:10px 6px;">
-          <div style="font-size:20px;font-weight:700;color:${steps && steps >= 8000 ? 'var(--success)' : steps && steps >= 6000 ? 'var(--warning)' : 'var(--text)'};">${stepsLabel}</div>
-          <div style="font-size:10px;color:var(--text-muted);margin-top:3px;">歩数</div>
-        </div>
-        <div style="text-align:center;background:var(--bg);border-radius:10px;padding:10px 6px;">
-          <div style="font-size:20px;font-weight:700;color:${entry.stride && entry.stride >= 75 ? 'var(--success)' : entry.stride ? 'var(--warning)' : 'var(--text-muted)'};">${fmtN(entry.stride, 1)}</div>
-          <div style="font-size:10px;color:var(--text-muted);margin-top:3px;">歩幅 cm</div>
-        </div>
-        <div style="text-align:center;background:var(--bg);border-radius:10px;padding:10px 6px;">
-          <div style="font-size:20px;font-weight:700;">${fmtN(entry.walkSpeed, 1)}</div>
-          <div style="font-size:10px;color:var(--text-muted);margin-top:3px;">歩行速度 km/h</div>
-        </div>
-        <div style="text-align:center;background:var(--bg);border-radius:10px;padding:10px 6px;">
-          <div style="font-size:20px;font-weight:700;">${fmtN(entry.walkDistance, 1)}</div>
-          <div style="font-size:10px;color:var(--text-muted);margin-top:3px;">歩行距離 km</div>
-        </div>
-        <div style="text-align:center;background:var(--bg);border-radius:10px;padding:10px 6px;">
-          <div style="font-size:20px;font-weight:700;color:var(--green-mid);">${fmt1(entry.rhr)}</div>
-          <div style="font-size:10px;color:var(--text-muted);margin-top:3px;">安静時心拍 bpm</div>
-        </div>
-        <div style="text-align:center;background:var(--bg);border-radius:10px;padding:10px 6px;">
-          <div style="font-size:20px;font-weight:700;color:#5B8FB9;">${fmt1(entry.hrv)}</div>
-          <div style="font-size:10px;color:var(--text-muted);margin-top:3px;">HRV ms</div>
-        </div>
+      <div style="font-size:11px;font-weight:700;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:8px;">🚶 ウォーキング</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:8px;margin-bottom:14px;">
+        ${gridCell(stepsLabel, '歩数', steps && steps >= 8000 ? 'var(--success)' : steps && steps >= 6000 ? 'var(--warning)' : 'var(--text)')}
+        ${gridCell(fmtN(entry.stride, 1), '歩幅 cm', entry.stride && entry.stride >= 75 ? 'var(--success)' : entry.stride ? 'var(--warning)' : 'var(--text-muted)')}
+        ${gridCell(fmtN(entry.walkSpeed, 1), '速度 km/h')}
+        ${gridCell(fmtN(entry.walkDistance, 1), '距離 km')}
+      </div>
+      <div style="font-size:11px;font-weight:700;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:8px;">❤️ バイタルサイン</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:8px;">
+        ${gridCell(fmt1(entry.rhr), '安静時心拍', 'var(--green-mid)')}
+        ${gridCell(fmt1(entry.hrv), 'HRV ms', '#5B8FB9')}
+        ${gridCell(fmt1(entry.walkHR), '歩行心拍', whrColor)}
+        ${gridCell(entry.vo2max != null ? fmtN(entry.vo2max, 1) : '---', 'VO₂Max', vo2Color)}
       </div>
     </div>`;
 
@@ -3044,7 +3061,108 @@ function renderExercise(container) {
   stretchHtml += `</div>`;
   container.innerHTML += stretchHtml;
 
-  // カード4: 筋トレログ（当日セッションがある場合のみ）
+  // カード4: フィットネスチェック（最新データ表示）
+  const bm = fc.benchmarks || {};
+  const checks = fc.checks || [];
+  const latestCheck = checks.length > 0 ? checks[checks.length - 1] : null;
+  const prevCheck = checks.length > 1 ? checks[checks.length - 2] : null;
+
+  const trendArrow = (curr, prev) => {
+    if (curr == null || prev == null) return '';
+    return curr > prev ? '<span style="color:var(--success);">↑</span>' :
+           curr < prev ? '<span style="color:var(--danger);">↓</span>' :
+           '<span style="color:var(--text-muted);">→</span>';
+  };
+
+  const fitnessBar = (val, max, color) => {
+    if (val == null) return '';
+    const pct = Math.min(100, Math.round((val / max) * 100));
+    return `<div style="height:5px;background:#E9ECEF;border-radius:3px;margin-top:4px;">
+      <div style="height:5px;width:${pct}%;background:${color};border-radius:3px;"></div>
+    </div>`;
+  };
+
+  const fitnessLabel = (val, good, excellent) => {
+    if (val == null) return '';
+    const color = val >= excellent ? 'var(--success)' : val >= good ? 'var(--warning)' : 'var(--danger)';
+    const text = val >= excellent ? 'Excellent' : val >= good ? 'Good' : 'Below';
+    return `<div style="font-size:9px;color:${color};margin-top:2px;">${text}</div>`;
+  };
+
+  let fcHtml = `<div class="card"><div class="card-title">🏋️ フィットネスチェック`;
+  if (latestCheck) {
+    fcHtml += ` <span style="font-weight:400;color:var(--text-muted);">最終: ${latestCheck.date.slice(5).replace('-','/')}</span>`;
+  }
+  fcHtml += `</div>`;
+
+  if (!latestCheck) {
+    fcHtml += `<div style="text-align:center;padding:20px;color:var(--text-muted);font-size:13px;">まだ測定データがありません<br><span style="font-size:11px;">パーソナルトレーニングで測定後に記録されます</span></div>`;
+  } else {
+    const gripAvg = bm.gripStrength ? (bm.gripStrength.avg || 45) : 45;
+    const gripStrong = bm.gripStrength ? (bm.gripStrength.strong || 48.5) : 48.5;
+    const slegGood = bm.singleLegStance ? (bm.singleLegStance.good || 37) : 37;
+    const slegExc = bm.singleLegStance ? (bm.singleLegStance.excellent || 45) : 45;
+    const s2sGood = bm.sitToStand30 ? (bm.sitToStand30.good || 15) : 15;
+    const s2sExc = bm.sitToStand30 ? (bm.sitToStand30.excellent || 20) : 20;
+
+    const gripRColor = latestCheck.gripR >= gripStrong ? 'var(--success)' : latestCheck.gripR >= gripAvg ? 'var(--warning)' : 'var(--danger)';
+    const gripLColor = latestCheck.gripL >= gripStrong ? 'var(--success)' : latestCheck.gripL >= gripAvg ? 'var(--warning)' : 'var(--danger)';
+
+    fcHtml += `<div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr 1fr;gap:8px;">`;
+
+    // 握力右
+    fcHtml += `<div style="text-align:center;background:var(--bg);border-radius:10px;padding:8px 4px;">
+      <div style="font-size:16px;font-weight:700;color:${gripRColor};">${latestCheck.gripR != null ? latestCheck.gripR : '—'}${trendArrow(latestCheck.gripR, prevCheck?.gripR)}</div>
+      ${fitnessBar(latestCheck.gripR, 60, gripRColor)}
+      ${fitnessLabel(latestCheck.gripR, gripAvg, gripStrong)}
+      <div style="font-size:9px;color:var(--text-muted);margin-top:3px;">握力右 kg</div>
+    </div>`;
+
+    // 握力左
+    fcHtml += `<div style="text-align:center;background:var(--bg);border-radius:10px;padding:8px 4px;">
+      <div style="font-size:16px;font-weight:700;color:${gripLColor};">${latestCheck.gripL != null ? latestCheck.gripL : '—'}${trendArrow(latestCheck.gripL, prevCheck?.gripL)}</div>
+      ${fitnessBar(latestCheck.gripL, 60, gripLColor)}
+      ${fitnessLabel(latestCheck.gripL, gripAvg, gripStrong)}
+      <div style="font-size:9px;color:var(--text-muted);margin-top:3px;">握力左 kg</div>
+    </div>`;
+
+    // 片足立ち右
+    const slRColor = latestCheck.singleLegR >= slegExc ? 'var(--success)' : latestCheck.singleLegR >= slegGood ? 'var(--warning)' : 'var(--danger)';
+    fcHtml += `<div style="text-align:center;background:var(--bg);border-radius:10px;padding:8px 4px;">
+      <div style="font-size:16px;font-weight:700;color:${slRColor};">${latestCheck.singleLegR != null ? latestCheck.singleLegR : '—'}${trendArrow(latestCheck.singleLegR, prevCheck?.singleLegR)}</div>
+      ${fitnessBar(latestCheck.singleLegR, 60, slRColor)}
+      ${fitnessLabel(latestCheck.singleLegR, slegGood, slegExc)}
+      <div style="font-size:9px;color:var(--text-muted);margin-top:3px;">片足右 sec</div>
+    </div>`;
+
+    // 片足立ち左
+    const slLColor = latestCheck.singleLegL >= slegExc ? 'var(--success)' : latestCheck.singleLegL >= slegGood ? 'var(--warning)' : 'var(--danger)';
+    fcHtml += `<div style="text-align:center;background:var(--bg);border-radius:10px;padding:8px 4px;">
+      <div style="font-size:16px;font-weight:700;color:${slLColor};">${latestCheck.singleLegL != null ? latestCheck.singleLegL : '—'}${trendArrow(latestCheck.singleLegL, prevCheck?.singleLegL)}</div>
+      ${fitnessBar(latestCheck.singleLegL, 60, slLColor)}
+      ${fitnessLabel(latestCheck.singleLegL, slegGood, slegExc)}
+      <div style="font-size:9px;color:var(--text-muted);margin-top:3px;">片足左 sec</div>
+    </div>`;
+
+    // 椅子立ち上がり
+    const s2sColor = latestCheck.sitToStand30 >= s2sExc ? 'var(--success)' : latestCheck.sitToStand30 >= s2sGood ? 'var(--warning)' : 'var(--danger)';
+    fcHtml += `<div style="text-align:center;background:var(--bg);border-radius:10px;padding:8px 4px;">
+      <div style="font-size:16px;font-weight:700;color:${s2sColor};">${latestCheck.sitToStand30 != null ? latestCheck.sitToStand30 : '—'}${trendArrow(latestCheck.sitToStand30, prevCheck?.sitToStand30)}</div>
+      ${fitnessBar(latestCheck.sitToStand30, 30, s2sColor)}
+      ${fitnessLabel(latestCheck.sitToStand30, s2sGood, s2sExc)}
+      <div style="font-size:9px;color:var(--text-muted);margin-top:3px;">椅子 30sec</div>
+    </div>`;
+
+    fcHtml += `</div>`;
+    if (latestCheck.notes) {
+      fcHtml += `<div style="margin-top:8px;font-size:12px;color:var(--text-muted);">${esc(latestCheck.notes)}</div>`;
+    }
+  }
+  fcHtml += `<div style="font-size:9px;color:var(--text-muted);margin-top:8px;">ベンチマーク: 握力45kg avg / 片足立ち37sec Good / 椅子立ち15回 Good（57歳男性・パーソナルで月1測定）</div>`;
+  fcHtml += `</div>`;
+  container.innerHTML += fcHtml;
+
+  // カード5: 筋トレログ（当日セッションがある場合のみ）
   const sessions = (wl.sessions || []).filter(s => s.date === currentDate);
   if (sessions.length > 0) {
     sessions.forEach(session => {
@@ -3119,31 +3237,41 @@ function renderExercise(container) {
       <div style="font-size:10px;color:var(--text-muted);margin-top:6px;">目安: 8,000歩以上◎ / 歩幅75cm目標</div>
     </div>`;
 
-  // カード6: 心拍データ（7日）
+  // カード7: 心拍データ（7日、5列）
   let heartRows = last7.map(r => {
     const isCurrentDate3 = r.ds === currentDate;
+    const e3 = log[r.ds] || {};
+    const whrTd = e3.walkHR != null ?
+      `<td style="text-align:right;padding:5px 4px;color:${e3.walkHR < 90 ? 'var(--success)' : e3.walkHR <= 110 ? 'var(--warning)' : 'var(--danger)'};">${e3.walkHR}</td>` :
+      `<td style="text-align:right;padding:5px 4px;color:var(--text-muted);">—</td>`;
+    const vo2Td = e3.vo2max != null ?
+      `<td style="text-align:right;padding:5px 4px;color:${e3.vo2max >= 35 ? 'var(--success)' : e3.vo2max >= 31 ? 'var(--warning)' : 'var(--danger)'};">${e3.vo2max.toFixed(1)}</td>` :
+      `<td style="text-align:right;padding:5px 4px;color:var(--text-muted);">—</td>`;
     return `<tr style="${isCurrentDate3 ? 'background:var(--green-pale);' : ''}">
       <td style="padding:5px 4px;white-space:nowrap;">${r.ds.slice(5).replace('-','/')}${isCurrentDate3 ? '&nbsp;<span style="font-size:9px;color:var(--green-mid);">TODAY</span>' : ''}</td>
-      <td style="text-align:right;padding:5px 4px;font-weight:600;color:var(--green-mid);">${(log[r.ds]?.rhr) != null ? log[r.ds].rhr : '—'}</td>
-      <td style="text-align:right;padding:5px 4px;color:#5B8FB9;">${(log[r.ds]?.hrv) != null ? log[r.ds].hrv : '—'}</td>
+      <td style="text-align:right;padding:5px 4px;font-weight:600;color:var(--green-mid);">${e3.rhr != null ? e3.rhr : '—'}</td>
+      <td style="text-align:right;padding:5px 4px;color:#5B8FB9;">${e3.hrv != null ? e3.hrv : '—'}</td>
+      ${whrTd}${vo2Td}
     </tr>`;
   }).join('');
 
   container.innerHTML += `
     <div class="card">
       <div class="card-title">💓 心拍データ（7日）</div>
-      <table style="width:100%;border-collapse:collapse;font-size:12px;">
+      <table style="width:100%;border-collapse:collapse;font-size:11px;">
         <thead><tr style="border-bottom:2px solid var(--border);">
           <th style="padding:4px;text-align:left;font-size:10px;color:var(--text-muted);">日付</th>
-          <th style="padding:4px;text-align:right;font-size:10px;color:var(--text-muted);">安静時心拍 bpm</th>
-          <th style="padding:4px;text-align:right;font-size:10px;color:var(--text-muted);">HRV ms</th>
+          <th style="padding:4px;text-align:right;font-size:10px;color:var(--text-muted);">RHR</th>
+          <th style="padding:4px;text-align:right;font-size:10px;color:var(--text-muted);">HRV</th>
+          <th style="padding:4px;text-align:right;font-size:10px;color:var(--text-muted);">歩行HR</th>
+          <th style="padding:4px;text-align:right;font-size:10px;color:var(--text-muted);">VO₂Max</th>
         </tr></thead>
         <tbody>${heartRows}</tbody>
       </table>
-      <div style="font-size:10px;color:var(--text-muted);margin-top:6px;">安静時心拍: 低いほど心肺機能良好 / HRV: 高いほど回復力高い</div>
+      <div style="font-size:10px;color:var(--text-muted);margin-top:6px;">RHR/歩行HR: 低いほど◎ / HRV: 高いほど◎ / VO₂Max: 35+目標（現在~27）</div>
     </div>`;
 
-  // カード7: 歩幅の推移（14日折れ線グラフ）
+  // カード8: 歩幅の推移（14日折れ線グラフ）
   const STRIDE_GOAL = 75; // 167.5cm × 0.45
   const last14 = [];
   for (let i = 13; i >= 0; i--) {
@@ -3159,6 +3287,24 @@ function renderExercise(container) {
       <div class="card">
         <div class="card-title">📏 歩幅の推移（14日）</div>
         <div style="text-align:center;padding:20px;color:var(--text-muted);font-size:13px;">データ収集中（2日以上必要）</div>
+      </div>`;
+  }
+
+  // カード9: VO2 Max推移（14日折れ線グラフ）
+  const last14vo2 = [];
+  for (let i = 13; i >= 0; i--) {
+    const d = new Date(); d.setDate(d.getDate() - i);
+    const ds = fmtDate(d);
+    last14vo2.push({ ds, vo2max: (log[ds] || {}).vo2max ?? null });
+  }
+  const vo2Vals = last14vo2.map(r => r.vo2max).filter(v => v != null);
+  if (vo2Vals.length >= 1) {
+    container.innerHTML += buildVO2Chart(last14vo2);
+  } else {
+    container.innerHTML += `
+      <div class="card">
+        <div class="card-title">🫁 VO₂ Max推移（14日）</div>
+        <div style="text-align:center;padding:20px;color:var(--text-muted);font-size:13px;">データ収集中（有酸素運動をした日に自動記録）</div>
       </div>`;
   }
 
@@ -3214,6 +3360,63 @@ function buildStrideChart(data, goalCm) {
       </svg>
     </div>
     <div style="font-size:10px;color:var(--text-muted);margin-top:4px;">目標75cm = 身長167.5cm × 0.45 / 歩幅が広がるほど股関節が改善されている証拠</div>
+  </div>`;
+}
+
+function buildVO2Chart(data) {
+  const W = 320, H = 130;
+  const PAD = { t: 20, r: 28, b: 26, l: 42 };
+  const pw = W - PAD.l - PAD.r;
+  const ph = H - PAD.t - PAD.b;
+  const n = data.length;
+  const VO2_GOAL = 35;   // 目標
+  const VO2_POOR = 27;   // 現在値付近の目安ライン
+  const validVals = data.map(r => r.vo2max).filter(v => v != null);
+  const minV = Math.min(...validVals, VO2_POOR) - 1;
+  const maxV = Math.max(...validVals, VO2_GOAL) + 1;
+  const xS = i => PAD.l + (i / (n - 1)) * pw;
+  const yS = v => PAD.t + ph - ((v - minV) / (maxV - minV)) * ph;
+  const goalY = yS(VO2_GOAL);
+  const poorY = yS(VO2_POOR);
+
+  // ポリライン（連続している点のみ、nullはギャップ）
+  const pts = data.map((r, i) => r.vo2max != null ? `${xS(i).toFixed(1)},${yS(r.vo2max).toFixed(1)}` : null);
+  let segments = [], cur = [];
+  pts.forEach(p => {
+    if (p) { cur.push(p); }
+    else if (cur.length > 0) { segments.push(cur.join(' ')); cur = []; }
+  });
+  if (cur.length > 0) segments.push(cur.join(' '));
+
+  const lines = segments.map(s => `<polyline points="${s}" fill="none" stroke="#E0703C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>`).join('');
+  const dots = data.map((r, i) => r.vo2max != null
+    ? `<circle cx="${xS(i).toFixed(1)}" cy="${yS(r.vo2max).toFixed(1)}" r="3" fill="white" stroke="#E0703C" stroke-width="2"/>
+       <text x="${xS(i).toFixed(1)}" y="${(yS(r.vo2max) - 6).toFixed(1)}" text-anchor="middle" font-size="8" fill="#E0703C">${r.vo2max.toFixed(1)}</text>`
+    : '').join('');
+
+  const yLabels = [minV, VO2_POOR, VO2_GOAL, maxV].map(v =>
+    `<line x1="${PAD.l}" y1="${yS(v).toFixed(1)}" x2="${W - PAD.r}" y2="${yS(v).toFixed(1)}" stroke="#E9ECEF" stroke-width="1"/>
+     <text x="${PAD.l - 5}" y="${(yS(v) + 4).toFixed(1)}" text-anchor="end" font-size="9" fill="#555">${v}</text>`
+  ).join('');
+
+  const firstDs = data[0].ds.slice(5).replace('-', '/');
+  const lastDs = data[n - 1].ds.slice(5).replace('-', '/');
+
+  return `<div class="card">
+    <div class="card-title">🫁 VO₂ Max推移（14日） — 目標 35 ml/kg/min（Mayo Clinic: 死亡率予測 #1指標）</div>
+    <div class="chart-scroll">
+      <svg viewBox="0 0 ${W} ${H}" width="100%" style="overflow:visible;">
+        ${yLabels}
+        <line x1="${PAD.l}" y1="${goalY.toFixed(1)}" x2="${W - PAD.r}" y2="${goalY.toFixed(1)}" stroke="#28A745" stroke-width="1.5" stroke-dasharray="4,3" opacity="0.8"/>
+        <text x="${W - PAD.r + 3}" y="${(goalY + 4).toFixed(1)}" font-size="9" fill="#28A745">目標</text>
+        <line x1="${PAD.l}" y1="${poorY.toFixed(1)}" x2="${W - PAD.r}" y2="${poorY.toFixed(1)}" stroke="#DC3545" stroke-width="1" stroke-dasharray="3,3" opacity="0.6"/>
+        <text x="${W - PAD.r + 3}" y="${(poorY + 4).toFixed(1)}" font-size="9" fill="#DC3545">Poor</text>
+        ${lines}${dots}
+        <text x="${PAD.l}" y="${H - 2}" text-anchor="middle" font-size="9" fill="#999">${firstDs}</text>
+        <text x="${W - PAD.r}" y="${H - 2}" text-anchor="middle" font-size="9" fill="#999">${lastDs}</text>
+      </svg>
+    </div>
+    <div style="font-size:10px;color:var(--text-muted);margin-top:4px;">有酸素運動をした日のみ自動記録 / 現在~27（Poor）→ 35+（Good）を目指す</div>
   </div>`;
 }
 
