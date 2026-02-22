@@ -912,16 +912,19 @@ const GH_API  = 'https://api.github.com';
 function ghToken()       { return ls('gh_pat') || ''; }
 function ghSyncEnabled() { return !!ghToken(); }
 
-function setSyncStatus(status) {
+let _lastSyncError = null;
+function setSyncStatus(status, code) {
   const dot = document.getElementById('sync-dot');
   if (!dot) return;
   const colors = { ok:'#28A745', syncing:'#E5A020', error:'#DC3545', none:'#aaa' };
   dot.style.color = colors[status] || colors.none;
+  if (code !== undefined) _lastSyncError = code;
 }
 
 async function ghGetFileSha(path) {
   try {
-    const res = await fetch(`${GH_API}/repos/${GH_REPO}/contents/${path}`, {
+    // キャッシュバスターで古いSHAが返らないようにする
+    const res = await fetch(`${GH_API}/repos/${GH_REPO}/contents/${path}?_=${Date.now()}`, {
       headers: { 'Authorization': `Bearer ${ghToken()}`, 'Accept': 'application/vnd.github+json' }
     });
     if (!res.ok) return null;
@@ -943,8 +946,16 @@ async function ghPutFile(path, content, message) {
       },
       body: JSON.stringify(body)
     });
+    if (!res.ok) {
+      _lastSyncError = res.status;
+      console.error('ghPutFile failed:', res.status, path);
+    }
     return res.ok;
-  } catch { return false; }
+  } catch (e) {
+    _lastSyncError = 'net';
+    console.error('ghPutFile error:', e, path);
+    return false;
+  }
 }
 
 let _syncQueue = Promise.resolve();
@@ -1055,6 +1066,7 @@ function renderSyncConfig() {
         <div class="sync-status-dot" style="background:#28A745"></div>
         <span>接続済み: <code style="font-family:monospace">${masked}</code></span>
       </div>
+      ${_lastSyncError ? `<div style="font-size:12px;color:#DC3545;margin-top:6px;">⚠️ 最終エラー: HTTP ${_lastSyncError}${_lastSyncError===403?' (書き込み権限なし？)':_lastSyncError===401?' (トークン期限切れ？)':_lastSyncError===422?' (SHA不一致？)':''}</div>` : ''}
       <div class="sync-btn-row">
         <button class="sync-btn secondary" onclick="testAndShowResult()">接続テスト</button>
         <button class="sync-btn danger" onclick="disconnectGh()">切断</button>
@@ -1093,8 +1105,16 @@ async function saveGhToken() {
 async function testAndShowResult() {
   const result = document.getElementById('sync-test-result');
   result.textContent = '接続テスト中...';
-  const ok = await testGhToken(ghToken());
-  result.textContent = ok ? '✅ 接続OK' : '❌ 接続失敗';
+  const repoOk = await testGhToken(ghToken());
+  if (!repoOk) { result.textContent = '❌ 接続失敗（リポジトリアクセス不可）'; return; }
+  // Contents read テスト（SHA取得を試みる）
+  const sha = await ghGetFileSha('data/shopping.json');
+  const errNote = _lastSyncError ? `　最終エラー: HTTP ${_lastSyncError}` : '';
+  if (!sha) {
+    result.textContent = '⚠️ リポジトリOKだがファイル読み取り不可。Contentsスコープを確認して' + errNote;
+  } else {
+    result.textContent = `✅ 接続OK（SHA取得成功）${errNote}`;
+  }
 }
 function disconnectGh() {
   if (!confirm('GitHub同期を切断しますか？')) return;
