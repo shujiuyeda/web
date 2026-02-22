@@ -2279,7 +2279,7 @@ function renderSuppl(container) {
             <div class="suppl-name ${isChecked ? 'checked' : isSkipped ? 'skipped' : ''}" id="sn-${s.id}">${esc(s.name)}</div>
             ${s.note ? `<div class="suppl-note">${esc(s.note)}</div>` : ''}
           </div>
-          ${!s.catchup && !isChecked ? `<div class="suppl-skip-btn ${isSkipped ? 'active' : ''}" id="ss-${s.id}" onclick="skipSuppl('${s.id}')">飲み忘れ</div>` : ''}
+          ${!s.catchup ? `<div class="suppl-skip-btn ${isSkipped ? 'active' : ''}" id="ss-${s.id}" onclick="skipSuppl('${s.id}')" style="${isChecked ? 'display:none' : ''}">飲み忘れ</div>` : ''}
         </div>`;
     });
   });
