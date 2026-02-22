@@ -1418,7 +1418,6 @@ function renderMeals(container) {
 
   // AI Overall banner
   html += renderOverallBanner();
-  html += renderGutCard();
 
   // Kcal summary card
   html += `
@@ -1472,9 +1471,6 @@ function renderMeals(container) {
       })()}
     </div>
   `;
-
-  // AI Meals advice card
-  html += renderAdviceCard('meals');
 
   // Supplement guide card
   html += supplGuideHtml(t);
@@ -1541,6 +1537,11 @@ function renderMeals(container) {
     </button>
     <div class="spacer"></div>
   `;
+
+  // 腸内環境スコア＋AI分析は最下部
+  html += renderGutCard();
+  html += renderAdviceCard('meals');
+
   container.innerHTML = html;
 }
 
