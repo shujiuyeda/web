@@ -997,9 +997,36 @@ function syncWeightsToGitHub() {
   });
 }
 
+function syncShoppingToGitHub() {
+  if (!ghSyncEnabled()) return;
+  _syncQueue = _syncQueue.then(async () => {
+    setSyncStatus('syncing');
+    try {
+      const items = JSON.parse(localStorage.getItem('shopping_items') || '[]');
+      const checks = JSON.parse(localStorage.getItem('shopping_checks') || '{}');
+      const updated = currentDate;
+      const content = JSON.stringify({ updated, items, checks }, null, 2);
+      const ok = await ghPutFile('data/shopping.json', content, `shopping sync: ${updated}`);
+      setSyncStatus(ok ? 'ok' : 'error');
+      if (!ok) {
+        const pending = ls('pending_syncs') || [];
+        if (!pending.includes('shopping')) ls('pending_syncs', [...pending, 'shopping']);
+      }
+    } catch {
+      setSyncStatus('error');
+      const pending = ls('pending_syncs') || [];
+      if (!pending.includes('shopping')) ls('pending_syncs', [...pending, 'shopping']);
+    }
+  });
+}
+
 async function flushPendingSyncs() {
   if (!ghSyncEnabled()) return;
-  for (const ds of (ls('pending_syncs') || [])) await syncSupplToGitHub(ds);
+  const pending = ls('pending_syncs') || [];
+  for (const ds of pending) {
+    if (ds === 'shopping') await syncShoppingToGitHub();
+    else await syncSupplToGitHub(ds);
+  }
 }
 
 async function testGhToken(token) {
@@ -1190,8 +1217,15 @@ async function tryFetchShopping() {
     if (!res.ok) return;
     const remote = await res.json();
     if (!remote.items) return;
-    // remoteを正（source of truth）として上書き（チェック状態は shopping_checks で別管理）
+    // itemsはremoteを正（source of truth）として上書き
     localStorage.setItem('shopping_items', JSON.stringify(remote.items));
+    // checksはローカルにあればローカル優先、なければremoteを使う
+    if (remote.checks && Object.keys(remote.checks).length > 0) {
+      const local = JSON.parse(localStorage.getItem('shopping_checks') || '{}');
+      if (Object.keys(local).length === 0) {
+        localStorage.setItem('shopping_checks', JSON.stringify(remote.checks));
+      }
+    }
     if (currentTab === 'shopping') deferRender('shopping');
   } catch { /* silent */ }
 }
@@ -2933,11 +2967,13 @@ function toggleShoppingItem(id, checked) {
   if (checked) checks[id] = true;
   else delete checks[id];
   localStorage.setItem('shopping_checks', JSON.stringify(checks));
+  syncShoppingToGitHub();
 }
 
 function clearShoppingChecks() {
   localStorage.removeItem('shopping_checks');
   renderShopping(document.getElementById('main-content'));
+  syncShoppingToGitHub();
 }
 
 // ======== IMPORT ========
