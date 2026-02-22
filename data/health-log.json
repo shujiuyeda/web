@@ -14,7 +14,10 @@
         "steps": null,
         "rhr": null,
         "hrv": null,
-        "waterBonus": 0.43
+        "waterBonus": 0.43,
+        "stretch": {
+            "st1": true
+        }
     },
     "2026-02-16": {
         "water": null,
