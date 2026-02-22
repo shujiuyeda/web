@@ -47,6 +47,16 @@
     }
     .header h1 { font-size: 16px; font-weight: 700; }
     .header-sub { font-size: 12px; opacity: 0.75; }
+    .header-reload {
+      background: none; border: none; color: white; opacity: 0.75;
+      font-size: 22px; padding: 6px 8px; cursor: pointer;
+      -webkit-tap-highlight-color: transparent;
+      transition: transform 0.1s;
+      display: inline-block; line-height: 1;
+    }
+    .header-reload:active { opacity: 0.4; }
+    .header-reload.spinning { animation: hdr-spin 0.7s linear infinite; }
+    @keyframes hdr-spin { to { transform: rotate(360deg); } }
     .main {
       padding-top: calc(52px + var(--safe-top));
       padding-bottom: calc(24px + var(--safe-bottom));
@@ -159,7 +169,10 @@
 
 <div class="header">
   <h1>🛒 購買記録</h1>
-  <span class="header-sub" id="today-label"></span>
+  <div style="display:flex; align-items:center; gap:4px;">
+    <span class="header-sub" id="today-label"></span>
+    <button class="header-reload" id="reload-btn" onclick="reloadData()" title="リロード">↻</button>
+  </div>
 </div>
 
 <div class="main">
@@ -446,6 +459,21 @@ function escHtml(s) {
   return String(s || '')
     .replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')
     .replace(/"/g,'&quot;');
+}
+
+// ===== RELOAD =====
+let _reloading = false;
+async function reloadData() {
+  if (_reloading) return;
+  _reloading = true;
+  const btn = document.getElementById('reload-btn');
+  if (btn) btn.classList.add('spinning');
+  try {
+    await loadPurchases();
+  } finally {
+    if (btn) btn.classList.remove('spinning');
+    _reloading = false;
+  }
 }
 
 // ===== INIT =====
