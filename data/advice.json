@@ -713,6 +713,10 @@
           "supplements"
         ]
       }
-    ]
+    ],
+    "todayWater": {
+      "current": 1.5,
+      "target": 2.0
+    }
   }
 }
