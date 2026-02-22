@@ -20,7 +20,5 @@
       "category": "other"
     }
   ],
-  "checks": {
-    "s3": true
-  }
+  "checks": {}
 }
