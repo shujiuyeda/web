@@ -157,6 +157,33 @@
       height: 1px; background: var(--border);
       margin: 4px 0 12px;
     }
+    .btn-excl {
+      flex-shrink: 0; width: 30px; height: 30px;
+      border-radius: 50%; background: none;
+      border: 1.5px solid #FFCDD2; color: #DC3545;
+      font-size: 14px; cursor: pointer; display: flex;
+      align-items: center; justify-content: center;
+      -webkit-tap-highlight-color: transparent;
+      transition: background 0.15s, border-color 0.15s;
+      margin-top: 1px;
+    }
+    .btn-excl:active { background: #FFEBEE; border-color: #DC3545; }
+    .excl-chip {
+      display: inline-flex; align-items: center; gap: 5px;
+      background: #FFF0F0; color: #C62828;
+      border: 1px solid #FFCDD2;
+      border-radius: 16px; padding: 5px 10px 5px 12px;
+      font-size: 13px; font-weight: 600;
+      margin: 3px 3px;
+    }
+    .excl-chip-rm {
+      background: none; border: none; color: #C62828;
+      font-size: 16px; cursor: pointer; padding: 0; line-height: 1;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .ingredient-row-right {
+      display: flex; align-items: center; gap: 8px; flex-shrink: 0;
+    }
   </style>
 </head>
 <body>
@@ -222,6 +249,16 @@
       <button class="btn-secondary" onclick="generateRecipe()">
         🔀 別の組み合わせ
       </button>
+    </div>
+
+    <!-- 除外リスト管理 -->
+    <div class="card" id="exclusion-section" style="display:none;">
+      <div class="card-title" style="margin-bottom:10px;">
+        🚫 除外リスト &nbsp;<span id="excl-count" style="font-size:12px; background:var(--bg); padding:2px 7px; border-radius:8px; color:var(--text-muted); font-weight:600;"></span>
+      </div>
+      <div id="excl-chips" style="margin-bottom:10px;"></div>
+      <button class="btn-secondary" style="font-size:13px; padding:9px; color:var(--danger); border-color:#FFCDD2;"
+        onclick="clearAllExclusions()">除外リストをすべてリセット</button>
     </div>
 
   </div><!-- /result-section -->
@@ -377,6 +414,58 @@ function extractUsedProteinIds(mealNames) {
   return used;
 }
 
+// ===== EXCLUSION MANAGEMENT =====
+function getExclusions() {
+  return ls('nikomi_excl') || { proteins: [], mushrooms: [], vegetables: [] };
+}
+function setExclusions(excl) { ls('nikomi_excl', excl); }
+function isExcluded(type, id) { return (getExclusions()[type] || []).includes(id); }
+
+function addExclusion(type, id) {
+  const excl = getExclusions();
+  if (!excl[type]) excl[type] = [];
+  if (!excl[type].includes(id)) excl[type].push(id);
+  setExclusions(excl);
+}
+function removeExclusion(type, id) {
+  const excl = getExclusions();
+  excl[type] = (excl[type] || []).filter(x => x !== id);
+  setExclusions(excl);
+}
+function clearAllExclusions() {
+  setExclusions({ proteins: [], mushrooms: [], vegetables: [] });
+  renderExclusionSection();
+  showToast('除外リストをすべてリセットしました');
+}
+
+function excludeIngredient(type, id, name) {
+  addExclusion(type, id);
+  renderExclusionSection();
+  showToast(`「${name}」を除外しました — 再抽選します`);
+  generateRecipe();
+}
+function restoreIngredient(type, id, name) {
+  removeExclusion(type, id);
+  renderExclusionSection();
+  showToast(`「${name}」を除外リストから戻しました`);
+}
+
+function renderExclusionSection() {
+  const excl = getExclusions();
+  const all = [
+    ...PROTEINS.filter(p => (excl.proteins||[]).includes(p.id)).map(p => ({ type:'proteins', id:p.id, name:p.name })),
+    ...MUSHROOMS.filter(m => (excl.mushrooms||[]).includes(m.id)).map(m => ({ type:'mushrooms', id:m.id, name:m.name })),
+    ...VEGETABLES.filter(v => (excl.vegetables||[]).includes(v.id)).map(v => ({ type:'vegetables', id:v.id, name:v.name })),
+  ];
+  const section = document.getElementById('exclusion-section');
+  if (all.length === 0) { section.style.display = 'none'; return; }
+  section.style.display = '';
+  document.getElementById('excl-count').textContent = `${all.length}品`;
+  document.getElementById('excl-chips').innerHTML = all.map(e =>
+    `<span class="excl-chip">${e.name}<button class="excl-chip-rm" onclick="restoreIngredient('${e.type}','${e.id}','${e.name}')">×</button></span>`
+  ).join('');
+}
+
 // ===== RECIPE GENERATION =====
 let currentRecipe = null;
 
@@ -387,13 +476,16 @@ async function generateRecipe() {
   document.getElementById('result-section').style.display = 'none';
   document.getElementById('loading-card').style.display = '';
 
+  const excl = getExclusions();
+
   // Fetch recent meals
   const mealNames = await fetchRecentMealNames();
   const usedIds = extractUsedProteinIds(mealNames);
 
-  // Select protein
-  let available = PROTEINS.filter(p => !usedIds.has(p.id));
-  if (available.length === 0) available = [...PROTEINS];
+  // Select protein（除外 + 直近使用 を除く）
+  let available = PROTEINS.filter(p => !usedIds.has(p.id) && !(excl.proteins||[]).includes(p.id));
+  if (available.length === 0) available = PROTEINS.filter(p => !(excl.proteins||[]).includes(p.id));
+  if (available.length === 0) available = [...PROTEINS]; // 全除外時フォールバック
   const protein = rand(available);
 
   // Select base (avoid last used)
@@ -402,16 +494,17 @@ async function generateRecipe() {
   const base = rand(availBases.length ? availBases : BASES);
   ls('nikomi_last_base', base.id);
 
-  // Select mushrooms: always まいたけ + 1 or 2 others
-  const fixedMushrooms = MUSHROOMS.filter(m => m.always);
-  const optMushrooms   = shuffle(MUSHROOMS.filter(m => !m.always));
+  // Select mushrooms: まいたけ（除外されていなければ必須）+ 1 or 2 others
+  const fixedMushrooms = MUSHROOMS.filter(m => m.always && !(excl.mushrooms||[]).includes(m.id));
+  const optMushrooms   = shuffle(MUSHROOMS.filter(m => !m.always && !(excl.mushrooms||[]).includes(m.id)));
   const extraMush = Math.random() < 0.5 ? 1 : 2;
   const mushrooms = [...fixedMushrooms, ...optMushrooms.slice(0, extraMush)];
 
-  // Select vegetables: always 玉ねぎ + 2 or 3 compatible
-  const fixedVeg = VEGETABLES.filter(v => v.always);
+  // Select vegetables: 玉ねぎ（除外されていなければ必須）+ 2 or 3 compatible
+  const fixedVeg = VEGETABLES.filter(v => v.always && !(excl.vegetables||[]).includes(v.id));
   const compatVeg = shuffle(VEGETABLES.filter(v =>
-    !v.always && (v.compat === 'all' || v.compat.includes(base.id))
+    !v.always && !(excl.vegetables||[]).includes(v.id) &&
+    (v.compat === 'all' || v.compat.includes(base.id))
   ));
   const extraVeg = Math.random() < 0.4 ? 2 : 3;
   const vegetables = [...fixedVeg, ...compatVeg.slice(0, extraVeg)];
@@ -425,6 +518,7 @@ async function generateRecipe() {
   btn.disabled = false;
 
   renderRecipe(currentRecipe);
+  renderExclusionSection();
   // Scroll to result
   setTimeout(() => {
     document.getElementById('result-section').scrollIntoView({ behavior: 'smooth', block: 'start' });
@@ -432,6 +526,10 @@ async function generateRecipe() {
 }
 
 // ===== RENDER =====
+function exclBtn(type, id, name) {
+  return `<button class="btn-excl" onclick="excludeIngredient('${type}','${id}','${name}')" title="次回から除外">🚫</button>`;
+}
+
 function renderRecipe({ protein, mushrooms, vegetables, base }) {
   // Protein
   const typeTag = protein.type === 'meat'
@@ -443,34 +541,43 @@ function renderRecipe({ protein, mushrooms, vegetables, base }) {
         <div class="ingredient-name">${protein.name}${typeTag}</div>
         <div class="ingredient-feature">${protein.feature}</div>
       </div>
-      <div class="ingredient-amount">${protein.amount}</div>
+      <div class="ingredient-row-right">
+        <div class="ingredient-amount">${protein.amount}</div>
+        ${exclBtn('proteins', protein.id, protein.name)}
+      </div>
     </div>`;
   if (protein.needsOil) {
     pHtml += `<div class="oil-note">💛 エゴマ油 大さじ1 — 脂質が少ないため仕上げにかける（オメガ3・抗炎症）</div>`;
   }
   document.getElementById('protein-content').innerHTML = pHtml;
 
-  // Mushrooms
+  // Mushrooms（まいたけも除外可能）
   document.getElementById('mushrooms-content').innerHTML = mushrooms.map(m => `
     <div class="ingredient-row">
       <div class="ingredient-left">
         <div class="ingredient-name">${m.name}${m.always ? '<span class="tag tag-always">必須</span>' : ''}</div>
         <div class="ingredient-feature">${m.feature}</div>
       </div>
-      <div class="ingredient-amount">${m.amount}</div>
+      <div class="ingredient-row-right">
+        <div class="ingredient-amount">${m.amount}</div>
+        ${exclBtn('mushrooms', m.id, m.name)}
+      </div>
     </div>`).join('');
 
-  // Vegetables
+  // Vegetables（玉ねぎは除外ボタンなし・その他は除外可能）
   document.getElementById('vegetables-content').innerHTML = vegetables.map(v => `
     <div class="ingredient-row">
       <div class="ingredient-left">
         <div class="ingredient-name">${v.name}</div>
         <div class="ingredient-feature">${v.feature}</div>
       </div>
-      <div class="ingredient-amount">${v.amount}</div>
+      <div class="ingredient-row-right">
+        <div class="ingredient-amount">${v.amount}</div>
+        ${v.always ? '<div style="width:30px;"></div>' : exclBtn('vegetables', v.id, v.name)}
+      </div>
     </div>`).join('');
 
-  // Base
+  // Base（ベースは除外ボタンなし・将来拡張で追加可能）
   const fermentTag = base.fermented ? '<span class="tag tag-ferment">発酵◎</span>' : '';
   document.getElementById('base-content').innerHTML = `
     <div style="font-size:17px; font-weight:700; color:var(--green-dark); margin-bottom:6px;">
@@ -549,6 +656,7 @@ async function addToShoppingList() {
 
 // ===== INIT =====
 document.getElementById('today-date').textContent = todayStr();
+renderExclusionSection(); // 除外リストがあれば初期表示
 
 // iOS ホーム画面アイコン生成（canvas → PNG data URI）
 (function() {
