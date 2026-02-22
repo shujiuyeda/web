@@ -235,15 +235,6 @@
       -webkit-tap-highlight-color: transparent;
     }
     .export-btn:active { background: var(--bg); }
-    .import-btn {
-      display: flex; align-items: center; justify-content: center; gap: 8px;
-      padding: 12px; border: 1.5px dashed #74C69D;
-      border-radius: 10px; background: none;
-      color: var(--green-mid); font-size: 14px; cursor: pointer;
-      width: calc(100% - 24px); margin: 0 12px 4px;
-      -webkit-tap-highlight-color: transparent;
-    }
-    .import-btn:active { background: var(--green-pale); }
     /* Modal */
     .modal-overlay {
       position: fixed; inset: 0; background: rgba(0,0,0,0.5);
@@ -442,19 +433,6 @@
       outline: none; -webkit-appearance: none; text-align: center;
     }
     .qty-input:focus { border-color: var(--green-light); }
-    /* Import section */
-    .import-section {
-      margin: 0 12px 8px;
-    }
-    .import-btn {
-      display: flex; align-items: center; justify-content: center; gap: 8px;
-      padding: 11px; border: 1.5px dashed #ADB5BD;
-      border-radius: 10px; background: none;
-      color: var(--text-muted); font-size: 13px; cursor: pointer;
-      width: 100%;
-      -webkit-tap-highlight-color: transparent;
-    }
-    .import-btn:active { background: var(--bg); }
     /* Nutrition bar */
     .nutr-bar { margin-bottom: 10px; }
     .nutr-bar-header { display: flex; justify-content: space-between; margin-bottom: 3px; font-size: 12px; }
@@ -761,10 +739,6 @@
     <div id="sync-config-view"></div>
   </div>
 </div>
-
-<!-- Hidden file input for import -->
-<input type="file" id="file-picker" accept=".md,text/plain,text/markdown"
-       style="display:none" onchange="onFilePicked(event)">
 
 <script>
 // ======== FOOD DATABASE ========
@@ -1887,13 +1861,7 @@ function renderMeals(container) {
   mealHtml += `</div>`;
   html += mealHtml;
 
-  // Import / Export buttons
-  html += `
-    <button class="import-btn" onclick="triggerFilePicker()">
-      📥 今日の記録を取り込む（01_健康メモ.md）
-    </button>
-    <div class="spacer"></div>
-  `;
+  html += `<div class="spacer"></div>`;
 
   // 腸内環境スコア＋AI分析は最下部
   html += renderGutCard();
@@ -3038,206 +3006,6 @@ function deleteCheckedShoppingItems() {
   syncShoppingToGitHub();
 }
 
-// ======== IMPORT ========
-// File System Access API (desktop Chrome/Safari) + fallback to <input type="file"> (iOS)
-const supportsFileSystemAccess = 'showOpenFilePicker' in window;
-
-// IndexedDB helpers for persisting FileSystemFileHandle
-function idbOpen() {
-  return new Promise((res, rej) => {
-    const req = indexedDB.open('health-hub', 1);
-    req.onupgradeneeded = e => e.target.result.createObjectStore('handles');
-    req.onsuccess = e => res(e.target.result);
-    req.onerror = () => rej();
-  });
-}
-async function idbGet(key) {
-  try {
-    const db = await idbOpen();
-    return new Promise(res => {
-      const tx = db.transaction('handles', 'readonly');
-      const req = tx.objectStore('handles').get(key);
-      req.onsuccess = () => res(req.result ?? null);
-      req.onerror = () => res(null);
-    });
-  } catch { return null; }
-}
-async function idbPut(key, val) {
-  try {
-    const db = await idbOpen();
-    return new Promise(res => {
-      const tx = db.transaction('handles', 'readwrite');
-      tx.objectStore('handles').put(val, key);
-      tx.oncomplete = res;
-    });
-  } catch {}
-}
-
-async function triggerFilePicker() {
-  if (supportsFileSystemAccess) {
-    await loadWithFSA();
-  } else {
-    // iOS fallback
-    const fp = document.getElementById('file-picker');
-    fp.value = '';
-    fp.click();
-  }
-}
-
-async function loadWithFSA() {
-  // Try saved handle first
-  let handle = await idbGet('health-memo-handle');
-
-  if (handle) {
-    try {
-      let perm = await handle.queryPermission({ mode: 'read' });
-      if (perm !== 'granted') {
-        perm = await handle.requestPermission({ mode: 'read' });
-      }
-      if (perm === 'granted') {
-        showToast('読み込み中...');
-        const file = await handle.getFile();
-        const text = await file.text();
-        importFromMarkdown(text, handle.name);
-        return;
-      }
-    } catch (e) {
-      // Saved handle is stale (file moved/renamed) — fall through to picker
-      await idbPut('health-memo-handle', null);
-    }
-  }
-
-  // First time or stale handle — show file picker
-  try {
-    [handle] = await window.showOpenFilePicker({
-      types: [{ description: 'Markdown / Text', accept: { 'text/*': ['.md', '.txt'] } }],
-      multiple: false,
-    });
-  } catch (e) {
-    if (e.name !== 'AbortError') showToast('ファイルを開けませんでした: ' + e.message);
-    return;
-  }
-
-  try {
-    await idbPut('health-memo-handle', handle);
-    showToast('読み込み中...');
-    const file = await handle.getFile();
-    const text = await file.text();
-    importFromMarkdown(text, handle.name);
-    updateImportBtnLabel(handle.name);
-  } catch (e) {
-    showToast('読み込みエラー: ' + e.message);
-  }
-}
-
-function onFilePicked(event) {
-  const file = event.target.files[0];
-  if (!file) return;
-  const reader = new FileReader();
-  reader.onload = e => importFromMarkdown(e.target.result, file.name);
-  reader.readAsText(file, 'UTF-8');
-}
-
-function updateImportBtnLabel(filename) {
-  const btn = document.querySelector('.import-btn');
-  if (btn) btn.innerHTML = `📥 取り込む <span style="font-size:11px;opacity:0.7;">（${filename}）</span>`;
-}
-
-// On page load: show saved filename on button if handle exists
-async function initImportBtn() {
-  if (!supportsFileSystemAccess) return;
-  const handle = await idbGet('health-memo-handle');
-  if (handle) updateImportBtnLabel(handle.name);
-}
-
-function importFromMarkdown(text, filename) {
-  // Parse ALL date sections from the file
-  // Supported formats: ### 2026/02/20  ### 2026/2/20  ### 2/20  ### 02/20
-  const DATE_RE = /^#{1,4}\s.*?(\d{4})[\/\-](\d{1,2})[\/\-](\d{1,2})|^#{1,4}\s.*?(\d{1,2})[\/\-](\d{1,2})(?!\d)/;
-
-  const lines = text.split('\n');
-  // Map: dateStr ("YYYY-MM-DD") → meal[]
-  const byDate = {};
-  let currentDs = null;
-
-  for (const rawLine of lines) {
-    const line = rawLine.trim();
-
-    if (/^#{1,4}\s/.test(line)) {
-      const m = line.match(/(\d{4})[\/\-](\d{1,2})[\/\-](\d{1,2})/);
-      if (m) {
-        // Full year format: 2026/02/20
-        currentDs = `${m[1]}-${pad(+m[2])}-${pad(+m[3])}`;
-        if (!byDate[currentDs]) byDate[currentDs] = [];
-        continue;
-      }
-      const m2 = line.match(/(\d{1,2})[\/\-](\d{1,2})(?!\d)/);
-      if (m2) {
-        // Month/day only: infer year from currentDate's year
-        const yr = currentDate.split('-')[0];
-        currentDs = `${yr}-${pad(+m2[1])}-${pad(+m2[2])}`;
-        if (!byDate[currentDs]) byDate[currentDs] = [];
-        continue;
-      }
-      // Non-date heading — stop collecting for current date
-      currentDs = null;
-      continue;
-    }
-
-    if (!currentDs) continue;
-    if (!line.startsWith('|')) continue;
-    if (line.includes('---')) continue;
-    if (/合計|目標|時刻/.test(line)) continue;
-
-    const cells = line.split('|').map(c => c.trim()).filter(c => c !== '');
-    if (cells.length < 4) continue;
-
-    const time = cells[0];
-    const name = cells[1];
-    const kcal = parseNum(cells[2]);
-    const p    = parseNum(cells[3]);
-    const f    = parseNum(cells.length > 4 ? cells[4] : '0');
-    const c    = parseNum(cells.length > 5 ? cells[5] : '0');
-
-    if (!/^\d{1,2}:\d{2}$/.test(time) || !name || kcal <= 0) continue;
-    byDate[currentDs].push({ time, name, kcal, p, f, c });
-  }
-
-  // Remove dates with no meals
-  const dates = Object.keys(byDate).filter(ds => byDate[ds].length > 0);
-
-  if (dates.length === 0) {
-    showToast('食事記録が見つかりませんでした');
-    return;
-  }
-
-  // Merge into localStorage for each date
-  let totalAdded = 0;
-  let datesUpdated = 0;
-  dates.forEach(ds => {
-    const existing = getMeals(ds);
-    let added = 0;
-    byDate[ds].forEach(item => {
-      if (!existing.find(e => e.time === item.time && e.name === item.name)) {
-        existing.push(item);
-        added++;
-      }
-    });
-    if (added > 0) {
-      saveMeals(ds, existing);
-      totalAdded += added;
-      datesUpdated++;
-    }
-  });
-
-  showToast(`${datesUpdated}日分・${totalAdded}件 取り込みました ✓`);
-  switchTab('meals');
-}
-
-function parseNum(s) {
-  return parseFloat(String(s).replace(/[^0-9.]/g, '')) || 0;
-}
-
 // ======== UTIL ========
 function showToast(msg) {
   const ex = document.querySelector('.toast');
@@ -3255,7 +3023,6 @@ function esc(s) {
 
 // ======== START ========
 init();
-initImportBtn();
 setSyncStatus(ghSyncEnabled() ? 'ok' : 'none');
 if (navigator.onLine) flushPendingSyncs();
 window.addEventListener('online', () => flushPendingSyncs());
