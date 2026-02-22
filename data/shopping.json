@@ -8,12 +8,6 @@
       "category": "supplement"
     },
     {
-      "id": "s2",
-      "name": "ダークチョコレート（カカオ72%以上）",
-      "note": "甘いもの欲求の上位互換として常備",
-      "category": "food"
-    },
-    {
       "id": "s3",
       "name": "エゴマ油",
       "note": "",
@@ -26,7 +20,5 @@
       "category": "other"
     }
   ],
-  "checks": {
-    "s2": true
-  }
+  "checks": {}
 }
