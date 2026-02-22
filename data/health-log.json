@@ -258,7 +258,7 @@
         "walkHR": 90
     },
     "2026-02-23": {
-        "water": 0,
+        "water": 0.2,
         "bowel": null,
         "mood": null,
         "energy": 2.3,
