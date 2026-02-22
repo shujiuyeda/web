@@ -16,7 +16,9 @@
         "hrv": null,
         "waterBonus": 0.43,
         "stretch": {
-            "st1": true
+            "st1": true,
+            "st2": true,
+            "st3": true
         }
     },
     "2026-02-16": {
