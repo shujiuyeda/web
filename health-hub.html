@@ -185,6 +185,16 @@
       -webkit-tap-highlight-color: transparent;
     }
     .meal-del:active { background: #f0f0f0; color: var(--danger); }
+    .meal-group { padding: 10px 0; border-bottom: 1px solid var(--border); }
+    .meal-group:last-child { border-bottom: none; }
+    .meal-group-header { display: flex; align-items: center; gap: 8px; margin-bottom: 5px; }
+    .meal-group-time { font-size: 11px; color: var(--text-muted); width: 38px; flex-shrink: 0; }
+    .meal-group-label { font-size: 12px; font-weight: 600; color: var(--text-muted); flex: 1; }
+    .meal-group-kcal { font-size: 15px; font-weight: 700; color: var(--green-mid); flex-shrink: 0; }
+    .meal-group-items { margin: 0 0 6px 46px; }
+    .meal-group-item { display: flex; align-items: center; padding: 2px 0; }
+    .meal-group-item-name { font-size: 13px; flex: 1; line-height: 1.4; color: var(--text); }
+    .meal-group-footer { display: flex; gap: 10px; flex-wrap: wrap; font-size: 11px; color: var(--text-muted); padding-left: 46px; }
     .summary-row {
       display: flex; justify-content: space-between; align-items: center;
       padding: 10px 0; border-top: 1.5px solid var(--border); margin-top: 4px;
@@ -1713,18 +1723,45 @@ function renderMeals(container) {
       <div class="empty-text">まだ記録がありません<br>右下の ＋ で追加してください</div>
     </div>`;
   } else {
-    mealHtml += `<div class="meal-list">`;
+    // 時刻でグループ化
+    const mealGroups = [];
+    const timeMap = {};
     meals.forEach((m, i) => {
-      mealHtml += `
-        <div class="meal-item">
-          <span class="meal-time">${m.time}</span>
-          <div class="meal-info">
-            <div class="meal-name">${esc(m.name)}</div>
-            <div class="meal-macros">P${m.p.toFixed(1)} F${m.f.toFixed(1)} C${m.c.toFixed(1)}</div>
-          </div>
-          <span class="meal-kcal">${Math.round(m.kcal)}</span>
-          <button class="meal-del" onclick="deleteMeal(${i})">×</button>
-        </div>`;
+      if (!timeMap[m.time]) {
+        const g = { time: m.time, items: [], kcal: 0, p: 0, f: 0, c: 0, fiber: 0, mg: 0 };
+        timeMap[m.time] = g;
+        mealGroups.push(g);
+      }
+      const g = timeMap[m.time];
+      g.items.push({ name: m.name, idx: i });
+      g.kcal  += m.kcal  || 0;
+      g.p     += m.p     || 0;
+      g.f     += m.f     || 0;
+      g.c     += m.c     || 0;
+      g.fiber += m.fiber || 0;
+      g.mg    += m.mg    || 0;
+    });
+    const mealLbl = t => { const h = parseInt(t); return h < 11 ? '朝食' : h < 15 ? '昼食' : h < 18 ? '間食' : '夕食'; };
+    mealHtml += `<div class="meal-list">`;
+    mealGroups.forEach(g => {
+      mealHtml += `<div class="meal-group">
+        <div class="meal-group-header">
+          <span class="meal-group-time">${g.time}</span>
+          <span class="meal-group-label">${mealLbl(g.time)}</span>
+          <span class="meal-group-kcal">${Math.round(g.kcal)} kcal</span>
+        </div>
+        <div class="meal-group-items">`;
+      g.items.forEach(item => {
+        mealHtml += `<div class="meal-group-item">
+            <span class="meal-group-item-name">• ${esc(item.name)}</span>
+            <button class="meal-del" onclick="deleteMeal(${item.idx})">×</button>
+          </div>`;
+      });
+      mealHtml += `</div>
+        <div class="meal-group-footer">
+          <span>P ${g.p.toFixed(1)}g</span><span>F ${g.f.toFixed(1)}g</span><span>C ${g.c.toFixed(1)}g</span><span>食物繊維 ${g.fiber.toFixed(1)}g</span><span>Mg ${Math.round(g.mg)}mg</span>
+        </div>
+      </div>`;
     });
     mealHtml += `</div>
       <div class="summary-row">
