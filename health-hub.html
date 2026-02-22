@@ -1074,24 +1074,6 @@ function renderGutCard() {
   html += `<div style="font-size:10px;opacity:0.6;">/ 100</div>`;
   html += `</div></div>`;
 
-  // 今日の水分プログレスバー（todayWater があれば目立つ表示）
-  const tw = adviceData.todayWater;
-  if (tw) {
-    const wpct = Math.min(100, Math.round(tw.current / tw.target * 100));
-    const wcolor = wpct >= 100 ? '#74C69D' : wpct >= 60 ? '#52B5E0' : '#F4A261';
-    const remaining = Math.max(0, tw.target - tw.current).toFixed(1);
-    html += `<div style="margin:12px 0 6px;padding:10px 12px;background:rgba(82,181,224,0.15);border:1px solid rgba(82,181,224,0.3);border-radius:10px;">`;
-    html += `<div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:6px;">`;
-    html += `<span style="font-size:12px;font-weight:600;">💧 今日の水分</span>`;
-    html += `<span style="font-size:18px;font-weight:700;color:${wcolor};">${tw.current}<span style="font-size:11px;font-weight:400;opacity:0.7;">L</span> <span style="font-size:11px;opacity:0.5;">/ ${tw.target}L</span></span>`;
-    html += `</div>`;
-    html += `<div style="height:8px;background:rgba(255,255,255,0.15);border-radius:4px;overflow:hidden;">`;
-    html += `<div style="width:${wpct}%;height:100%;background:${wcolor};border-radius:4px;"></div>`;
-    html += `</div>`;
-    html += `<div style="font-size:10px;opacity:0.6;margin-top:4px;">${wpct}% 達成${remaining > 0 ? `・あと ${remaining}L` : '・目標達成！'}</div>`;
-    html += `</div>`;
-  }
-
   if (g.factors) {
     const labels = {
       fiber:      ['🥬 食物繊維', 20],
@@ -1418,6 +1400,24 @@ function renderMeals(container) {
 
   // AI Overall banner
   html += renderOverallBanner();
+
+  // 今日の水分バー（kcalカードの直前）
+  if (adviceData && adviceData.todayWater) {
+    const tw = adviceData.todayWater;
+    const wpct = Math.min(100, Math.round(tw.current / tw.target * 100));
+    const wcolor = wpct >= 100 ? '#27AE60' : wpct >= 60 ? '#2980B9' : '#E67E22';
+    const remaining = Math.max(0, tw.target - tw.current).toFixed(1);
+    html += `<div class="card" style="padding:12px 16px;">`;
+    html += `<div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:6px;">`;
+    html += `<span style="font-size:13px;font-weight:600;color:#2980B9;">💧 今日の水分</span>`;
+    html += `<span style="font-size:20px;font-weight:700;color:${wcolor};">${tw.current}<span style="font-size:12px;font-weight:400;color:var(--text-muted);">L</span><span style="font-size:12px;color:var(--text-muted);"> / ${tw.target}L</span></span>`;
+    html += `</div>`;
+    html += `<div style="height:10px;background:#E8F4FD;border-radius:5px;overflow:hidden;">`;
+    html += `<div style="width:${wpct}%;height:100%;background:${wcolor};border-radius:5px;"></div>`;
+    html += `</div>`;
+    html += `<div style="font-size:11px;color:var(--text-muted);margin-top:4px;">${wpct}%${remaining > 0 ? `・あと ${remaining}L` : '・目標達成！🎉'}</div>`;
+    html += `</div>`;
+  }
 
   // Kcal summary card
   html += `
