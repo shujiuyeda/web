@@ -1,3 +1,104 @@
 {
-  "purchases": []
+  "purchases": [
+    {
+      "id": "p001",
+      "date": "2026-02-17",
+      "time": "11:56",
+      "store": "スターバックス",
+      "storeName": "スターバックス 青山ビルヂング店",
+      "category": "カフェ",
+      "items": [
+        { "name": "アイス アーモンドミルクラテ G", "price": 555 }
+      ],
+      "total": 555,
+      "payment": "AMEX"
+    },
+    {
+      "id": "p002",
+      "date": "2026-02-21",
+      "time": "18:47",
+      "store": "しんぱち食堂",
+      "storeName": "しんぱち食堂 亀戸店",
+      "category": "外食",
+      "items": [
+        { "name": "サーモン西京漬け定食熟成玄", "price": 1254 },
+        { "name": "米半割", "price": 66 },
+        { "name": "インゲン胡麻和え単品", "price": 66 },
+        { "name": "納豆単品", "price": 66 },
+        { "name": "冷奴単品", "price": 66 },
+        { "name": "わかめ（わさび醤油）単品", "price": 99 }
+      ],
+      "total": 1551,
+      "payment": "クレジット"
+    },
+    {
+      "id": "p003",
+      "date": "2026-02-21",
+      "time": "18:54",
+      "store": "スターバックス",
+      "storeName": "スターバックス アトレ亀戸店",
+      "category": "カフェ",
+      "items": [
+        { "name": "アイス オーツミルクラテ T（ディカフェ Brewed変更）", "price": 565 }
+      ],
+      "total": 565,
+      "payment": "クレジット"
+    },
+    {
+      "id": "p004",
+      "date": "2026-02-21",
+      "time": "22:27",
+      "store": "maruetsu petit",
+      "storeName": "maruetsu petit 不動前店",
+      "category": "スーパー",
+      "items": [
+        { "name": "朝日えごま油", "price": 938 },
+        { "name": "チョコレート効果", "price": 809 }
+      ],
+      "total": 1747,
+      "payment": "AMEX"
+    },
+    {
+      "id": "p005",
+      "date": "2026-02-22",
+      "time": "17:04",
+      "store": "LAWSON",
+      "storeName": "LAWSON+toks 武蔵小杉駅店",
+      "category": "コンビニ",
+      "items": [
+        { "name": "コカ・コーラ イ・ロ・ハス 540ML", "price": 127 },
+        { "name": "伊藤園 ホットジャスミンティー 500ML", "price": 149 },
+        { "name": "明治 ザ・バスミルクカフェラテ 430ml", "price": 343 },
+        { "name": "レジ袋S", "price": 3 }
+      ],
+      "total": 622,
+      "payment": "AMEX"
+    },
+    {
+      "id": "p006",
+      "date": "2026-02-22",
+      "time": "19:12",
+      "store": "セブン-イレブン",
+      "storeName": "セブン-イレブン 不動前駅東店",
+      "category": "コンビニ",
+      "items": [
+        { "name": "炭火焼ミックスホルモン シオ", "price": 429 }
+      ],
+      "total": 429,
+      "payment": "AMEX"
+    },
+    {
+      "id": "p007",
+      "date": "2026-02-22",
+      "time": "19:16",
+      "store": "LAWSON",
+      "storeName": "LAWSON 不動前店",
+      "category": "コンビニ",
+      "items": [
+        { "name": "山崎 豆大福つぶあん", "price": 127 }
+      ],
+      "total": 127,
+      "payment": "AMEX"
+    }
+  ]
 }
