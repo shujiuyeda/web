@@ -279,5 +279,24 @@
         "walkHR": null,
         "stretch": null,
         "waterBonus": null
+    },
+    "2026-02-24": {
+        "steps": 81,
+        "hrv": 28.8,
+        "rhr": null,
+        "walkDistance": 0.05,
+        "stride": null,
+        "walkSpeed": null,
+        "vo2max": null,
+        "walkHR": null,
+        "water": null,
+        "bowel": null,
+        "mood": null,
+        "energy": null,
+        "weather": null,
+        "sleep_feel": null,
+        "body_note": null,
+        "stretch": null,
+        "waterBonus": null
     }
 }
