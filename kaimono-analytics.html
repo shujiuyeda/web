@@ -293,7 +293,7 @@
 
     <div class="form-group">
       <label class="form-label" for="input-items">購入品目（1行1品）</label>
-      <textarea id="input-items" class="form-textarea" placeholder="牛すじ&#10;にんじん&#10;ナス&#10;まいたけ"></textarea>
+      <textarea id="input-items" class="form-textarea" placeholder="牛すじ:398&#10;にんじん:88&#10;ナス:128&#10;※金額なしでもOK"></textarea>
     </div>
 
     <div class="form-group">
@@ -455,11 +455,16 @@ async function savePurchase() {
     if (m) maxId = Math.max(maxId, parseInt(m[1]));
   });
 
+  const parsedItems = items.split('\n').map(s => s.trim()).filter(Boolean).map(s => {
+    const m = s.match(/^(.+):(\d+)$/);
+    return m ? { name: m[1].trim(), price: parseInt(m[2]) } : { name: s, price: null };
+  });
+
   const entry = {
     id: `p${maxId + 1}`,
     date,
     store,
-    items,
+    items: parsedItems,
     total: total ? parseInt(total) : null,
     note: note || null
   };
@@ -562,12 +567,15 @@ function showDetail(id) {
 
   document.getElementById('modal-total').textContent = p.total ? yen(p.total) : '—';
 
-  // items: split by " / " or newline
-  const itemsRaw = p.items || '';
-  const itemList = itemsRaw.split(/\s*\/\s*|\n/).map(s => s.trim()).filter(Boolean);
-  document.getElementById('modal-items-list').innerHTML = itemList.map(item =>
-    `<div class="modal-item-row"><div class="modal-item-bullet"></div>${escHtml(item)}</div>`
-  ).join('');
+  // items: array [{name,price}] or legacy string
+  const itemList = parseItems(p.items);
+  const hasPrice = Array.isArray(p.items) && p.items.length > 0 && p.items[0].price != null;
+  document.getElementById('modal-items-list').innerHTML = itemList.map(item => {
+    const priceHtml = hasPrice && item.price != null
+      ? `<span style="margin-left:auto;font-weight:600;color:var(--green-dark);white-space:nowrap;">${yen(item.price)}</span>`
+      : '';
+    return `<div class="modal-item-row"><div class="modal-item-bullet"></div><span style="flex:1;">${escHtml(item.name)}</span>${priceHtml}</div>`;
+  }).join('');
 
   // payment
   const pay = p.payment ? `💳 ${p.payment}` : '';
@@ -588,11 +596,21 @@ function closeDetail() {
   document.getElementById('modal-sheet').classList.remove('open');
 }
 
+// items を [{name, price}] の統一形式に変換
+function parseItems(items) {
+  if (!items) return [];
+  if (Array.isArray(items)) return items.map(i => typeof i === 'string' ? { name: i, price: null } : i);
+  // legacy string: "A / B\nC" → parse "name:price" or plain name
+  return items.split(/\s*\/\s*|\n/).map(s => s.trim()).filter(Boolean).map(s => {
+    const m = s.match(/^(.+):(\d+)$/);
+    return m ? { name: m[1].trim(), price: parseInt(m[2]) } : { name: s, price: null };
+  });
+}
+
 function summarizeItems(items) {
-  if (!items) return '';
-  const parts = items.split(/\s*\/\s*|\n/).map(s => s.trim()).filter(Boolean);
-  if (parts.length <= 2) return parts.join(' / ');
-  return `${parts[0]} / ${parts[1]} ほか${parts.length - 2}品`;
+  const list = parseItems(items);
+  if (list.length <= 2) return list.map(i => i.name).join(' / ');
+  return `${list[0].name} / ${list[1].name} ほか${list.length - 2}品`;
 }
 
 function escHtml(s) {
