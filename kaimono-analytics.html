@@ -163,6 +163,87 @@
       border-radius: 8px; font-size: 11px; font-weight: 600;
       margin-left: 6px;
     }
+    .history-item {
+      cursor: pointer;
+      -webkit-tap-highlight-color: transparent;
+      transition: background 0.1s;
+      border-radius: 8px;
+      margin: 0 -8px;
+      padding: 10px 8px;
+    }
+    .history-item:active { background: var(--bg); }
+
+    /* ===== DETAIL MODAL ===== */
+    .modal-overlay {
+      position: fixed; inset: 0;
+      background: rgba(0,0,0,0.45);
+      z-index: 200;
+      opacity: 0; pointer-events: none;
+      transition: opacity 0.25s;
+    }
+    .modal-overlay.open { opacity: 1; pointer-events: auto; }
+    .modal-sheet {
+      position: fixed; left: 0; right: 0; bottom: 0;
+      background: var(--card);
+      border-radius: 20px 20px 0 0;
+      padding: 0 0 calc(24px + var(--safe-bottom));
+      z-index: 201;
+      transform: translateY(100%);
+      transition: transform 0.3s cubic-bezier(0.32, 0.72, 0, 1);
+      max-height: 85vh;
+      overflow-y: auto;
+    }
+    .modal-sheet.open { transform: translateY(0); }
+    .modal-handle {
+      width: 36px; height: 4px; border-radius: 2px;
+      background: var(--border); margin: 12px auto 16px;
+    }
+    .modal-header {
+      padding: 0 20px 12px;
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 4px;
+    }
+    .modal-store {
+      font-size: 19px; font-weight: 700; color: var(--text);
+      margin-bottom: 4px;
+    }
+    .modal-meta {
+      font-size: 13px; color: var(--text-muted);
+    }
+    .modal-total {
+      font-size: 26px; font-weight: 700; color: var(--green-dark);
+      padding: 14px 20px 4px;
+    }
+    .modal-section-title {
+      font-size: 11px; font-weight: 700; color: var(--text-muted);
+      text-transform: uppercase; letter-spacing: 0.6px;
+      padding: 12px 20px 6px;
+    }
+    .modal-items-list {
+      padding: 0 20px;
+    }
+    .modal-item-row {
+      padding: 8px 0;
+      border-bottom: 1px solid var(--border);
+      font-size: 15px; color: var(--text);
+      display: flex; align-items: center; gap: 8px;
+    }
+    .modal-item-row:last-child { border-bottom: none; }
+    .modal-item-bullet {
+      width: 6px; height: 6px; border-radius: 50%;
+      background: var(--green-light); flex-shrink: 0;
+    }
+    .modal-payment {
+      padding: 8px 20px;
+      font-size: 13px; color: var(--text-muted);
+      display: flex; align-items: center; gap: 6px;
+    }
+    .modal-note {
+      margin: 4px 20px 0;
+      background: var(--bg); border-radius: 10px;
+      padding: 10px 14px;
+      font-size: 14px; color: var(--text-muted);
+    }
   </style>
 </head>
 <body>
@@ -248,6 +329,21 @@
 </div>
 
 <div class="toast" id="toast"></div>
+
+<!-- ===== DETAIL MODAL ===== -->
+<div class="modal-overlay" id="modal-overlay" onclick="closeDetail()"></div>
+<div class="modal-sheet" id="modal-sheet">
+  <div class="modal-handle"></div>
+  <div class="modal-header">
+    <div class="modal-store" id="modal-store"></div>
+    <div class="modal-meta" id="modal-meta"></div>
+  </div>
+  <div class="modal-total" id="modal-total"></div>
+  <div class="modal-section-title">購入品目</div>
+  <div class="modal-items-list" id="modal-items-list"></div>
+  <div class="modal-payment" id="modal-payment"></div>
+  <div id="modal-note-wrap"></div>
+</div>
 
 <script>
 // ===== CONSTANTS =====
@@ -414,7 +510,7 @@ function renderHistory() {
   // Show latest 20
   const recent = purchases.slice(0, 20);
   list.innerHTML = recent.map(p => `
-    <div class="history-item">
+    <div class="history-item" onclick="showDetail('${escHtml(p.id)}')">
       <div class="history-header">
         <div>
           <span class="history-date">${formatDate(p.date)}</span>
@@ -422,8 +518,7 @@ function renderHistory() {
         </div>
         <div class="history-total">${p.total ? yen(p.total) : '—'}</div>
       </div>
-      <div class="history-items">${escHtml(p.items)}</div>
-      ${p.note ? `<div style="font-size:12px;color:var(--text-muted);margin-top:3px;">📝 ${escHtml(p.note)}</div>` : ''}
+      <div class="history-items">${escHtml(summarizeItems(p.items))}</div>
     </div>`).join('');
 }
 
@@ -453,6 +548,51 @@ function renderStats() {
       <div class="stat-label">総記録数</div>
     </div>`;
   document.getElementById('stats-card').style.display = '';
+}
+
+// ===== DETAIL MODAL =====
+function showDetail(id) {
+  const p = (purchasesData.purchases || []).find(x => x.id === id);
+  if (!p) return;
+
+  document.getElementById('modal-store').textContent = p.store || '—';
+
+  const meta = [formatDate(p.date), p.time || ''].filter(Boolean).join(' ');
+  document.getElementById('modal-meta').textContent = meta;
+
+  document.getElementById('modal-total').textContent = p.total ? yen(p.total) : '—';
+
+  // items: split by " / " or newline
+  const itemsRaw = p.items || '';
+  const itemList = itemsRaw.split(/\s*\/\s*|\n/).map(s => s.trim()).filter(Boolean);
+  document.getElementById('modal-items-list').innerHTML = itemList.map(item =>
+    `<div class="modal-item-row"><div class="modal-item-bullet"></div>${escHtml(item)}</div>`
+  ).join('');
+
+  // payment
+  const pay = p.payment ? `💳 ${p.payment}` : '';
+  document.getElementById('modal-payment').textContent = pay;
+
+  // note
+  const noteWrap = document.getElementById('modal-note-wrap');
+  noteWrap.innerHTML = p.note
+    ? `<div class="modal-note">📝 ${escHtml(p.note)}</div>`
+    : '';
+
+  document.getElementById('modal-overlay').classList.add('open');
+  document.getElementById('modal-sheet').classList.add('open');
+}
+
+function closeDetail() {
+  document.getElementById('modal-overlay').classList.remove('open');
+  document.getElementById('modal-sheet').classList.remove('open');
+}
+
+function summarizeItems(items) {
+  if (!items) return '';
+  const parts = items.split(/\s*\/\s*|\n/).map(s => s.trim()).filter(Boolean);
+  if (parts.length <= 2) return parts.join(' / ');
+  return `${parts[0]} / ${parts[1]} ほか${parts.length - 2}品`;
 }
 
 function escHtml(s) {
