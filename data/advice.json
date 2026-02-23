@@ -755,9 +755,9 @@
           "note": "2/22・2/23ともに少量硬め。朝一の固め傾向継続"
         },
         "water": {
-          "avgL": 0.7,
+          "avgL": 0.8,
           "target": 2.0,
-          "pts": 2.1
+          "pts": 2.4
         },
         "sleep": {
           "avgHrs": 5.17,
@@ -794,7 +794,7 @@
       }
     ],
     "todayWater": {
-      "current": 1.8,
+      "current": 2.5,
       "target": 2.0,
       "max": 3.3
     }
