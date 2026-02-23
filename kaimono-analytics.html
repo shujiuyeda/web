@@ -171,6 +171,63 @@
     .history-item:last-child { border-bottom: none; }
     .history-item:active { background: var(--bg); }
 
+    /* ===== ANALYSIS SECTION ===== */
+    .cat-row { margin-bottom: 10px; }
+    .cat-row-header {
+      display: flex; justify-content: space-between; align-items: baseline;
+      font-size: 13px; margin-bottom: 5px;
+    }
+    .cat-name { font-weight: 600; color: var(--text); }
+    .cat-meta { font-size: 12px; color: var(--text-muted); }
+    .cat-track { height: 8px; background: var(--bg); border-radius: 4px; overflow: hidden; }
+    .cat-fill { height: 100%; border-radius: 4px; transition: width 0.6s ease; }
+    .cat-cafe       { background: #7B5E3A; }
+    .cat-convenience{ background: #2D6A4F; }
+    .cat-super      { background: #52B788; }
+    .cat-restaurant { background: #D4763B; }
+    .cat-other      { background: #9CA3AF; }
+    .analysis-subtitle {
+      font-size: 11px; font-weight: 700; color: var(--text-muted);
+      text-transform: uppercase; letter-spacing: 0.6px;
+      margin: 14px 0 10px;
+    }
+    .analysis-subtitle:first-child { margin-top: 0; }
+    .pattern-card {
+      background: var(--bg); border-radius: 10px;
+      padding: 12px 14px; margin-bottom: 8px;
+    }
+    .pattern-card:last-child { margin-bottom: 0; }
+    .pattern-header { display: flex; align-items: center; gap: 8px; margin-bottom: 5px; }
+    .pattern-emoji { font-size: 18px; line-height: 1; }
+    .pattern-title { font-size: 14px; font-weight: 700; color: var(--text); }
+    .pattern-detail { font-size: 13px; color: var(--text-muted); line-height: 1.55; }
+    .pattern-tip {
+      font-size: 12px; color: var(--green-dark); font-weight: 600;
+      margin-top: 7px; padding-top: 7px;
+      border-top: 1px solid var(--border);
+    }
+    .pattern-accumulating {
+      font-size: 12px; color: var(--text-muted); font-style: italic;
+    }
+    .ai-advice-card {
+      background: #1B4332; color: white;
+      border-radius: 12px; padding: 14px 16px; margin-top: 12px;
+    }
+    .ai-advice-generated {
+      font-size: 10px; opacity: 0.5; margin-bottom: 8px;
+    }
+    .ai-advice-headline {
+      font-size: 15px; font-weight: 700; line-height: 1.45;
+      margin-bottom: 12px;
+    }
+    .ai-advice-tips { list-style: none; padding: 0; margin: 0; }
+    .ai-advice-tips li {
+      font-size: 13px; line-height: 1.6;
+      padding: 4px 0; opacity: 0.9;
+      display: flex; gap: 8px;
+    }
+    .ai-advice-tips li::before { content: "→"; opacity: 0.55; flex-shrink: 0; }
+
     /* ===== DETAIL MODAL ===== */
     .modal-overlay {
       position: fixed; inset: 0;
@@ -310,6 +367,16 @@
     <div class="stats-row" id="stats-row"></div>
   </div>
 
+  <!-- ===== ANALYSIS ===== -->
+  <div class="card" id="analysis-card" style="display:none;">
+    <div class="card-title">🔍 購買パターン分析</div>
+    <div class="analysis-subtitle" style="margin-top:0;">カテゴリ別支出</div>
+    <div id="category-bars"></div>
+    <div class="analysis-subtitle">検出パターン</div>
+    <div id="pattern-cards"></div>
+    <div id="ai-advice-wrap"></div>
+  </div>
+
   <!-- ===== HISTORY ===== -->
   <div class="card">
     <div class="card-title">
@@ -416,8 +483,10 @@ async function loadPurchases() {
     purchasesData = cached;
     renderHistory();
     renderStats();
+    renderAnalysis();
   }
-  // Fetch from GitHub Pages
+  // Fetch from GitHub Pages (advice and purchases in parallel)
+  await loadAdvice();
   try {
     const res = await fetch(`${DATA_BASE_URL}purchases.json?_=${Date.now()}`, { cache: 'no-store' });
     if (res.ok) {
@@ -425,6 +494,7 @@ async function loadPurchases() {
       ls('purchases_cache', purchasesData);
       renderHistory();
       renderStats();
+      renderAnalysis();
     }
   } catch { /* use cached */ }
 }
@@ -478,6 +548,7 @@ async function savePurchase() {
     ls('purchases_cache', purchasesData);
     renderHistory();
     renderStats();
+    renderAnalysis();
     // Clear form (keep date)
     document.getElementById('input-store').value = '';
     document.getElementById('input-items').value = '';
@@ -537,6 +608,7 @@ function renderStats() {
   const monthPurchases = purchases.filter(p => p.date && p.date.startsWith(thisMonth));
   const totalSpend = monthPurchases.reduce((sum, p) => sum + (p.total || 0), 0);
 
+  const avgSpend = monthPurchases.length > 0 ? Math.round(totalSpend / monthPurchases.length) : 0;
   document.getElementById('stats-row').innerHTML = `
     <div class="stat-box">
       <div class="stat-value">${monthPurchases.length}</div>
@@ -545,6 +617,10 @@ function renderStats() {
     <div class="stat-box">
       <div class="stat-value">${totalSpend ? yen(totalSpend) : '—'}</div>
       <div class="stat-label">今月の合計</div>
+    </div>
+    <div class="stat-box">
+      <div class="stat-value">${avgSpend ? yen(avgSpend) : '—'}</div>
+      <div class="stat-label">平均単価</div>
     </div>
     <div class="stat-box">
       <div class="stat-value">${purchases.length}</div>
@@ -615,6 +691,163 @@ function escHtml(s) {
   return String(s || '')
     .replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')
     .replace(/"/g,'&quot;');
+}
+
+// ===== STORE CATEGORY =====
+const CATEGORY_INFO = {
+  cafe:         { label: 'カフェ',   emoji: '☕', cls: 'cat-cafe' },
+  convenience:  { label: 'コンビニ', emoji: '🏪', cls: 'cat-convenience' },
+  super:        { label: 'スーパー', emoji: '🛒', cls: 'cat-super' },
+  restaurant:   { label: '外食',     emoji: '🍽', cls: 'cat-restaurant' },
+  other:        { label: 'その他',   emoji: '📦', cls: 'cat-other' }
+};
+
+function categorizeStore(name) {
+  const n = (name || '').toLowerCase();
+  if (/lawson|ローソン|セブン|seven.?eleven|ファミマ|ファミリーマート|ministop|ミニストップ|デイリーヤマザキ/.test(n))
+    return 'convenience';
+  if (/スターバックス|starbucks|ドトール|タリーズ|コメダ|プロント|珈琲館|カフェ/.test(n))
+    return 'cafe';
+  if (/maruetsu|マルエツ|ライフ|オーケー|業務スーパー|成城石井|イオン|西友|まいばすけっと|ビッグ|ピアゴ/.test(n))
+    return 'super';
+  if (/食堂|定食|レストラン|ラーメン|寿司|焼肉|居酒屋|すき家|マクドナルド|吉野家|松屋|バーガー|サイゼ/.test(n))
+    return 'restaurant';
+  return 'other';
+}
+
+// ===== ANALYSIS =====
+let purchaseAdviceData = null;
+
+async function loadAdvice() {
+  try {
+    const res = await fetch(`${DATA_BASE_URL}purchase-advice.json?_=${Date.now()}`, { cache: 'no-store' });
+    if (res.ok) purchaseAdviceData = await res.json();
+  } catch { /* no advice yet */ }
+}
+
+function analyzeCategories(purchases) {
+  const cats = {};
+  purchases.forEach(p => {
+    const c = categorizeStore(p.store);
+    if (!cats[c]) cats[c] = { total: 0, count: 0 };
+    cats[c].total += (p.total || 0);
+    cats[c].count++;
+  });
+  return cats;
+}
+
+function detectPatterns(purchases) {
+  const patterns = [];
+  const cafePurchases = purchases.filter(p => categorizeStore(p.store) === 'cafe');
+  const convPurchases = purchases.filter(p => categorizeStore(p.store) === 'convenience');
+
+  // カフェ習慣
+  if (cafePurchases.length >= 3) {
+    const totalCafe = cafePurchases.reduce((s, p) => s + (p.total || 0), 0);
+    const avgCafe = Math.round(totalCafe / cafePurchases.length);
+    const monthlyEst = Math.round(avgCafe * (cafePurchases.length / 7) * 30);
+    patterns.push({
+      emoji: '☕', title: 'カフェ習慣',
+      detail: `7日間で${cafePurchases.length}回のカフェ利用（平均¥${avgCafe.toLocaleString()}）。月換算で約¥${monthlyEst.toLocaleString()}の支出見込み。`,
+      tip: 'コーヒーを持参する日を増やすと月¥3,000〜5,000の節約に'
+    });
+  } else if (cafePurchases.length >= 1) {
+    patterns.push({ emoji: '☕', title: 'カフェ習慣', accumulating: true });
+  }
+
+  // コンビニ利用
+  if (convPurchases.length >= 3) {
+    const totalConv = convPurchases.reduce((s, p) => s + (p.total || 0), 0);
+    const avgConv = Math.round(totalConv / convPurchases.length);
+    patterns.push({
+      emoji: '🏪', title: 'コンビニ利用',
+      detail: `7日間で${convPurchases.length}回のコンビニ利用（合計¥${totalConv.toLocaleString()}、平均¥${avgConv.toLocaleString()}）。`,
+      tip: '必要品をリストにしてから入店すると余分な購入を減らせる'
+    });
+  } else if (convPurchases.length >= 1) {
+    patterns.push({ emoji: '🏪', title: 'コンビニ利用', accumulating: true });
+  }
+
+  // 時間帯分析（17時以降）
+  const timed = purchases.filter(p => p.time);
+  const evening = timed.filter(p => parseInt(p.time.split(':')[0]) >= 17);
+  if (timed.length >= 3 && evening.length >= 3) {
+    const pct = Math.round(evening.length / timed.length * 100);
+    patterns.push({
+      emoji: '🌙', title: '夕方〜夜の買い物集中',
+      detail: `記録${timed.length}件中${evening.length}件（${pct}%）が17時以降の購入。空腹時の買い物は衝動買いにつながりやすい。`,
+      tip: '夕食前の買い物は事前にメモアプリで品目を確認しておくと効果的'
+    });
+  }
+
+  return patterns;
+}
+
+function renderAnalysis() {
+  const purchases = purchasesData.purchases || [];
+  if (purchases.length < 2) {
+    document.getElementById('analysis-card').style.display = 'none';
+    return;
+  }
+  document.getElementById('analysis-card').style.display = '';
+
+  // カテゴリ別支出バー
+  const cats = analyzeCategories(purchases);
+  const totalAll = Object.values(cats).reduce((s, c) => s + c.total, 0);
+  const catOrder = ['cafe', 'convenience', 'super', 'restaurant', 'other'];
+  document.getElementById('category-bars').innerHTML = catOrder
+    .filter(c => cats[c])
+    .map(c => {
+      const { total, count } = cats[c];
+      const info = CATEGORY_INFO[c];
+      const pct = totalAll > 0 ? Math.round(total / totalAll * 100) : 0;
+      return `<div class="cat-row">
+        <div class="cat-row-header">
+          <span class="cat-name">${info.emoji} ${info.label}</span>
+          <span class="cat-meta">¥${total.toLocaleString()} (${pct}% · ${count}回)</span>
+        </div>
+        <div class="cat-track"><div class="cat-fill ${info.cls}" style="width:${pct}%"></div></div>
+      </div>`;
+    }).join('');
+
+  // 検出パターン
+  const patterns = detectPatterns(purchases);
+  document.getElementById('pattern-cards').innerHTML = patterns.map(p => {
+    if (p.accumulating) {
+      return `<div class="pattern-card">
+        <div class="pattern-header">
+          <span class="pattern-emoji">${p.emoji}</span>
+          <span class="pattern-title">${p.title}</span>
+        </div>
+        <div class="pattern-accumulating">データ蓄積中… もう少し記録を続けると分析できます</div>
+      </div>`;
+    }
+    return `<div class="pattern-card">
+      <div class="pattern-header">
+        <span class="pattern-emoji">${p.emoji}</span>
+        <span class="pattern-title">${escHtml(p.title)}</span>
+      </div>
+      <div class="pattern-detail">${escHtml(p.detail)}</div>
+      <div class="pattern-tip">💡 ${escHtml(p.tip)}</div>
+    </div>`;
+  }).join('');
+
+  // AI アドバイス
+  const adviceWrap = document.getElementById('ai-advice-wrap');
+  if (purchaseAdviceData) {
+    const d = purchaseAdviceData;
+    const tipsHtml = (d.tips || []).map(t => `<li>${escHtml(t)}</li>`).join('');
+    const genDate = d.generated
+      ? new Date(d.generated).toLocaleDateString('ja-JP', { month: 'numeric', day: 'numeric', hour: '2-digit', minute: '2-digit' })
+      : '';
+    adviceWrap.innerHTML = `<div class="ai-advice-card">
+      ${genDate ? `<div class="ai-advice-generated">AI分析 ${genDate}</div>` : ''}
+      <div class="ai-advice-headline">${escHtml(d.headline || '')}</div>
+      <ul class="ai-advice-tips">${tipsHtml}</ul>
+    </div>`;
+  } else {
+    adviceWrap.innerHTML = '';
+  }
 }
 
 // ===== RELOAD =====
