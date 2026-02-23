@@ -32,9 +32,9 @@
       background: var(--bg);
       color: var(--text);
       min-height: 100vh;
-      overflow-x: hidden;
       -webkit-font-smoothing: antialiased;
     }
+    .main { overflow-x: hidden; }
     .header {
       position: fixed; top: 0; left: 0; right: 0;
       background: var(--green-dark);
@@ -113,11 +113,6 @@
       vertical-align: middle; margin-right: 5px;
     }
     @keyframes spin { to { transform: rotate(360deg); } }
-    .history-item {
-      border-bottom: 1px solid var(--border);
-      padding: 10px 0;
-    }
-    .history-item:last-child { border-bottom: none; }
     .history-header {
       display: flex; align-items: baseline; justify-content: space-between;
       margin-bottom: 4px;
@@ -166,11 +161,14 @@
     .history-item {
       cursor: pointer;
       -webkit-tap-highlight-color: transparent;
+      touch-action: manipulation;
       transition: background 0.1s;
       border-radius: 8px;
       margin: 0 -8px;
       padding: 10px 8px;
+      border-bottom: 1px solid var(--border);
     }
+    .history-item:last-child { border-bottom: none; }
     .history-item:active { background: var(--bg); }
 
     /* ===== DETAIL MODAL ===== */
