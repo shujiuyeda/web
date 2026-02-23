@@ -259,7 +259,11 @@
     },
     "2026-02-23": {
         "water": 2.5,
-        "bowel": { "status": "hard", "time": "10:48", "note": "少量・やや固め。朝一は固め傾向" },
+        "bowel": {
+            "status": "hard",
+            "time": "10:48",
+            "note": "少量・やや固め。朝一は固め傾向"
+        },
         "mood": null,
         "energy": 2.3,
         "weather": "sunny",
@@ -267,7 +271,7 @@
         "body_note": "パーソナル翌日: お尻・右肩後ろ・腰張り。右肩継続",
         "steps": 1219,
         "rhr": 56,
-        "hrv": 27.1,
+        "hrv": 33.2,
         "stride": null,
         "walkSpeed": null,
         "walkDistance": 0.77,
