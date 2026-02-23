@@ -258,7 +258,7 @@
         "walkHR": 90
     },
     "2026-02-23": {
-        "water": 0.4,
+        "water": 1.8,
         "bowel": { "status": "hard", "time": "10:48", "note": "少量・やや固め。朝一は固め傾向" },
         "mood": null,
         "energy": 2.3,
