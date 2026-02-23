@@ -1767,8 +1767,9 @@ function renderMeals(container) {
   html += renderOverallBanner();
 
   // 今日の水分バー（kcalカードの直前）
-  if (adviceData && adviceData.todayWater) {
-    const tw = adviceData.todayWater;
+  const _tw = adviceData && (adviceData.todayWater || (adviceData.gut && adviceData.gut.todayWater));
+  if (_tw) {
+    const tw = _tw;
     const wmax = tw.max || tw.target;
     const wpct = Math.min(100, Math.round(tw.current / wmax * 100));
     const targetPct = Math.min(100, Math.round(tw.target / wmax * 100));
