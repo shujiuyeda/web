@@ -438,6 +438,9 @@
     .outlook-bar-fill {
       height: 100%; border-radius: 2px;
     }
+    .outlook-need {
+      font-size: 10px; opacity: 0.7; margin-top: 4px;
+    }
 
     /* ── Section spacer ── */
     .section-gap { height: 4px; }
@@ -609,6 +612,12 @@ function renderHero(d) {
           <div class="outlook-value ${valClass}">${estimateMark}${valStr}</div>
           ${o.estimated ? '<div class="outlook-estimated">推定</div>' : '<div class="outlook-estimated">&nbsp;</div>'}
           <div class="outlook-bar"><div class="outlook-bar-fill" style="width:${barPct}%;background:${barColor}"></div></div>
+          ${(() => {
+            if (o.balance === null || o.balance >= d.safetyLine) return '';
+            const need = Math.round(d.safetyLine - o.balance);
+            const tilde = o.estimated ? '~' : '';
+            return `<div class="outlook-need">+${need}万必要${tilde}</div>`;
+          })()}
         </div>`;
     }).join('');
     outlookHtml = `<div class="hero-outlook">${items}</div>`;
