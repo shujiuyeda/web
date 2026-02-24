@@ -764,7 +764,7 @@ function renderCashflowTab(d) {
 
 // ── Main render ──
 function render(d) {
-  document.getElementById('updatedAt').textContent = fmtUpdated(d.updated);
+  document.getElementById('updatedAt').textContent = fmtUpdated(new Date().toISOString());
   const main = document.getElementById('mainContent');
   main.innerHTML = '';
   if (currentTab === 'cashflow') renderCashflowTab(d);
