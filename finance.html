@@ -507,6 +507,21 @@
       font-size: 13px;
     }
 
+    /* ── Biz Checklist ── */
+    .biz-checklist-cat { font-size: 12px; font-weight: 700; margin: 10px 0 4px; }
+    .biz-checklist-cat:first-child { margin-top: 0; }
+    .biz-checklist-item {
+      display: flex; align-items: center; gap: 8px;
+      padding: 7px 0; border-bottom: 1px solid var(--border);
+      font-size: 13px;
+    }
+    .biz-checklist-item:last-child { border-bottom: none; }
+    .biz-checklist-item.done { opacity: 0.45; text-decoration: line-through; }
+    .biz-checklist-check { font-size: 14px; flex-shrink: 0; }
+    .biz-checklist-label { flex: 1; }
+    .biz-checklist-amount { font-size: 12px; font-weight: 700; color: var(--green-mid); }
+    .biz-checklist-progress { font-size: 11px; color: var(--text-muted); margin-top: 8px; }
+
     /* ── Roadmap ── */
     .roadmap-timeline {
       display: flex; align-items: center; justify-content: space-between;
@@ -1312,6 +1327,49 @@ function renderTarget(d) {
   return el;
 }
 
+// ── Biz Checklist ──
+function renderBizChecklist(d) {
+  const el = document.createElement('div');
+  el.className = 'card';
+
+  const list = d.bizChecklist;
+  if (!list || list.length === 0) return el;
+
+  const doneCount = list.filter(i => i.done).length;
+  const total = list.length;
+
+  const cats = [
+    { key: 'cash',    label: '🔴 今月の売上確保' },
+    { key: 'service', label: '🟡 サービス商品化' },
+    { key: 'content', label: '🟢 発信・信頼構築' },
+    { key: 'product', label: '🔵 スケーラブル商品' },
+  ];
+
+  let html = `<div class="card-title">ビジネスアクション <span style="font-weight:400;font-size:10px;color:var(--text-muted);">${doneCount}/${total}完了</span></div>`;
+
+  cats.forEach(cat => {
+    const items = list.filter(i => i.cat === cat.key);
+    if (items.length === 0) return;
+    html += `<div class="biz-checklist-cat">${cat.label}</div>`;
+    items.forEach(item => {
+      const doneClass = item.done ? ' done' : '';
+      const check = item.done ? '☑' : '☐';
+      const amountHtml = (item.amount != null)
+        ? `<span class="biz-checklist-amount">${item.amount}万</span>`
+        : '';
+      html += `
+        <div class="biz-checklist-item${doneClass}">
+          <span class="biz-checklist-check">${check}</span>
+          <span class="biz-checklist-label">${item.label}</span>
+          ${amountHtml}
+        </div>`;
+    });
+  });
+
+  el.innerHTML = html;
+  return el;
+}
+
 // ── Roadmap ──
 function renderRoadmap(d) {
   const el = document.createElement('div');
@@ -1503,6 +1561,9 @@ function renderBusinessTab(d) {
       <div style="font-size:11px;opacity:0.6;">${likelyPct}%</div>
     </div>
   `;
+  // A0: Biz Checklist (top of business tab)
+  if (d.bizChecklist) main.appendChild(renderBizChecklist(d));
+
   main.appendChild(heroEl);
 
   // B: Pipeline card

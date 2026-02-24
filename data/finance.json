@@ -120,5 +120,23 @@
     "nextMilestone": "アイフル②完済が最優先"
   },
   "targetMonthly": 125,
-  "targetAnnual": 1500
+  "targetAnnual": 1500,
+  "bizChecklist": [
+    { "id": "bc1",  "label": "プロモーション完了",           "cat": "cash",    "amount": 30,  "done": false },
+    { "id": "bc2",  "label": "100万の依頼をする",            "cat": "cash",    "amount": 100, "done": false },
+    { "id": "bc3",  "label": "さとゆみCC環境構築",           "cat": "cash",    "amount": 5,   "done": false },
+    { "id": "bc4",  "label": "未請求を回収する",             "cat": "cash",    "amount": 8,   "done": false },
+    { "id": "bc5",  "label": "CC導入支援4名を推進",          "cat": "cash",    "amount": 20,  "done": false },
+    { "id": "bc6",  "label": "CC導入サービス募集ページ作成",  "cat": "service", "done": false },
+    { "id": "bc7",  "label": "月額サポート契約を設計",        "cat": "service", "done": false },
+    { "id": "bc8",  "label": "ミヒロ日常プロモ仕組み化",     "cat": "service", "done": false },
+    { "id": "bc9",  "label": "X Bio + 固定ポスト更新",       "cat": "content", "done": false },
+    { "id": "bc10", "label": "X投稿 まず10本出す",           "cat": "content", "done": false },
+    { "id": "bc11", "label": "note記事 週1本開始",           "cat": "content", "done": false },
+    { "id": "bc12", "label": "Mailchimpメールリスト構築",    "cat": "content", "done": false },
+    { "id": "bc13", "label": "CC設定オンライン講座の企画",   "cat": "product", "done": false },
+    { "id": "bc14", "label": "Mailchimp基礎講座作成",        "cat": "product", "done": false },
+    { "id": "bc15", "label": "オリ講座「伝わる言葉」完成",   "cat": "product", "done": false },
+    { "id": "bc16", "label": "ターゲット業界を決める",       "cat": "product", "done": false }
+  ]
 }
