@@ -385,6 +385,13 @@
       transition: width 0.4s;
     }
     .milestone-list { display: flex; flex-direction: column; gap: 10px; }
+    .weekly-target-table { width:100%; border-collapse:collapse; margin-top:10px; font-size:12px; }
+    .weekly-target-table th { text-align:right; padding:4px 6px; color:var(--text-muted); font-weight:600; border-bottom:1px solid var(--border); white-space:nowrap; }
+    .weekly-target-table th:first-child { text-align:left; }
+    .weekly-target-table td { padding:5px 6px; text-align:right; }
+    .weekly-target-table td:first-child { text-align:left; }
+    .wt-current { background:var(--green-pale); font-weight:700; }
+    .wt-achieved td { color:var(--green-mid); font-weight:700; }
     .milestone-item {
       display: flex; align-items: center; gap: 10px; font-size: 14px;
     }
@@ -805,16 +812,21 @@ TARGETS.cMax = Math.round(TARGETS.pfcC/100 * TARGETS.kcalMax / 4);  // 225
 TARGETS.satFatMax = Math.round(TARGETS.satFatPct/100 * TARGETS.kcalMax / 9);  // 14g
 TARGETS.unsatFatMin = TARGETS.fMin - TARGETS.satFatMax;  // 33g
 const MILESTONES = [
-  { label:"10日後チェック",   weight:87.7, date:"2026-02-23" },
-  { label:"20日後チェック",   weight:87.0, date:"2026-03-05" },
-  { label:"30日後チェック",   weight:86.3, date:"2026-03-15" },
-  { label:"60日後チェック",   weight:84.25, date:"2026-04-14" },
-  { label:"脂肪肝改善（7%減）", weight:82.2, date:"2026-05-14" },
-  { label:"80の壁を切る",     weight:79.9, date:"2026-12-31" },
-  { label:"最終目標 75kg",    weight:75.0, date:"2027-03-31" },
+  { label:"脂肪肝改善（7%減）", weight:82.2, date:"2026-06-22" },
+  { label:"80の壁を切る",     weight:79.9, date:"2026-08-15" },
+  { label:"75kgを切る",       weight:74.9, date:"2026-12-09" },
+  { label:"72kgを切る",       weight:71.9, date:"2027-02-17" },
+  { label:"最終目標 70kg",    weight:70.0, date:"2027-04-03" },
+];
+const WEEKLY_TARGETS = [
+  { week:1, date:"2026-03-02", highProb:87.0, bonus:86.9 },
+  { week:2, date:"2026-03-09", highProb:86.7, bonus:86.5 },
+  { week:3, date:"2026-03-16", highProb:86.4, bonus:86.1 },
+  { week:4, date:"2026-03-23", highProb:86.1, bonus:85.7 },
+  { week:5, date:"2026-03-30", highProb:85.8, bonus:85.3 },
 ];
 const START_WEIGHT = 88.0;
-const GOAL_WEIGHT = 75.0;
+const GOAL_WEIGHT = 70.0;
 const SUPPL_DOSING = {
   mg: { perCapsule: 87.5, maxCapsules: 4 },
   psyllium: { fiberPerCapsule: 0.55, capPerServing: 5, maxServings: 3 }
@@ -2525,8 +2537,51 @@ function renderWeight(container) {
     container.innerHTML += histHtml;
   }
 
-  // Milestones
-  let msHtml = `<div class="card"><div class="card-title">マイルストーン</div><div class="milestone-list">`;
+  // Short-term weekly targets (5-week table)
+  {
+    const today = new Date(); today.setHours(0,0,0,0);
+    // Find current week index (first week whose date >= today)
+    let currentWeekIdx = -1;
+    for (let i = 0; i < WEEKLY_TARGETS.length; i++) {
+      const d = new Date(WEEKLY_TARGETS[i].date + 'T00:00:00');
+      if (d >= today) { currentWeekIdx = i; break; }
+    }
+    let wtHtml = `<div class="card"><div class="card-title">短期目標（5週間）</div>
+      <table class="weekly-target-table">
+        <thead><tr>
+          <th>週末</th><th>状態</th><th>高確率<br><span style="font-weight:400;font-size:10px;">-0.3kg/週</span></th><th>ボーナス<br><span style="font-weight:400;font-size:10px;">-0.4kg/週</span></th>
+        </tr></thead><tbody>`;
+    WEEKLY_TARGETS.forEach((wt, i) => {
+      const wtDate = new Date(wt.date + 'T00:00:00');
+      const isPast = wtDate < today;
+      const isCurrent = i === currentWeekIdx;
+      const achieved = latestW != null && latestW <= wt.highProb;
+      const bonusAchieved = latestW != null && latestW <= wt.bonus;
+      let icon, rowCls;
+      if (isPast && achieved) { icon = '✅'; rowCls = 'wt-achieved'; }
+      else if (isPast && bonusAchieved) { icon = '🎯'; rowCls = 'wt-achieved'; }
+      else if (isPast) { icon = '△'; rowCls = ''; }
+      else if (isCurrent) { icon = '→'; rowCls = 'wt-current'; }
+      else { icon = '○'; rowCls = ''; }
+      const [,mm,dd] = wt.date.split('-');
+      const highProbCell = (isPast && achieved) || (!isPast && latestW != null && latestW <= wt.highProb)
+        ? `<td style="color:var(--green-mid);font-weight:700;">${wt.highProb}kg ✅</td>`
+        : `<td>${wt.highProb}kg</td>`;
+      const bonusCell = (isPast && bonusAchieved) || (!isPast && latestW != null && latestW <= wt.bonus)
+        ? `<td style="color:var(--green-mid);font-weight:700;">${wt.bonus}kg 🎯</td>`
+        : `<td>${wt.bonus}kg</td>`;
+      wtHtml += `<tr class="${rowCls}">
+        <td>${mm}/${dd}</td><td style="text-align:center;">${icon}</td>${highProbCell}${bonusCell}
+      </tr>`;
+    });
+    wtHtml += `</tbody></table>
+      <div style="font-size:10px;color:var(--text-muted);margin-top:6px;">起点: 87.25kg（2/24）</div>
+    </div>`;
+    container.innerHTML += wtHtml;
+  }
+
+  // Long-term Milestones
+  let msHtml = `<div class="card"><div class="card-title">長期マイルストーン</div><div class="milestone-list">`;
   MILESTONES.forEach(m => {
     const achieved = latestW != null && latestW <= m.weight;
     const isNext = m === nextMS;
