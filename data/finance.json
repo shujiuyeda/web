@@ -1,5 +1,5 @@
 {
-  "updated": "2026-02-24T23:49:00",
+  "updated": "2026-02-24T23:57:00",
   "cashOnHand": 0,
   "safetyLine": 80,
   "parentLoan": { "amount": 100, "expectedDate": "2026-02-25", "received": false },
@@ -29,7 +29,8 @@
     { "id": "i1", "name": "定期報酬", "amount": 10, "status": "confirmed", "timing": "3/1", "received": false },
     { "id": "i2", "name": "プロモーション", "amount": 30, "status": "likely", "timing": "3月中", "received": false },
     { "id": "i3", "name": "未請求回収", "amount": 8, "status": "estimating", "timing": "請求次第", "received": false },
-    { "id": "i4", "name": "CC導入支援 4名", "amount": 20, "status": "pipeline", "timing": "実施次第", "received": false }
+    { "id": "i4", "name": "CC導入支援 4名", "amount": 20, "status": "pipeline", "timing": "実施次第", "received": false },
+    { "id": "i5", "name": "売掛金", "amount": 3, "status": "confirmed", "timing": "3/31", "received": false }
   ],
   "cashflow": [
     { "date": "2026-02-24", "event": "現在", "delta": 0, "balance": 0, "type": "current" },
@@ -41,7 +42,8 @@
     { "date": "2026-03-20", "event": "未請求", "delta": 8, "balance": 68.34, "type": "income" },
     { "date": "2026-03-27", "event": "支払③", "delta": -28.36, "balance": 39.98, "type": "payment" },
     { "date": "2026-03-28", "event": "生活費", "delta": -15, "balance": 24.98, "type": "expense" },
-    { "date": "2026-03-30", "event": "CC導入", "delta": 20, "balance": 44.98, "type": "income" }
+    { "date": "2026-03-30", "event": "CC導入", "delta": 20, "balance": 44.98, "type": "income" },
+    { "date": "2026-03-31", "event": "売掛金", "delta": 3, "balance": 47.98, "type": "income" }
   ],
   "debt": {
     "total": 990,
