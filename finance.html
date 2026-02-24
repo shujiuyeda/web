@@ -369,6 +369,45 @@
     .budget-subtotals .b-diff.over { color: var(--danger); }
     .budget-subtotals .b-diff.ok { color: var(--success); }
 
+    /* ── Budget Month Nav ── */
+    .budget-month-nav {
+      display: flex; align-items: center; gap: 8px;
+    }
+    .month-nav-btn {
+      background: none; border: 1px solid var(--border);
+      border-radius: 6px; padding: 3px 8px;
+      font-size: 13px; color: var(--text-muted);
+      cursor: pointer; line-height: 1.2;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .month-nav-btn:disabled { opacity: 0.3; cursor: default; }
+    .month-nav-btn:active:not(:disabled) { background: var(--border); }
+    .month-nav-label { font-size: 13px; font-weight: 700; min-width: 34px; text-align: center; }
+
+    /* ── Specials ── */
+    .specials-section {
+      margin-top: 12px; padding-top: 12px;
+      border-top: 1.5px solid var(--border);
+    }
+    .specials-label {
+      font-size: 11px; font-weight: 700; color: var(--text-muted);
+      text-transform: uppercase; letter-spacing: 0.6px; margin-bottom: 8px;
+    }
+    .specials-row {
+      display: flex; align-items: center;
+      padding: 6px 0; border-bottom: 1px solid var(--border);
+      font-size: 14px; gap: 8px;
+    }
+    .specials-row:last-child { border-bottom: none; }
+    .sp-icon { font-size: 16px; flex-shrink: 0; width: 22px; }
+    .sp-name { flex: 1; }
+    .sp-note { font-size: 12px; color: var(--text-muted); margin-right: 4px; }
+    .sp-amount { font-weight: 600; }
+    .specials-total {
+      display: flex; justify-content: flex-end;
+      padding-top: 8px; font-size: 13px; color: var(--text-muted); font-weight: 600;
+    }
+
     /* ── Section spacer ── */
     .section-gap { height: 4px; }
   </style>
@@ -401,6 +440,7 @@ const CACHE_KEY = 'finance_cache';
 const CACHE_TS_KEY = 'finance_cache_ts';
 
 let financeData = null;
+let budgetActiveMonth = null;
 
 // ── Debt account colors (high-rate = red → low-rate = green) ──
 const DEBT_COLORS = ['#DC3545','#E85D04','#F7931E','#F59E0B','#8BC34A','#52B788','#2D6A4F'];
@@ -537,16 +577,35 @@ function renderHero(d) {
 function renderBudget(d) {
   if (!d.budget) return document.createElement('div');
 
+  // Detect month-keyed format (new) vs legacy flat format
+  const isMonthKeyed = !('month' in d.budget) && !('categories' in d.budget);
+
+  let monthKeys, activeMonth, monthData;
+  if (isMonthKeyed) {
+    monthKeys = Object.keys(d.budget).sort();
+    if (!budgetActiveMonth || !d.budget[budgetActiveMonth]) {
+      budgetActiveMonth = monthKeys[monthKeys.length - 1];
+    }
+    activeMonth = budgetActiveMonth;
+    monthData = d.budget[activeMonth];
+  } else {
+    activeMonth = d.budget.month;
+    monthData = { categories: d.budget.categories, specials: [] };
+    monthKeys = [activeMonth];
+  }
+
   const el = document.createElement('div');
   el.className = 'card';
+  el.id = 'budgetCard';
 
-  const cats = d.budget.categories;
+  const cats = monthData.categories;
+  const specials = monthData.specials || [];
   const totalBudget = cats.reduce((s, c) => s + c.budget, 0);
   const filledCats = cats.filter(c => c.actual !== null);
   const totalActual = filledCats.reduce((s, c) => s + c.actual, 0);
   const inputRate = filledCats.length / cats.length;
 
-  // Card budget/actual subtotals
+  // Card/cash subtotals
   const cardCats = cats.filter(c => c.type === 'card');
   const cashCats = cats.filter(c => c.type === 'cash');
   const cardBudget = cardCats.reduce((s, c) => s + c.budget, 0);
@@ -556,11 +615,20 @@ function renderBudget(d) {
   const cardFilledCount = cardCats.filter(c => c.actual !== null).length;
   const cashFilledCount = cashCats.filter(c => c.actual !== null).length;
 
-  // Month display
-  const [yr, mo] = d.budget.month.split('-');
+  // Month nav
+  const moIdx = monthKeys.indexOf(activeMonth);
+  const [, mo] = activeMonth.split('-');
   const moLabel = `${parseInt(mo)}月`;
+  const hasPrev = moIdx > 0;
+  const hasNext = moIdx < monthKeys.length - 1;
+  const navHtml = monthKeys.length > 1 ? `
+    <div class="budget-month-nav">
+      <button class="month-nav-btn" onclick="changeBudgetMonth(-1)" ${hasPrev ? '' : 'disabled'}>◀</button>
+      <span class="month-nav-label">${moLabel}</span>
+      <button class="month-nav-btn" onclick="changeBudgetMonth(1)" ${hasNext ? '' : 'disabled'}>▶</button>
+    </div>` : `<span style="font-size:13px;font-weight:700;color:var(--text-muted)">${moLabel}</span>`;
 
-  // Actual summary display
+  // Displays
   const actualDisplay = filledCats.length > 0 ? `${totalActual.toFixed(2).replace(/\.?0+$/, '')}万` : '—万';
   const budgetDisplay = `${totalBudget.toFixed(2).replace(/\.?0+$/, '')}万`;
 
@@ -588,24 +656,46 @@ function renderBudget(d) {
         <span class="b-budget">${c.budget}万</span>
         <span class="b-arrow-sm">→</span>
         ${actualHtml}${varianceHtml}
-      </div>
-    `;
+      </div>`;
   }).join('');
 
-  // Subtotals
-  function subActualStr(filled, budget, count, total) {
-    return count > 0 ? `${filled.toFixed(2).replace(/\.?0+$/, '')}万` : '—';
+  // Subtotals helpers
+  function subActualStr(actual, count) {
+    return count > 0 ? `${actual.toFixed(2).replace(/\.?0+$/, '')}万` : '—';
   }
   function diffStr(actual, budget, count) {
     if (count === 0) return '';
-    const d = actual - budget;
-    const cls = d > 0 ? 'over' : 'ok';
-    const sign = d > 0 ? '▲' : '▽';
-    return `<span class="b-diff ${cls}">${sign}${Math.abs(d).toFixed(2).replace(/\.?0+$/, '')}万</span>`;
+    const diff = actual - budget;
+    const cls = diff > 0 ? 'over' : 'ok';
+    const sign = diff > 0 ? '▲' : '▽';
+    return `<span class="b-diff ${cls}">${sign}${Math.abs(diff).toFixed(2).replace(/\.?0+$/, '')}万</span>`;
+  }
+
+  // Specials section
+  let specialsHtml = '';
+  if (specials.length > 0) {
+    const specialsTotal = specials.filter(s => s.amount !== null).reduce((sum, s) => sum + s.amount, 0);
+    const hasTotaled = specials.some(s => s.amount !== null);
+    const specialRows = specials.map(s => `
+      <div class="specials-row">
+        <span class="sp-icon">${s.icon}</span>
+        <span class="sp-name">${s.name}</span>
+        ${s.note ? `<span class="sp-note">${s.note}</span>` : ''}
+        <span class="sp-amount">${s.amount !== null ? s.amount + '万' : '—'}</span>
+      </div>`).join('');
+    specialsHtml = `
+      <div class="specials-section">
+        <div class="specials-label">特別出費</div>
+        ${specialRows}
+        ${hasTotaled ? `<div class="specials-total">計: ${specialsTotal}万</div>` : ''}
+      </div>`;
   }
 
   el.innerHTML = `
-    <div class="card-title">支出管理  ${moLabel}</div>
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;">
+      <div class="card-title" style="margin-bottom:0">支出管理</div>
+      ${navHtml}
+    </div>
     <div class="budget-summary">
       <span class="b-label">${budgetDisplay}</span>
       <span class="b-arrow">→</span>
@@ -625,29 +715,44 @@ function renderBudget(d) {
     <div class="budget-subtotals">
       <div class="b-sub-item">
         <span class="b-sub-label">💳 カード</span>
-        <span class="b-sub-val">${cardBudget}万 → ${subActualStr(cardActual, cardBudget, cardFilledCount)}</span>
+        <span class="b-sub-val">${cardBudget}万 → ${subActualStr(cardActual, cardFilledCount)}</span>
         ${diffStr(cardActual, cardBudget, cardFilledCount)}
       </div>
       <div class="b-sub-item" style="text-align:right">
         <span class="b-sub-label">💵 現金</span>
-        <span class="b-sub-val">${cashBudget}万 → ${subActualStr(cashActual, cashBudget, cashFilledCount)}</span>
+        <span class="b-sub-val">${cashBudget}万 → ${subActualStr(cashActual, cashFilledCount)}</span>
         ${diffStr(cashActual, cashBudget, cashFilledCount)}
       </div>
     </div>
+    ${specialsHtml}
   `;
   return el;
+}
+
+function changeBudgetMonth(delta) {
+  const monthKeys = Object.keys(financeData.budget).sort();
+  const idx = monthKeys.indexOf(budgetActiveMonth);
+  const newIdx = idx + delta;
+  if (newIdx < 0 || newIdx >= monthKeys.length) return;
+  budgetActiveMonth = monthKeys[newIdx];
+  const oldCard = document.getElementById('budgetCard');
+  if (oldCard) {
+    const newCard = renderBudget(financeData);
+    oldCard.parentNode.replaceChild(newCard, oldCard);
+  }
 }
 
 function toggleBudgetDetail(btn) {
   const detail = document.getElementById('budgetDetail');
   const icon = btn.querySelector('.expand-icon');
   const label = btn.querySelector('span:first-child');
+  const count = detail.querySelectorAll('.budget-row').length;
   if (detail.classList.toggle('open')) {
     icon.classList.add('open');
     label.textContent = '▼ カテゴリ詳細を閉じる';
   } else {
     icon.classList.remove('open');
-    label.textContent = `▶ カテゴリ詳細 (${document.querySelectorAll('.budget-row').length})`;
+    label.textContent = `▶ カテゴリ詳細 (${count})`;
   }
 }
 

@@ -26,20 +26,44 @@
   ],
   "livingExpense": 6,
   "budget": {
-    "month": "2026-03",
-    "categories": [
-      { "id": "b01", "name": "食費", "budget": 7.5, "actual": null, "icon": "🍽", "type": "card" },
-      { "id": "b02", "name": "サブスク", "budget": 9.5, "actual": null, "icon": "📱", "type": "card" },
-      { "id": "b03", "name": "国民年金", "budget": 1.75, "actual": null, "icon": "🏛", "type": "card" },
-      { "id": "b04", "name": "電気", "budget": 1.1, "actual": null, "icon": "⚡", "type": "card" },
-      { "id": "b05", "name": "ジム", "budget": 0.88, "actual": null, "icon": "💪", "type": "card" },
-      { "id": "b06", "name": "ドコモ", "budget": 0.3, "actual": null, "icon": "📶", "type": "card" },
-      { "id": "b07", "name": "ガス", "budget": 0.12, "actual": null, "icon": "🔥", "type": "card" },
-      { "id": "b08", "name": "NISA", "budget": 1.0, "actual": null, "icon": "📈", "type": "card" },
-      { "id": "b09", "name": "Apple", "budget": 0.5, "actual": null, "icon": "🍎", "type": "card" },
-      { "id": "b10", "name": "パーソナル", "budget": 4.4, "actual": null, "icon": "🏋", "type": "cash" },
-      { "id": "b11", "name": "その他(現金)", "budget": 1.6, "actual": null, "icon": "💵", "type": "cash" }
-    ]
+    "2026-02": {
+      "categories": [
+        { "id": "b01", "name": "食費", "budget": 7.5, "actual": null, "icon": "🍽", "type": "card" },
+        { "id": "b02", "name": "サブスク", "budget": 9.5, "actual": null, "icon": "📱", "type": "card" },
+        { "id": "b03", "name": "国民年金", "budget": 1.75, "actual": null, "icon": "🏛", "type": "card" },
+        { "id": "b04", "name": "電気", "budget": 1.1, "actual": null, "icon": "⚡", "type": "card" },
+        { "id": "b05", "name": "ジム", "budget": 0.88, "actual": null, "icon": "💪", "type": "card" },
+        { "id": "b06", "name": "ドコモ", "budget": 0.3, "actual": null, "icon": "📶", "type": "card" },
+        { "id": "b07", "name": "ガス", "budget": 0.12, "actual": null, "icon": "🔥", "type": "card" },
+        { "id": "b08", "name": "NISA", "budget": 1.0, "actual": null, "icon": "📈", "type": "card" },
+        { "id": "b09", "name": "Apple", "budget": 0.5, "actual": null, "icon": "🍎", "type": "card" },
+        { "id": "b10", "name": "パーソナル", "budget": 4.4, "actual": null, "icon": "🏋", "type": "cash" },
+        { "id": "b11", "name": "その他(現金)", "budget": 1.6, "actual": null, "icon": "💵", "type": "cash" }
+      ],
+      "specials": [
+        { "id": "sp1", "name": "カメラ", "amount": 20, "icon": "📷", "note": "一眼レフ" },
+        { "id": "sp2", "name": "ラグビーWCチケット", "amount": null, "icon": "🏉", "note": "2027年10月大会" }
+      ]
+    },
+    "2026-03": {
+      "categories": [
+        { "id": "b01", "name": "食費", "budget": 7.5, "actual": null, "icon": "🍽", "type": "card" },
+        { "id": "b02", "name": "サブスク", "budget": 9.5, "actual": null, "icon": "📱", "type": "card" },
+        { "id": "b03", "name": "国民年金", "budget": 1.75, "actual": null, "icon": "🏛", "type": "card" },
+        { "id": "b04", "name": "電気", "budget": 1.1, "actual": null, "icon": "⚡", "type": "card" },
+        { "id": "b05", "name": "ジム", "budget": 0.88, "actual": null, "icon": "💪", "type": "card" },
+        { "id": "b06", "name": "ドコモ", "budget": 0.3, "actual": null, "icon": "📶", "type": "card" },
+        { "id": "b07", "name": "ガス", "budget": 0.12, "actual": null, "icon": "🔥", "type": "card" },
+        { "id": "b08", "name": "NISA", "budget": 1.0, "actual": null, "icon": "📈", "type": "card" },
+        { "id": "b09", "name": "Apple", "budget": 0.5, "actual": null, "icon": "🍎", "type": "card" },
+        { "id": "b10", "name": "パーソナル", "budget": 4.4, "actual": null, "icon": "🏋", "type": "cash" },
+        { "id": "b11", "name": "その他(現金)", "budget": 1.6, "actual": null, "icon": "💵", "type": "cash" }
+      ],
+      "specials": [
+        { "id": "sp1", "name": "軽井沢旅行", "amount": null, "icon": "🏔", "note": "今週末" },
+        { "id": "sp2", "name": "温泉旅行", "amount": null, "icon": "♨️", "note": "" }
+      ]
+    }
   },
   "income": [
     { "id": "i1", "name": "定期報酬", "amount": 10, "status": "confirmed", "timing": "3/1", "received": false },
