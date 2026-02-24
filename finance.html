@@ -506,6 +506,86 @@
       display: flex; justify-content: space-between; align-items: baseline;
       font-size: 13px;
     }
+
+    /* ── Roadmap ── */
+    .roadmap-timeline {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 4px 0 12px;
+    }
+    .roadmap-node { display: flex; flex-direction: column; align-items: center; gap: 4px; flex: 0 0 auto; }
+    .roadmap-dot {
+      width: 18px; height: 18px; border-radius: 50%;
+      border: 2.5px solid var(--green-light);
+      background: transparent;
+    }
+    .roadmap-dot.active {
+      background: var(--green-light);
+      box-shadow: 0 0 0 4px rgba(82,183,136,0.25);
+    }
+    .roadmap-dot.future { border-color: var(--border); }
+    .roadmap-node-amount { font-size: 14px; font-weight: 800; color: var(--text); }
+    .roadmap-node-label { font-size: 10px; color: var(--text-muted); }
+    .roadmap-node-now { font-size: 9px; font-weight: 700; color: var(--green-mid); letter-spacing: 0.3px; margin-top: 1px; }
+    .roadmap-line { flex: 1; height: 2px; margin: 0 4px; margin-bottom: 22px; }
+    .roadmap-line.solid { background: var(--green-light); }
+    .roadmap-line.dashed {
+      background: repeating-linear-gradient(90deg, var(--border) 0 5px, transparent 5px 10px);
+    }
+    .roadmap-progress-section {
+      background: var(--green-pale); border-radius: 10px;
+      padding: 10px 12px; margin-top: 4px;
+    }
+    .roadmap-progress-label {
+      display: flex; justify-content: space-between;
+      font-size: 12px; margin-bottom: 6px; font-weight: 600;
+    }
+    .roadmap-progress-bar {
+      height: 8px; border-radius: 4px;
+      background: rgba(27,67,50,0.12); overflow: hidden;
+    }
+    .roadmap-progress-fill {
+      height: 100%; border-radius: 4px;
+      background: var(--green-mid);
+      transition: width 0.5s ease;
+    }
+    .roadmap-progress-pct { font-size: 11px; color: var(--text-muted); margin-top: 4px; }
+    .roadmap-note { font-size: 12px; color: var(--text-muted); margin-top: 8px; }
+
+    /* ── Biz Model Mix ── */
+    .biz-mix-actual-label { font-size: 11px; color: var(--text-muted); margin-bottom: 6px; }
+    .biz-mix-stack {
+      display: flex; border-radius: 6px; overflow: hidden;
+      height: 32px; margin-bottom: 4px;
+    }
+    .biz-mix-segment {
+      display: flex; align-items: center; justify-content: center;
+      font-size: 11px; font-weight: 700; color: white;
+      min-width: 0; overflow: hidden;
+      transition: width 0.5s ease;
+    }
+    .biz-mix-segment.sub { background: var(--green-mid); }
+    .biz-mix-segment.self { background: var(--amber); }
+    .biz-mix-stack-legend {
+      display: flex; gap: 12px; margin-bottom: 14px;
+    }
+    .biz-mix-legend-item { display: flex; align-items: center; gap: 5px; font-size: 11px; color: var(--text-muted); }
+    .biz-mix-legend-dot { width: 8px; height: 8px; border-radius: 50%; }
+    .biz-mix-phase-title { font-size: 11px; font-weight: 700; color: var(--text-muted); margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.5px; }
+    .biz-mix-phase-row {
+      display: flex; align-items: center; gap: 8px;
+      margin-bottom: 8px;
+    }
+    .biz-mix-phase-label { font-size: 12px; font-weight: 600; width: 32px; flex-shrink: 0; color: var(--text); }
+    .biz-mix-phase-bar-wrap { flex: 1; height: 6px; border-radius: 3px; background: var(--border); overflow: hidden; }
+    .biz-mix-phase-bar-fill { height: 100%; border-radius: 3px; background: var(--green-mid); transition: width 0.5s ease; }
+    .biz-mix-phase-ratio { font-size: 11px; color: var(--text-muted); width: 40px; flex-shrink: 0; text-align: right; }
+    .biz-mix-phase-now { font-size: 9px; font-weight: 700; color: var(--green-mid); margin-left: 2px; }
+    .biz-mix-insight {
+      background: #FFF3CD; border-left: 3px solid var(--amber);
+      border-radius: 6px; padding: 8px 10px;
+      font-size: 12px; color: #856404; margin-top: 10px;
+      line-height: 1.5;
+    }
   </style>
 </head>
 <body>
@@ -1232,6 +1312,140 @@ function renderTarget(d) {
   return el;
 }
 
+// ── Roadmap ──
+function renderRoadmap(d) {
+  const el = document.createElement('div');
+  el.className = 'card';
+
+  // Fallback: build single milestone from targetMonthly if no roadmap data
+  const milestones = (d.roadmap && d.roadmap.milestones) ? d.roadmap.milestones : [
+    { id: 'ms1', label: '目標', monthlyTarget: d.targetMonthly || 125, status: 'current', note: '' }
+  ];
+
+  const currentMs = milestones.find(m => m.status === 'current') || milestones[0];
+
+  // Confirmed income for progress (received + confirmed)
+  const confirmedIncome = d.income
+    .filter(i => i.received || i.status === 'received' || i.status === 'confirmed')
+    .reduce((s, i) => s + i.amount, 0);
+  const progressPct = Math.min(100, Math.round(confirmedIncome / currentMs.monthlyTarget * 100));
+
+  // Build timeline nodes
+  function nodeHTML(ms, isLast) {
+    const dotClass = ms.status === 'current' ? 'active' : ms.status === 'future' ? 'future' : '';
+    const nowTag = ms.status === 'current' ? `<div class="roadmap-node-now">▼ NOW</div>` : '';
+    return `<div class="roadmap-node">
+      <div class="roadmap-dot ${dotClass}"></div>
+      <div class="roadmap-node-amount">${ms.monthlyTarget}万</div>
+      <div class="roadmap-node-label">${ms.label}</div>
+      ${nowTag}
+    </div>`;
+  }
+
+  let timelineHTML = '';
+  milestones.forEach((ms, idx) => {
+    timelineHTML += nodeHTML(ms);
+    if (idx < milestones.length - 1) {
+      const lineType = milestones[idx + 1].status === 'future' ? 'dashed' : 'solid';
+      timelineHTML += `<div class="roadmap-line ${lineType}"></div>`;
+    }
+  });
+
+  // Next milestone label
+  const nextMs = milestones.find(m => m.status === 'next');
+  const nextLabel = nextMs ? `次の壁: 月収${nextMs.monthlyTarget}万（${nextMs.label}）` : '';
+
+  el.innerHTML = `
+    <div class="card-title">📍 収入ロードマップ</div>
+    <div class="roadmap-timeline">${timelineHTML}</div>
+    <div class="roadmap-progress-section">
+      <div class="roadmap-progress-label">
+        <span>今月の進捗</span>
+        <span>${confirmedIncome}万 / ${currentMs.monthlyTarget}万</span>
+      </div>
+      <div class="roadmap-progress-bar">
+        <div class="roadmap-progress-fill" style="width:${progressPct}%"></div>
+      </div>
+      <div class="roadmap-progress-pct">${progressPct}%${nextLabel ? ' — ' + nextLabel : ''}</div>
+    </div>
+    ${currentMs.note ? `<div class="roadmap-note">💡 ${currentMs.note}</div>` : ''}
+  `;
+  return el;
+}
+
+// ── Biz Model Mix ──
+function renderBizModelMix(d) {
+  const el = document.createElement('div');
+  el.className = 'card';
+
+  const phases = (d.roadmap && d.roadmap.bizModel && d.roadmap.bizModel.phases)
+    ? d.roadmap.bizModel.phases
+    : [{ id: 'ph1', label: '当面', subscription: 30, selfWork: 70, status: 'current' }];
+
+  // Aggregate actual income by type
+  const subTotal = d.income
+    .filter(i => (i.type || 'project') === 'subscription')
+    .reduce((s, i) => s + i.amount, 0);
+  const nonSubTotal = d.income
+    .filter(i => (i.type || 'project') !== 'subscription')
+    .reduce((s, i) => s + i.amount, 0);
+  const grandTotal = subTotal + nonSubTotal;
+
+  const subPct = grandTotal > 0 ? Math.round(subTotal / grandTotal * 100) : 0;
+  const selfPct = 100 - subPct;
+
+  // Actual stack bar
+  const subWidth = grandTotal > 0 ? subPct : 0;
+  const selfWidth = grandTotal > 0 ? selfPct : 100;
+
+  // Target phase (current)
+  const currentPhase = phases.find(p => p.status === 'current') || phases[0];
+  const targetSubPct = currentPhase.subscription;
+  const neededSubRevenue = grandTotal > 0
+    ? Math.round(grandTotal * targetSubPct / 100 - subTotal)
+    : Math.round((d.targetMonthly || 125) * targetSubPct / 100 - subTotal);
+  const gap = Math.max(0, neededSubRevenue);
+
+  const stackBar = grandTotal > 0
+    ? `<div class="biz-mix-stack">
+        <div class="biz-mix-segment sub" style="width:${subWidth}%">${subPct >= 15 ? subPct + '%' : ''}</div>
+        <div class="biz-mix-segment self" style="width:${selfWidth}%">${selfPct >= 15 ? selfPct + '%' : ''}</div>
+      </div>
+      <div class="biz-mix-stack-legend">
+        <div class="biz-mix-legend-item"><div class="biz-mix-legend-dot" style="background:var(--green-mid)"></div>サブスク ${subTotal}万</div>
+        <div class="biz-mix-legend-item"><div class="biz-mix-legend-dot" style="background:var(--amber)"></div>自力 ${nonSubTotal}万</div>
+      </div>`
+    : `<div style="font-size:12px;color:var(--text-muted);margin-bottom:12px;">（今月の収入データなし）</div>`;
+
+  // Phase bars
+  const phaseBars = phases.map(p => {
+    const nowTag = p.status === 'current' ? `<span class="biz-mix-phase-now">◀NOW</span>` : '';
+    return `<div class="biz-mix-phase-row">
+      <div class="biz-mix-phase-label">${p.label}</div>
+      <div class="biz-mix-phase-bar-wrap">
+        <div class="biz-mix-phase-bar-fill" style="width:${p.subscription}%"></div>
+      </div>
+      <div class="biz-mix-phase-ratio">${p.subscription}:${p.selfWork}${nowTag}</div>
+    </div>`;
+  }).join('');
+
+  // Gap insight
+  const insightHTML = `<div class="biz-mix-insight">
+    💡 サブスク比率 ${subPct}% → 目標 ${targetSubPct}%<br>
+    ${gap > 0 ? `月額 +${gap}万 のサブスク収入が必要` : 'サブスク目標比率を達成中！'}
+  </div>`;
+
+  el.innerHTML = `
+    <div class="card-title">🔄 ビジネスモデルミックス</div>
+    <div class="biz-mix-actual-label">今月の実績（サブスク:自力）</div>
+    ${stackBar}
+    <div class="biz-mix-phase-title">目標比率（サブスク:自力）</div>
+    ${phaseBars}
+    ${insightHTML}
+  `;
+  return el;
+}
+
 // ── Business Tab ──
 function renderBusinessTab(d) {
   const main = document.getElementById('mainContent');
@@ -1329,7 +1543,13 @@ function renderBusinessTab(d) {
   `;
   main.appendChild(pipelineEl);
 
-  // C: Annual target
+  // C: Roadmap (NEW)
+  main.appendChild(renderRoadmap(d));
+
+  // D: Biz Model Mix (NEW)
+  main.appendChild(renderBizModelMix(d));
+
+  // E: Annual target
   main.appendChild(renderTarget(d));
 }
 
