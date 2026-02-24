@@ -72,6 +72,11 @@
     { "id": "i4", "name": "CC導入支援 4名", "amount": 20, "status": "pipeline", "timing": "実施次第", "received": false },
     { "id": "i5", "name": "売掛金", "amount": 3, "status": "confirmed", "timing": "3/31", "received": false }
   ],
+  "outlook": [
+    { "month": "2026-03", "balance": 56.98, "estimated": false },
+    { "month": "2026-04", "balance": -17, "estimated": true },
+    { "month": "2026-05", "balance": -91, "estimated": true }
+  ],
   "cashflow": [
     { "date": "2026-02-24", "event": "現在", "delta": 0, "balance": 0, "type": "current" },
     { "date": "2026-02-25", "event": "親借入", "delta": 100, "balance": 100, "type": "income" },

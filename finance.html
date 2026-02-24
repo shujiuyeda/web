@@ -408,6 +408,37 @@
       padding-top: 8px; font-size: 13px; color: var(--text-muted); font-weight: 600;
     }
 
+    /* ── Hero Outlook ── */
+    .hero-outlook {
+      margin-top: 16px; padding-top: 14px;
+      border-top: 1px solid rgba(255,255,255,0.2);
+      display: flex; gap: 0; justify-content: space-between;
+    }
+    .outlook-item {
+      flex: 1; text-align: center;
+    }
+    .outlook-label {
+      font-size: 11px; opacity: 0.7; margin-bottom: 4px;
+    }
+    .outlook-value {
+      font-size: 18px; font-weight: 800; line-height: 1.2;
+    }
+    .outlook-value.negative { color: #FCA5A5; }
+    .outlook-value.warning { color: #FCD34D; }
+    .outlook-value.ok { color: #86EFAC; }
+    .outlook-estimated {
+      font-size: 10px; opacity: 0.5; font-style: italic;
+    }
+    .outlook-bar {
+      height: 4px; border-radius: 2px;
+      background: rgba(255,255,255,0.15);
+      margin: 6px auto 0; width: 60%;
+      overflow: hidden;
+    }
+    .outlook-bar-fill {
+      height: 100%; border-radius: 2px;
+    }
+
     /* ── Section spacer ── */
     .section-gap { height: 4px; }
   </style>
@@ -544,7 +575,13 @@ function render(d) {
 
 // ── B: Hero ──
 function renderHero(d) {
-  const projection = d.cashflow[d.cashflow.length - 1].balance;
+  // Use outlook[0] as primary if available, otherwise fall back to last cashflow entry
+  const hasOutlook = d.outlook && d.outlook.length > 0;
+  const projection = hasOutlook ? d.outlook[0].balance : d.cashflow[d.cashflow.length - 1].balance;
+  const heroLabel = hasOutlook
+    ? `${parseInt(d.outlook[0].month.split('-')[1])}月末予測`
+    : '3月末予測';
+
   const pct = Math.min(100, Math.round(projection / d.safetyLine * 100));
   const gap = d.safetyLine - projection;
 
@@ -553,10 +590,34 @@ function renderHero(d) {
   else if (gap > 0) { fillColor = '#F59E0B'; gapClass = 'warning'; }
   else { fillColor = '#52B788'; gapClass = 'ok'; }
 
+  // Build outlook section HTML if more than 1 month available
+  let outlookHtml = '';
+  if (hasOutlook && d.outlook.length > 1) {
+    const items = d.outlook.map(o => {
+      const monthLabel = `${parseInt(o.month.split('-')[1])}月末`;
+      const valStr = o.balance === null ? '—' : `${o.balance}万`;
+      const estimateMark = o.estimated ? '~' : '';
+      let valClass = 'ok';
+      if (o.balance === null) valClass = '';
+      else if (o.balance <= 0) valClass = 'negative';
+      else if (o.balance < d.safetyLine) valClass = 'warning';
+      const barPct = o.balance === null ? 0 : Math.max(0, Math.min(100, Math.round(o.balance / d.safetyLine * 100)));
+      const barColor = valClass === 'ok' ? '#86EFAC' : valClass === 'warning' ? '#FCD34D' : '#FCA5A5';
+      return `
+        <div class="outlook-item">
+          <div class="outlook-label">${monthLabel}</div>
+          <div class="outlook-value ${valClass}">${estimateMark}${valStr}</div>
+          ${o.estimated ? '<div class="outlook-estimated">推定</div>' : '<div class="outlook-estimated">&nbsp;</div>'}
+          <div class="outlook-bar"><div class="outlook-bar-fill" style="width:${barPct}%;background:${barColor}"></div></div>
+        </div>`;
+    }).join('');
+    outlookHtml = `<div class="hero-outlook">${items}</div>`;
+  }
+
   const el = document.createElement('div');
   el.className = 'hero-card';
   el.innerHTML = `
-    <div class="hero-label">3月末予測</div>
+    <div class="hero-label">${heroLabel}</div>
     <div class="hero-amount">${projection}<span>万</span></div>
     <div class="hero-progress-wrap">
       <div class="hero-progress-bar">
@@ -569,6 +630,7 @@ function renderHero(d) {
     <div class="hero-gap ${gapClass}">
       ${gap > 0 ? `あと ${gap.toFixed(1)}万 の上積みが必要` : `安全ライン達成 🎉`}
     </div>
+    ${outlookHtml}
   `;
   return el;
 }
