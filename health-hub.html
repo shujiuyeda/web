@@ -821,11 +821,11 @@ TARGETS.cMax = Math.round(TARGETS.pfcC/100 * TARGETS.kcalMax / 4);  // 225
 TARGETS.satFatMax = Math.round(TARGETS.satFatPct/100 * TARGETS.kcalMax / 9);  // 14g
 TARGETS.unsatFatMin = TARGETS.fMin - TARGETS.satFatMax;  // 33g
 const MILESTONES = [
-  { label:"脂肪肝改善（7%減）", weight:82.2, date:"2026-06-22" },
-  { label:"80の壁を切る",     weight:79.9, date:"2026-08-15" },
-  { label:"75kgを切る",       weight:74.9, date:"2026-12-09" },
-  { label:"72kgを切る",       weight:71.9, date:"2027-02-17" },
-  { label:"最終目標 69.9kg",   weight:69.9, date:"2027-04-03" },
+  { label:"脂肪肝改善（7%減）", weight:82.2, bf:27, date:"2026-06-22" },
+  { label:"80の壁を切る",     weight:79.9, bf:25, date:"2026-08-15" },
+  { label:"75kgを切る",       weight:74.9, bf:21, date:"2026-12-09" },
+  { label:"72kgを切る",       weight:71.9, bf:19, date:"2027-02-17" },
+  { label:"最終目標 69.9kg",   weight:69.9, bf:18, date:"2027-04-03" },
 ];
 const WEEKLY_TARGETS = [
   { week:1, date:"2026-03-02", highProb:87.0, bonus:86.9 },
@@ -2646,7 +2646,7 @@ function renderWeight(container) {
           <div class="milestone-name">${m.label}</div>
           <div class="milestone-date">${m.date}</div>
         </div>
-        <div class="milestone-weight ${achieved ? 'achieved' : isNext ? 'next-weight' : ''}">${m.weight}kg</div>
+        <div class="milestone-weight ${achieved ? 'achieved' : isNext ? 'next-weight' : ''}">${m.weight}kg<span style="font-size:11px;font-weight:400;color:var(--text-muted);margin-left:4px;">${m.bf}%</span></div>
       </div>`;
   });
   msHtml += `</div></div><div class="spacer"></div>`;
