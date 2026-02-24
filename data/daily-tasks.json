@@ -34,7 +34,7 @@
       "slot": "morning",
       "priority": 10,
       "minutes": 5,
-      "done": true,
+      "done": false,
       "tag": null
     },
     {
