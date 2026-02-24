@@ -289,7 +289,7 @@
         "walkSpeed": null,
         "vo2max": null,
         "walkHR": null,
-        "water": null,
+        "water": 1.4,
         "bowel": null,
         "mood": null,
         "energy": null,
