@@ -441,6 +441,15 @@
     .outlook-need {
       font-size: 10px; opacity: 0.7; margin-top: 4px;
     }
+    .outlook-summary {
+      margin-top: 12px; padding-top: 10px;
+      border-top: 1px dashed rgba(255,255,255,0.15);
+      text-align: center;
+      font-size: 11px; opacity: 0.7;
+    }
+    .outlook-summary strong {
+      font-size: 14px; opacity: 1; color: #FCA5A5;
+    }
 
     /* ── Section spacer ── */
     .section-gap { height: 4px; }
@@ -621,6 +630,12 @@ function renderHero(d) {
         </div>`;
     }).join('');
     outlookHtml = `<div class="hero-outlook">${items}</div>`;
+
+    // 月間必要売上サマリー
+    const p27 = d.payments.filter(p => p.date.slice(-2) === '27').pop();
+    const p10 = d.payments.filter(p => p.date.slice(-2) === '10').pop();
+    const monthlyExp = (p27 ? p27.amount : 0) + (p10 ? p10.amount : 0) + (d.livingExpense || 0);
+    outlookHtml += `<div class="outlook-summary">月間必要売上 <strong>${Math.round(monthlyExp)}万</strong>/月</div>`;
   }
 
   const el = document.createElement('div');
