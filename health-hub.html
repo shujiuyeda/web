@@ -1194,7 +1194,7 @@ async function tryFetchSuppl(ds) {
 
 async function tryFetchHealthLog() {
   try {
-    const res = await fetch(`${DATA_BASE_URL}health-log.json`, { cache: 'no-store' });
+    const res = await fetch(`${DATA_BASE_URL}health-log.json?_=${Date.now()}`, { cache: 'no-store' });
     if (!res.ok) return;
     const remote = await res.json();
     const local = getHealthLog();
@@ -1202,9 +1202,9 @@ async function tryFetchHealthLog() {
     Object.entries(remote).forEach(([ds, entry]) => {
       if (!local[ds]) { local[ds] = entry; updated = true; }
       else {
-        // リモートの値でnullフィールドだけ補完（ローカルが優先）
+        // リモートの値でサーバーが正として上書き（サーバーがSource of Truth）
         Object.entries(entry).forEach(([k, v]) => {
-          if (local[ds][k] == null && v != null) { local[ds][k] = v; updated = true; }
+          if (v != null && local[ds][k] !== v) { local[ds][k] = v; updated = true; }
         });
       }
     });
@@ -1214,25 +1214,25 @@ async function tryFetchHealthLog() {
 
 async function tryFetchWeights() {
   try {
-    const res = await fetch(`${DATA_BASE_URL}weights.json`, { cache: 'no-store' });
+    const res = await fetch(`${DATA_BASE_URL}weights.json?_=${Date.now()}`, { cache: 'no-store' });
     if (!res.ok) return;
     const remote = await res.json();
     let updated = false;
 
-    // 体重マージ（localが優先）
+    // 体重マージ（サーバーがSource of Truth）
     const localW = getWeights();
     const remoteW = remote.weights || remote; // 旧フォーマット互換
     Object.entries(remoteW).forEach(([ds, w]) => {
-      if (localW[ds] == null) { localW[ds] = w; updated = true; }
+      if (localW[ds] == null || localW[ds] !== w) { localW[ds] = w; updated = true; }
     });
     if (updated) saveWeights(localW);
 
-    // 体脂肪マージ（localが優先）
+    // 体脂肪マージ（サーバーがSource of Truth）
     if (remote.bodyFat) {
       const localBF = getBodyFat();
       let bfUpdated = false;
       Object.entries(remote.bodyFat).forEach(([ds, bf]) => {
-        if (localBF[ds] == null) { localBF[ds] = bf; bfUpdated = true; }
+        if (localBF[ds] == null || localBF[ds] !== bf) { localBF[ds] = bf; bfUpdated = true; }
       });
       if (bfUpdated) saveBodyFat(localBF);
       updated = updated || bfUpdated;
@@ -1266,14 +1266,14 @@ async function tryFetchShopping() {
 
 async function tryFetchSleep() {
   try {
-    const res = await fetch(`${DATA_BASE_URL}sleep.json`, { cache: 'no-store' });
+    const res = await fetch(`${DATA_BASE_URL}sleep.json?_=${Date.now()}`, { cache: 'no-store' });
     if (!res.ok) return;
     const remote = await res.json();
     const local = getSleepData();
     let updated = false;
     Object.entries(remote).forEach(([ds, s]) => {
-      // ローカルにない or リモートにタイムラインがあってローカルにない場合は更新
-      if (local[ds] == null || (s.timeline && !local[ds].timeline)) {
+      // サーバーがSource of Truth: ローカルにない or 内容が異なる場合は更新
+      if (local[ds] == null || JSON.stringify(local[ds]) !== JSON.stringify(s)) {
         local[ds] = s; updated = true;
       }
     });
