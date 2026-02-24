@@ -1,0 +1,843 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <meta name="theme-color" content="#1B4332">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Cash Flow">
+  <title>💰 Cash Flow</title>
+  <link rel="manifest" href="finance-manifest.json">
+  <link rel="apple-touch-icon" href="finance-icon.svg">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --green-dark: #1B4332;
+      --green-mid: #2D6A4F;
+      --green-light: #52B788;
+      --green-pale: #D8F3DC;
+      --bg: #F0F4F0;
+      --card: #FFFFFF;
+      --text: #1A1A2E;
+      --text-muted: #6C757D;
+      --border: #DEE2E6;
+      --danger: #DC3545;
+      --warning: #E5A020;
+      --amber: #F59E0B;
+      --success: #28A745;
+      --safe-top: env(safe-area-inset-top, 0px);
+      --safe-bottom: env(safe-area-inset-bottom, 0px);
+    }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Hiragino Kaku Gothic ProN', 'Hiragino Sans', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ── Header ── */
+    .header {
+      position: fixed; top: 0; left: 0; right: 0;
+      background: var(--green-dark);
+      color: white;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 16px;
+      padding-top: var(--safe-top);
+      height: calc(52px + var(--safe-top));
+      z-index: 100;
+    }
+    .header h1 { font-size: 16px; font-weight: 700; }
+    .header-sub { font-size: 12px; opacity: 0.75; }
+    .header-reload {
+      background: none; border: none; color: white; opacity: 0.75;
+      font-size: 22px; padding: 6px 8px; cursor: pointer;
+      -webkit-tap-highlight-color: transparent;
+      transition: transform 0.1s;
+      display: inline-block; line-height: 1;
+    }
+    .header-reload:active { opacity: 0.4; }
+    .header-reload.spinning { animation: hdr-spin 0.7s linear infinite; }
+    @keyframes hdr-spin { to { transform: rotate(360deg); } }
+
+    /* ── Main ── */
+    .main {
+      padding-top: calc(52px + var(--safe-top));
+      padding-bottom: calc(24px + var(--safe-bottom));
+    }
+
+    /* ── Card ── */
+    .card {
+      background: var(--card); border-radius: 14px;
+      padding: 14px 16px; margin: 8px 12px;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.07);
+    }
+    .card-title {
+      font-size: 11px; font-weight: 700;
+      color: var(--text-muted); text-transform: uppercase;
+      letter-spacing: 0.6px; margin-bottom: 12px;
+    }
+
+    /* ── Hero (dark gradient) ── */
+    .hero-card {
+      background: linear-gradient(135deg, var(--green-dark) 0%, var(--green-mid) 100%);
+      border-radius: 18px;
+      padding: 20px 20px 22px;
+      margin: 10px 12px 8px;
+      color: white;
+      box-shadow: 0 4px 16px rgba(27,67,50,0.35);
+    }
+    .hero-label {
+      font-size: 11px; font-weight: 700;
+      opacity: 0.75; text-transform: uppercase;
+      letter-spacing: 0.8px; margin-bottom: 6px;
+    }
+    .hero-amount {
+      font-size: 52px; font-weight: 800;
+      line-height: 1; letter-spacing: -2px;
+    }
+    .hero-amount span { font-size: 22px; font-weight: 600; margin-left: 3px; }
+    .hero-progress-wrap { margin: 14px 0 10px; }
+    .hero-progress-bar {
+      background: rgba(255,255,255,0.2);
+      border-radius: 8px; height: 10px;
+      overflow: hidden;
+    }
+    .hero-progress-fill {
+      height: 100%; border-radius: 8px;
+      transition: width 0.6s ease;
+    }
+    .hero-progress-labels {
+      display: flex; justify-content: space-between;
+      font-size: 11px; opacity: 0.75; margin-top: 5px;
+    }
+    .hero-gap {
+      font-size: 14px; font-weight: 600;
+      opacity: 0.9; margin-top: 4px;
+    }
+    .hero-gap.danger { color: #FCA5A5; }
+    .hero-gap.warning { color: #FCD34D; }
+    .hero-gap.ok { color: #86EFAC; }
+
+    /* ── Next Payment ── */
+    .payment-card .countdown {
+      font-size: 32px; font-weight: 800;
+      color: var(--danger);
+      line-height: 1;
+    }
+    .payment-card .countdown.ok { color: var(--success); }
+    .payment-card .payment-amount {
+      font-size: 26px; font-weight: 800;
+      color: var(--text); margin-top: 4px;
+    }
+    .payment-card .payment-label {
+      font-size: 13px; color: var(--text-muted); margin-top: 2px;
+    }
+    .payment-card .payment-date {
+      font-size: 13px; font-weight: 600; color: var(--text-muted);
+      margin-top: 8px;
+    }
+    .expand-btn {
+      background: none; border: 1px solid var(--border);
+      border-radius: 8px; padding: 8px 12px;
+      font-size: 13px; color: var(--text-muted);
+      cursor: pointer; width: 100%; text-align: left;
+      margin-top: 12px;
+      -webkit-tap-highlight-color: transparent;
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .expand-btn:active { opacity: 0.7; }
+    .expand-icon { transition: transform 0.2s; }
+    .expand-icon.open { transform: rotate(180deg); }
+    .items-list { display: none; margin-top: 10px; }
+    .items-list.open { display: block; }
+    .item-row {
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 7px 0; border-bottom: 1px solid var(--border);
+      font-size: 14px;
+    }
+    .item-row:last-child { border-bottom: none; }
+    .item-amount { font-weight: 600; }
+
+    /* ── All Payments List ── */
+    .payment-timeline { margin-top: 4px; }
+    .payment-item {
+      display: flex; align-items: flex-start;
+      padding: 10px 0; border-bottom: 1px solid var(--border);
+      gap: 12px;
+    }
+    .payment-item:last-child { border-bottom: none; }
+    .payment-dot {
+      width: 10px; height: 10px; border-radius: 50%;
+      background: var(--danger); flex-shrink: 0; margin-top: 5px;
+    }
+    .payment-dot.paid { background: var(--success); }
+    .payment-item-info { flex: 1; }
+    .payment-item-date { font-size: 12px; color: var(--text-muted); }
+    .payment-item-label { font-size: 14px; font-weight: 600; margin-top: 1px; }
+    .payment-item-amount { font-size: 16px; font-weight: 700; white-space: nowrap; }
+    .payment-item-amount.paid { text-decoration: line-through; color: var(--success); }
+    .paid-badge {
+      font-size: 10px; background: #D1FAE5; color: #065F46;
+      border-radius: 4px; padding: 2px 6px; margin-left: 6px;
+      font-weight: 600;
+    }
+
+    /* ── Income Pipeline ── */
+    .pipeline-item {
+      display: flex; align-items: center;
+      padding: 9px 0; border-bottom: 1px solid var(--border);
+      gap: 10px;
+    }
+    .pipeline-item:last-child { border-bottom: none; }
+    .status-badge {
+      font-size: 10px; font-weight: 700;
+      border-radius: 5px; padding: 3px 7px;
+      white-space: nowrap; flex-shrink: 0;
+    }
+    .status-confirmed { background: #D1FAE5; color: #065F46; }
+    .status-likely { background: #FEF3C7; color: #92400E; }
+    .status-estimating { background: #FFF7ED; color: #C2410C; }
+    .status-pipeline { background: #FED7AA; color: #9A3412; }
+    .status-received { background: #F0FDF4; color: #15803D; text-decoration: line-through; }
+    .pipeline-name { flex: 1; font-size: 14px; font-weight: 600; }
+    .pipeline-name.received { text-decoration: line-through; color: var(--text-muted); }
+    .pipeline-right { text-align: right; }
+    .pipeline-amount { font-size: 16px; font-weight: 700; }
+    .pipeline-timing { font-size: 11px; color: var(--text-muted); }
+    .pipeline-summary {
+      display: flex; justify-content: space-between;
+      padding-top: 12px; margin-top: 4px;
+      border-top: 1.5px solid var(--border);
+      font-size: 13px;
+    }
+    .pipeline-summary .confirmed { color: var(--success); font-weight: 700; }
+    .pipeline-summary .total { color: var(--text-muted); }
+
+    /* ── SVG Chart ── */
+    .chart-wrap {
+      overflow: hidden; position: relative;
+    }
+    .chart-wrap svg { display: block; width: 100%; }
+    .chart-legend {
+      display: flex; gap: 12px; flex-wrap: wrap;
+      margin-top: 10px;
+    }
+    .legend-item {
+      display: flex; align-items: center; gap: 5px;
+      font-size: 11px; color: var(--text-muted);
+    }
+    .legend-dot {
+      width: 8px; height: 8px; border-radius: 50%;
+    }
+
+    /* ── Debt ── */
+    .debt-header {
+      display: flex; justify-content: space-between;
+      align-items: flex-start; margin-bottom: 14px;
+    }
+    .debt-total { font-size: 32px; font-weight: 800; color: var(--text); }
+    .debt-total span { font-size: 16px; font-weight: 600; color: var(--text-muted); margin-left: 2px; }
+    .debt-sub { font-size: 12px; color: var(--text-muted); margin-top: 2px; }
+    .debt-meta { text-align: right; }
+    .debt-meta .monthly { font-size: 16px; font-weight: 700; color: var(--danger); }
+    .debt-meta .interest { font-size: 12px; color: var(--text-muted); }
+    .debt-stack-wrap { margin: 4px 0 12px; }
+    .debt-stack-bar {
+      height: 14px; border-radius: 8px;
+      overflow: hidden; display: flex;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    }
+    .debt-stack-seg { height: 100%; }
+    .debt-accounts { margin-top: 10px; }
+    .debt-account-row {
+      display: flex; align-items: center;
+      padding: 5px 0; font-size: 13px; gap: 8px;
+    }
+    .debt-account-dot { width: 8px; height: 8px; border-radius: 2px; flex-shrink: 0; }
+    .debt-account-name { flex: 1; }
+    .debt-account-balance { font-weight: 600; }
+    .debt-account-rate { font-size: 11px; color: var(--text-muted); margin-left: 4px; }
+    .debt-milestone {
+      margin-top: 12px; padding: 10px 12px;
+      background: var(--green-pale); border-radius: 10px;
+      font-size: 13px; color: var(--green-dark); font-weight: 600;
+    }
+
+    /* ── Target Footer ── */
+    .target-card {
+      background: var(--green-dark);
+      border-radius: 14px;
+      padding: 16px 20px;
+      margin: 8px 12px;
+      color: white;
+      text-align: center;
+    }
+    .target-card .main-target {
+      font-size: 18px; font-weight: 800; margin-bottom: 4px;
+    }
+    .target-card .sub-target {
+      font-size: 13px; opacity: 0.75;
+    }
+
+    /* ── Pull to refresh ── */
+    .ptr-indicator {
+      text-align: center; padding: 12px;
+      font-size: 13px; color: var(--text-muted);
+      opacity: 0; transition: opacity 0.2s;
+      position: fixed; top: calc(52px + var(--safe-top)); left: 0; right: 0;
+      background: var(--bg); z-index: 50;
+      pointer-events: none;
+    }
+    .ptr-indicator.visible { opacity: 1; }
+
+    /* ── Loading ── */
+    .loading-wrap {
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      padding: 60px 20px;
+      color: var(--text-muted); font-size: 14px;
+    }
+    .loading-spinner {
+      width: 32px; height: 32px; border-radius: 50%;
+      border: 3px solid var(--border);
+      border-top-color: var(--green-light);
+      animation: spin 0.8s linear infinite;
+      margin-bottom: 12px;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* ── All Payments toggle ── */
+    .all-payments-toggle {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 10px 0 0;
+      font-size: 13px; color: var(--green-mid); font-weight: 600;
+      cursor: pointer;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .all-payments-section { display: none; margin-top: 8px; }
+    .all-payments-section.open { display: block; }
+
+    /* ── Section spacer ── */
+    .section-gap { height: 4px; }
+  </style>
+</head>
+<body>
+
+<!-- Header -->
+<div class="header">
+  <div>
+    <h1>💰 Cash Flow</h1>
+    <div class="header-sub" id="updatedAt">読み込み中...</div>
+  </div>
+  <button class="header-reload" id="reloadBtn" onclick="reload()" title="更新">↻</button>
+</div>
+
+<!-- Pull to Refresh -->
+<div class="ptr-indicator" id="ptrIndicator">↓ 引っ張って更新</div>
+
+<!-- Main -->
+<div class="main" id="mainContent">
+  <div class="loading-wrap" id="loadingWrap">
+    <div class="loading-spinner"></div>
+    <div>データを読み込んでいます...</div>
+  </div>
+</div>
+
+<script>
+const DATA_BASE_URL = 'https://shuji-ueda.github.io/web/data/finance.json';
+const CACHE_KEY = 'finance_cache';
+const CACHE_TS_KEY = 'finance_cache_ts';
+
+let financeData = null;
+
+// ── Debt account colors (high-rate = red → low-rate = green) ──
+const DEBT_COLORS = ['#DC3545','#E85D04','#F7931E','#F59E0B','#8BC34A','#52B788','#2D6A4F'];
+
+// ── Status labels ──
+const STATUS_LABEL = {
+  confirmed: '✅ 確定',
+  likely: '🟡 有力',
+  estimating: '🟠 見込',
+  pipeline: '🔵 候補',
+  received: '✅ 受取済'
+};
+const STATUS_CLASS = {
+  confirmed: 'status-confirmed',
+  likely: 'status-likely',
+  estimating: 'status-estimating',
+  pipeline: 'status-pipeline',
+  received: 'status-received'
+};
+
+// ── Date helpers ──
+function parseDate(str) { return new Date(str + 'T00:00:00'); }
+function fmtDate(str) {
+  const d = parseDate(str);
+  const days = ['日','月','火','水','木','金','土'];
+  return `${d.getMonth()+1}/${d.getDate()}（${days[d.getDay()]}）`;
+}
+function daysUntil(dateStr) {
+  const now = new Date(); now.setHours(0,0,0,0);
+  const target = parseDate(dateStr);
+  return Math.round((target - now) / 86400000);
+}
+function fmtUpdated(str) {
+  const d = new Date(str);
+  return `${d.getMonth()+1}/${d.getDate()} ${d.getHours()}:${String(d.getMinutes()).padStart(2,'0')} 更新`;
+}
+function fmtMan(v) {
+  if (v === null || v === undefined) return '—';
+  return v % 1 === 0 ? `${v}万` : `${v}万`;
+}
+
+// ── Load data ──
+async function loadData(force = false) {
+  if (!force) {
+    const cached = localStorage.getItem(CACHE_KEY);
+    const ts = parseInt(localStorage.getItem(CACHE_TS_KEY) || '0');
+    if (cached && Date.now() - ts < 300000) {
+      try { return JSON.parse(cached); } catch(e) {}
+    }
+  }
+  const res = await fetch(DATA_BASE_URL + '?t=' + Date.now());
+  if (!res.ok) throw new Error('fetch failed');
+  const data = await res.json();
+  localStorage.setItem(CACHE_KEY, JSON.stringify(data));
+  localStorage.setItem(CACHE_TS_KEY, String(Date.now()));
+  return data;
+}
+
+// ── Reload ──
+async function reload() {
+  const btn = document.getElementById('reloadBtn');
+  btn.classList.add('spinning');
+  try {
+    financeData = await loadData(true);
+    render(financeData);
+  } catch(e) {
+    console.error(e);
+  } finally {
+    btn.classList.remove('spinning');
+  }
+}
+
+// ── Main render ──
+function render(d) {
+  document.getElementById('updatedAt').textContent = fmtUpdated(d.updated);
+
+  const main = document.getElementById('mainContent');
+  main.innerHTML = '';
+
+  // B: Hero
+  main.appendChild(renderHero(d));
+
+  // C: Next Payment
+  main.appendChild(renderNextPayment(d));
+
+  // D: Income Pipeline
+  main.appendChild(renderPipeline(d));
+
+  // E: Cash Flow Chart
+  main.appendChild(renderChart(d));
+
+  // F: Debt
+  main.appendChild(renderDebt(d));
+
+  // G: Target
+  main.appendChild(renderTarget(d));
+}
+
+// ── B: Hero ──
+function renderHero(d) {
+  const projection = d.cashflow[d.cashflow.length - 1].balance;
+  const pct = Math.min(100, Math.round(projection / d.safetyLine * 100));
+  const gap = d.safetyLine - projection;
+
+  let fillColor, gapClass;
+  if (gap > 30) { fillColor = '#EF4444'; gapClass = 'danger'; }
+  else if (gap > 0) { fillColor = '#F59E0B'; gapClass = 'warning'; }
+  else { fillColor = '#52B788'; gapClass = 'ok'; }
+
+  const el = document.createElement('div');
+  el.className = 'hero-card';
+  el.innerHTML = `
+    <div class="hero-label">3月末予測</div>
+    <div class="hero-amount">${projection}<span>万</span></div>
+    <div class="hero-progress-wrap">
+      <div class="hero-progress-bar">
+        <div class="hero-progress-fill" style="width:${pct}%;background:${fillColor}"></div>
+      </div>
+      <div class="hero-progress-labels">
+        <span>0万</span><span>安全ライン ${d.safetyLine}万</span>
+      </div>
+    </div>
+    <div class="hero-gap ${gapClass}">
+      ${gap > 0 ? `あと ${gap.toFixed(1)}万 の上積みが必要` : `安全ライン達成 🎉`}
+    </div>
+  `;
+  return el;
+}
+
+// ── C: Next Payment ──
+function renderNextPayment(d) {
+  const unpaid = d.payments.filter(p => !p.paid);
+
+  const section = document.createElement('div');
+
+  if (unpaid.length === 0) {
+    const el = document.createElement('div');
+    el.className = 'card';
+    el.innerHTML = `<div class="card-title">NEXT PAYMENT</div><div style="color:var(--success);font-weight:700;font-size:16px;">✅ 今月の支払いは全て完了</div>`;
+    section.appendChild(el);
+    return section;
+  }
+
+  const next = unpaid[0];
+  const days = daysUntil(next.date);
+  const isUrgent = days <= 3;
+
+  const card = document.createElement('div');
+  card.className = 'card payment-card';
+
+  let daysText, daysColor;
+  if (days < 0) { daysText = `${Math.abs(days)}日超過`; daysColor = '#DC3545'; }
+  else if (days === 0) { daysText = '今日！'; daysColor = '#DC3545'; }
+  else if (days === 1) { daysText = '明日！'; daysColor = '#DC3545'; }
+  else { daysText = `あと${days}日`; daysColor = days <= 5 ? '#E5A020' : 'var(--text)'; }
+
+  card.innerHTML = `
+    <div class="card-title">NEXT PAYMENT</div>
+    <div style="font-size:13px;color:var(--text-muted);">${fmtDate(next.date)}</div>
+    <div style="display:flex;align-items:baseline;gap:10px;margin-top:6px;">
+      <div class="countdown" style="color:${daysColor}">${daysText}</div>
+    </div>
+    <div class="payment-amount">${next.amount}万円</div>
+    <div class="payment-label">${next.label}</div>
+    <button class="expand-btn" onclick="toggleItems(this)" data-id="${next.id}">
+      <span>▶ 内訳を見る</span>
+      <span class="expand-icon">▼</span>
+    </button>
+    <div class="items-list" id="items-${next.id}">
+      ${next.items.map(it => `
+        <div class="item-row">
+          <span>${it.name}</span>
+          <span class="item-amount">${it.amount}万</span>
+        </div>
+      `).join('')}
+    </div>
+  `;
+
+  // All payments toggle
+  if (unpaid.length > 1) {
+    const allWrap = document.createElement('div');
+    allWrap.innerHTML = `
+      <div class="all-payments-toggle" onclick="toggleAllPayments(this)">
+        <span>全支払いを見る（残り${unpaid.length}件）</span>
+        <span>▼</span>
+      </div>
+      <div class="all-payments-section" id="allPaymentsSection">
+        <div class="payment-timeline">
+          ${unpaid.slice(1).map(p => `
+            <div class="payment-item">
+              <div class="payment-dot ${p.paid ? 'paid' : ''}"></div>
+              <div class="payment-item-info">
+                <div class="payment-item-date">${fmtDate(p.date)}</div>
+                <div class="payment-item-label">${p.label}</div>
+              </div>
+              <div class="payment-item-amount ${p.paid ? 'paid' : ''}">${p.amount}万${p.paid ? '<span class="paid-badge">済</span>' : ''}</div>
+            </div>
+          `).join('')}
+        </div>
+      </div>
+    `;
+    card.appendChild(allWrap);
+  }
+
+  section.appendChild(card);
+  return section;
+}
+
+function toggleItems(btn) {
+  const id = btn.dataset.id;
+  const list = document.getElementById('items-' + id);
+  const icon = btn.querySelector('.expand-icon');
+  const label = btn.querySelector('span:first-child');
+  if (list.classList.toggle('open')) {
+    icon.classList.add('open');
+    label.textContent = '▼ 内訳を閉じる';
+  } else {
+    icon.classList.remove('open');
+    label.textContent = '▶ 内訳を見る';
+  }
+}
+
+function toggleAllPayments(el) {
+  const section = document.getElementById('allPaymentsSection');
+  const arrow = el.querySelector('span:last-child');
+  if (section.classList.toggle('open')) {
+    arrow.textContent = '▲';
+  } else {
+    arrow.textContent = '▼';
+  }
+}
+
+// ── D: Income Pipeline ──
+function renderPipeline(d) {
+  const el = document.createElement('div');
+  el.className = 'card';
+
+  const confirmedTotal = d.income.filter(i => i.status === 'confirmed').reduce((s,i) => s + i.amount, 0);
+  const total = d.income.reduce((s,i) => s + i.amount, 0);
+
+  el.innerHTML = `
+    <div class="card-title">INCOME PIPELINE</div>
+    ${d.income.map(i => {
+      const st = i.received ? 'received' : i.status;
+      return `
+        <div class="pipeline-item">
+          <span class="status-badge ${STATUS_CLASS[st]}">${STATUS_LABEL[st]}</span>
+          <span class="pipeline-name ${i.received ? 'received' : ''}">${i.name}</span>
+          <div class="pipeline-right">
+            <div class="pipeline-amount">${i.amount}万</div>
+            <div class="pipeline-timing">${i.timing}</div>
+          </div>
+        </div>
+      `;
+    }).join('')}
+    <div class="pipeline-summary">
+      <span class="confirmed">確定: ${confirmedTotal}万</span>
+      <span class="total">合計: ${total}万</span>
+    </div>
+  `;
+  return el;
+}
+
+// ── E: Cash Flow SVG Chart ──
+function renderChart(d) {
+  const el = document.createElement('div');
+  el.className = 'card';
+  el.innerHTML = `<div class="card-title">CASH FLOW</div><div class="chart-wrap" id="chartWrap"></div>
+    <div class="chart-legend">
+      <div class="legend-item"><div class="legend-dot" style="background:#52B788"></div>入金</div>
+      <div class="legend-item"><div class="legend-dot" style="background:#DC3545"></div>支払い</div>
+      <div class="legend-item"><div class="legend-dot" style="background:#F59E0B"></div>生活費</div>
+      <div class="legend-item"><div class="legend-dot" style="background:rgba(82,183,136,0.3);border:1px dashed #52B788"></div>安全ライン</div>
+    </div>
+  `;
+
+  // Build SVG after element is appended
+  setTimeout(() => {
+    const wrap = el.querySelector('#chartWrap');
+    const W = wrap.clientWidth || 320;
+    const H = 160;
+    const PAD = { top: 14, right: 16, bottom: 36, left: 34 };
+    const innerW = W - PAD.left - PAD.right;
+    const innerH = H - PAD.top - PAD.bottom;
+
+    const pts = d.cashflow;
+    const balances = pts.map(p => p.balance);
+    const maxB = Math.max(...balances, d.safetyLine) * 1.1;
+    const minB = Math.min(...balances, 0);
+    const range = maxB - minB;
+
+    function xPos(i) { return PAD.left + (i / (pts.length - 1)) * innerW; }
+    function yPos(v) { return PAD.top + innerH - ((v - minB) / range) * innerH; }
+
+    // Build path
+    const linePts = pts.map((p, i) => `${xPos(i)},${yPos(p.balance)}`).join(' ');
+    const areaPath = `M ${xPos(0)},${yPos(0)} L ${pts.map((p,i) => `${xPos(i)},${yPos(p.balance)}`).join(' L ')} L ${xPos(pts.length-1)},${yPos(0)} Z`;
+
+    // Safety line y
+    const safeY = yPos(d.safetyLine);
+
+    // X axis labels (show dates)
+    const labelIndices = [0, 2, 4, 7, 9]; // cherry-picked for readability
+    const xLabels = labelIndices.map(i => {
+      const p = pts[i];
+      const d2 = new Date(p.date + 'T00:00:00');
+      const label = `${d2.getMonth()+1}/${d2.getDate()}`;
+      return `<text x="${xPos(i)}" y="${H - PAD.bottom + 14}" text-anchor="middle" font-size="9" fill="#9CA3AF">${label}</text>`;
+    }).join('');
+
+    // Y axis labels
+    const ySteps = [0, 40, 80];
+    const yLabels = ySteps.map(v => {
+      if (v < minB || v > maxB) return '';
+      return `<text x="${PAD.left - 6}" y="${yPos(v) + 3}" text-anchor="end" font-size="9" fill="#9CA3AF">${v}</text>`;
+    }).join('');
+
+    // Event dots
+    const dots = pts.map((p, i) => {
+      let color = '#9CA3AF';
+      if (p.type === 'income') color = '#52B788';
+      else if (p.type === 'payment') color = '#DC3545';
+      else if (p.type === 'expense') color = '#F59E0B';
+      else if (p.type === 'current') color = '#60A5FA';
+      return `<circle cx="${xPos(i)}" cy="${yPos(p.balance)}" r="4" fill="${color}" stroke="white" stroke-width="1.5"/>`;
+    }).join('');
+
+    // Event labels for key points
+    const keyLabels = pts.map((p, i) => {
+      if (!['current','income','payment'].includes(p.type)) return '';
+      const x = xPos(i);
+      const y = yPos(p.balance);
+      const above = y > PAD.top + 20;
+      const ly = above ? y - 7 : y + 14;
+      // Only label a few to avoid clutter
+      if (i !== 0 && i !== 1 && i !== 4 && i !== 7 && i !== 9) return '';
+      return `<text x="${x}" y="${ly}" text-anchor="middle" font-size="8.5" fill="#374151" font-weight="600">${p.balance}万</text>`;
+    }).join('');
+
+    const svg = `<svg viewBox="0 0 ${W} ${H}" width="${W}" height="${H}" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id="areaGrad" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stop-color="#52B788" stop-opacity="0.35"/>
+          <stop offset="100%" stop-color="#52B788" stop-opacity="0.05"/>
+        </linearGradient>
+      </defs>
+      <!-- Grid line at 0 -->
+      <line x1="${PAD.left}" y1="${yPos(0)}" x2="${W - PAD.right}" y2="${yPos(0)}" stroke="#E5E7EB" stroke-width="1"/>
+      <!-- Safety line -->
+      <line x1="${PAD.left}" y1="${safeY}" x2="${W - PAD.right}" y2="${safeY}" stroke="#52B788" stroke-width="1.5" stroke-dasharray="5,4" opacity="0.7"/>
+      <text x="${W - PAD.right - 2}" y="${safeY - 4}" text-anchor="end" font-size="8" fill="#52B788">安全ライン</text>
+      <!-- Area fill -->
+      <path d="${areaPath}" fill="url(#areaGrad)"/>
+      <!-- Line -->
+      <polyline points="${linePts}" fill="none" stroke="#2D6A4F" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+      <!-- Y labels -->
+      ${yLabels}
+      <!-- X labels -->
+      ${xLabels}
+      <!-- Dots -->
+      ${dots}
+      <!-- Balance labels -->
+      ${keyLabels}
+    </svg>`;
+
+    wrap.innerHTML = svg;
+  }, 0);
+
+  return el;
+}
+
+// ── F: Debt ──
+function renderDebt(d) {
+  const el = document.createElement('div');
+  el.className = 'card';
+
+  // Stack bar segments
+  const sortedAccounts = [...d.debt.accounts].sort((a,b) => b.rate - a.rate);
+  const segments = sortedAccounts.map((acc, i) => {
+    const pct = (acc.balance / d.debt.total * 100).toFixed(2);
+    return `<div class="debt-stack-seg" style="width:${pct}%;background:${DEBT_COLORS[i % DEBT_COLORS.length]}"></div>`;
+  }).join('');
+
+  // Account rows
+  const rows = sortedAccounts.map((acc, i) => {
+    const rateText = acc.rate > 0 ? `${acc.rate}%` : '0%';
+    return `
+      <div class="debt-account-row">
+        <div class="debt-account-dot" style="background:${DEBT_COLORS[i % DEBT_COLORS.length]}"></div>
+        <div class="debt-account-name">${acc.name}</div>
+        <div class="debt-account-balance">${acc.balance}万</div>
+        <div class="debt-account-rate">${rateText}</div>
+      </div>
+    `;
+  }).join('');
+
+  el.innerHTML = `
+    <div class="card-title">DEBT</div>
+    <div class="debt-header">
+      <div>
+        <div class="debt-total">${d.debt.total}<span>万</span></div>
+        <div class="debt-sub">高金利負債総額</div>
+      </div>
+      <div class="debt-meta">
+        <div class="monthly">${d.debt.monthlyPayment}万/月</div>
+        <div class="interest">利息 ${d.debt.monthlyInterest}万/月</div>
+      </div>
+    </div>
+    <div class="debt-stack-wrap">
+      <div class="debt-stack-bar">${segments}</div>
+    </div>
+    <div class="debt-accounts">${rows}</div>
+    <div class="debt-milestone">🎯 次のマイルストーン: ${d.debt.nextMilestone}</div>
+  `;
+  return el;
+}
+
+// ── G: Target ──
+function renderTarget(d) {
+  const el = document.createElement('div');
+  el.className = 'target-card';
+  el.innerHTML = `
+    <div class="main-target">年収 ${d.targetAnnual}万 = 月 ${d.targetMonthly}万</div>
+    <div class="sub-target">高金利 ${d.debt.total}万を自力で返す</div>
+  `;
+  return el;
+}
+
+// ── Init ──
+async function init() {
+  try {
+    financeData = await loadData();
+    render(financeData);
+  } catch(e) {
+    // Try cache fallback
+    const cached = localStorage.getItem(CACHE_KEY);
+    if (cached) {
+      try {
+        financeData = JSON.parse(cached);
+        render(financeData);
+        return;
+      } catch(e2) {}
+    }
+    document.getElementById('loadingWrap').innerHTML = `
+      <div style="text-align:center;padding:40px 20px;color:var(--text-muted);">
+        <div style="font-size:32px;margin-bottom:8px;">⚠️</div>
+        <div>データを読み込めませんでした</div>
+        <button onclick="reload()" style="margin-top:16px;padding:10px 24px;background:var(--green-mid);color:white;border:none;border-radius:10px;font-size:15px;font-weight:600;cursor:pointer;">再試行</button>
+      </div>
+    `;
+  }
+}
+
+// ── Pull to Refresh ──
+(function setupPTR() {
+  let startY = 0, pulling = false, threshold = 60;
+  const indicator = document.getElementById('ptrIndicator');
+
+  document.addEventListener('touchstart', e => {
+    if (window.scrollY === 0) { startY = e.touches[0].clientY; pulling = true; }
+  }, { passive: true });
+
+  document.addEventListener('touchmove', e => {
+    if (!pulling) return;
+    const dy = e.touches[0].clientY - startY;
+    if (dy > 10) indicator.classList.add('visible');
+    if (dy > threshold) indicator.textContent = '✓ 離して更新';
+    else indicator.textContent = '↓ 引っ張って更新';
+  }, { passive: true });
+
+  document.addEventListener('touchend', async e => {
+    if (!pulling) return;
+    pulling = false;
+    const dy = e.changedTouches[0].clientY - startY;
+    indicator.classList.remove('visible');
+    indicator.textContent = '↓ 引っ張って更新';
+    if (dy > threshold) await reload();
+  });
+})();
+
+// ── Service Worker ──
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('sw.js').catch(() => {});
+}
+
+init();
+</script>
+</body>
+</html>

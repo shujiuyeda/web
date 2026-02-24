@@ -1,8 +1,9 @@
-const CACHE = 'health-hub-v20';
+const CACHE = 'health-hub-v21';
 const ASSETS = [
   '/web/health-hub.html',
   '/web/manifest.json',
   '/web/icon.svg',
+  '/web/finance.html',
 ];
 
 self.addEventListener('install', e => {

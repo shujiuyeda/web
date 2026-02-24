@@ -1,0 +1,20 @@
+{
+  "name": "Cash Flow",
+  "short_name": "Cash Flow",
+  "description": "財務ダッシュボード",
+  "start_url": "/web/finance.html",
+  "scope": "/web/",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "theme_color": "#1B4332",
+  "background_color": "#F0F4F0",
+  "lang": "ja",
+  "icons": [
+    {
+      "src": "finance-icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}
