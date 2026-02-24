@@ -1931,7 +1931,8 @@ function renderMeals(container) {
       <div class="empty-text">まだ記録がありません<br>右下の ＋ で追加してください</div>
     </div>`;
   } else {
-    // 時刻でグループ化
+    // 時刻でソートしてからグループ化
+    meals.sort((a, b) => (a.time || '').localeCompare(b.time || ''));
     const mealGroups = [];
     const timeMap = {};
     meals.forEach((m, i) => {
