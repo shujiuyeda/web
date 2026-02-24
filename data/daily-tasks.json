@@ -1,0 +1,122 @@
+{
+  "date": "2026-02-25",
+  "tasks": [
+    {
+      "id": "dt1",
+      "label": "プロモ大体完了",
+      "slot": "daytime",
+      "priority": 12,
+      "minutes": 300,
+      "done": false,
+      "tag": "cash"
+    },
+    {
+      "id": "dt2",
+      "label": "100万円の依頼をする",
+      "slot": "daytime",
+      "priority": 15,
+      "minutes": 10,
+      "done": false,
+      "tag": "cash"
+    },
+    {
+      "id": "dt3",
+      "label": "Claude Codeインストールマニュアルのチェック",
+      "slot": "daytime",
+      "priority": 18,
+      "minutes": 180,
+      "done": false,
+      "tag": "important"
+    },
+    {
+      "id": "dt4",
+      "label": "大鳥神社のお札にお参りをする",
+      "slot": "morning",
+      "priority": 10,
+      "minutes": 5,
+      "done": true,
+      "tag": null
+    },
+    {
+      "id": "dt5",
+      "label": "今日の体の調子をスキャンする",
+      "slot": "morning",
+      "priority": 11,
+      "minutes": 5,
+      "done": true,
+      "tag": null
+    },
+    {
+      "id": "dt6",
+      "label": "呼吸法（朝）",
+      "slot": "morning",
+      "priority": 13,
+      "minutes": 5,
+      "done": false,
+      "tag": null
+    },
+    {
+      "id": "dt7",
+      "label": "朝の散歩",
+      "slot": "morning",
+      "priority": 14,
+      "minutes": 20,
+      "done": false,
+      "tag": null
+    },
+    {
+      "id": "dt8",
+      "label": "前日の日報を作る",
+      "slot": "daytime",
+      "priority": 20,
+      "minutes": 10,
+      "done": false,
+      "tag": null
+    },
+    {
+      "id": "dt9",
+      "label": "メールのチェック",
+      "slot": "daytime",
+      "priority": 21,
+      "minutes": 20,
+      "done": false,
+      "tag": null
+    },
+    {
+      "id": "dt10",
+      "label": "台所の洗い物をやる",
+      "slot": "daytime",
+      "priority": 22,
+      "minutes": 20,
+      "done": false,
+      "tag": null
+    },
+    {
+      "id": "dt11",
+      "label": "呼吸法（夜）",
+      "slot": "evening",
+      "priority": 70,
+      "minutes": 5,
+      "done": false,
+      "tag": null
+    },
+    {
+      "id": "dt12",
+      "label": "夕食後の散歩15分",
+      "slot": "evening",
+      "priority": 71,
+      "minutes": 20,
+      "done": false,
+      "tag": null
+    },
+    {
+      "id": "dt13",
+      "label": "お風呂に入る",
+      "slot": "evening",
+      "priority": 73,
+      "minutes": 30,
+      "done": false,
+      "tag": null
+    }
+  ]
+}

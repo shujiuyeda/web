@@ -522,6 +522,26 @@
     .biz-checklist-amount { font-size: 12px; font-weight: 700; color: var(--green-mid); }
     .biz-checklist-progress { font-size: 11px; color: var(--text-muted); margin-top: 8px; }
 
+    /* ── Daily Task Queue ── */
+    .dtq-hero-label { font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:0.6px; opacity:0.8; }
+    .dtq-hero-title { font-size:20px; font-weight:800; line-height:1.3; margin-top:4px; }
+    .dtq-hero-meta { font-size:13px; opacity:0.75; margin-top:8px; display:flex; gap:10px; }
+    .dtq-progress { background:rgba(255,255,255,0.2); border-radius:8px; height:8px; overflow:hidden; margin-top:14px; }
+    .dtq-progress-fill { height:100%; border-radius:8px; background:#86EFAC; transition:width 0.6s ease; }
+    .dtq-progress-info { display:flex; justify-content:space-between; font-size:11px; opacity:0.7; margin-top:5px; }
+    .dtq-slot { font-size:12px; font-weight:700; margin:14px 0 4px; color:var(--text); }
+    .dtq-slot:first-of-type { margin-top:4px; }
+    .dtq-item { display:flex; align-items:center; gap:8px; padding:8px 0; border-bottom:1px solid var(--border); font-size:14px; }
+    .dtq-item:last-child { border-bottom:none; }
+    .dtq-item.done { opacity:0.35; text-decoration:line-through; }
+    .dtq-check { font-size:15px; flex-shrink:0; width:20px; text-align:center; }
+    .dtq-label { flex:1; line-height:1.3; }
+    .dtq-time { font-size:12px; color:var(--text-muted); white-space:nowrap; }
+    .dtq-tag { font-size:10px; font-weight:700; border-radius:4px; padding:2px 6px; }
+    .dtq-tag-cash { background:#D1FAE5; color:#065F46; }
+    .dtq-tag-urgent { background:#FEE2E2; color:#991B1B; }
+    .dtq-tag-important { background:#FEF3C7; color:#92400E; }
+
     /* ── Roadmap ── */
     .roadmap-timeline {
       display: flex; align-items: center; justify-content: space-between;
@@ -644,6 +664,7 @@
 
 <script>
 const DATA_BASE_URL = 'https://shujiuyeda.github.io/web/data/finance.json';
+const TASK_DATA_URL = 'https://shujiuyeda.github.io/web/data/daily-tasks.json';
 const CACHE_KEY = 'finance_cache';
 const CACHE_TS_KEY = 'finance_cache_ts';
 
@@ -692,6 +713,12 @@ function fmtMan(v) {
   if (v === null || v === undefined) return '—';
   return v % 1 === 0 ? `${v}万` : `${v}万`;
 }
+function fmtMin(m) {
+  if (m == null) return '';
+  if (m < 60) return m + '分';
+  const h = Math.floor(m / 60), r = m % 60;
+  return r > 0 ? h + 'h' + r + 'm' : h + 'h';
+}
 
 // ── Load data ──
 async function loadData(force = false) {
@@ -725,7 +752,7 @@ async function reload() {
 }
 
 // ── Tab switch ──
-function switchTab(tab) {
+async function switchTab(tab) {
   if (tab === currentTab) return;
   const prevIdx = TABS.indexOf(currentTab);
   const nextIdx = TABS.indexOf(tab);
@@ -739,7 +766,7 @@ function switchTab(tab) {
   const main = document.getElementById('mainContent');
   main.innerHTML = '';
   if (tab === 'cashflow') renderCashflowTab(financeData);
-  else if (tab === 'business') renderBusinessTab(financeData);
+  else if (tab === 'business') await renderBusinessTab(financeData);
 
   const dir = nextIdx > prevIdx ? 1 : -1;
   main.style.transform = `translateX(${dir * window.innerWidth}px)`;
@@ -763,12 +790,12 @@ function renderCashflowTab(d) {
 }
 
 // ── Main render ──
-function render(d) {
+async function render(d) {
   document.getElementById('updatedAt').textContent = fmtUpdated(new Date().toISOString());
   const main = document.getElementById('mainContent');
   main.innerHTML = '';
   if (currentTab === 'cashflow') renderCashflowTab(d);
-  else if (currentTab === 'business') renderBusinessTab(d);
+  else if (currentTab === 'business') await renderBusinessTab(d);
 }
 
 // ── B: Hero ──
@@ -1504,9 +1531,124 @@ function renderBizModelMix(d) {
   return el;
 }
 
+// ── Daily Task Queue ──
+function renderDailyTaskQueue(container, taskData) {
+  const today = new Date();
+  const todayStr = today.getFullYear() + '-' +
+    String(today.getMonth()+1).padStart(2,'0') + '-' +
+    String(today.getDate()).padStart(2,'0');
+
+  const wrap = document.createElement('div');
+
+  if (taskData.date !== todayStr) {
+    const stale = document.createElement('div');
+    stale.className = 'card';
+    stale.style.color = 'var(--text-muted)';
+    stale.style.fontSize = '13px';
+    stale.innerHTML = '<div class="card-title">今日のタスクキュー</div>タスクデータが古いです';
+    container.appendChild(stale);
+    return;
+  }
+
+  const tasks = [...taskData.tasks].sort((a, b) => {
+    if (a.done !== b.done) return a.done ? 1 : -1;
+    if (a.priority !== b.priority) return a.priority - b.priority;
+    return (a.minutes || 999) - (b.minutes || 999);
+  });
+
+  const total = tasks.length;
+  const doneCount = tasks.filter(t => t.done).length;
+  const pct = total > 0 ? Math.round(doneCount / total * 100) : 0;
+  const nextTask = tasks.find(t => !t.done);
+  const remainingMin = tasks.filter(t => !t.done && t.minutes != null)
+    .reduce((s, t) => s + t.minutes, 0);
+
+  // Hero card
+  const heroEl = document.createElement('div');
+  heroEl.className = 'hero-card';
+  const tagHtml = nextTask && nextTask.tag
+    ? `<span class="dtq-tag dtq-tag-${nextTask.tag}">${nextTask.tag === 'cash' ? '💰 CASH' : nextTask.tag === 'urgent' ? '🔥 急ぎ' : '★ 重要'}</span>`
+    : '';
+  const nextMinHtml = nextTask && nextTask.minutes ? `<span>⏱ ${fmtMin(nextTask.minutes)}</span>` : '';
+
+  heroEl.innerHTML = `
+    <div class="dtq-hero-label">NEXT UP</div>
+    <div class="dtq-hero-title">${nextTask ? nextTask.label : '全タスク完了！🎉'}</div>
+    ${nextTask ? `<div class="dtq-hero-meta">${nextMinHtml}${tagHtml}</div>` : ''}
+    <div class="dtq-progress">
+      <div class="dtq-progress-fill" style="width:${pct}%;"></div>
+    </div>
+    <div class="dtq-progress-info">
+      <span>${doneCount}/${total} 完了</span>
+      <span>${remainingMin > 0 ? '残り約' + fmtMin(remainingMin) : ''}</span>
+    </div>
+  `;
+  container.appendChild(heroEl);
+
+  // List card
+  const SLOTS = [
+    { key: 'morning', label: '🌅 朝' },
+    { key: 'daytime', label: '☀️ 日中' },
+    { key: 'evening', label: '🌙 夜' }
+  ];
+
+  const bySlot = {};
+  SLOTS.forEach(s => { bySlot[s.key] = []; });
+  tasks.forEach(t => {
+    if (bySlot[t.slot]) bySlot[t.slot].push(t);
+  });
+
+  const hasAnyTask = SLOTS.some(s => bySlot[s.key].length > 0);
+  if (!hasAnyTask) return;
+
+  const listEl = document.createElement('div');
+  listEl.className = 'card';
+  listEl.innerHTML = '<div class="card-title">今日のタスクキュー</div>';
+
+  SLOTS.forEach(s => {
+    const items = bySlot[s.key];
+    if (items.length === 0) return;
+
+    const slotHeader = document.createElement('div');
+    slotHeader.className = 'dtq-slot';
+    slotHeader.textContent = s.label;
+    listEl.appendChild(slotHeader);
+
+    items.forEach(t => {
+      const isNext = nextTask && t.id === nextTask.id;
+      const checkIcon = t.done ? '☑' : (isNext ? '▶' : '☐');
+      const tagHtml2 = t.tag
+        ? `<span class="dtq-tag dtq-tag-${t.tag}">${t.tag === 'cash' ? '💰' : t.tag === 'urgent' ? '🔥' : '★'}</span>`
+        : '';
+      const timeHtml = t.minutes ? `<span class="dtq-time">${fmtMin(t.minutes)}</span>` : '';
+
+      const row = document.createElement('div');
+      row.className = 'dtq-item' + (t.done ? ' done' : '');
+      row.innerHTML = `
+        <span class="dtq-check">${checkIcon}</span>
+        <span class="dtq-label">${t.label}</span>
+        ${tagHtml2}
+        ${timeHtml}
+      `;
+      listEl.appendChild(row);
+    });
+  });
+
+  container.appendChild(listEl);
+}
+
 // ── Business Tab ──
-function renderBusinessTab(d) {
+async function renderBusinessTab(d) {
   const main = document.getElementById('mainContent');
+
+  // Daily Task Queue (fetch separately, no cache)
+  try {
+    const res = await fetch(TASK_DATA_URL + '?t=' + Date.now());
+    if (res.ok) {
+      const taskData = await res.json();
+      renderDailyTaskQueue(main, taskData);
+    }
+  } catch(e) { /* skip silently */ }
 
   // Determine display month from outlook or current date
   const displayMonth = (d.outlook && d.outlook.length > 0)
