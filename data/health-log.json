@@ -302,24 +302,5 @@
     "body_note": null,
     "stretch": null,
     "waterBonus": null
-  },
-  "2026-02-25": {
-    "water": 0.2,
-    "bowel": null,
-    "mood": null,
-    "energy": null,
-    "weather": null,
-    "sleep_feel": null,
-    "body_note": null,
-    "steps": null,
-    "rhr": null,
-    "hrv": null,
-    "stride": null,
-    "walkSpeed": null,
-    "walkDistance": null,
-    "vo2max": null,
-    "walkHR": null,
-    "stretch": null,
-    "waterBonus": null
   }
 }
