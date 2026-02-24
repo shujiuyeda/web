@@ -320,6 +320,55 @@
     .all-payments-section { display: none; margin-top: 8px; }
     .all-payments-section.open { display: block; }
 
+    /* ── Budget ── */
+    .budget-summary {
+      display: flex; align-items: baseline; gap: 8px;
+      margin-bottom: 10px;
+    }
+    .budget-summary .b-label { font-size: 22px; font-weight: 800; }
+    .budget-summary .b-arrow { font-size: 14px; color: var(--text-muted); }
+    .budget-summary .b-actual { font-size: 22px; font-weight: 800; }
+    .budget-input-bar {
+      background: var(--border); border-radius: 6px; height: 6px;
+      overflow: hidden; margin-bottom: 6px;
+    }
+    .budget-input-fill {
+      height: 100%; border-radius: 6px;
+      background: var(--green-light); transition: width 0.4s ease;
+    }
+    .budget-input-label {
+      font-size: 12px; color: var(--text-muted); margin-bottom: 12px;
+    }
+    .budget-row {
+      display: flex; align-items: center;
+      padding: 7px 0; border-bottom: 1px solid var(--border);
+      font-size: 14px; gap: 8px;
+    }
+    .budget-row:last-child { border-bottom: none; }
+    .budget-row .b-icon { font-size: 16px; flex-shrink: 0; width: 22px; }
+    .budget-row .b-name { flex: 1; }
+    .budget-row .b-budget { color: var(--text-muted); font-size: 13px; }
+    .budget-row .b-arrow-sm { color: var(--text-muted); font-size: 11px; }
+    .budget-row .b-actual-val { font-weight: 600; min-width: 54px; text-align: right; }
+    .b-actual-val.pending { color: var(--text-muted); font-weight: 400; font-size: 12px; }
+    .b-actual-val.over { color: var(--danger); }
+    .b-actual-val.ok { color: var(--success); }
+    .b-variance { font-size: 11px; margin-left: 2px; }
+    .b-variance.over { color: var(--danger); }
+    .b-variance.ok { color: var(--success); }
+    .budget-subtotals {
+      display: flex; justify-content: space-between;
+      padding-top: 10px; margin-top: 6px;
+      border-top: 1.5px solid var(--border);
+      font-size: 13px;
+    }
+    .budget-subtotals .b-sub-item { display: flex; flex-direction: column; gap: 2px; }
+    .budget-subtotals .b-sub-label { color: var(--text-muted); font-size: 11px; }
+    .budget-subtotals .b-sub-val { font-weight: 700; }
+    .budget-subtotals .b-diff { font-size: 12px; }
+    .budget-subtotals .b-diff.over { color: var(--danger); }
+    .budget-subtotals .b-diff.ok { color: var(--success); }
+
     /* ── Section spacer ── */
     .section-gap { height: 4px; }
   </style>
@@ -434,6 +483,9 @@ function render(d) {
   // B: Hero
   main.appendChild(renderHero(d));
 
+  // B2: Budget vs Actual
+  main.appendChild(renderBudget(d));
+
   // C: Next Payment
   main.appendChild(renderNextPayment(d));
 
@@ -479,6 +531,124 @@ function renderHero(d) {
     </div>
   `;
   return el;
+}
+
+// ── B2: Budget vs Actual ──
+function renderBudget(d) {
+  if (!d.budget) return document.createElement('div');
+
+  const el = document.createElement('div');
+  el.className = 'card';
+
+  const cats = d.budget.categories;
+  const totalBudget = cats.reduce((s, c) => s + c.budget, 0);
+  const filledCats = cats.filter(c => c.actual !== null);
+  const totalActual = filledCats.reduce((s, c) => s + c.actual, 0);
+  const inputRate = filledCats.length / cats.length;
+
+  // Card budget/actual subtotals
+  const cardCats = cats.filter(c => c.type === 'card');
+  const cashCats = cats.filter(c => c.type === 'cash');
+  const cardBudget = cardCats.reduce((s, c) => s + c.budget, 0);
+  const cashBudget = cashCats.reduce((s, c) => s + c.budget, 0);
+  const cardActual = cardCats.filter(c => c.actual !== null).reduce((s, c) => s + c.actual, 0);
+  const cashActual = cashCats.filter(c => c.actual !== null).reduce((s, c) => s + c.actual, 0);
+  const cardFilledCount = cardCats.filter(c => c.actual !== null).length;
+  const cashFilledCount = cashCats.filter(c => c.actual !== null).length;
+
+  // Month display
+  const [yr, mo] = d.budget.month.split('-');
+  const moLabel = `${parseInt(mo)}月`;
+
+  // Actual summary display
+  const actualDisplay = filledCats.length > 0 ? `${totalActual.toFixed(2).replace(/\.?0+$/, '')}万` : '—万';
+  const budgetDisplay = `${totalBudget.toFixed(2).replace(/\.?0+$/, '')}万`;
+
+  // Category rows
+  const rowsHtml = cats.map(c => {
+    let actualHtml, varianceHtml = '';
+    if (c.actual === null) {
+      actualHtml = `<span class="b-actual-val pending">未入力</span>`;
+    } else {
+      const diff = c.actual - c.budget;
+      const pct = Math.abs(diff) / c.budget;
+      let cls = 'neutral', varCls = '', varText = '';
+      if (pct > 0.05 && diff > 0) {
+        cls = 'over'; varCls = 'over'; varText = `▲${diff.toFixed(2).replace(/\.?0+$/, '')}`;
+      } else if (pct > 0.05 && diff < 0) {
+        cls = 'ok'; varCls = 'ok'; varText = `▽${Math.abs(diff).toFixed(2).replace(/\.?0+$/, '')}`;
+      }
+      actualHtml = `<span class="b-actual-val ${cls}">${c.actual}万</span>`;
+      varianceHtml = varText ? `<span class="b-variance ${varCls}">${varText}</span>` : '';
+    }
+    return `
+      <div class="budget-row">
+        <span class="b-icon">${c.icon}</span>
+        <span class="b-name">${c.name}</span>
+        <span class="b-budget">${c.budget}万</span>
+        <span class="b-arrow-sm">→</span>
+        ${actualHtml}${varianceHtml}
+      </div>
+    `;
+  }).join('');
+
+  // Subtotals
+  function subActualStr(filled, budget, count, total) {
+    return count > 0 ? `${filled.toFixed(2).replace(/\.?0+$/, '')}万` : '—';
+  }
+  function diffStr(actual, budget, count) {
+    if (count === 0) return '';
+    const d = actual - budget;
+    const cls = d > 0 ? 'over' : 'ok';
+    const sign = d > 0 ? '▲' : '▽';
+    return `<span class="b-diff ${cls}">${sign}${Math.abs(d).toFixed(2).replace(/\.?0+$/, '')}万</span>`;
+  }
+
+  el.innerHTML = `
+    <div class="card-title">支出管理  ${moLabel}</div>
+    <div class="budget-summary">
+      <span class="b-label">${budgetDisplay}</span>
+      <span class="b-arrow">→</span>
+      <span class="b-actual">${actualDisplay}</span>
+    </div>
+    <div class="budget-input-bar">
+      <div class="budget-input-fill" style="width:${Math.round(inputRate * 100)}%"></div>
+    </div>
+    <div class="budget-input-label">${filledCats.length}/${cats.length} 入力済み</div>
+    <button class="expand-btn" onclick="toggleBudgetDetail(this)">
+      <span>▶ カテゴリ詳細 (${cats.length})</span>
+      <span class="expand-icon">▼</span>
+    </button>
+    <div class="items-list" id="budgetDetail">
+      ${rowsHtml}
+    </div>
+    <div class="budget-subtotals">
+      <div class="b-sub-item">
+        <span class="b-sub-label">💳 カード</span>
+        <span class="b-sub-val">${cardBudget}万 → ${subActualStr(cardActual, cardBudget, cardFilledCount)}</span>
+        ${diffStr(cardActual, cardBudget, cardFilledCount)}
+      </div>
+      <div class="b-sub-item" style="text-align:right">
+        <span class="b-sub-label">💵 現金</span>
+        <span class="b-sub-val">${cashBudget}万 → ${subActualStr(cashActual, cashBudget, cashFilledCount)}</span>
+        ${diffStr(cashActual, cashBudget, cashFilledCount)}
+      </div>
+    </div>
+  `;
+  return el;
+}
+
+function toggleBudgetDetail(btn) {
+  const detail = document.getElementById('budgetDetail');
+  const icon = btn.querySelector('.expand-icon');
+  const label = btn.querySelector('span:first-child');
+  if (detail.classList.toggle('open')) {
+    icon.classList.add('open');
+    label.textContent = '▼ カテゴリ詳細を閉じる';
+  } else {
+    icon.classList.remove('open');
+    label.textContent = `▶ カテゴリ詳細 (${document.querySelectorAll('.budget-row').length})`;
+  }
 }
 
 // ── C: Next Payment ──
