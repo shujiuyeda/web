@@ -66,12 +66,26 @@
     }
   },
   "income": [
-    { "id": "i1", "name": "定期報酬", "amount": 10, "status": "confirmed", "timing": "3/1", "received": false },
-    { "id": "i2", "name": "プロモーション", "amount": 30, "status": "likely", "timing": "3月中", "received": false },
-    { "id": "i3", "name": "未請求回収", "amount": 8, "status": "estimating", "timing": "請求次第", "received": false },
-    { "id": "i4", "name": "CC導入支援 4名", "amount": 20, "status": "pipeline", "timing": "実施次第", "received": false },
-    { "id": "i5", "name": "売掛金", "amount": 3, "status": "confirmed", "timing": "3/31", "received": false }
+    { "id": "i1", "name": "定期報酬", "amount": 10, "status": "confirmed", "timing": "3/1", "received": false, "type": "subscription" },
+    { "id": "i2", "name": "プロモーション", "amount": 30, "status": "likely", "timing": "3月中", "received": false, "type": "project" },
+    { "id": "i3", "name": "未請求回収", "amount": 8, "status": "estimating", "timing": "請求次第", "received": false, "type": "oneoff" },
+    { "id": "i4", "name": "CC導入支援 4名", "amount": 20, "status": "pipeline", "timing": "実施次第", "received": false, "type": "project" },
+    { "id": "i5", "name": "売掛金", "amount": 3, "status": "confirmed", "timing": "3/31", "received": false, "type": "oneoff" }
   ],
+  "roadmap": {
+    "milestones": [
+      { "id": "ms1", "label": "安定基盤", "monthlyTarget": 125, "status": "current", "note": "高金利990万を自力で返す" },
+      { "id": "ms2", "label": "成長フェーズ", "monthlyTarget": 300, "status": "next", "note": "借金完済 → 投資・仕組みづくりへ" },
+      { "id": "ms3", "label": "自走モード", "monthlyTarget": 1000, "status": "future", "note": "仕組みで稼ぐ、時間の自由" }
+    ],
+    "bizModel": {
+      "phases": [
+        { "id": "ph1", "label": "当面", "subscription": 30, "selfWork": 70, "status": "current" },
+        { "id": "ph2", "label": "次", "subscription": 50, "selfWork": 50, "status": "next" },
+        { "id": "ph3", "label": "理想", "subscription": 70, "selfWork": 30, "status": "future" }
+      ]
+    }
+  },
   "outlook": [
     { "month": "2026-03", "balance": 56.98, "estimated": false },
     { "month": "2026-04", "balance": -17, "estimated": true },
