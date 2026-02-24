@@ -587,6 +587,15 @@
       margin-bottom: 14px; font-size: 14px;
     }
     .sync-status-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
+    .kpi-dots { display:flex; gap:4px; align-items:center; margin:8px 0; }
+    .kpi-dot { width:24px; height:24px; border-radius:50%; display:flex;
+      align-items:center; justify-content:center; font-size:11px; }
+    .kpi-dot.hit { background:var(--green-pale); color:var(--green-mid); }
+    .kpi-dot.miss { background:#FDE8E8; color:var(--danger); }
+    .kpi-dot.nodata { background:#E9ECEF; color:var(--text-muted); }
+    .kpi-result { font-size:16px; font-weight:800; margin-left:auto; }
+    .kpi-result.ok { color:var(--green-mid); }
+    .kpi-result.ng { color:var(--warning); }
   </style>
 </head>
 <body>
@@ -1436,6 +1445,41 @@ function renderGutCard() {
   if (stale) html += '<div class="advice-stale-note">データ更新待ち</div>';
   html += '</div>';
   return html;
+}
+
+function isWalkDay(entry) {
+  if (!entry) return false;
+  return (entry.walkDistance != null && entry.walkDistance >= 3.0);
+}
+
+function isBedOnTime(sleepEntry) {
+  if (!sleepEntry || !sleepEntry.bedStart) return null;
+  const h = parseInt(sleepEntry.bedStart.slice(11, 13));
+  const m = parseInt(sleepEntry.bedStart.slice(14, 16));
+  if (h >= 20) return true;
+  if (h === 0) return true;
+  if (h === 1 && m <= 30) return true;
+  return false;
+}
+
+function renderKpiCard(title, subtitle, days7, threshold) {
+  const hitCount = days7.filter(d => d.hit === true).length;
+  const achieved = hitCount >= threshold;
+  const dots = days7.map(d => {
+    if (d.hit === true)  return '<div class="kpi-dot hit">✅</div>';
+    if (d.hit === false) return '<div class="kpi-dot miss">❌</div>';
+    return '<div class="kpi-dot nodata">○</div>';
+  }).join('');
+  const resultLabel = achieved
+    ? `<span class="kpi-result ok">${hitCount}/7 ✅</span>`
+    : `<span class="kpi-result ng">${hitCount}/7 あと${threshold - hitCount}回</span>`;
+  return `<div class="card">
+    <div class="card-title">${title}</div>
+    <div style="display:flex;align-items:center;">
+      <div class="kpi-dots">${dots}</div>${resultLabel}
+    </div>
+    <div style="font-size:10px;color:var(--text-muted);margin-top:4px;">${subtitle}</div>
+  </div>`;
 }
 
 function renderAdviceCard(tab) {
@@ -2909,6 +2953,23 @@ function renderSleep(container) {
   summaryHtml += `</div>`;
   container.innerHTML += summaryHtml;
 
+  // 就寝時間 KPI（過去7日）
+  {
+    const bedDays = [];
+    for (let i = 0; i < 7; i++) {
+      const d = new Date(); d.setDate(d.getDate() - i);
+      const ds = fmtDate(d);
+      const hit = isBedOnTime(sleepAll[ds]);
+      bedDays.push({ date: ds, hit });
+    }
+    container.innerHTML += renderKpiCard(
+      '🛏️ 就寝時間 KPI（過去7日）',
+      '目標: 6回/7日 ／ 1:30までに就寝',
+      bedDays,
+      6
+    );
+  }
+
   // AI Sleep advice card
   container.innerHTML += renderAdviceCard('sleep');
 
@@ -3061,6 +3122,24 @@ function renderExercise(container) {
       </span>
       <button class="date-nav-btn ${isToday ? 'disabled' : ''}" onclick="changeDate(1)">›</button>
     </div>`;
+
+  // 散歩 KPI（過去7日）
+  {
+    const walkDays = [];
+    for (let i = 0; i < 7; i++) {
+      const d = new Date(); d.setDate(d.getDate() - i);
+      const ds = fmtDate(d);
+      const e = log[ds];
+      const hit = e ? isWalkDay(e) : null;
+      walkDays.push({ date: ds, hit });
+    }
+    container.innerHTML += renderKpiCard(
+      '🚶 早朝散歩 KPI（過去7日）',
+      '目標: 週3回 ／ 45分・3km以上',
+      walkDays,
+      3
+    );
+  }
 
   // カード2: アクティビティグリッド（2セクション）
   const fmt1 = v => v != null ? String(v) : '---';
