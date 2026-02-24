@@ -28,6 +28,7 @@
       --success: #28A745;
       --safe-top: env(safe-area-inset-top, 0px);
       --safe-bottom: env(safe-area-inset-bottom, 0px);
+      --nav-height: 52px;
     }
     body {
       font-family: -apple-system, BlinkMacSystemFont, 'Hiragino Kaku Gothic ProN', 'Hiragino Sans', sans-serif;
@@ -65,7 +66,7 @@
     /* ── Main ── */
     .main {
       padding-top: calc(52px + var(--safe-top));
-      padding-bottom: calc(24px + var(--safe-bottom));
+      padding-bottom: calc(var(--nav-height) + var(--safe-bottom) + 16px);
     }
 
     /* ── Card ── */
@@ -453,6 +454,58 @@
 
     /* ── Section spacer ── */
     .section-gap { height: 4px; }
+
+    /* ── Bottom Nav ── */
+    .bottom-nav {
+      position: fixed; bottom: 0; left: 0; right: 0;
+      height: calc(var(--nav-height) + var(--safe-bottom));
+      background: var(--green-dark);
+      border-top: 1px solid rgba(255,255,255,0.15);
+      display: flex; z-index: 100;
+      padding-bottom: var(--safe-bottom);
+    }
+    .nav-btn {
+      flex: 1; display: flex; flex-direction: column;
+      align-items: center; justify-content: center; gap: 2px;
+      border: none; background: none;
+      color: rgba(255,255,255,0.5); font-size: 9px;
+      cursor: pointer; padding: 6px 2px;
+      transition: color 0.15s;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .nav-btn.active { color: #86EFAC; }
+    .nav-btn svg { width: 22px; height: 22px; }
+
+    /* ── Business Tab ── */
+    .biz-progress {
+      height: 8px; border-radius: 4px;
+      background: rgba(255,255,255,0.15); margin: 6px 0 3px;
+    }
+    .biz-progress-fill {
+      height: 100%; border-radius: 4px;
+      transition: width 0.5s ease;
+    }
+    .biz-pipeline-status {
+      font-size: 13px; font-weight: 700;
+      margin-top: 14px; margin-bottom: 4px;
+      color: var(--text);
+    }
+    .biz-pipeline-item {
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 6px 0; border-bottom: 1px solid var(--border);
+      font-size: 13px;
+    }
+    .biz-pipeline-item:last-of-type { border-bottom: none; }
+    .biz-pipeline-name { flex: 1; }
+    .biz-pipeline-amount { font-weight: 700; font-size: 14px; }
+    .biz-pipeline-timing { font-size: 11px; color: var(--text-muted); }
+    .biz-pipeline-divider {
+      border-top: 1.5px dashed var(--border); margin: 12px 0 8px;
+    }
+    .biz-pipeline-total-row {
+      display: flex; justify-content: space-between; align-items: baseline;
+      font-size: 13px;
+    }
   </style>
 </head>
 <body>
@@ -477,6 +530,23 @@
   </div>
 </div>
 
+<!-- Bottom Nav -->
+<nav class="bottom-nav">
+  <button class="nav-btn active" data-tab="cashflow" onclick="switchTab('cashflow')">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/>
+    </svg>
+    キャッシュフロー
+  </button>
+  <button class="nav-btn" data-tab="business" onclick="switchTab('business')">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/>
+      <line x1="12" y1="12" x2="12" y2="16"/><line x1="10" y1="14" x2="14" y2="14"/>
+    </svg>
+    ビジネス
+  </button>
+</nav>
+
 <script>
 const DATA_BASE_URL = 'https://shujiuyeda.github.io/web/data/finance.json';
 const CACHE_KEY = 'finance_cache';
@@ -484,6 +554,9 @@ const CACHE_TS_KEY = 'finance_cache_ts';
 
 let financeData = null;
 let budgetActiveMonth = null;
+
+const TABS = ['cashflow', 'business'];
+let currentTab = 'cashflow';
 
 // ── Debt account colors (high-rate = red → low-rate = green) ──
 const DEBT_COLORS = ['#DC3545','#E85D04','#F7931E','#F59E0B','#8BC34A','#52B788','#2D6A4F'];
@@ -556,33 +629,51 @@ async function reload() {
   }
 }
 
-// ── Main render ──
-function render(d) {
-  document.getElementById('updatedAt').textContent = fmtUpdated(d.updated);
+// ── Tab switch ──
+function switchTab(tab) {
+  if (tab === currentTab) return;
+  const prevIdx = TABS.indexOf(currentTab);
+  const nextIdx = TABS.indexOf(tab);
+  currentTab = tab;
+  location.hash = tab;
+
+  document.querySelectorAll('.nav-btn').forEach(b =>
+    b.classList.toggle('active', b.dataset.tab === tab)
+  );
 
   const main = document.getElementById('mainContent');
   main.innerHTML = '';
+  if (tab === 'cashflow') renderCashflowTab(financeData);
+  else if (tab === 'business') renderBusinessTab(financeData);
 
-  // B: Hero
+  const dir = nextIdx > prevIdx ? 1 : -1;
+  main.style.transform = `translateX(${dir * window.innerWidth}px)`;
+  requestAnimationFrame(() => requestAnimationFrame(() => {
+    main.style.transition = 'transform 0.28s cubic-bezier(0.25,0.46,0.45,0.94)';
+    main.style.transform = '';
+    setTimeout(() => { main.style.transition = ''; }, 300);
+  }));
+}
+
+// ── Cashflow tab render ──
+function renderCashflowTab(d) {
+  const main = document.getElementById('mainContent');
   main.appendChild(renderHero(d));
-
-  // B2: Budget vs Actual
   main.appendChild(renderBudget(d));
-
-  // C: Next Payment
   main.appendChild(renderNextPayment(d));
-
-  // D: Income Pipeline
   main.appendChild(renderPipeline(d));
-
-  // E: Cash Flow Chart
   main.appendChild(renderChart(d));
-
-  // F: Debt
   main.appendChild(renderDebt(d));
-
-  // G: Target
   main.appendChild(renderTarget(d));
+}
+
+// ── Main render ──
+function render(d) {
+  document.getElementById('updatedAt').textContent = fmtUpdated(d.updated);
+  const main = document.getElementById('mainContent');
+  main.innerHTML = '';
+  if (currentTab === 'cashflow') renderCashflowTab(d);
+  else if (currentTab === 'business') renderBusinessTab(d);
 }
 
 // ── B: Hero ──
@@ -1141,8 +1232,116 @@ function renderTarget(d) {
   return el;
 }
 
+// ── Business Tab ──
+function renderBusinessTab(d) {
+  const main = document.getElementById('mainContent');
+
+  // Determine display month from outlook or current date
+  const displayMonth = (d.outlook && d.outlook.length > 0)
+    ? parseInt(d.outlook[0].month.split('-')[1]) + '月'
+    : (() => { const n = new Date(); return (n.getMonth()+1) + '月'; })();
+
+  // Group income items by status
+  const receivedItems = d.income.filter(i => i.received || i.status === 'received');
+  const confirmedItems = d.income.filter(i => !i.received && i.status === 'confirmed');
+  const likelyItems   = d.income.filter(i => !i.received && i.status === 'likely');
+  const estimatingItems = d.income.filter(i => !i.received && i.status === 'estimating');
+  const pipelineItems = d.income.filter(i => !i.received && i.status === 'pipeline');
+
+  const receivedTotal   = receivedItems.reduce((s,i) => s + i.amount, 0);
+  const confirmedTotal  = confirmedItems.reduce((s,i) => s + i.amount, 0);
+  const likelyTotal     = likelyItems.reduce((s,i) => s + i.amount, 0);
+  const estimatingTotal = estimatingItems.reduce((s,i) => s + i.amount, 0);
+  const pipelineTotal   = pipelineItems.reduce((s,i) => s + i.amount, 0);
+
+  const confirmedFixed = receivedTotal + confirmedTotal;
+  const withLikely = confirmedFixed + likelyTotal;
+  const target = d.targetMonthly;
+  const confirmedPct = Math.min(100, Math.round(confirmedFixed / target * 100));
+  const likelyPct    = Math.min(100, Math.round(withLikely / target * 100));
+
+  // A: Sales Hero card
+  const heroEl = document.createElement('div');
+  heroEl.className = 'hero-card';
+  heroEl.innerHTML = `
+    <div class="hero-label">${displayMonth} 売上</div>
+    <div style="margin-top:14px;">
+      <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:4px;">
+        <span style="font-size:13px;opacity:0.8;">確定</span>
+        <span style="font-size:20px;font-weight:800;">${confirmedFixed}万
+          <span style="font-size:13px;font-weight:400;opacity:0.7;">/ 目標 ${target}万</span>
+        </span>
+      </div>
+      <div class="biz-progress">
+        <div class="biz-progress-fill" style="width:${confirmedPct}%;background:${confirmedPct>=100?'#86EFAC':'#52B788'};"></div>
+      </div>
+      <div style="font-size:11px;opacity:0.6;margin-bottom:16px;">${confirmedPct}%</div>
+
+      <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:4px;">
+        <span style="font-size:13px;opacity:0.8;">見込み含む</span>
+        <span style="font-size:20px;font-weight:800;">${withLikely}万
+          <span style="font-size:13px;font-weight:400;opacity:0.7;">/ 目標 ${target}万</span>
+        </span>
+      </div>
+      <div class="biz-progress">
+        <div class="biz-progress-fill" style="width:${likelyPct}%;background:${likelyPct>=100?'#86EFAC':'#FCD34D'};"></div>
+      </div>
+      <div style="font-size:11px;opacity:0.6;">${likelyPct}%</div>
+    </div>
+  `;
+  main.appendChild(heroEl);
+
+  // B: Pipeline card
+  function pipelineGroup(emoji, label, items, total) {
+    if (items.length === 0 && label !== '入金済み') return '';
+    const rows = items.length === 0
+      ? `<div style="color:var(--text-muted);font-size:13px;padding:4px 0;">（該当なし）</div>`
+      : items.map(i => `
+          <div class="biz-pipeline-item">
+            <span class="biz-pipeline-name">${i.name}</span>
+            <div style="text-align:right;">
+              <div class="biz-pipeline-amount">${i.amount}万</div>
+              <div class="biz-pipeline-timing">${i.timing}</div>
+            </div>
+          </div>`).join('');
+    const subtotal = items.length > 1
+      ? `<div style="text-align:right;font-size:12px;color:var(--text-muted);margin-top:2px;">小計 ${total}万</div>` : '';
+    return `
+      <div class="biz-pipeline-status">${emoji} ${label}${items.length===1?' — '+total+'万':''}</div>
+      ${rows}${subtotal}`;
+  }
+
+  const allTotal = receivedTotal + confirmedTotal + likelyTotal + estimatingTotal + pipelineTotal;
+  const pipelineEl = document.createElement('div');
+  pipelineEl.className = 'card';
+  pipelineEl.innerHTML = `
+    <div class="card-title">案件パイプライン</div>
+    ${pipelineGroup('✅', '入金済み', receivedItems, receivedTotal)}
+    ${pipelineGroup('🟢', '確定', confirmedItems, confirmedTotal)}
+    ${pipelineGroup('🟡', '見込み', likelyItems, likelyTotal)}
+    ${pipelineGroup('🟠', '見積中', estimatingItems, estimatingTotal)}
+    ${pipelineGroup('🔵', 'パイプライン', pipelineItems, pipelineTotal)}
+    <div class="biz-pipeline-divider"></div>
+    <div class="biz-pipeline-total-row">
+      <span style="font-weight:700;">合計 ${allTotal}万</span>
+      <span style="color:var(--text-muted);font-size:12px;">確定${confirmedFixed} + 見込他${allTotal - confirmedFixed}</span>
+    </div>
+  `;
+  main.appendChild(pipelineEl);
+
+  // C: Annual target
+  main.appendChild(renderTarget(d));
+}
+
 // ── Init ──
 async function init() {
+  // Hash-based tab routing
+  const hash = location.hash.replace('#', '');
+  if (TABS.includes(hash)) currentTab = hash;
+  document.querySelectorAll('.nav-btn').forEach(b =>
+    b.classList.toggle('active', b.dataset.tab === currentTab)
+  );
+
   try {
     financeData = await loadData();
     render(financeData);
