@@ -1137,7 +1137,13 @@ async function tryFetchMeals(ds) {
     const res = await fetch(`${DATA_BASE_URL}meals-${ds}.json?_=${Date.now()}`, { cache: 'no-store' });
     if (!res.ok) return;
     const data = await res.json();
-    if (!data.meals || data.meals.length === 0) return;
+    if (!data.meals) return;  // malformedデータのみスキップ
+    if (data.meals.length === 0) {
+      saveMeals(ds, []);  // リモートが空 → localStorageをクリア
+      stampLastUpdated();
+      if (ds === currentDate) deferRender(currentTab);
+      return;
+    }
     // JSONのネスト構造 {items, total:{kcal,p,f,c}} をアプリ内形式 {kcal,p,f,c} にフラット化
     const normalized = data.meals.map(m => {
       if (m.total && m.kcal === undefined) {
