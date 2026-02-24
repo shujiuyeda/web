@@ -2564,12 +2564,20 @@ function renderWeight(container) {
       else if (isCurrent) { icon = '→'; rowCls = 'wt-current'; }
       else { icon = '○'; rowCls = ''; }
       const [,mm,dd] = wt.date.split('-');
-      const highProbCell = (isPast && achieved) || (!isPast && latestW != null && latestW <= wt.highProb)
-        ? `<td style="color:var(--green-mid);font-weight:700;">${wt.highProb}kg ✅</td>`
-        : `<td>${wt.highProb}kg</td>`;
-      const bonusCell = (isPast && bonusAchieved) || (!isPast && latestW != null && latestW <= wt.bonus)
-        ? `<td style="color:var(--green-mid);font-weight:700;">${wt.bonus}kg 🎯</td>`
-        : `<td>${wt.bonus}kg</td>`;
+      function diffLabel(target) {
+        if (latestW == null) return '';
+        const d = latestW - target;
+        if (d <= 0) return `<br><span style="font-size:10px;color:var(--green-mid);">達成 +${Math.abs(d).toFixed(2)}kg</span>`;
+        return `<br><span style="font-size:10px;color:var(--text-muted);">あと -${d.toFixed(2)}kg</span>`;
+      }
+      const highProbAchieved = (isPast && achieved) || (!isPast && latestW != null && latestW <= wt.highProb);
+      const bonusAchievedCell = (isPast && bonusAchieved) || (!isPast && latestW != null && latestW <= wt.bonus);
+      const highProbCell = highProbAchieved
+        ? `<td style="color:var(--green-mid);font-weight:700;">${wt.highProb}kg ✅${diffLabel(wt.highProb)}</td>`
+        : `<td>${wt.highProb}kg${diffLabel(wt.highProb)}</td>`;
+      const bonusCell = bonusAchievedCell
+        ? `<td style="color:var(--green-mid);font-weight:700;">${wt.bonus}kg 🎯${diffLabel(wt.bonus)}</td>`
+        : `<td>${wt.bonus}kg${diffLabel(wt.bonus)}</td>`;
       wtHtml += `<tr class="${rowCls}">
         <td>${mm}/${dd}</td><td style="text-align:center;">${icon}</td>${highProbCell}${bonusCell}
       </tr>`;
