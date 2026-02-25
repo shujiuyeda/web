@@ -320,20 +320,24 @@
   },
   "2026-02-25": {
     "water": 0,
-    "bowel": { "status": "none", "time": null, "note": "朝はまだ" },
+    "bowel": {
+      "status": "none",
+      "time": null,
+      "note": "朝はまだ"
+    },
     "mood": null,
     "energy": 3.1,
     "weather": "rainy",
     "sleep_feel": "量不足（2時過ぎ就寝→6時半起床、約4時間）、途中起きなし",
     "body_note": "起床直後ストレッチ実施、痛みなし",
-    "steps": null,
+    "steps": 273,
     "rhr": null,
-    "hrv": null,
+    "hrv": 69.2,
     "stride": null,
     "walkSpeed": null,
-    "walkDistance": null,
+    "walkDistance": 0.163,
     "vo2max": null,
-    "walkHR": null,
+    "walkHR": 74,
     "stretch": null,
     "waterBonus": null
   }
