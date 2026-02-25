@@ -319,25 +319,44 @@
     "waterBonus": null
   },
   "2026-02-25": {
-    "water": 1.0,
+    "water": 2.23,
     "bowel": {
       "status": "hard",
       "time": "09:50",
-      "note": "少量・ゴロっと固め。朝食なしで出たのはバーリーマックス効果か"
+      "note": "2回。1回目: 少量・硬め。2回目: やや柔らかいが硬め傾向。朝食なしで1回目はバーリーマックス効果か"
     },
     "mood": null,
     "energy": 3.1,
     "weather": "rainy",
     "sleep_feel": "量不足（2時過ぎ就寝→6時半起床、約4時間）、途中起きなし",
     "body_note": "起床直後ストレッチ実施、痛みなし",
-    "steps": 273,
+    "steps": 1602,
     "rhr": 56,
     "hrv": 69.2,
     "stride": 72.0,
     "walkSpeed": 5.1,
-    "walkDistance": 0.163,
+    "walkDistance": 1.157,
     "vo2max": null,
     "walkHR": 82,
+    "stretch": null,
+    "waterBonus": null
+  },
+  "2026-02-26": {
+    "water": 0.0,
+    "bowel": null,
+    "mood": null,
+    "energy": 3.5,
+    "weather": "cloudy",
+    "sleep_feel": "途中覚醒1回（02:12-04:34、約2.4時間）、入眠は良好",
+    "body_note": "腰の張りあり（朝ストレッチで回復）、右肩に謎の違和感（コリ・筋肉痛とは異なる）、足裏の張り・足首の硬さが気になる",
+    "steps": null,
+    "rhr": 55,
+    "hrv": null,
+    "stride": null,
+    "walkSpeed": null,
+    "walkDistance": null,
+    "vo2max": null,
+    "walkHR": null,
     "stretch": null,
     "waterBonus": null
   }
