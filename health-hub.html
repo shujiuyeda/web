@@ -782,9 +782,6 @@ const SUPPLEMENTS = [
   { id:"m4", timing:"morning",   name:"エビオス 10錠",          note:"",                        catchup:false },
   { id:"m5", timing:"morning",   name:"ビオスリー",              note:"",                        catchup:false },
   { id:"m6", timing:"morning",   name:"The Daily Power",      note:"飲みきるまで",              catchup:true },
-  { id:"a1", timing:"afternoon", name:"サイリウム 1回目（5粒）", note:"12:30ごろ — ユリスから2h後", catchup:false },
-  { id:"a2", timing:"afternoon", name:"サイリウム 2回目（5粒）", note:"15:00ごろ — 夕食の薬まで3h", catchup:false },
-  { id:"a3", timing:"afternoon", name:"サイリウム 3回目（5粒）", note:"20:00ごろ — ロスバスタチンから2h後", catchup:false },
   { id:"e1", timing:"evening",   name:"ロスバスタチン",          note:"処方薬（コレステロール）夕食後", catchup:true },
   { id:"e2", timing:"evening",   name:"亜鉛 (THORNE)",         note:"",                        catchup:true },
   { id:"e3", timing:"evening",   name:"エビオス 10錠",           note:"",                        catchup:false },
@@ -793,7 +790,6 @@ const SUPPLEMENTS = [
 ];
 const TIMING_LABELS = {
   morning:   "☀️ 朝（1食目後・10時ごろ）",
-  afternoon: "🕐 食間（昼〜午後）",
   evening:   "🌙 夜（2食目後・18時ごろ）",
   bedtime:   "🛏 就寝前（夕食2時間後）",
 };
@@ -2032,16 +2028,10 @@ function supplGuideHtml(t) {
   // --- 食物繊維 ---
   let fiberMsg;
   if (t.fiber >= TARGETS.fiberTarget) {
-    fiberMsg = `<span style="color:var(--success);font-size:13px;">✅ 目標達成！サイリウム不要</span>`;
+    fiberMsg = `<span style="color:var(--success);font-size:13px;">✅ 目標達成！</span>`;
   } else {
     const deficit = (TARGETS.fiberTarget - t.fiber).toFixed(1);
-    const totalCapsNeeded = Math.ceil((TARGETS.fiberTarget - t.fiber) / SUPPL_DOSING.psyllium.fiberPerCapsule);
-    const dailyMax = SUPPL_DOSING.psyllium.capPerServing * SUPPL_DOSING.psyllium.maxServings; // 15粒
-    if (totalCapsNeeded > dailyMax) {
-      fiberMsg = `<span style="font-size:13px;color:var(--text-muted);">不足 <strong style="color:var(--text);">${deficit}g</strong> → あと<strong style="color:var(--accent);">${totalCapsNeeded}粒</strong>分（今日の上限: ${dailyMax}粒）</span>`;
-    } else {
-      fiberMsg = `<span style="font-size:13px;color:var(--text-muted);">不足 <strong style="color:var(--text);">${deficit}g</strong> → あと<strong style="color:var(--accent);">${totalCapsNeeded}粒</strong></span>`;
-    }
+    fiberMsg = `<span style="font-size:13px;color:var(--text-muted);">不足 <strong style="color:var(--text);">${deficit}g</strong> → 夕食に野菜・きのこ・豆類を追加しよう</span>`;
   }
 
   // --- マグネシウム ---
