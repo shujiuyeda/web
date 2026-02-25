@@ -333,11 +333,11 @@
     "steps": 273,
     "rhr": 56,
     "hrv": 69.2,
-    "stride": null,
-    "walkSpeed": null,
+    "stride": 72.0,
+    "walkSpeed": 5.1,
     "walkDistance": 0.163,
     "vo2max": null,
-    "walkHR": 74,
+    "walkHR": 82,
     "stretch": null,
     "waterBonus": null
   }
