@@ -319,7 +319,7 @@
     "waterBonus": null
   },
   "2026-02-25": {
-    "water": 0,
+    "water": 1.0,
     "bowel": {
       "status": "hard",
       "time": "09:50",
