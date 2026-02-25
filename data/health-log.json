@@ -357,7 +357,12 @@
     "walkDistance": null,
     "vo2max": null,
     "walkHR": null,
-    "stretch": null,
+    "stretch": {
+      "st1": true,
+      "st2": true,
+      "st3": true,
+      "st4": true
+    },
     "waterBonus": null
   }
 }
