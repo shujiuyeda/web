@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>室伏広治トレーニング理論 まとめ</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Hiragino Sans", "Hiragino Kaku Gothic ProN", sans-serif;
+      background: #f5f5f5;
+      color: #333;
+      line-height: 1.8;
+    }
+    header {
+      background: #1a1a2e;
+      color: white;
+      padding: 1.5rem 2rem;
+      text-align: center;
+    }
+    header h1 { font-size: 1.5rem; margin-bottom: 0.3rem; }
+    header p { opacity: 0.7; font-size: 0.9rem; }
+
+    .container { max-width: 860px; margin: 0 auto; padding: 2rem 1rem; }
+
+    .lead-box {
+      background: #fff8e1;
+      border-left: 5px solid #f39c12;
+      padding: 1.2rem 1.5rem;
+      border-radius: 6px;
+      margin-bottom: 2rem;
+      font-size: 1.05rem;
+    }
+    .lead-box strong { color: #e67e22; }
+
+    section { margin-bottom: 2.5rem; }
+    h2 {
+      font-size: 1.15rem;
+      border-bottom: 2px solid #ddd;
+      padding-bottom: 0.5rem;
+      margin-bottom: 1rem;
+      color: #1a1a2e;
+    }
+    h3 {
+      font-size: 1rem;
+      margin: 1.2rem 0 0.5rem;
+      color: #2c3e50;
+    }
+    p { margin-bottom: 0.8rem; }
+
+    /* テーブル */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 1rem 0 1.5rem;
+      font-size: 0.95rem;
+    }
+    th {
+      background: #1a1a2e;
+      color: white;
+      padding: 0.7rem 1rem;
+      text-align: left;
+    }
+    td { padding: 0.7rem 1rem; border-bottom: 1px solid #e0e0e0; }
+    tr:nth-child(even) td { background: #f9f9f9; }
+    .highlight td { background: #e8f4fd !important; font-weight: bold; }
+
+    /* エクササイズカード */
+    .exercise-card {
+      background: white;
+      border-radius: 10px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+      padding: 1.5rem;
+      margin-bottom: 1.2rem;
+    }
+    .exercise-card .badge {
+      display: inline-block;
+      background: #e74c3c;
+      color: white;
+      font-size: 0.75rem;
+      padding: 0.2rem 0.6rem;
+      border-radius: 20px;
+      margin-bottom: 0.5rem;
+    }
+    .exercise-card .badge.easy { background: #27ae60; }
+    .exercise-card h3 {
+      font-size: 1.05rem;
+      margin: 0.3rem 0 0.8rem;
+      color: #1a1a2e;
+    }
+    .exercise-card ol { padding-left: 1.5rem; }
+    .exercise-card ol li { margin-bottom: 0.4rem; }
+    .exercise-card .evidence {
+      margin-top: 0.8rem;
+      background: #e8f4fd;
+      border-radius: 6px;
+      padding: 0.7rem 1rem;
+      font-size: 0.9rem;
+      color: #2980b9;
+    }
+    .exercise-card .video-link {
+      display: inline-block;
+      margin-top: 0.8rem;
+      background: #e74c3c;
+      color: white;
+      padding: 0.5rem 1rem;
+      border-radius: 6px;
+      text-decoration: none;
+      font-size: 0.9rem;
+      font-weight: bold;
+    }
+    .exercise-card .video-link:hover { background: #c0392b; }
+
+    /* 引用 */
+    blockquote {
+      border-left: 4px solid #3498db;
+      background: #f0f8ff;
+      padding: 1rem 1.5rem;
+      margin: 1rem 0;
+      border-radius: 0 6px 6px 0;
+      font-size: 1.1rem;
+      font-style: italic;
+      color: #2c3e50;
+    }
+
+    /* リスト */
+    ul { padding-left: 1.5rem; margin-bottom: 1rem; }
+    ul li { margin-bottom: 0.4rem; }
+
+    /* リンク */
+    .links { background: white; border-radius: 10px; padding: 1.5rem; box-shadow: 0 2px 8px rgba(0,0,0,0.08); }
+    .links a { display: block; color: #2980b9; margin-bottom: 0.5rem; text-decoration: none; font-size: 0.95rem; }
+    .links a:hover { text-decoration: underline; }
+    .links a::before { content: "▶ "; }
+
+    footer {
+      background: #1a1a2e;
+      color: #aaa;
+      text-align: center;
+      padding: 1.2rem;
+      font-size: 0.85rem;
+      margin-top: 2rem;
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <h1>室伏広治トレーニング理論 まとめ</h1>
+  <p>2026-02-20 調査 | Koji Murofushi / DNS / Koji Awareness</p>
+</header>
+
+<div class="container">
+
+  <!-- 核心哲学 -->
+  <section>
+    <h2>🧠 核心哲学：「慣れたらもうトレーニングじゃない」</h2>
+    <p>これが全ての根っこ。同じ動きを繰り返すと脳・神経系への刺激が<strong>ゼロ</strong>になる。だから室伏は意図的に「予測不可能な刺激」を作り続ける。</p>
+    <ul>
+      <li>バーベルの両端にハンマーをぶら下げてスクワット → ゆらゆら揺れるので毎回違う</li>
+      <li>新聞紙を丸める → 毎回形が違うので全神経を集中させる必要がある</li>
+    </ul>
+  </section>
+
+  <!-- 3層構造理論 -->
+  <section>
+    <h2>📊 体の3層構造理論</h2>
+    <table>
+      <tr><th>層</th><th>内容</th><th>加齢での変化</th></tr>
+      <tr><td>① 解剖学的身体</td><td>筋肉・骨・靭帯</td><td>衰える</td></tr>
+      <tr><td>② 機能性</td><td>関節の可動域・柔軟性</td><td>衰える</td></tr>
+      <tr class="highlight"><td>③ 脳・中枢神経系</td><td>神経学的適応</td><td>🔥 鍛え続けられる</td></tr>
+    </table>
+    <p>③だけは年齢に負けない。だから30代を過ぎて「ウエイトで筋肉を大きくする」路線を捨て、「脳・神経系への新しい刺激」路線に完全シフトした。</p>
+  </section>
+
+  <!-- DNS -->
+  <section>
+    <h2>🌍 参照している海外理論：DNS（プラハスクール）</h2>
+    <p><strong>DNS = Dynamic Neuromuscular Stabilization（動的神経筋安定化）</strong></p>
+    <ul>
+      <li>開発者：チェコのリハビリ医 <strong>パベル・コラー（Pavel Kolar）博士</strong></li>
+      <li>拠点：プラハのリハビリテーション病院</li>
+    </ul>
+
+    <h3>なぜ「赤ちゃん」なのか</h3>
+    <p>赤ちゃんは筋肉がほぼない状態で、生後数ヶ月で「寝返り→四つ這い→立つ」を習得する。このとき脳にプログラムされる<strong>完璧な体幹安定パターン</strong>を大人も持っている──ただし、間違った動き癖で「封印」されているだけ。DNSはその封印を解除する。</p>
+    <ol style="padding-left:1.5rem; margin-top:0.5rem;">
+      <li>乳幼児の発達段階ポジション（仰向け・横向き・四つ這い）を再現</li>
+      <li>その姿勢で<strong>腹腔内圧</strong>（お腹の中の圧力）を正しく作る呼吸をする</li>
+      <li>脳に「本来の安定パターン」を再インストールする</li>
+    </ol>
+    <p style="margin-top:0.8rem;">室伏はこれを<strong>2011年世界選手権の金メダルの直前</strong>に集中的に学んだとされる。</p>
+  </section>
+
+  <!-- Koji Awareness -->
+  <section>
+    <h2>📋 室伏が開発したオリジナルツール：Koji Awareness™</h2>
+    <p>道具不要・11項目のセルフチェック（50点満点）。世界標準の FMS（Functional Movement Screen）と同等の精度。スポーツ庁が無料公開中。</p>
+    <ul>
+      <li>首の可動性</li>
+      <li>肩関節の可動性（内旋）</li>
+      <li>肩甲骨の可動性（挙上）</li>
+      <li>胸椎の可動性（回旋）</li>
+      <li>上体の筋力</li>
+      <li>股関節の可動性（6項目）</li>
+    </ul>
+    <div style="margin-top:0.8rem; background:#fff3cd; border-radius:6px; padding:0.8rem 1rem; color:#856404;">
+      ⚠️ 研究でわかったこと：<strong>49.1歳を境にスコアが急激に低下する</strong>
+    </div>
+  </section>
+
+  <!-- YouTube -->
+  <section>
+    <h2>🎬 YouTube で見られる動画（全部無料・日本語）</h2>
+    <div class="links">
+      <a href="https://sports.go.jp/movie/post-63.html" target="_blank">セルフチェック11項目動画（Koji Awareness）</a>
+      <a href="https://sports.go.jp/movie/corrective-exercise.html" target="_blank">動作改善エクササイズ（各部位ごと）</a>
+      <a href="https://www.mext.go.jp/sports/b_menu/sports/jsa_00073.html" target="_blank">紙風船エクササイズ（基礎〜応用）</a>
+      <a href="https://kojimurofushi.net/researchtraining/training-movies/" target="_blank">室伏広治オフィシャルサイト トレーニング動画集</a>
+    </div>
+  </section>
+
+  <!-- 入門エクササイズ -->
+  <section>
+    <h2>🏃 入門エクササイズ 5選（体が動かない人向け）</h2>
+
+    <div class="exercise-card">
+      <span class="badge easy">⭐ 一番入口</span>
+      <h3>① 紙風船エクササイズ（座ったまま可）</h3>
+      <ol>
+        <li>両手のひらを胸の前で合わせる</li>
+        <li>ぐーっと押し合う → 「どこに力が入ってる？」を感じる</li>
+        <li>次に紙風船を両手で挟む</li>
+        <li><strong>「潰さないように」</strong>全力で押し合う</li>
+        <li>さっきと力の入る場所が変わったのを感じる</li>
+      </ol>
+      <div class="evidence">📊 研究結果：ウエイトトレよりも体幹筋の活動が有意に高い。10か所中7か所でウエイトより効率が高かった。吉田正尚（メジャーリーガー）も実践。</div>
+      <a class="video-link" href="https://youtu.be/y81zX4_mnKs" target="_blank">▶ 動画で見る（スポーツ庁公式 YouTube）</a>
+    </div>
+
+    <div class="exercise-card">
+      <span class="badge easy">座ったまま可</span>
+      <h3>② 新聞紙を片手で丸める</h3>
+      <ol>
+        <li>新聞紙見開き1枚を用意</li>
+        <li>片手だけで、できるだけ小さく握りつぶしていく</li>
+        <li>「どう動かしたら効率よく丸まるか」を考えながらやる</li>
+        <li>反対の手でも</li>
+        <li>足の指でやると激ムズ＆超効果的（脳への刺激）</li>
+      </ol>
+      <div class="evidence">📄 室伏オフィシャルサイトにやり方の解説あり（動画なし）</div>
+    </div>
+
+    <div class="exercise-card">
+      <span class="badge">立って壁に向かうだけ</span>
+      <h3>③ 壁を使った肩甲骨エクササイズ（Wall Angel）</h3>
+      <ol>
+        <li>壁に背中をぴったりつけて立つ</li>
+        <li>両腕を「万歳」の形に上げる（肘・手首が壁につくように）</li>
+        <li>ゆっくり腕を下げて、また上げる</li>
+        <li>これだけ。肩甲骨が「べりべり」動く感覚があればOK</li>
+      </ol>
+      <a class="video-link" href="https://youtu.be/DsJIWK_iyOM" target="_blank">▶ 動画で見る：肩甲骨の可動性（Koji Awareness / スポーツ庁）</a>
+    </div>
+
+    <div class="exercise-card">
+      <span class="badge easy">仰向けで可</span>
+      <h3>④ 股関節チェック＋ゆる〜いほぐし</h3>
+      <p><strong>チェック：</strong>仰向けに寝て、片膝を曲げて胸に引き寄せる→そのまま外に開く。硬くて全然動かない人は要注意（腰痛・猫背の原因になる）。</p>
+      <p style="margin-top:0.5rem;"><strong>改善：</strong>仰向けで両膝を立てる→左右にゆっくり倒す（腰が浮かないように）→5回ずつ。これだけでOK。</p>
+      <a class="video-link" href="https://youtu.be/r2kGcjMoh0U" target="_blank">▶ 動画で見る：股関節の可動性（Koji Awareness / スポーツ庁）</a>
+    </div>
+
+    <div class="exercise-card">
+      <span class="badge easy">⭐ DNSの入口の入口</span>
+      <h3>⑤「赤ちゃん呼吸」（仰向けでできる）</h3>
+      <p>全ての体幹安定の土台は「正しい呼吸」。</p>
+      <ol style="margin-top:0.5rem;">
+        <li>仰向けに寝る</li>
+        <li>片手をお腹（へそ下）に置く</li>
+        <li><strong>鼻から吸って、お腹を360度に膨らませる</strong>（胸は動かさない）</li>
+        <li>口からゆっくり吐く</li>
+        <li>10回繰り返す</li>
+      </ol>
+      <div class="evidence">💡 「胸式呼吸」から「腹式呼吸（腹腔内圧式）」に切り替えるだけで体幹の安定が根本から変わる。DNS理論の一番の土台。</div>
+      <a class="video-link" href="https://youtu.be/SpFUhlJ5iR8" target="_blank">▶ 動画で見る：体幹部の筋力（Koji Awareness / スポーツ庁）</a>
+    </div>
+  </section>
+
+  <!-- まとめ -->
+  <section>
+    <h2>💬 室伏広治が言いたいこと</h2>
+    <blockquote>「筋肉をデカくする前に、体の動かし方を直せ」</blockquote>
+    <p>49歳以降は「脳・神経系のトレーニングが最重要」。筋肉量を増やそうとするのではなく、<strong>今ある体を「ちゃんと使える」状態にする</strong>のが室伏メソッドの真骨頂。まずは紙風船一個とその辺の新聞紙から始められる。</p>
+  </section>
+
+  <!-- 参考リンク -->
+  <section>
+    <h2>🔗 参考リンク</h2>
+    <div class="links">
+      <a href="https://kojimurofushi.net/" target="_blank">室伏広治オフィシャルサイト</a>
+      <a href="https://kojimurofushi.net/researchtraining/awareness/" target="_blank">Koji Awareness セルフチェック（無料PDF）</a>
+      <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC3578435/" target="_blank">DNS論文（英語・PMC）</a>
+      <a href="https://www.tmd.ac.jp/press-release/20230113-1/" target="_blank">Koji Awareness 妥当性研究（東京科学大）</a>
+    </div>
+  </section>
+
+</div>
+
+<footer>2026-02-20 調査まとめ</footer>
+
+</body>
+</html>
