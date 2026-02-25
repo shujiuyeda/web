@@ -2761,8 +2761,9 @@ function saveWeight() {
 
 // ======== SLEEP TAB ========
 function parseLocalDate(s) {
-  // "2026-02-19T23:14" → local Date object
-  const [date, time] = s.split('T');
+  // "YYYY-MM-DDTHH:MM" と "YYYY-MM-DD HH:MM:SS +0900" の両方に対応
+  const sep = s.includes('T') ? 'T' : ' ';
+  const [date, time] = s.split(sep);
   const [y, mo, d] = date.split('-').map(Number);
   const [hh, mm]   = time.split(':').map(Number);
   return new Date(y, mo - 1, d, hh, mm, 0);
