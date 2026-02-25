@@ -2031,7 +2031,10 @@ function supplGuideHtml(t) {
     fiberMsg = `<span style="color:var(--success);font-size:13px;">✅ 目標達成！</span>`;
   } else {
     const deficit = (TARGETS.fiberTarget - t.fiber).toFixed(1);
-    fiberMsg = `<span style="font-size:13px;color:var(--text-muted);">不足 <strong style="color:var(--text);">${deficit}g</strong> → 夕食に野菜・きのこ・豆類を追加しよう</span>`;
+    const fiberPerServing = SUPPL_DOSING.psyllium.fiberPerCapsule * SUPPL_DOSING.psyllium.capPerServing;
+    const psylliumServings = Math.min(Math.ceil(parseFloat(deficit) / fiberPerServing), SUPPL_DOSING.psyllium.maxServings);
+    const psylliumCaps = psylliumServings * SUPPL_DOSING.psyllium.capPerServing;
+    fiberMsg = `<span style="font-size:13px;color:var(--text-muted);">不足 <strong style="color:var(--text);">${deficit}g</strong> → 夕食後サイリウム<strong style="color:var(--accent);">${psylliumServings}回分(${psylliumCaps}粒)</strong>で補完</span>`;
   }
 
   // --- マグネシウム ---
@@ -2335,7 +2338,7 @@ function renderSuppl(container) {
   container.innerHTML += renderAdviceCard('supplements');
 
   let html = `<div class="card">`;
-  const timings = ['morning','afternoon','evening','bedtime'];
+  const timings = ['morning','evening','bedtime'];
   timings.forEach(t => {
     const items = SUPPLEMENTS.filter(s => s.timing === t);
     html += `<div class="suppl-timing">${TIMING_LABELS[t]}</div>`;
@@ -2354,7 +2357,14 @@ function renderSuppl(container) {
         </div>`;
     });
   });
-  html += `</div><div class="spacer"></div>`;
+  html += `</div>`;
+
+  // 夕食後サイリウムカード（繊維不足時のみ表示）
+  const meals = getMeals(currentDate);
+  const t = totals(meals);
+  html += renderPsylliumCard(t, checks);
+
+  html += `<div class="spacer"></div>`;
   container.innerHTML += html;
 }
 
@@ -2384,6 +2394,58 @@ function skipSuppl(id) {
   if (ss) ss.classList.toggle('active', checks[id] === 'skip');
   updateCompliance(checks);
   syncSupplToGitHub(currentDate);
+}
+
+function togglePsyllium(id) {
+  const checks = getSuppl(currentDate);
+  checks[id] = checks[id] === true ? false : true;
+  saveSuppl(currentDate, checks);
+  syncSupplToGitHub(currentDate);
+  // カードを再描画
+  const card = document.getElementById('psyllium-card');
+  if (card) {
+    const meals = getMeals(currentDate);
+    const t = totals(meals);
+    card.outerHTML = renderPsylliumCard(t, checks);
+  }
+}
+
+function renderPsylliumCard(t, checks) {
+  const fiberPerServing = SUPPL_DOSING.psyllium.fiberPerCapsule * SUPPL_DOSING.psyllium.capPerServing;
+  const hasMeals = getMeals(currentDate).length > 0;
+
+  let content;
+  if (!hasMeals) {
+    content = `<div style="font-size:13px;color:var(--text-muted);">食事を記録してから確認してください</div>`;
+  } else if (t.fiber >= TARGETS.fiberTarget) {
+    content = `<div style="font-size:13px;color:var(--success);">✅ 食物繊維 ${t.fiber.toFixed(1)}g 目標達成！サイリウム不要</div>`;
+  } else {
+    const deficit = TARGETS.fiberTarget - t.fiber;
+    const servingsNeeded = Math.min(Math.ceil(deficit / fiberPerServing), SUPPL_DOSING.psyllium.maxServings);
+    const psylliumIds = ['a1','a2','a3'].slice(0, servingsNeeded);
+    let checkboxHtml = psylliumIds.map((id, i) => {
+      const checked = checks[id] === true;
+      return `
+        <div class="suppl-item" style="padding:6px 0;">
+          <div class="suppl-check ${checked ? 'checked' : ''}" onclick="togglePsyllium('${id}')"></div>
+          <div class="suppl-label">
+            <div class="suppl-name ${checked ? 'checked' : ''}">${i + 1}回目（${SUPPL_DOSING.psyllium.capPerServing}粒）</div>
+          </div>
+        </div>`;
+    }).join('');
+    content = `
+      <div style="font-size:13px;color:var(--text-muted);margin-bottom:8px;">
+        不足 <strong style="color:var(--text);">${deficit.toFixed(1)}g</strong> →
+        <strong style="color:var(--accent);">${servingsNeeded}回分(${servingsNeeded * SUPPL_DOSING.psyllium.capPerServing}粒)</strong>推奨
+      </div>
+      ${checkboxHtml}`;
+  }
+
+  return `
+    <div class="card" id="psyllium-card" style="${!hasMeals ? 'opacity:0.6;' : ''}">
+      <div class="card-title">🌾 夕食後サイリウム（繊維不足時）</div>
+      ${content}
+    </div>`;
 }
 
 function updateCompliance(checks) {
