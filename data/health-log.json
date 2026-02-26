@@ -343,7 +343,11 @@
   },
   "2026-02-26": {
     "water": 0.0,
-    "bowel": null,
+    "bowel": {
+      "status": "hard",
+      "time": "09:07",
+      "note": "朝食前・空腹時。少し時間かかった。食後の方が柔らかくなる傾向あり"
+    },
     "mood": null,
     "energy": 3.5,
     "weather": "cloudy",
