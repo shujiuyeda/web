@@ -483,11 +483,19 @@ eval "$(/opt/homebrew/bin/brew shellenv)"</pre>
     </div>
 
     <div class="phase">
-      <div class="phase-title">2-2. CLAUDE.md</div>
+      <div class="phase-title">2-2. CLAUDE.md を育てる</div>
       <div class="phase-step">
         <ul>
-          <li>さとゆみさんの業務をヒアリングしながら一緒に書く</li>
-          <li>最低限入れる: 名前・役割（ライター）、言語（日本語）、よく使うワークフロー、フォルダ構成、ログ自動記録ルール</li>
+          <li><code>/init</code> で生成された雛形をObsidianで開いて編集する（Obsidianから普通のテキストとして編集できる）</li>
+          <li><strong>最低限書くと効くこと</strong>:
+            <ul>
+              <li>言語: 「日本語で返答して」</li>
+              <li>役割: 「私はライター。取材・執筆・編集が主な業務」</li>
+              <li>よく使う操作: 「ログは logs/YYYY-MM-DD.md に書く」「原稿は drafts/ に保存する」など</li>
+            </ul>
+          </li>
+          <li><strong>書かなくていいこと</strong>: Markdownの書き方・Gitの基本コマンドなど、Claudeが元々知っていること。「知ってて当然」な内容は省く</li>
+          <li>完璧を目指さなくてOK。使いながら「こう動いてほしかった」と気づいたらその都度1行追加するだけで育っていく</li>
         </ul>
       </div>
     </div>
