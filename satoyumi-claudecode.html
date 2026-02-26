@@ -577,28 +577,27 @@ git add -A && git commit -m "初期セットアップ完了"</pre>
         </div>
 
         <div class="step-block">
-          <div class="step-num">⑤ GitHubにリポジトリ（保存場所）を作る</div>
-          <p>ブラウザでここを開いて作成する → <a href="https://github.com/new" target="_blank">https://github.com/new</a></p>
-          <p style="margin-top:6px">作成後、GitHubが表示する「…or push an existing repository」のコマンドをコピーして実行する（<code>git remote add origin https://github.com/（ユーザー名）/（リポジトリ名）.git</code> の形）。</p>
-        </div>
-
-        <div class="step-block">
-          <div class="step-num">⑥ Personal Access Token（パスワード代わり）を作る</div>
-          <p>ブラウザでここを開いて作成する → <a href="https://github.com/settings/tokens/new" target="_blank">https://github.com/settings/tokens/new</a></p>
-          <p style="margin-top:6px">作成されたトークン（<code>ghp_</code> で始まる文字列）は必ずコピーしておく。画面を閉じると二度と見られない。</p>
-        </div>
-
-        <div class="step-block">
-          <div class="step-num">⑦ GitHubにプッシュ（アップロード）する</div>
-          <p>以下を実行。ユーザー名とパスワード（= Tokenの文字列）を聞かれる。パスワード入力時は画面に何も表示されないが正常。</p>
+          <div class="step-num">⑤ GitHubにログインする（ブラウザ認証）</div>
+          <p>以下を実行するとブラウザが開くのでGitHubアカウントでログインするだけ。トークンやパスワードの入力は不要。</p>
           <div class="cmd-block">
-            <div class="cmd-header"><span class="cmd-label">初回プッシュ</span><button class="copy-btn" onclick="copyCmd(this)">コピー</button></div>
-            <pre>git push -u origin main</pre>
+            <div class="cmd-header"><span class="cmd-label">GitHub CLIでログイン</span><button class="copy-btn" onclick="copyCmd(this)">コピー</button></div>
+            <pre>gh auth login</pre>
           </div>
+          <div class="note">質問が出たら: Protocol → <strong>HTTPS</strong> / Authenticate → <strong>Login with a web browser</strong> を選ぶ。ブラウザでログインしてターミナルに戻れば完了。</div>
         </div>
 
         <div class="step-block">
-          <div class="step-num">⑧ 自動バックアップを設定する</div>
+          <div class="step-num">⑥ GitHubにリポジトリを作ってアップロードする（1コマンドで完了）</div>
+          <p><code>名前-ccws</code> を自分のフォルダ名に変えて実行する。リポジトリ作成・接続・アップロードがこれ1行で完了する。</p>
+          <div class="cmd-block">
+            <div class="cmd-header"><span class="cmd-label">リポジトリ作成 & 初回プッシュ</span><button class="copy-btn" onclick="copyCmd(this)">コピー</button></div>
+            <pre>gh repo create 名前-ccws --private --source=. --push</pre>
+          </div>
+          <div class="note">✅ 「branch 'main' set up to track 'origin/main'」と出れば成功。<a href="https://github.com/" target="_blank">https://github.com/</a> を開いてリポジトリが作られているか確認してみよう。</div>
+        </div>
+
+        <div class="step-block">
+          <div class="step-num">⑦ 自動バックアップを設定する</div>
           <p>Claude Codeに以下をそのまま入力する。毎日23時に自動でGitHubへバックアップするスクリプトを作ってもらえる。</p>
           <div class="cmd-block">
             <div class="cmd-header"><span class="cmd-label">Claude Codeへの入力（コマンドではなく会話）</span><button class="copy-btn" onclick="copyCmd(this)">コピー</button></div>
