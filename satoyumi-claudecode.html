@@ -88,6 +88,11 @@
     }
     .step ul { padding-left: 1.2rem; font-size: 0.9rem; color: #555; }
     .step ul li { margin-bottom: 0.2rem; }
+    .step-block { margin-bottom: 1rem; padding: 0.8rem 1rem; background: #f8f9fa; border-left: 3px solid #1a1a2e; border-radius: 4px; }
+    .step-block .step-num { background: none; border-radius: 0; width: auto; height: auto; display: block; color: #1a1a2e; font-size: 0.95rem; font-weight: bold; margin-bottom: 0.3rem; }
+    .step-block p { margin: 0 0 0.5rem; font-size: 0.9rem; color: #333; }
+    .step-block ul { padding-left: 1.2rem; font-size: 0.9rem; color: #555; margin: 0.4rem 0 0; }
+    .step-block ul li { margin-bottom: 0.3rem; }
 
     .result-box { background: white; border-radius: 8px; padding: 1.5rem; box-shadow: 0 1px 4px rgba(0,0,0,0.08); }
     .result-flow { display: flex; flex-direction: column; gap: 0.8rem; }
@@ -486,21 +491,38 @@ eval "$(/opt/homebrew/bin/brew shellenv)"</pre>
     <div class="phase">
       <div class="phase-title">2-2. Claude Code の環境を初期化する</div>
       <div class="phase-step">
-        <ul>
-          <li>起動できたら、まず <code>/init</code> と入力してEnter → Claudeがプロジェクト構造を分析して <strong>CLAUDE.md</strong> の雛形を自動生成してくれる</li>
-          <li><strong>CLAUDE.mdとは</strong>: Claudeへの「指示書」。言語（日本語で話して）・役割（ライターとして）・よく使うワークフロー・ルールなどを書いておくと、次回起動時から自動で読み込まれる</li>
-          <li>最初は <code>/init</code> で生成した雛形で十分。使いながら少しずつ育てていけばOK</li>
-          <li><code>/init</code> で生成された雛形をObsidianで開いて編集する（Obsidianから普通のテキストとして編集できる）</li>
-          <li><strong>最低限書くと効くこと</strong>:
-            <ul>
-              <li>言語: 「日本語で返答して」</li>
-              <li>役割: 「私はライター。取材・執筆・編集が主な業務」</li>
-              <li>よく使う操作: 「ログは logs/YYYY-MM-DD.md に書く」「原稿は drafts/ に保存する」など</li>
-            </ul>
-          </li>
-          <li><strong>書かなくていいこと</strong>: Markdownの書き方・Gitの基本コマンドなど、Claudeが元々知っていること。「知ってて当然」な内容は省く</li>
-          <li>完璧を目指さなくてOK。使いながら「こう動いてほしかった」と気づいたらその都度1行追加するだけで育っていく</li>
-        </ul>
+        <p style="margin-bottom:12px"><strong>CLAUDE.mdとは</strong>: Claudeへの「指示書」。言語・役割・よく使うワークフローなどを書いておくと、次回起動時から自動で読み込まれる。<code>/init</code> コマンドで雛形を作れる。</p>
+
+        <div class="step-block">
+          <div class="step-num">① <code>/init</code> を実行する</div>
+          <p>Claude Code の画面で <code>/init</code> と入力してEnter。Claudeがフォルダの中身を調べて「CLAUDE.md を作りますか？」と聞いてくる。</p>
+        </div>
+
+        <div class="step-block">
+          <div class="step-num">② 英語で返ってきたら日本語をお願いする</div>
+          <p>最初は英語で返ってくることがある。そのまま <code>日本語で返してくれる？</code> と入力すればOK。以降は日本語になる。</p>
+        </div>
+
+        <div class="step-block">
+          <div class="step-num">③ 作成を指示する</div>
+          <p>「作成しましょう」など肯定の返事を入力 → CLAUDE.md が自動で作られる。</p>
+        </div>
+
+        <div class="step-block">
+          <div class="step-num">④ CLAUDE.md を育てていく</div>
+          <p>作られたファイルはObsidianで開いて編集できる（普通のテキストファイル）。使いながら少しずつ書き足していけばOK。</p>
+          <ul>
+            <li><strong>最低限書くと効くこと</strong>:
+              <ul>
+                <li>言語: 「日本語で返答して」</li>
+                <li>役割: 「私はライター。取材・執筆・編集が主な業務」</li>
+                <li>よく使う操作: 「ログは logs/YYYY-MM-DD.md に書く」「原稿は drafts/ に保存する」など</li>
+              </ul>
+            </li>
+            <li><strong>書かなくていいこと</strong>: Markdownの書き方・Gitの基本コマンドなど、Claudeが元々知っていること</li>
+            <li>完璧を目指さなくてOK。「こう動いてほしかった」と気づいた時に1行追加するだけで育っていく</li>
+          </ul>
+        </div>
       </div>
     </div>
 
