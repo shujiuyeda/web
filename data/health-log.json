@@ -342,7 +342,7 @@
     "waterBonus": null
   },
   "2026-02-26": {
-    "water": 0.0,
+    "water": 1.8,
     "bowel": {
       "status": "hard",
       "time": "09:07",
@@ -353,20 +353,20 @@
     "weather": "cloudy",
     "sleep_feel": "途中覚醒1回（02:12-04:34、約2.4時間）、入眠は良好",
     "body_note": "腰の張りあり（朝ストレッチで回復）、右肩に謎の違和感（コリ・筋肉痛とは異なる）、足裏の張り・足首の硬さが気になる",
-    "steps": null,
-    "rhr": 55,
-    "hrv": null,
-    "stride": null,
-    "walkSpeed": null,
-    "walkDistance": null,
+    "steps": 2656,
+    "rhr": 58,
+    "hrv": 30.3,
+    "stride": 68.1,
+    "walkSpeed": 4.5,
+    "walkDistance": 1.84,
     "vo2max": null,
-    "walkHR": null,
+    "walkHR": 93,
     "stretch": {
       "st1": true,
       "st2": true,
       "st3": true,
       "st4": true
     },
-    "waterBonus": null
+    "waterBonus": 0.43
   }
 }
