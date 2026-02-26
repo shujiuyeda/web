@@ -470,14 +470,15 @@ eval "$(/opt/homebrew/bin/brew shellenv)"</pre>
           <li><strong>日本語化</strong>: Obsidianを起動したら、画面左下の <strong>⚙️（Settings）</strong> をクリック → 「<strong>General</strong>」を開く → 「<strong>Language</strong>」のプルダウンで「<strong>日本語</strong>」を選択 → 「<strong>Relaunch</strong>」ボタンをクリック → Obsidianが再起動して全メニューが日本語になる</li>
         </ul>
         <div class="cmd-block">
-          <div class="cmd-header"><span class="cmd-label">フォルダ構成作成（ccws部分は自分でつけた名前に変える）</span><button class="copy-btn" onclick="copyCmd(this)">コピー</button></div>
-          <pre>cd ~/Library/Mobile\ Documents/iCloud\~md\~obsidian/Documents/ccws && mkdir -p logs scripts drafts sns</pre>
-        </div>
-        <div class="cmd-block">
           <div class="cmd-header"><span class="cmd-label">このフォルダでClaude Codeを起動（ccws部分は自分でつけた名前に変える）</span><button class="copy-btn" onclick="copyCmd(this)">コピー</button></div>
           <pre>cd ~/Library/Mobile\ Documents/iCloud\~md\~obsidian/Documents/ccws && claude</pre>
         </div>
         <div class="note">⚠️ Claude Codeは<strong>起動したフォルダがワークスペース</strong>になる。必ずこのフォルダに移動してから起動すること。セキュリティチェックが出たら「1. Yes, I trust this folder」を選ぶ</div>
+        <ul>
+          <li>起動できたら、まず <code>/init</code> と入力してEnter → Claudeがプロジェクト構造を分析して <strong>CLAUDE.md</strong> の雛形を自動生成してくれる</li>
+          <li><strong>CLAUDE.mdとは</strong>: Claudeへの「指示書」。言語（日本語で話して）・役割（ライターとして）・よく使うワークフロー・ルールなどを書いておくと、次回起動時から自動で読み込まれる</li>
+          <li>最初は <code>/init</code> で生成した雛形で十分。使いながら少しずつ育てていけばOK</li>
+        </ul>
       </div>
     </div>
 
