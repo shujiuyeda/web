@@ -2896,16 +2896,22 @@ function buildSleepTimeline(timeline, bedStart, bedEnd, idSuffix = '') {
   });
 
   // 時刻ラベル（下段）
+  const bedX = PAD.l;       // 就寝ラベルの起点（text-anchor: start）
+  const wakeX = W - PAD.r;  // 起床ラベルの起点（text-anchor: end）
+  const LABEL_W = 30;       // "HH:MM" の概算幅（font-size 9）
+  const GAP = 6;            // ラベル間の最小余白
+
   let tLabels = `
-    <text x="${PAD.l}" y="${H-2}" text-anchor="start" font-size="9" fill="#888">${bedStart.slice(11,16)}</text>
-    <text x="${W-PAD.r}" y="${H-2}" text-anchor="end" font-size="9" fill="#888">${bedEnd.slice(11,16)}</text>`;
+    <text x="${bedX}" y="${H-2}" text-anchor="start" font-size="9" fill="#888">${bedStart.slice(11,16)}</text>
+    <text x="${wakeX}" y="${H-2}" text-anchor="end" font-size="9" fill="#888">${bedEnd.slice(11,16)}</text>`;
   const sd = parseLocalDate(bedStart);
   let tick = new Date(sd.getFullYear(), sd.getMonth(), sd.getDate(), sd.getHours() + 1, 0, 0);
   while (tick.getTime() < endMs) {
     const h = tick.getHours();
     if (h % 2 === 0) {
       const mx = toX(tick.getTime());
-      if (mx > PAD.l + 22 && mx < W - PAD.r - 22) {
+      // 就寝ラベル右端・起床ラベル左端との距離を確認
+      if (mx > bedX + LABEL_W + GAP && mx < wakeX - LABEL_W - GAP) {
         tLabels += `<text x="${f(mx)}" y="${H-2}" text-anchor="middle" font-size="9" fill="#BBB">${h}:00</text>`;
       }
     }
