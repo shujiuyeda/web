@@ -470,9 +470,15 @@ eval "$(/opt/homebrew/bin/brew shellenv)"</pre>
           <li><strong>日本語化</strong>: Obsidianを起動したら、画面左下の <strong>⚙️（Settings）</strong> をクリック → 「<strong>General</strong>」を開く → 「<strong>Language</strong>」のプルダウンで「<strong>日本語</strong>」を選択 → 「<strong>Relaunch</strong>」ボタンをクリック → Obsidianが再起動して全メニューが日本語になる</li>
         </ul>
         <div class="cmd-block">
-          <div class="cmd-header"><span class="cmd-label">このフォルダでClaude Codeを起動（ccws部分は自分でつけた名前に変える）</span><button class="copy-btn" onclick="copyCmd(this)">コピー</button></div>
-          <pre>cd ~/Library/Mobile\ Documents/iCloud\~md\~obsidian/Documents/ccws && claude</pre>
+          <div class="cmd-header"><span class="cmd-label">このフォルダでClaude Codeを起動（初回・フルパス）</span><button class="copy-btn" onclick="copyCmd(this)">コピー</button></div>
+          <pre>cd ~/Library/Mobile\ Documents/iCloud\~md\~obsidian/Documents/（ボルト名） && claude</pre>
         </div>
+        <p>⚠️ <code>（ボルト名）</code> の部分は、Obsidianで作ったボルト名に書き換えてから実行すること（例: <code>ccws</code> → 自分でつけた名前）</p>
+        <div class="cmd-block">
+          <div class="cmd-header"><span class="cmd-label">ショートカット登録（一度だけ実行）— 次回から cc だけでOK</span><button class="copy-btn" onclick="copyCmd(this)">コピー</button></div>
+          <pre>echo 'alias cc="cd ~/Library/Mobile\ Documents/iCloud\~md\~obsidian/Documents/（ボルト名） && claude"' >> ~/.zshrc && source ~/.zshrc</pre>
+        </div>
+        <p>⚠️ こちらも <code>（ボルト名）</code> を自分のボルト名に書き換えてから実行する。登録後は <code>cc</code> とだけ打てばClaude Codeが起動する</p>
         <div class="note">⚠️ Claude Codeは<strong>起動したフォルダがワークスペース</strong>になる。必ずこのフォルダに移動してから起動すること。セキュリティチェックが出たら「1. Yes, I trust this folder」を選ぶ</div>
         <ul>
           <li>起動できたら、まず <code>/init</code> と入力してEnter → Claudeがプロジェクト構造を分析して <strong>CLAUDE.md</strong> の雛形を自動生成してくれる</li>
