@@ -2,11 +2,11 @@
   "2026-02-27": {
     "water": 0,
     "bowel": null,
-    "mood": null,
-    "energy": null,
-    "weather": null,
-    "sleep_feel": null,
-    "body_note": null,
+    "mood": 5,
+    "energy": 4.5,
+    "weather": "sunny",
+    "sleep_feel": "よく眠れた（主観最高）",
+    "body_note": "腰（背中下部）の張り→朝ストレッチ後に緩んだ。右肩は普段意識なし・筋トレ時に出る。",
     "steps": null,
     "rhr": 58,
     "hrv": null,
@@ -361,11 +361,11 @@
     "waterBonus": null
   },
   "2026-02-26": {
-    "water": 1.8,
+    "water": 2.23,
     "bowel": {
-      "status": "hard",
+      "status": "loose",
       "time": "09:07",
-      "note": "朝食前・空腹時。少し時間かかった。食後の方が柔らかくなる傾向あり"
+      "note": "朝：硬めが少量→柔らかめ×2回、量全体少なめ。少食でも出た。"
     },
     "mood": null,
     "energy": 3.5,
