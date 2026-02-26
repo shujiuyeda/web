@@ -2962,8 +2962,8 @@ function renderSleep(container) {
     const nightH   = todayS.total ?? 0;
     const napTotal = todayS.naps.reduce((s, n) => s + (n.total ?? 0), 0);
     const dayTotal = todayS.dayTotal ?? (nightH + napTotal);
-    const dayIcon  = dayTotal >= 7 ? '🌟' : dayTotal >= 6.5 ? '😴' : dayTotal >= 5.5 ? '😑' : '🥱';
-    const dayColor = dayTotal >= 7 ? 'var(--green-mid)' : dayTotal >= 6.5 ? 'var(--green-mid)' : dayTotal >= 5.5 ? 'var(--warning)' : 'var(--danger)';
+    const dayIcon  = dayTotal >= 7 ? '🌟' : dayTotal >= 6.5 ? '😴' : dayTotal >= 6 ? '😑' : '🥱';
+    const dayColor = dayTotal >= 7 ? 'var(--green-mid)' : dayTotal >= 6.5 ? 'var(--green-mid)' : dayTotal >= 6 ? 'var(--warning)' : 'var(--danger)';
     container.innerHTML += `<div class="card" style="background:linear-gradient(135deg,var(--green-pale),#EEF5FA);border:1px solid var(--border);">
       <div class="card-title">📊 1日の睡眠合計</div>
       <div style="display:flex;align-items:center;justify-content:space-between;padding:4px 0;">
@@ -2991,9 +2991,9 @@ function renderSleep(container) {
     const awakeH = todayS.awake || 0;
     const hasTimeline = !!(todayS.timeline && todayS.timeline.length > 0);
 
-    const sleepIcon   = totalH >= 7 ? '🌟' : totalH >= 6.5 ? '😴' : totalH >= 5.5 ? '😑' : '🥱';
-    const sleepLabel  = totalH >= 7 ? '最高' : totalH >= 6.5 ? '十分' : totalH >= 5.5 ? 'やや不足' : '不足';
-    const statusColor = totalH >= 7 ? 'var(--green-mid)' : totalH >= 6.5 ? 'var(--green-mid)' : totalH >= 5.5 ? 'var(--warning)' : 'var(--danger)';
+    const sleepIcon   = totalH >= 7 ? '🌟' : totalH >= 6.5 ? '😴' : totalH >= 6 ? '😑' : '🥱';
+    const sleepLabel  = totalH >= 7 ? '最高' : totalH >= 6.5 ? '十分' : totalH >= 6 ? 'やや不足' : '不足';
+    const statusColor = totalH >= 7 ? 'var(--green-mid)' : totalH >= 6.5 ? 'var(--green-mid)' : totalH >= 6 ? 'var(--warning)' : 'var(--danger)';
 
     // ヒーロー行（合計時間 + 評価）
     summaryHtml += `
@@ -3129,7 +3129,7 @@ function renderSleep(container) {
     const napMin    = row.napH  != null ? Math.round(row.napH * 60) : null;
     const napStr    = napMin    != null ? `${Math.floor(napMin/60)}h${String(napMin%60).padStart(2,'0')}m`    : '—';
     const goodSleep = row.total != null && row.total >= 6.5;
-    const sleepIcon = row.total == null ? '' : row.total >= 7 ? '🌟' : row.total >= 6.5 ? '😴' : row.total >= 5.5 ? '😑' : '🥱';
+    const sleepIcon = row.total == null ? '' : row.total >= 7 ? '🌟' : row.total >= 6.5 ? '😴' : row.total >= 6 ? '😑' : '🥱';
 
     chartHtml += `<tr style="${isToday2 ? 'background:var(--green-pale);' : ''}">
       <td style="padding:5px 4px;white-space:nowrap;">${row.ds.slice(5).replace('-','/')}${isToday2 ? '&nbsp;<span style="font-size:9px;color:var(--green-mid);">TODAY</span>' : ''}</td>
