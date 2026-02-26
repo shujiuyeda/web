@@ -3030,11 +3030,36 @@ function renderSleep(container) {
 
     // ステージ詳細ボックス（タイムライン付きの日）
     if (coreH > 0 || remH > 0 || deepH > 0 || awakeH > 0) {
+      const sPct = h => totalH > 0 ? Math.round((h / totalH) * 100) : 0;
+      const sInd = (type, pct) => {
+        let dot, label, color;
+        if (type === 'core') {
+          if (pct >= 45 && pct <= 55) { dot = '●'; label = '理想域'; color = '#22C55E'; }
+          else if (pct < 45) { dot = '△'; label = 'やや少'; color = '#F59E0B'; }
+          else { dot = '△'; label = 'やや多'; color = '#F59E0B'; }
+        } else if (type === 'rem') {
+          if (pct >= 20 && pct <= 25) { dot = '●'; label = '理想域'; color = '#22C55E'; }
+          else if (pct >= 15 && pct < 20) { dot = '△'; label = 'やや少'; color = '#F59E0B'; }
+          else if (pct > 25 && pct <= 30) { dot = '△'; label = 'やや多'; color = '#F59E0B'; }
+          else { dot = '▼'; label = pct < 15 ? '少なめ' : '多め'; color = '#EF4444'; }
+        } else if (type === 'deep') {
+          if (pct >= 10 && pct <= 20) { dot = '●'; label = '理想域'; color = '#22C55E'; }
+          else if (pct >= 8 && pct < 10) { dot = '△'; label = 'やや少'; color = '#F59E0B'; }
+          else if (pct > 20) { dot = '▼'; label = '多め'; color = '#EF4444'; }
+          else { dot = '▼'; label = '少なめ'; color = '#EF4444'; }
+        } else {
+          if (pct < 5) { dot = '●'; label = '良好'; color = '#22C55E'; }
+          else if (pct <= 10) { dot = '△'; label = 'やや多'; color = '#F59E0B'; }
+          else { dot = '▼'; label = '多め'; color = '#EF4444'; }
+        }
+        return `<div style="font-size:9px;color:${color};margin-top:2px;">${dot}${label}</div>`;
+      };
+      const cPct = sPct(coreH), rPct = sPct(remH), dPct = sPct(deepH), aPct = sPct(awakeH);
       summaryHtml += `<div style="display:flex;gap:6px;margin-top:10px;">
-        ${coreH  > 0 ? `<div style="flex:1;text-align:center;background:#EEF5FA;border-radius:8px;padding:7px 2px;"><div style="font-size:13px;font-weight:700;color:#5B8FB9;">${hrToHM(coreH)}</div><div style="font-size:10px;color:var(--text-muted);">コア</div></div>` : ''}
-        ${remH   > 0 ? `<div style="flex:1;text-align:center;background:#EEF5FA;border-radius:8px;padding:7px 2px;"><div style="font-size:13px;font-weight:700;color:#5B8FB9;">${hrToHM(remH)}</div><div style="font-size:10px;color:var(--text-muted);">REM</div></div>` : ''}
-        ${deepH  > 0 ? `<div style="flex:1;text-align:center;background:#E8EEF5;border-radius:8px;padding:7px 2px;"><div style="font-size:13px;font-weight:700;color:#2E4057;">${hrToHM(deepH)}</div><div style="font-size:10px;color:var(--text-muted);">深い</div></div>` : ''}
-        ${awakeH > 0 ? `<div style="flex:1;text-align:center;background:#FEF3EB;border-radius:8px;padding:7px 2px;"><div style="font-size:13px;font-weight:700;color:#F4A261;">${hrToHM(awakeH)}</div><div style="font-size:10px;color:var(--text-muted);">覚醒</div></div>` : ''}
+        ${coreH  > 0 ? `<div style="flex:1;text-align:center;background:#EEF5FA;border-radius:8px;padding:7px 2px;"><div style="font-size:13px;font-weight:700;color:#5B8FB9;">${hrToHM(coreH)}</div><div style="font-size:10px;color:var(--text-muted);">コア ${cPct}%</div>${sInd('core', cPct)}</div>` : ''}
+        ${remH   > 0 ? `<div style="flex:1;text-align:center;background:#EEF5FA;border-radius:8px;padding:7px 2px;"><div style="font-size:13px;font-weight:700;color:#5B8FB9;">${hrToHM(remH)}</div><div style="font-size:10px;color:var(--text-muted);">REM ${rPct}%</div>${sInd('rem', rPct)}</div>` : ''}
+        ${deepH  > 0 ? `<div style="flex:1;text-align:center;background:#E8EEF5;border-radius:8px;padding:7px 2px;"><div style="font-size:13px;font-weight:700;color:#2E4057;">${hrToHM(deepH)}</div><div style="font-size:10px;color:var(--text-muted);">深い ${dPct}%</div>${sInd('deep', dPct)}</div>` : ''}
+        ${awakeH > 0 ? `<div style="flex:1;text-align:center;background:#FEF3EB;border-radius:8px;padding:7px 2px;"><div style="font-size:13px;font-weight:700;color:#F4A261;">${hrToHM(awakeH)}</div><div style="font-size:10px;color:var(--text-muted);">覚醒 ${aPct}%</div>${sInd('awake', aPct)}</div>` : ''}
       </div>`;
     }
   }
@@ -3147,7 +3172,7 @@ function renderSleep(container) {
     </tr>`;
   });
   chartHtml += `</tbody></table>
-  <div style="font-size:10px;color:var(--text-muted);margin-top:6px;">目安: 合計7h以上◎ / REM 20〜25%が理想${hasAnyNap ? ' ／ 合計は夜間＋昼寝の合算' : ''}</div>
+  <div style="font-size:10px;color:var(--text-muted);margin-top:6px;">目安: 合計7h+◎ / 深い10-20% / REM 20-25% / 覚醒5%以下 ※50代は深い睡眠が少なめでも正常${hasAnyNap ? ' ／ 合計は夜間＋昼寝の合算' : ''}</div>
   </div><div class="spacer"></div>`;
   container.innerHTML += chartHtml;
 }
