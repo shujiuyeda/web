@@ -3090,6 +3090,32 @@ function renderSleep(container) {
   summaryHtml += `</div>`;
   container.innerHTML += summaryHtml;
 
+  // ===== リバウンド警告カード =====
+  if (todayS && isToday) {
+    const totalH = todayS.total || 0;
+    const reboundRisk = totalH >= 7 ? 'high' : totalH >= 6.5 ? 'medium' : null;
+    if (reboundRisk) {
+      const isHigh = reboundRisk === 'high';
+      const bgColor = isHigh ? '#FFF7ED' : '#FFFBEB';
+      const borderColor = isHigh ? '#F97316' : '#F59E0B';
+      const titleColor = isHigh ? '#EA580C' : '#D97706';
+      const riskLabel = isHigh ? '⚡ リバウンド注意（高リスク）' : '⚡ リバウンド注意';
+      const reboundMsg = (adviceData && adviceData.sleep && adviceData.sleep.reboundAlert && adviceData.sleep.reboundAlert.message)
+        ? adviceData.sleep.reboundAlert.message : null;
+      container.innerHTML += `
+        <div class="card" style="background:${bgColor};border-left:4px solid ${borderColor};padding:12px 14px;">
+          <div style="font-size:13px;font-weight:700;color:${titleColor};margin-bottom:8px;">${riskLabel}</div>
+          <div style="font-size:12px;color:var(--text-secondary);margin-bottom:10px;">よく眠れた翌日は夜更かしリスクUP。過去データが示す傾向を意識して今夜の就寝を守ろう。</div>
+          <div style="font-size:11px;color:var(--text-secondary);line-height:1.8;">
+            <div>📌 <strong>22:30</strong>　就寝準備アラームをセット</div>
+            <div>📌 <strong>23:00</strong>　布団に入る（眠くなくても）</div>
+            <div>📌 <strong>21:00以降</strong>　スマホ・PC控えめに</div>
+          </div>
+          ${reboundMsg ? `<div style="margin-top:10px;padding:6px 10px;background:rgba(0,0,0,0.04);border-radius:6px;font-size:10px;color:${titleColor};">💡 ${reboundMsg}</div>` : ''}
+        </div>`;
+    }
+  }
+
   // ===== 昼寝カード（昼寝がある日のみ） =====
   if (hasNaps) {
     todayS.naps.forEach((nap, idx) => {

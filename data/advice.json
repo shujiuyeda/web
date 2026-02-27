@@ -772,6 +772,10 @@
         "rem": null,
         "core": "core 67%（目標45-55%）。深い睡眠の割合が増えると改善しやすい",
         "awake": null
+      },
+      "reboundAlert": {
+        "risk": "high",
+        "message": "過去7h+翌日は平均-1.6h減少。2/23も7h後→02:03就寝→4h。今夜23:00就寝を死守"
       }
     },
     "supplements": {
