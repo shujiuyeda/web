@@ -1,20 +1,24 @@
 {
   "2026-02-27": {
     "water": 2.0,
-    "bowel": null,
+    "bowel": {
+      "status": "hard",
+      "time": null,
+      "note": "硬め、1回"
+    },
     "mood": 5,
     "energy": 4.5,
     "weather": "sunny",
     "sleep_feel": "よく眠れた（主観最高）",
     "body_note": "腰（背中下部）の張り→朝ストレッチ後に緩んだ。右肩は普段意識なし・筋トレ時に出る。",
-    "steps": null,
-    "rhr": 58,
-    "hrv": null,
-    "stride": null,
-    "walkSpeed": null,
-    "walkDistance": null,
+    "steps": 2317,
+    "rhr": 61,
+    "hrv": 24.5,
+    "stride": 73.5,
+    "walkSpeed": 5.1,
+    "walkDistance": 1.42,
     "vo2max": null,
-    "walkHR": null,
+    "walkHR": 89,
     "stretch": null,
     "waterBonus": null
   },
@@ -387,5 +391,29 @@
       "st4": true
     },
     "waterBonus": 0.43
+  },
+  "2026-02-28": {
+    "water": null,
+    "bowel": null,
+    "mood": null,
+    "energy": null,
+    "weather": "cloudy",
+    "sleep_feel": "途中覚醒（2時過ぎ2時間）",
+    "body_note": "腰いつもの。ストレッチで和らいだ。エネルギー2.8",
+    "steps": null,
+    "rhr": null,
+    "hrv": null,
+    "stride": null,
+    "walkSpeed": null,
+    "walkDistance": null,
+    "vo2max": null,
+    "walkHR": null,
+    "stretch": {
+      "st1": true,
+      "st2": true,
+      "st3": true,
+      "st4": true
+    },
+    "waterBonus": null
   }
 }
