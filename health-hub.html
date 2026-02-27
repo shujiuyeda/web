@@ -553,6 +553,23 @@
       line-height: 1;
     }
     .sync-dot:active { opacity: 0.5; }
+    /* Sync lost banner */
+    .sync-lost-banner {
+      position: fixed; top: 56px; left: 0; right: 0; z-index: 150;
+      background: #FFF3CD; border-bottom: 1px solid #FECB5C;
+      display: flex; align-items: center; gap: 8px;
+      padding: 10px 14px; font-size: 13px; color: #664D03;
+    }
+    .sync-lost-banner span { flex: 1; }
+    .sync-lost-banner button {
+      padding: 5px 10px; border: 1px solid #FECB5C; border-radius: 6px;
+      background: white; color: #664D03; font-size: 12px; cursor: pointer;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .sync-banner-close {
+      background: transparent !important; border: none !important;
+      font-size: 16px !important; padding: 2px 6px !important;
+    }
     /* Sync settings modal */
     #sync-modal-overlay {
       position: fixed; inset: 0; background: rgba(0,0,0,0.5);
@@ -610,6 +627,12 @@
       <button class="header-reload" onclick="reloadData()" title="リロード">↻</button>
     </div>
   </header>
+
+  <div id="sync-lost-banner" class="sync-lost-banner hidden">
+    <span>⚠️ GitHub同期が切断されました</span>
+    <button onclick="openSyncSettings()">再設定</button>
+    <button onclick="dismissSyncBanner()" class="sync-banner-close">&times;</button>
+  </div>
 
   <main class="main" id="main-content"></main>
 
@@ -866,6 +889,65 @@ function ls(key, val) {
   localStorage.setItem(key, JSON.stringify(val));
 }
 
+// ======== IndexedDB BACKUP (PAT永続化) ========
+const idbPat = (() => {
+  const DB_NAME = 'health_hub_backup';
+  const STORE   = 'kv';
+  function open() {
+    return new Promise((resolve, reject) => {
+      const req = indexedDB.open(DB_NAME, 1);
+      req.onupgradeneeded = e => e.target.result.createObjectStore(STORE);
+      req.onsuccess = e => resolve(e.target.result);
+      req.onerror   = e => reject(e.target.error);
+    });
+  }
+  async function get(key) {
+    try {
+      const db = await open();
+      return new Promise((resolve, reject) => {
+        const tx = db.transaction(STORE, 'readonly');
+        const req = tx.objectStore(STORE).get(key);
+        req.onsuccess = e => resolve(e.target.result ?? null);
+        req.onerror   = e => reject(e.target.error);
+      });
+    } catch { return null; }
+  }
+  async function set(key, val) {
+    try {
+      const db = await open();
+      return new Promise((resolve, reject) => {
+        const tx = db.transaction(STORE, 'readwrite');
+        const req = tx.objectStore(STORE).put(val, key);
+        req.onsuccess = () => resolve();
+        req.onerror   = e => reject(e.target.error);
+      });
+    } catch {}
+  }
+  async function del(key) {
+    try {
+      const db = await open();
+      return new Promise((resolve, reject) => {
+        const tx = db.transaction(STORE, 'readwrite');
+        const req = tx.objectStore(STORE).delete(key);
+        req.onsuccess = () => resolve();
+        req.onerror   = e => reject(e.target.error);
+      });
+    } catch {}
+  }
+  return { get, set, del };
+})();
+
+function showSyncBanner() {
+  document.getElementById('sync-lost-banner')?.classList.remove('hidden');
+}
+function hideSyncBanner() {
+  document.getElementById('sync-lost-banner')?.classList.add('hidden');
+}
+function dismissSyncBanner() {
+  hideSyncBanner();
+  sessionStorage.setItem('sync_banner_dismissed', '1');
+}
+
 function getMeals(ds) {
   return (ls(`meals_${ds}`) || []).map(m => {
     if (m.kcal !== undefined) return m; // 正常形式
@@ -1099,6 +1181,9 @@ async function saveGhToken() {
   const ok = await testGhToken(token);
   if (ok) {
     ls('gh_pat', token);
+    idbPat.set('gh_pat', token);        // IDBバックアップ
+    idbPat.set('gh_pat_was_set', true); // 設定済みフラグ
+    hideSyncBanner();
     setSyncStatus('ok');
     result.textContent = '✅ 接続OK！保存しました';
     setTimeout(() => { closeSyncSettings(); flushPendingSyncs(); }, 1200);
@@ -1123,6 +1208,8 @@ async function testAndShowResult() {
 function disconnectGh() {
   if (!confirm('GitHub同期を切断しますか？')) return;
   localStorage.removeItem('gh_pat');
+  idbPat.del('gh_pat');
+  idbPat.del('gh_pat_was_set'); // 意図的な切断 → バナー抑止
   setSyncStatus('none');
   renderSyncConfig();
 }
@@ -3972,9 +4059,28 @@ function esc(s) {
 
 // ======== START ========
 init();
-setSyncStatus(ghSyncEnabled() ? 'ok' : 'none');
-if (navigator.onLine) flushPendingSyncs();
-window.addEventListener('online', () => flushPendingSyncs());
+(async () => {
+  // localStorage消失時 → IDBから自動復元
+  if (!ghToken()) {
+    const idbToken = await idbPat.get('gh_pat');
+    if (idbToken) {
+      ls('gh_pat', idbToken);
+      console.log('[Health Hub] PAT restored from IndexedDB');
+    }
+  }
+  if (ghSyncEnabled()) {
+    setSyncStatus('ok');
+    if (navigator.onLine) flushPendingSyncs();
+  } else {
+    setSyncStatus('none');
+    // 以前設定されていたのにPATがない → バナー表示
+    const wasConfigured = await idbPat.get('gh_pat_was_set');
+    if (wasConfigured && !sessionStorage.getItem('sync_banner_dismissed')) {
+      showSyncBanner();
+    }
+  }
+  window.addEventListener('online', () => flushPendingSyncs());
+})();
 
 </script>
 </body>
