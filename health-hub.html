@@ -3057,26 +3057,26 @@ function renderSleep(container) {
       };
       const cPct = sPct(coreH), rPct = sPct(remH), dPct = sPct(deepH), aPct = sPct(awakeH);
       summaryHtml += `<div style="display:flex;gap:6px;margin-top:10px;">
-        ${coreH  > 0 ? `<div style="flex:1;text-align:center;background:#EEF5FA;border-radius:8px;padding:7px 2px;"><div style="font-size:13px;font-weight:700;color:#5B8FB9;">${hrToHM(coreH)}</div><div style="font-size:10px;color:var(--text-muted);">コア ${cPct}%</div>${sInd('core', cPct)}</div>` : ''}
-        ${remH   > 0 ? `<div style="flex:1;text-align:center;background:#EEF5FA;border-radius:8px;padding:7px 2px;"><div style="font-size:13px;font-weight:700;color:#5B8FB9;">${hrToHM(remH)}</div><div style="font-size:10px;color:var(--text-muted);">REM ${rPct}%</div>${sInd('rem', rPct)}</div>` : ''}
-        ${deepH  > 0 ? `<div style="flex:1;text-align:center;background:#E8EEF5;border-radius:8px;padding:7px 2px;"><div style="font-size:13px;font-weight:700;color:#2E4057;">${hrToHM(deepH)}</div><div style="font-size:10px;color:var(--text-muted);">深い ${dPct}%</div>${sInd('deep', dPct)}</div>` : ''}
-        ${awakeH > 0 ? `<div style="flex:1;text-align:center;background:#FEF3EB;border-radius:8px;padding:7px 2px;"><div style="font-size:13px;font-weight:700;color:#F4A261;">${hrToHM(awakeH)}</div><div style="font-size:10px;color:var(--text-muted);">覚醒 ${aPct}%</div>${sInd('awake', aPct)}</div>` : ''}
+        ${coreH  > 0 ? `<div style="flex:1;text-align:center;background:#EEF5FA;border-radius:8px;padding:7px 2px;"><div style="font-size:13px;font-weight:700;color:#5B8FB9;">${hrToHM(coreH)}</div><div style="font-size:10px;color:var(--text-muted);">コア ${cPct}%</div>${sInd('core', cPct)}<div style="font-size:8px;color:var(--text-muted);margin-top:2px;">基本休息</div></div>` : ''}
+        ${remH   > 0 ? `<div style="flex:1;text-align:center;background:#EEF5FA;border-radius:8px;padding:7px 2px;"><div style="font-size:13px;font-weight:700;color:#5B8FB9;">${hrToHM(remH)}</div><div style="font-size:10px;color:var(--text-muted);">REM ${rPct}%</div>${sInd('rem', rPct)}<div style="font-size:8px;color:var(--text-muted);margin-top:2px;">記憶・感情</div></div>` : ''}
+        ${deepH  > 0 ? `<div style="flex:1;text-align:center;background:#E8EEF5;border-radius:8px;padding:7px 2px;"><div style="font-size:13px;font-weight:700;color:#2E4057;">${hrToHM(deepH)}</div><div style="font-size:10px;color:var(--text-muted);">深い ${dPct}%</div>${sInd('deep', dPct)}<div style="font-size:8px;color:var(--text-muted);margin-top:2px;">成長ホルモン</div></div>` : ''}
+        ${awakeH > 0 ? `<div style="flex:1;text-align:center;background:#FEF3EB;border-radius:8px;padding:7px 2px;"><div style="font-size:13px;font-weight:700;color:#F4A261;">${hrToHM(awakeH)}</div><div style="font-size:10px;color:var(--text-muted);">覚醒 ${aPct}%</div>${sInd('awake', aPct)}<div style="font-size:8px;color:var(--text-muted);margin-top:2px;">少ないほど◎</div></div>` : ''}
       </div>`;
       // ヒントカード v2（AIパーソナライズ対応・2行構成）
       const stageHints = (adviceData && adviceData.sleep && adviceData.sleep.stageHints) ? adviceData.sleep.stageHints : {};
       const fallbacks = {
-        deep: '日中の活動量や就寝リズムの安定が深い睡眠を増やします',
+        deep: '成長ホルモン（脂肪燃焼+筋修復）は深い睡眠中に分泌。活動量とMg服用で改善',
         rem: '規則的な起床時間と十分な睡眠時間がREMを改善します',
         remOver: 'REM過多はストレスや睡眠不足の反動の可能性。睡眠時間の確保を',
         core: '総睡眠時間を増やすことがコア睡眠改善の近道です',
-        awake: '夜間の覚醒を減らすにはカフェインの時間帯と就寝環境の見直しを'
+        awake: '中途覚醒はコルチゾール↑で脂肪燃焼を阻害。Mg服用と20時以降の水分制限を'
       };
       const hints = [];
-      if (dPct > 0 && dPct < 10) hints.push({ stage: '深い睡眠', status: `やや少なめ（${dPct}%）`, text: stageHints.deep || fallbacks.deep, color: dPct < 8 ? '#EF4444' : '#F59E0B' });
-      if (rPct > 0 && rPct < 20) hints.push({ stage: 'REM', status: `やや少なめ（${rPct}%）`, text: stageHints.rem || fallbacks.rem, color: rPct < 15 ? '#EF4444' : '#F59E0B' });
-      if (rPct > 25) hints.push({ stage: 'REM', status: `多め（${rPct}%）`, text: stageHints.rem || fallbacks.remOver, color: rPct > 30 ? '#EF4444' : '#F59E0B' });
-      if (cPct > 0 && cPct < 45) hints.push({ stage: 'コア', status: `やや少なめ（${cPct}%）`, text: stageHints.core || fallbacks.core, color: '#F59E0B' });
-      if (aPct >= 5) hints.push({ stage: '覚醒', status: `多め（${aPct}%）`, text: stageHints.awake || fallbacks.awake, color: aPct > 10 ? '#EF4444' : '#F59E0B' });
+      if (dPct > 0 && dPct < 10) hints.push({ stage: '深い睡眠（脂肪燃焼）', status: `やや少なめ（${dPct}%）`, text: stageHints.deep || fallbacks.deep, color: dPct < 8 ? '#EF4444' : '#F59E0B' });
+      if (rPct > 0 && rPct < 20) hints.push({ stage: 'REM（記憶・感情）', status: `やや少なめ（${rPct}%）`, text: stageHints.rem || fallbacks.rem, color: rPct < 15 ? '#EF4444' : '#F59E0B' });
+      if (rPct > 25) hints.push({ stage: 'REM（記憶・感情）', status: `多め（${rPct}%）`, text: stageHints.rem || fallbacks.remOver, color: rPct > 30 ? '#EF4444' : '#F59E0B' });
+      if (cPct > 0 && cPct < 45) hints.push({ stage: 'コア（基本休息）', status: `やや少なめ（${cPct}%）`, text: stageHints.core || fallbacks.core, color: '#F59E0B' });
+      if (aPct >= 5) hints.push({ stage: '覚醒（少ないほど◎）', status: `多め（${aPct}%）`, text: stageHints.awake || fallbacks.awake, color: aPct > 10 ? '#EF4444' : '#F59E0B' });
       if (hints.length === 0) {
         summaryHtml += `<div style="margin-top:8px;padding:7px 10px;background:#F0FDF4;border-radius:8px;font-size:10px;color:#16A34A;text-align:center;">✨ 睡眠バランス良好！</div>`;
       } else {
@@ -3152,7 +3152,7 @@ function renderSleep(container) {
     const s = sleepAll[ds] ?? null;
     const napTotal = s?.naps ? s.naps.reduce((sum, n) => sum + (n.total ?? 0), 0) : 0;
     const displayTotal = s?.dayTotal ?? (napTotal > 0 ? (s?.total ?? 0) + napTotal : s?.total ?? null);
-    sleepChart.push({ ds, total: displayTotal, nightOnly: s?.total ?? null, napH: napTotal > 0 ? napTotal : null, rem: s?.rem ?? null });
+    sleepChart.push({ ds, total: displayTotal, nightOnly: s?.total ?? null, napH: napTotal > 0 ? napTotal : null, rem: s?.rem ?? null, deep: s?.deep ?? null, awake: s?.awake ?? null });
   }
 
   const hasAnyNap  = sleepChart.some(r => r.napH != null);
@@ -3167,42 +3167,46 @@ function renderSleep(container) {
       <th style="text-align:left;padding:4px;color:var(--text-muted);font-weight:600;border-bottom:1px solid var(--border);">日付</th>
       <th style="${thStyle}">合計</th>
       ${hasAnyNap ? `<th style="${thStyle}">昼寝</th>` : ''}
-      <th style="${thStyle}">REM</th>
-      <th style="${thStyle}">REM%</th>
+      <th style="${thStyle}">深い</th>
+      <th style="${thStyle}">深い%</th>
+      <th style="${thStyle}">覚醒%</th>
       <th style="text-align:center;padding:4px;color:var(--text-muted);font-weight:600;border-bottom:1px solid var(--border);"></th>
     </tr></thead><tbody>`;
 
   [...sleepChart].reverse().forEach(row => {
     const isToday2  = row.ds === todayStr();
-    const nightMin  = row.nightOnly != null ? Math.round(row.nightOnly * 60) : null;
     const totalMin  = row.total != null ? Math.round(row.total * 60) : null;
-    const remMin    = row.rem   != null ? Math.round(row.rem   * 60) : null;
-    const remPct2   = (row.nightOnly && row.rem != null) ? Math.round(row.rem / row.nightOnly * 100) : null;
+    const deepMin   = row.deep  != null ? Math.round(row.deep  * 60) : null;
+    const deepPct2  = (row.nightOnly && row.deep  != null) ? Math.round(row.deep  / row.nightOnly * 100) : null;
+    const awakePct2 = (row.nightOnly && row.awake != null) ? Math.round(row.awake / row.nightOnly * 100) : null;
     const totalStr  = totalMin != null ? `${Math.floor(totalMin/60)}h${String(totalMin%60).padStart(2,'0')}m` : '—';
-    const remStr    = remMin   != null ? `${Math.floor(remMin/60)}h${String(remMin%60).padStart(2,'0')}m`     : '—';
+    const deepStr   = deepMin  != null ? `${Math.floor(deepMin/60)}h${String(deepMin%60).padStart(2,'0')}m`   : '—';
     const napMin    = row.napH  != null ? Math.round(row.napH * 60) : null;
     const napStr    = napMin    != null ? `${Math.floor(napMin/60)}h${String(napMin%60).padStart(2,'0')}m`    : '—';
     const goodSleep = row.total != null && row.total >= 6.5;
     const sleepIcon = row.total == null ? '' : row.total >= 7 ? '🌟' : row.total >= 6.5 ? '😴' : row.total >= 6 ? '😑' : '🥱';
+    const deepColor = deepPct2 == null ? 'var(--text-muted)' : (deepPct2 >= 10 && deepPct2 <= 20) ? 'var(--green-mid)' : (deepPct2 >= 8) ? '#F59E0B' : '#EF4444';
+    const awakeColor = awakePct2 == null ? 'var(--text-muted)' : awakePct2 < 5 ? 'var(--green-mid)' : awakePct2 <= 10 ? '#F59E0B' : '#EF4444';
 
     chartHtml += `<tr style="${isToday2 ? 'background:var(--green-pale);' : ''}">
       <td style="padding:5px 4px;white-space:nowrap;">${row.ds.slice(5).replace('-','/')}${isToday2 ? '&nbsp;<span style="font-size:9px;color:var(--green-mid);">TODAY</span>' : ''}</td>
       <td style="text-align:right;padding:5px 4px;font-weight:600;color:${row.total==null?'var(--text-muted)':goodSleep?'var(--green-mid)':'var(--warning)'};">${totalStr}</td>
       ${hasAnyNap ? `<td style="text-align:right;padding:5px 4px;color:#A78BFA;font-weight:${row.napH?'600':'400'};">${napStr}</td>` : ''}
-      <td style="text-align:right;padding:5px 4px;color:#5B8FB9;font-weight:${row.rem?'600':'400'};">${remStr}</td>
-      <td style="text-align:right;padding:5px 4px;color:var(--text-muted);">${remPct2 != null ? remPct2 + '%' : '—'}</td>
+      <td style="text-align:right;padding:5px 4px;color:#2E4057;font-weight:${row.deep!=null?'600':'400'};">${deepStr}</td>
+      <td style="text-align:right;padding:5px 4px;font-weight:600;color:${deepColor};">${deepPct2 != null ? deepPct2 + '%' : '—'}</td>
+      <td style="text-align:right;padding:5px 4px;font-weight:600;color:${awakeColor};">${awakePct2 != null ? awakePct2 + '%' : '—'}</td>
       <td style="text-align:center;padding:5px 4px;font-size:15px;">${sleepIcon}</td>
     </tr>`;
   });
   chartHtml += `</tbody></table>
-  <div style="font-size:10px;color:var(--text-muted);margin-top:6px;">目安: 合計7h+◎ / 深い10-20% / REM 20-25% / 覚醒5%以下 ※50代は深い睡眠が少なめでも正常${hasAnyNap ? ' ／ 合計は夜間＋昼寝の合算' : ''}</div>
+  <div style="font-size:10px;color:var(--text-muted);margin-top:6px;">目安: 合計7h+◎ / 深い10-20%（成長ホルモン） / 覚醒5%以下${hasAnyNap ? ' ／ 合計は夜間＋昼寝の合算' : ''}</div>
   </div><div class="spacer"></div>`;
   container.innerHTML += chartHtml;
 }
 
 function buildSleepChart(data) {
   const W = 320, H = 140;
-  const PAD = {t:20, r:20, b:26, l:40};
+  const PAD = {t:20, r:36, b:26, l:40};
   const pw = W - PAD.l - PAD.r;
   const ph = H - PAD.t - PAD.b;
   const n  = data.length;
@@ -3221,20 +3225,34 @@ function buildSleepChart(data) {
     ? `<circle cx="${xS(i).toFixed(1)}" cy="${yT(d.total).toFixed(1)}" r="3" fill="white" stroke="#2E4057" stroke-width="2"/>`
     : '').join('');
 
-  // REM ライン
-  const remVals = data.map(d => d.rem).filter(v => v != null && v > 0);
-  let remPts = '', remDots = '';
-  if (remVals.length >= 2) {
-    remPts  = data.filter(d => d.rem != null && d.rem > 0).map(d => `${xS(data.indexOf(d)).toFixed(1)},${yT(d.rem).toFixed(1)}`).join(' ');
-    remDots = data.map((d,i) => d.rem != null && d.rem > 0
-      ? `<circle cx="${xS(i).toFixed(1)}" cy="${yT(d.rem).toFixed(1)}" r="2.5" fill="white" stroke="#5B8FB9" stroke-width="2"/>`
-      : '').join('');
-  }
+  // 右Y軸: パーセンテージスケール (0-30%)
+  const yR = v => PAD.t + ph - (v / 30) * ph;
 
-  // Y軸ラベル
+  // 深い% ライン
+  const deepPcts = data.map(d => (d.nightOnly && d.deep != null) ? Math.round(d.deep / d.nightOnly * 100) : null);
+  const hasDeep = deepPcts.filter(v => v != null).length >= 2;
+  const deepPts = hasDeep ? data.map((d,i) => deepPcts[i] != null ? `${xS(i).toFixed(1)},${yR(deepPcts[i]).toFixed(1)}` : null).filter(v=>v).join(' ') : '';
+  const deepDots = hasDeep ? data.map((d,i) => deepPcts[i] != null
+    ? `<circle cx="${xS(i).toFixed(1)}" cy="${yR(deepPcts[i]).toFixed(1)}" r="2.5" fill="white" stroke="#2E4057" stroke-width="1.5"/>`
+    : '').join('') : '';
+
+  // 覚醒% ライン
+  const awakePcts = data.map(d => (d.nightOnly && d.awake != null) ? Math.round(d.awake / d.nightOnly * 100) : null);
+  const hasAwake = awakePcts.filter(v => v != null).length >= 2;
+  const awakePts = hasAwake ? data.map((d,i) => awakePcts[i] != null ? `${xS(i).toFixed(1)},${yR(awakePcts[i]).toFixed(1)}` : null).filter(v=>v).join(' ') : '';
+  const awakeDots = hasAwake ? data.map((d,i) => awakePcts[i] != null
+    ? `<circle cx="${xS(i).toFixed(1)}" cy="${yR(awakePcts[i]).toFixed(1)}" r="2.5" fill="white" stroke="#F4A261" stroke-width="1.5"/>`
+    : '').join('') : '';
+
+  // 左Y軸ラベル（時間）
   const yLabels = [minT, (minT+maxT)/2, maxT].map(v =>
     `<line x1="${PAD.l}" y1="${yT(v).toFixed(1)}" x2="${W-PAD.r}" y2="${yT(v).toFixed(1)}" stroke="#E9ECEF" stroke-width="1"/>
      <text x="${PAD.l-5}" y="${(yT(v)+4).toFixed(1)}" text-anchor="end" font-size="9" fill="#555">${v.toFixed(1)}h</text>`
+  ).join('');
+
+  // 右Y軸ラベル（%）
+  const rAxisLabels = [0, 15, 30].map(v =>
+    `<text x="${W-PAD.r+3}" y="${(yR(v)+3).toFixed(1)}" text-anchor="start" font-size="8" fill="#999">${v}%</text>`
   ).join('');
 
   const firstDs = data[0].ds.slice(5).replace('-','/');
@@ -3243,18 +3261,22 @@ function buildSleepChart(data) {
   const legend = `
     <line x1="${PAD.l}" y1="10" x2="${PAD.l+16}" y2="10" stroke="#2E4057" stroke-width="2"/>
     <text x="${PAD.l+18}" y="14" font-size="9" fill="#555">合計</text>
-    ${remPts ? `<line x1="${PAD.l+44}" y1="10" x2="${PAD.l+60}" y2="10" stroke="#5B8FB9" stroke-width="1.5" stroke-dasharray="4,2"/>
-    <text x="${PAD.l+62}" y="14" font-size="9" fill="#555">REM</text>` : ''}
-    ${goalY ? `<line x1="${PAD.l+90}" y1="10" x2="${PAD.l+106}" y2="10" stroke="#28A745" stroke-width="1" stroke-dasharray="3,3"/>
-    <text x="${PAD.l+108}" y="14" font-size="9" fill="#28A745">7h目標</text>` : ''}`;
+    ${hasDeep ? `<line x1="${PAD.l+44}" y1="10" x2="${PAD.l+60}" y2="10" stroke="#2E4057" stroke-width="1.5"/>
+    <text x="${PAD.l+62}" y="14" font-size="9" fill="#555">深い%</text>` : ''}
+    ${hasAwake ? `<line x1="${PAD.l+100}" y1="10" x2="${PAD.l+116}" y2="10" stroke="#F4A261" stroke-width="1.5" stroke-dasharray="4,2"/>
+    <text x="${PAD.l+118}" y="14" font-size="9" fill="#555">覚醒%</text>` : ''}
+    ${goalY != null ? `<line x1="${PAD.l+158}" y1="10" x2="${PAD.l+174}" y2="10" stroke="#28A745" stroke-width="1" stroke-dasharray="3,3"/>
+    <text x="${PAD.l+176}" y="14" font-size="9" fill="#28A745">7h目標</text>` : ''}`;
 
   return `<div class="chart-scroll">
     <svg viewBox="0 0 ${W} ${H}" width="100%" style="overflow:visible;">
       ${yLabels}
+      ${rAxisLabels}
       ${goalY != null ? `<line x1="${PAD.l}" y1="${goalY.toFixed(1)}" x2="${W-PAD.r}" y2="${goalY.toFixed(1)}" stroke="#28A745" stroke-width="1" stroke-dasharray="3,3" opacity="0.6"/>` : ''}
       <polyline points="${totalPts}" fill="none" stroke="#2E4057" stroke-width="2"/>
-      ${remPts ? `<polyline points="${remPts}" fill="none" stroke="#5B8FB9" stroke-width="1.5" stroke-dasharray="4,2"/>` : ''}
-      ${totalDots}${remDots}
+      ${hasDeep  ? `<polyline points="${deepPts}"  fill="none" stroke="#2E4057" stroke-width="1.5"/>` : ''}
+      ${hasAwake ? `<polyline points="${awakePts}" fill="none" stroke="#F4A261" stroke-width="1.5" stroke-dasharray="4,2"/>` : ''}
+      ${totalDots}${deepDots}${awakeDots}
       <text x="${PAD.l}" y="${H-2}" text-anchor="middle" font-size="9" fill="#999">${firstDs}</text>
       <text x="${W-PAD.r}" y="${H-2}" text-anchor="middle" font-size="9" fill="#999">${lastDs}</text>
       ${legend}
