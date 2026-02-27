@@ -553,6 +553,14 @@
       line-height: 1;
     }
     .sync-dot:active { opacity: 0.5; }
+    @keyframes sync-pulse {
+      0%, 100% { opacity: 0.5; }
+      50% { opacity: 1; text-shadow: 0 0 6px rgba(255,200,50,0.8); }
+    }
+    .sync-dot.pulse-warn {
+      color: #FFC832 !important;
+      animation: sync-pulse 2s ease-in-out infinite;
+    }
     /* Sync lost banner */
     .sync-lost-banner {
       position: fixed; top: 56px; left: 0; right: 0; z-index: 150;
@@ -999,11 +1007,29 @@ function ghToken()       { return ls('gh_pat') || ''; }
 function ghSyncEnabled() { return !!ghToken(); }
 
 let _lastSyncError = null;
+let _remoteFetchOk = 0;
+let _syncLossBannerFired = false;
+
+function notifyRemoteFetchSuccess() {
+  _remoteFetchOk++;
+  if (_syncLossBannerFired || _remoteFetchOk < 2) return;
+  if (!ghToken() && !sessionStorage.getItem('sync_banner_dismissed')) {
+    _syncLossBannerFired = true;
+    showSyncBanner();
+  }
+}
+
 function setSyncStatus(status, code) {
   const dot = document.getElementById('sync-dot');
   if (!dot) return;
   const colors = { ok:'#28A745', syncing:'#E5A020', error:'#DC3545', none:'#aaa' };
-  dot.style.color = colors[status] || colors.none;
+  if (status === 'none') {
+    dot.style.color = '';
+    dot.classList.add('pulse-warn');
+  } else {
+    dot.style.color = colors[status] || colors.none;
+    dot.classList.remove('pulse-warn');
+  }
   if (code !== undefined) _lastSyncError = code;
 }
 
@@ -1210,6 +1236,7 @@ function disconnectGh() {
   localStorage.removeItem('gh_pat');
   idbPat.del('gh_pat');
   idbPat.del('gh_pat_was_set'); // 意図的な切断 → バナー抑止
+  sessionStorage.setItem('sync_banner_dismissed', '1');
   setSyncStatus('none');
   renderSyncConfig();
 }
@@ -1221,6 +1248,7 @@ async function tryFetchMeals(ds) {
     if (!res.ok) return;
     const data = await res.json();
     if (!data.meals) return;  // malformedデータのみスキップ
+    notifyRemoteFetchSuccess();
     if (data.meals.length === 0) {
       saveMeals(ds, []);  // リモートが空 → localStorageをクリア
       stampLastUpdated();
@@ -1255,6 +1283,7 @@ async function tryFetchSuppl(ds) {
     if (!res.ok) return;
     const data = await res.json();
     if (!data.checks || Object.keys(data.checks).length === 0) return;
+    notifyRemoteFetchSuccess();
     // リモート(Claude記録)のtrue判定は常に反映。ローカルのtrue・skipも保持
     const local = getSuppl(ds);
     const merged = Object.assign({}, local);
@@ -1286,6 +1315,7 @@ async function tryFetchHealthLog() {
     const res = await fetch(`${DATA_BASE_URL}health-log.json?_=${Date.now()}`, { cache: 'no-store' });
     if (!res.ok) return;
     const remote = await res.json();
+    notifyRemoteFetchSuccess();
     const local = getHealthLog();
     let updated = false;
     Object.entries(remote).forEach(([ds, entry]) => {
@@ -1311,6 +1341,7 @@ async function tryFetchWeights() {
     const res = await fetch(`${DATA_BASE_URL}weights.json?_=${Date.now()}`, { cache: 'no-store' });
     if (!res.ok) return;
     const remote = await res.json();
+    notifyRemoteFetchSuccess();
     let updated = false;
 
     // 体重マージ（サーバーがSource of Truth）
@@ -1345,6 +1376,7 @@ async function tryFetchShopping() {
     if (!res.ok) return;
     const remote = await res.json();
     if (!remote.items) return;
+    notifyRemoteFetchSuccess();
     // itemsはremoteを正（source of truth）として上書き
     localStorage.setItem('shopping_items', JSON.stringify(remote.items));
     // checksもリモートを正として常に上書き（PWAチェックはGitHub経由で同期）
@@ -1361,6 +1393,7 @@ async function tryFetchSleep() {
     const res = await fetch(`${DATA_BASE_URL}sleep.json?_=${Date.now()}`, { cache: 'no-store' });
     if (!res.ok) return;
     const remote = await res.json();
+    notifyRemoteFetchSuccess();
     const local = getSleepData();
     let updated = false;
     Object.entries(remote).forEach(([ds, s]) => {
@@ -1383,6 +1416,7 @@ async function tryFetchWorkoutLog() {
     if (!res.ok) return;
     const remote = await res.json();
     if (!remote.sessions) return;
+    notifyRemoteFetchSuccess();
     // リモートのsessionsをマージ（既存日付は上書き、新規は追加）
     const local = getWorkoutLog();
     if (!local.sessions) local.sessions = [];
@@ -1412,6 +1446,7 @@ async function tryFetchFitnessCheck() {
     if (!res.ok) return;
     const remote = await res.json();
     if (!remote.checks) return;
+    notifyRemoteFetchSuccess();
     saveFitnessCheck(remote);
     stampLastUpdated();
     if (currentTab === 'exercise') deferRender('exercise');
@@ -1440,6 +1475,7 @@ async function tryFetchAdvice() {
     const res = await fetch(`${DATA_BASE_URL}advice.json?_=${Date.now()}`, { cache: 'no-store' });
     if (!res.ok) return;
     const data = await res.json();
+    notifyRemoteFetchSuccess();
     if (data.generated) {
       adviceStore = { [todayStr()]: data };  // 旧構造：今日の日付でラップ
     } else {
