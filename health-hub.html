@@ -3052,7 +3052,8 @@ function renderSleep(container) {
           else if (pct <= 10) { dot = '△'; label = 'やや多'; color = '#F59E0B'; }
           else { dot = '▼'; label = '多め'; color = '#EF4444'; }
         }
-        return `<div style="font-size:9px;color:${color};margin-top:2px;">${dot}${label}</div>`;
+        const targets = { core: '45-55%', rem: '20-25%', deep: '10-20%', awake: '<5%' };
+        return `<div style="font-size:9px;color:${color};margin-top:2px;">${dot}${label}<span style="color:var(--text-muted);font-size:8px;"> 目安${targets[type]}</span></div>`;
       };
       const cPct = sPct(coreH), rPct = sPct(remH), dPct = sPct(deepH), aPct = sPct(awakeH);
       summaryHtml += `<div style="display:flex;gap:6px;margin-top:10px;">
