@@ -785,6 +785,7 @@ function renderCashflowTab(d) {
   main.appendChild(renderNextPayment(d));
   main.appendChild(renderPipeline(d));
   main.appendChild(renderChart(d));
+  main.appendChild(renderCashflowTable(d));
   main.appendChild(renderDebt(d));
   main.appendChild(renderTarget(d));
 }
@@ -1189,6 +1190,29 @@ function renderPipeline(d) {
   return el;
 }
 
+// ── E helpers ──
+function autoPickIndices(len, maxLabels) {
+  if (len <= maxLabels) return Array.from({length: len}, (_, i) => i);
+  const step = (len - 1) / (maxLabels - 1);
+  return Array.from({length: maxLabels}, (_, i) => Math.round(i * step));
+}
+
+function autoPickBalanceLabels(pts) {
+  const s = new Set([0, pts.length - 1]);
+  let maxI = 0, minI = 0;
+  pts.forEach((p, i) => {
+    if (p.balance > pts[maxI].balance) maxI = i;
+    if (p.balance < pts[minI].balance) minI = i;
+  });
+  s.add(maxI);
+  s.add(minI);
+  for (let i = 1; i < pts.length; i++) {
+    if ((pts[i-1].balance >= 0 && pts[i].balance < 0) ||
+        (pts[i-1].balance < 0 && pts[i].balance >= 0)) s.add(i);
+  }
+  return s;
+}
+
 // ── E: Cash Flow SVG Chart ──
 function renderChart(d) {
   const el = document.createElement('div');
@@ -1227,8 +1251,8 @@ function renderChart(d) {
     // Safety line y
     const safeY = yPos(d.safetyLine);
 
-    // X axis labels (show dates)
-    const labelIndices = [0, 2, 4, 7, 9]; // cherry-picked for readability
+    // X axis labels (auto-spaced, max 5 points)
+    const labelIndices = autoPickIndices(pts.length, 5);
     const xLabels = labelIndices.map(i => {
       const p = pts[i];
       const d2 = new Date(p.date + 'T00:00:00');
@@ -1243,27 +1267,31 @@ function renderChart(d) {
       return `<text x="${PAD.left - 6}" y="${yPos(v) + 3}" text-anchor="end" font-size="9" fill="#9CA3AF">${v}</text>`;
     }).join('');
 
-    // Event dots
+    // Event dots (negative balance → red regardless of type)
     const dots = pts.map((p, i) => {
       let color = '#9CA3AF';
-      if (p.type === 'income') color = '#52B788';
+      if (p.balance < 0) color = '#DC3545';
+      else if (p.type === 'income') color = '#52B788';
       else if (p.type === 'payment') color = '#DC3545';
       else if (p.type === 'expense') color = '#F59E0B';
       else if (p.type === 'current') color = '#60A5FA';
       return `<circle cx="${xPos(i)}" cy="${yPos(p.balance)}" r="4" fill="${color}" stroke="white" stroke-width="1.5"/>`;
     }).join('');
 
-    // Event labels for key points
+    // Event labels: first, last, max, min, zero-crossing
+    const balanceLabelSet = autoPickBalanceLabels(pts);
     const keyLabels = pts.map((p, i) => {
-      if (!['current','income','payment'].includes(p.type)) return '';
+      if (!balanceLabelSet.has(i)) return '';
       const x = xPos(i);
       const y = yPos(p.balance);
       const above = y > PAD.top + 20;
       const ly = above ? y - 7 : y + 14;
-      // Only label a few to avoid clutter
-      if (i !== 0 && i !== 1 && i !== 4 && i !== 7 && i !== 9) return '';
-      return `<text x="${x}" y="${ly}" text-anchor="middle" font-size="8.5" fill="#374151" font-weight="600">${p.balance}万</text>`;
+      const color = p.balance < 0 ? '#DC3545' : '#374151';
+      return `<text x="${x}" y="${ly}" text-anchor="middle" font-size="8.5" fill="${color}" font-weight="600">${p.balance}万</text>`;
     }).join('');
+
+    // Red zone height (only if minB < 0)
+    const redZoneH = minB < 0 ? yPos(minB) - yPos(0) : 0;
 
     const svg = `<svg viewBox="0 0 ${W} ${H}" width="${W}" height="${H}" xmlns="http://www.w3.org/2000/svg">
       <defs>
@@ -1272,6 +1300,7 @@ function renderChart(d) {
           <stop offset="100%" stop-color="#52B788" stop-opacity="0.05"/>
         </linearGradient>
       </defs>
+      ${redZoneH > 0 ? `<rect x="${PAD.left}" y="${yPos(0)}" width="${innerW}" height="${redZoneH}" fill="rgba(220,53,69,0.08)"/>` : ''}
       <!-- Grid line at 0 -->
       <line x1="${PAD.left}" y1="${yPos(0)}" x2="${W - PAD.right}" y2="${yPos(0)}" stroke="#E5E7EB" stroke-width="1"/>
       <!-- Safety line -->
@@ -1294,6 +1323,43 @@ function renderChart(d) {
     wrap.innerHTML = svg;
   }, 0);
 
+  return el;
+}
+
+// ── E2: Cash Flow Table ──
+function renderCashflowTable(d) {
+  const el = document.createElement('div');
+  el.className = 'card';
+  const rows = d.cashflow.map(p => {
+    const dt = new Date(p.date + 'T00:00:00');
+    const dateStr = `${dt.getMonth()+1}/${dt.getDate()}`;
+    const isNeg = p.balance < 0;
+    const deltaColor = p.delta > 0 ? 'color:#28A745' : p.delta < 0 ? 'color:#DC3545' : 'color:#9CA3AF';
+    const deltaStr = p.delta === 0 ? '—' : (p.delta > 0 ? `+${p.delta}` : `${p.delta}`) + '万';
+    const balStr = `${p.balance}万`;
+    return `<tr style="${isNeg ? 'background:#FEE2E2;' : ''}">
+      <td style="padding:6px 8px;font-size:12px;color:#6C757D;white-space:nowrap">${dateStr}</td>
+      <td style="padding:6px 8px;font-size:12px;font-weight:500">${p.event}</td>
+      <td style="padding:6px 8px;font-size:12px;text-align:right;${deltaColor}">${deltaStr}</td>
+      <td style="padding:6px 8px;font-size:12px;text-align:right;font-weight:600;${isNeg ? 'color:#DC3545' : ''}">${balStr}</td>
+    </tr>`;
+  }).join('');
+  el.innerHTML = `
+    <div class="card-title">日別明細</div>
+    <div style="overflow-y:auto;max-height:300px;margin:0 -4px">
+      <table style="width:100%;border-collapse:collapse">
+        <thead>
+          <tr style="border-bottom:1px solid #DEE2E6">
+            <th style="padding:4px 8px;font-size:10px;color:#9CA3AF;text-align:left;font-weight:600">日付</th>
+            <th style="padding:4px 8px;font-size:10px;color:#9CA3AF;text-align:left;font-weight:600">イベント</th>
+            <th style="padding:4px 8px;font-size:10px;color:#9CA3AF;text-align:right;font-weight:600">増減</th>
+            <th style="padding:4px 8px;font-size:10px;color:#9CA3AF;text-align:right;font-weight:600">残高</th>
+          </tr>
+        </thead>
+        <tbody>${rows}</tbody>
+      </table>
+    </div>
+  `;
   return el;
 }
 

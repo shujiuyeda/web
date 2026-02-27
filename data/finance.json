@@ -1,27 +1,28 @@
 {
-  "updated": "2026-02-25T00:10:00",
-  "cashOnHand": 0,
+  "updated": "2026-02-27T15:30:00",
+  "cashOnHand": 72.31,
   "safetyLine": 80,
-  "parentLoan": { "amount": 100, "expectedDate": "2026-02-25", "received": false },
+  "parentLoan": { "amount": 100, "expectedDate": "2026-02-25", "received": true },
   "payments": [
-    { "id": "p1", "date": "2026-02-27", "label": "借入返済+家賃+ジム+保険+分割", "amount": 29.46, "paid": false,
+    { "id": "p1", "date": "2026-02-27", "label": "借入返済+家賃+ジム+保険+分割", "amount": 29.46, "paid": true,
       "items": [
         { "name": "アイフル①", "amount": 3.1 }, { "name": "アイフル②", "amount": 1.3 },
         { "name": "楽天カード", "amount": 5.0 }, { "name": "ペイディ", "amount": 2.1 },
-        { "name": "ディファイン", "amount": 1.32 }, { "name": "家賃", "amount": 11.9 },
+        { "name": "リファインフィットネス", "amount": 1.32 }, { "name": "家賃", "amount": 11.9 },
         { "name": "健康保険", "amount": 0.5 }, { "name": "TOKYU分割（コンサル）", "amount": 4.16 }
       ]},
-    { "id": "p2", "date": "2026-03-10", "label": "アメックス+VISA+TOKYU", "amount": 50.2, "paid": false,
+    { "id": "p2", "date": "2026-03-10", "label": "アメックス+TOKYU+ANA CARD", "amount": 51.60, "paid": false,
       "items": [
-        { "name": "アメックス（リボ45万）", "amount": 45.0 },
-        { "name": "三井住友VISA", "amount": 2.3 }, { "name": "TOKYU CARD", "amount": 2.9 }
+        { "name": "アメックス（リボ）", "amount": 45.0 },
+        { "name": "TOKYU CARD", "amount": 3.22 }, { "name": "ANA CARD", "amount": 3.38 }
       ]},
-    { "id": "p3", "date": "2026-03-27", "label": "借入返済+家賃+ジム+保険+分割", "amount": 28.36, "paid": false,
+    { "id": "p3", "date": "2026-03-27", "label": "固定費一括", "amount": 27.92, "paid": false,
       "items": [
         { "name": "アイフル①", "amount": 3.1 }, { "name": "アイフル②", "amount": 1.3 },
-        { "name": "楽天カード", "amount": 5.0 }, { "name": "ペイディ", "amount": 1.0 },
-        { "name": "ディファイン", "amount": 1.32 }, { "name": "家賃", "amount": 11.9 },
-        { "name": "健康保険", "amount": 0.5 }, { "name": "TOKYU分割（コンサル）", "amount": 4.16 }
+        { "name": "楽天カード", "amount": 5.0 },
+        { "name": "リファインフィットネス", "amount": 1.32 }, { "name": "家賃", "amount": 11.9 },
+        { "name": "健康保険", "amount": 0.5 }, { "name": "TOKYU分割（コンサル）", "amount": 4.16 },
+        { "name": "国民年金", "amount": 0.64 }
       ]}
   ],
   "livingExpense": 6,
@@ -92,17 +93,18 @@
     { "month": "2026-05", "balance": -91, "estimated": true }
   ],
   "cashflow": [
-    { "date": "2026-02-24", "event": "現在", "delta": 0, "balance": 0, "type": "current" },
-    { "date": "2026-02-25", "event": "親借入", "delta": 100, "balance": 100, "type": "income" },
-    { "date": "2026-02-27", "event": "支払①", "delta": -29.46, "balance": 70.54, "type": "payment" },
-    { "date": "2026-03-01", "event": "定期収入", "delta": 10, "balance": 80.54, "type": "income" },
-    { "date": "2026-03-10", "event": "支払②", "delta": -50.2, "balance": 30.34, "type": "payment" },
-    { "date": "2026-03-15", "event": "プロモ", "delta": 30, "balance": 60.34, "type": "income" },
-    { "date": "2026-03-20", "event": "未請求", "delta": 8, "balance": 68.34, "type": "income" },
-    { "date": "2026-03-27", "event": "支払③", "delta": -28.36, "balance": 39.98, "type": "payment" },
-    { "date": "2026-03-28", "event": "生活費", "delta": -6, "balance": 33.98, "type": "expense" },
-    { "date": "2026-03-30", "event": "CC導入", "delta": 20, "balance": 53.98, "type": "income" },
-    { "date": "2026-03-31", "event": "売掛金", "delta": 3, "balance": 56.98, "type": "income" }
+    { "date": "2026-02-27", "event": "現在残高", "delta": 0, "balance": 72.31, "type": "current" },
+    { "date": "2026-03-02", "event": "健保+PT", "delta": -1.05, "balance": 71.26, "type": "payment" },
+    { "date": "2026-03-05", "event": "入金+PT", "delta": 10.45, "balance": 81.71, "type": "income" },
+    { "date": "2026-03-09", "event": "PT", "delta": -0.55, "balance": 81.16, "type": "expense" },
+    { "date": "2026-03-10", "event": "Amex+TOKYU+ANA", "delta": -51.60, "balance": 29.56, "type": "payment" },
+    { "date": "2026-03-12", "event": "PT", "delta": -0.55, "balance": 29.01, "type": "expense" },
+    { "date": "2026-03-16", "event": "PT", "delta": -0.55, "balance": 28.46, "type": "expense" },
+    { "date": "2026-03-19", "event": "PT", "delta": -0.55, "balance": 27.91, "type": "expense" },
+    { "date": "2026-03-23", "event": "PT", "delta": -0.55, "balance": 27.36, "type": "expense" },
+    { "date": "2026-03-26", "event": "PT", "delta": -0.55, "balance": 26.81, "type": "expense" },
+    { "date": "2026-03-27", "event": "固定費一括", "delta": -27.92, "balance": -1.11, "type": "payment" },
+    { "date": "2026-03-30", "event": "PT", "delta": -0.55, "balance": -1.66, "type": "expense" }
   ],
   "debt": {
     "total": 990,
@@ -115,7 +117,7 @@
       { "name": "三井住友VISA", "balance": 144.3, "rate": 15.0 },
       { "name": "TOKYU", "balance": 125.9, "rate": 18.0 },
       { "name": "アイフル②", "balance": 42.58, "rate": 18.0 },
-      { "name": "ペイディ", "balance": 19.5, "rate": 0 }
+      { "name": "ペイディ", "balance": 16.3, "rate": 0, "note": "Paidy Plus完済済み(2/27)" }
     ],
     "nextMilestone": "アイフル②完済が最優先"
   },
