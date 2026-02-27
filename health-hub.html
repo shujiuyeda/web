@@ -3030,7 +3030,8 @@ function renderSleep(container) {
 
     // ステージ詳細ボックス（タイムライン付きの日）
     if (coreH > 0 || remH > 0 || deepH > 0 || awakeH > 0) {
-      const sPct = h => totalH > 0 ? Math.round((h / totalH) * 100) : 0;
+      const bedH = totalH + awakeH;
+      const sPct = h => bedH > 0 ? Math.round((h / bedH) * 100) : 0;
       const sInd = (type, pct) => {
         let dot, label, color;
         if (type === 'core') {
@@ -3177,8 +3178,9 @@ function renderSleep(container) {
     const isToday2  = row.ds === todayStr();
     const totalMin  = row.total != null ? Math.round(row.total * 60) : null;
     const deepMin   = row.deep  != null ? Math.round(row.deep  * 60) : null;
-    const deepPct2  = (row.nightOnly && row.deep  != null) ? Math.round(row.deep  / row.nightOnly * 100) : null;
-    const awakePct2 = (row.nightOnly && row.awake != null) ? Math.round(row.awake / row.nightOnly * 100) : null;
+    const bedTotal  = row.nightOnly != null ? row.nightOnly + (row.awake || 0) : null;
+    const deepPct2  = (bedTotal && row.deep  != null) ? Math.round(row.deep  / bedTotal * 100) : null;
+    const awakePct2 = (bedTotal && row.awake != null) ? Math.round(row.awake / bedTotal * 100) : null;
     const totalStr  = totalMin != null ? `${Math.floor(totalMin/60)}h${String(totalMin%60).padStart(2,'0')}m` : '—';
     const deepStr   = deepMin  != null ? `${Math.floor(deepMin/60)}h${String(deepMin%60).padStart(2,'0')}m`   : '—';
     const napMin    = row.napH  != null ? Math.round(row.napH * 60) : null;
@@ -3229,7 +3231,10 @@ function buildSleepChart(data) {
   const yR = v => PAD.t + ph - (v / 30) * ph;
 
   // 深い% ライン
-  const deepPcts = data.map(d => (d.nightOnly && d.deep != null) ? Math.round(d.deep / d.nightOnly * 100) : null);
+  const deepPcts = data.map(d => {
+    const bed = d.nightOnly != null ? d.nightOnly + (d.awake || 0) : null;
+    return (bed && d.deep != null) ? Math.round(d.deep / bed * 100) : null;
+  });
   const hasDeep = deepPcts.filter(v => v != null).length >= 2;
   const deepPts = hasDeep ? data.map((d,i) => deepPcts[i] != null ? `${xS(i).toFixed(1)},${yR(deepPcts[i]).toFixed(1)}` : null).filter(v=>v).join(' ') : '';
   const deepDots = hasDeep ? data.map((d,i) => deepPcts[i] != null
@@ -3237,7 +3242,10 @@ function buildSleepChart(data) {
     : '').join('') : '';
 
   // 覚醒% ライン
-  const awakePcts = data.map(d => (d.nightOnly && d.awake != null) ? Math.round(d.awake / d.nightOnly * 100) : null);
+  const awakePcts = data.map(d => {
+    const bed = d.nightOnly != null ? d.nightOnly + (d.awake || 0) : null;
+    return (bed && d.awake != null) ? Math.round(d.awake / bed * 100) : null;
+  });
   const hasAwake = awakePcts.filter(v => v != null).length >= 2;
   const awakePts = hasAwake ? data.map((d,i) => awakePcts[i] != null ? `${xS(i).toFixed(1)},${yR(awakePcts[i]).toFixed(1)}` : null).filter(v=>v).join(' ') : '';
   const awakeDots = hasAwake ? data.map((d,i) => awakePcts[i] != null
