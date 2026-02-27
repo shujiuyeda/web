@@ -3238,7 +3238,7 @@ function buildSleepChart(data) {
   const hasDeep = deepPcts.filter(v => v != null).length >= 2;
   const deepPts = hasDeep ? data.map((d,i) => deepPcts[i] != null ? `${xS(i).toFixed(1)},${yR(deepPcts[i]).toFixed(1)}` : null).filter(v=>v).join(' ') : '';
   const deepDots = hasDeep ? data.map((d,i) => deepPcts[i] != null
-    ? `<circle cx="${xS(i).toFixed(1)}" cy="${yR(deepPcts[i]).toFixed(1)}" r="2.5" fill="white" stroke="#2E4057" stroke-width="1.5"/>`
+    ? `<circle cx="${xS(i).toFixed(1)}" cy="${yR(deepPcts[i]).toFixed(1)}" r="2.5" fill="white" stroke="#7C3AED" stroke-width="1.5"/>`
     : '').join('') : '';
 
   // 覚醒% ライン
@@ -3269,7 +3269,7 @@ function buildSleepChart(data) {
   const legend = `
     <line x1="${PAD.l}" y1="10" x2="${PAD.l+16}" y2="10" stroke="#2E4057" stroke-width="2"/>
     <text x="${PAD.l+18}" y="14" font-size="9" fill="#555">合計</text>
-    ${hasDeep ? `<line x1="${PAD.l+44}" y1="10" x2="${PAD.l+60}" y2="10" stroke="#2E4057" stroke-width="1.5"/>
+    ${hasDeep ? `<line x1="${PAD.l+44}" y1="10" x2="${PAD.l+60}" y2="10" stroke="#7C3AED" stroke-width="1.5"/>
     <text x="${PAD.l+62}" y="14" font-size="9" fill="#555">深い%</text>` : ''}
     ${hasAwake ? `<line x1="${PAD.l+100}" y1="10" x2="${PAD.l+116}" y2="10" stroke="#F4A261" stroke-width="1.5" stroke-dasharray="4,2"/>
     <text x="${PAD.l+118}" y="14" font-size="9" fill="#555">覚醒%</text>` : ''}
@@ -3281,8 +3281,8 @@ function buildSleepChart(data) {
       ${yLabels}
       ${rAxisLabels}
       ${goalY != null ? `<line x1="${PAD.l}" y1="${goalY.toFixed(1)}" x2="${W-PAD.r}" y2="${goalY.toFixed(1)}" stroke="#28A745" stroke-width="1" stroke-dasharray="3,3" opacity="0.6"/>` : ''}
-      <polyline points="${totalPts}" fill="none" stroke="#2E4057" stroke-width="2"/>
-      ${hasDeep  ? `<polyline points="${deepPts}"  fill="none" stroke="#2E4057" stroke-width="1.5"/>` : ''}
+      <polyline points="${totalPts}" fill="none" stroke="#2E4057" stroke-width="2.5"/>
+      ${hasDeep  ? `<polyline points="${deepPts}"  fill="none" stroke="#7C3AED" stroke-width="1.5"/>` : ''}
       ${hasAwake ? `<polyline points="${awakePts}" fill="none" stroke="#F4A261" stroke-width="1.5" stroke-dasharray="4,2"/>` : ''}
       ${totalDots}${deepDots}${awakeDots}
       <text x="${PAD.l}" y="${H-2}" text-anchor="middle" font-size="9" fill="#999">${firstDs}</text>
