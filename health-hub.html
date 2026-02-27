@@ -1825,7 +1825,8 @@ function renderMeals(container) {
   html += renderOverallBanner();
 
   // 今日の水分バー（kcalカードの直前）
-  const _tw = adviceData && (adviceData.todayWater || (adviceData.gut && adviceData.gut.todayWater));
+  const _hlDay = getHealthLog()[currentDate];
+  const _tw = _hlDay && _hlDay.water != null ? { current: _hlDay.water, target: 2.0 } : null;
   if (_tw) {
     const tw = _tw;
     const wmax = tw.max || tw.target;
@@ -1834,6 +1835,8 @@ function renderMeals(container) {
     const reached = tw.current >= tw.target;
     const wcolor = reached ? '#27AE60' : wpct >= 60 ? '#2980B9' : '#E67E22';
     const remaining = Math.max(0, tw.target - tw.current).toFixed(1);
+    const bonus = (_hlDay && _hlDay.waterBonus) || 0;
+    const bonusText = bonus > 0 ? ` ＋ボーナス ${bonus}L` : '';
     html += `<div class="card" style="padding:12px 16px;">`;
     html += `<div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:6px;">`;
     html += `<span style="font-size:13px;font-weight:600;color:#2980B9;">💧 今日の水分</span>`;
@@ -1843,7 +1846,7 @@ function renderMeals(container) {
     html += `<div style="width:${wpct}%;height:100%;background:${wcolor};border-radius:5px;"></div>`;
     html += `<div style="position:absolute;top:0;left:${targetPct}%;width:2px;height:100%;background:rgba(0,0,0,0.25);"></div>`;
     html += `</div>`;
-    html += `<div style="font-size:11px;color:var(--text-muted);margin-top:4px;">${remaining > 0 ? `あと ${remaining}L で目標達成` : '目標達成！🎉'}</div>`;
+    html += `<div style="font-size:11px;color:var(--text-muted);margin-top:4px;">${remaining > 0 ? `あと ${remaining}L で目標達成` : '目標達成！🎉'}${bonusText}</div>`;
     html += `</div>`;
   }
 
