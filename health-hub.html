@@ -3168,6 +3168,25 @@ function renderSleep(container) {
     );
   }
 
+  // 深い睡眠 KPI（過去7日）
+  {
+    const deepDays = [];
+    for (let i = 0; i < 7; i++) {
+      const d = new Date(); d.setDate(d.getDate() - i);
+      const ds = fmtDate(d);
+      const s = sleepAll[ds];
+      const deepH = s ? (s.deep || 0) : null;
+      const hit = deepH !== null ? deepH >= 1.0 : null;
+      deepDays.push({ date: ds, hit });
+    }
+    container.innerHTML += renderKpiCard(
+      '🧠 深い睡眠 KPI（過去7日）',
+      '目標: 1時間以上/日 ／ 散歩30分 + b1マグネシウムで改善',
+      deepDays,
+      5
+    );
+  }
+
   // AI Sleep advice card
   container.innerHTML += renderAdviceCard('sleep');
 
