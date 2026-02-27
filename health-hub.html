@@ -1168,20 +1168,20 @@ async function tryFetchSuppl(ds) {
     if (!res.ok) return;
     const data = await res.json();
     if (!data.checks || Object.keys(data.checks).length === 0) return;
-    if (ghSyncEnabled()) {
-      // 同期モード: リモートが正（iPhone側のチェックを反映）
-      saveSuppl(ds, data.checks);
-    } else {
-      // 読み取り専用モード: localが優先でマージ
-      const local = getSuppl(ds);
-      let updated = false;
-      Object.entries(data.checks).forEach(([k, v]) => {
-        if (local[k] == null) { local[k] = v; updated = true; }
-      });
-      if (updated || Object.keys(local).length === 0) {
-        saveSuppl(ds, Object.keys(local).length > 0 ? local : data.checks);
-      } else { return; }
-    }
+    // リモート(Claude記録)のtrue判定は常に反映。ローカルのtrue・skipも保持
+    const local = getSuppl(ds);
+    const merged = Object.assign({}, local);
+    let updated = false;
+    Object.entries(data.checks).forEach(([k, v]) => {
+      if (v === true && merged[k] !== 'skip' && merged[k] !== true) {
+        merged[k] = true; updated = true;
+      } else if (merged[k] == null) {
+        merged[k] = v; updated = true;
+      }
+    });
+    if (updated) saveSuppl(ds, merged);
+    else if (Object.keys(local).length === 0) saveSuppl(ds, data.checks);
+    if (ghSyncEnabled()) saveSuppl(ds, data.checks); // sync時はリモートが絶対正
     stampLastUpdated();
     if (ds === currentDate && currentTab === 'supplements') deferRender(currentTab);
   } catch { /* ネットワークエラーはsilent */ }
