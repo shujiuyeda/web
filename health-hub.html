@@ -1179,6 +1179,12 @@ async function tryFetchSuppl(ds) {
         merged[k] = v; updated = true;
       }
     });
+    // リモートに存在しないキー（誤チェック取り消し）をローカルからも除去
+    Object.keys(merged).forEach(k => {
+      if (merged[k] === true && !(k in data.checks)) {
+        merged[k] = false; updated = true;
+      }
+    });
     if (updated) saveSuppl(ds, merged);
     else if (Object.keys(local).length === 0) saveSuppl(ds, data.checks);
     if (ghSyncEnabled()) saveSuppl(ds, data.checks); // sync時はリモートが絶対正
@@ -1199,12 +1205,17 @@ async function tryFetchHealthLog() {
       if (!local[ds]) { local[ds] = entry; updated = true; }
       else {
         // リモートの値でサーバーが正として上書き（サーバーがSource of Truth）
+        // nullも反映（フィールド削除・クリア対応）
         Object.entries(entry).forEach(([k, v]) => {
-          if (v != null && local[ds][k] !== v) { local[ds][k] = v; updated = true; }
+          if (local[ds][k] !== v) { local[ds][k] = v; updated = true; }
         });
       }
     });
-    if (updated) saveHealthLog(local);
+    if (updated) {
+      saveHealthLog(local);
+      stampLastUpdated();
+      deferRender(currentTab);
+    }
   } catch { /* silent */ }
 }
 
@@ -1249,13 +1260,11 @@ async function tryFetchShopping() {
     if (!remote.items) return;
     // itemsはremoteを正（source of truth）として上書き
     localStorage.setItem('shopping_items', JSON.stringify(remote.items));
-    // checksはローカルにあればローカル優先、なければremoteを使う
-    if (remote.checks && Object.keys(remote.checks).length > 0) {
-      const local = JSON.parse(localStorage.getItem('shopping_checks') || '{}');
-      if (Object.keys(local).length === 0) {
-        localStorage.setItem('shopping_checks', JSON.stringify(remote.checks));
-      }
+    // checksもリモートを正として常に上書き（PWAチェックはGitHub経由で同期）
+    if (remote.checks) {
+      localStorage.setItem('shopping_checks', JSON.stringify(remote.checks));
     }
+    stampLastUpdated();
     if (currentTab === 'shopping') deferRender('shopping');
   } catch { /* silent */ }
 }
@@ -1287,16 +1296,24 @@ async function tryFetchWorkoutLog() {
     if (!res.ok) return;
     const remote = await res.json();
     if (!remote.sessions) return;
-    // リモートのsessionsをマージ（日付ベースで、ローカルにない日付を追加）
+    // リモートのsessionsをマージ（既存日付は上書き、新規は追加）
     const local = getWorkoutLog();
-    const localDates = new Set((local.sessions || []).map(s => s.date));
+    if (!local.sessions) local.sessions = [];
     let updated = false;
     remote.sessions.forEach(s => {
-      if (!localDates.has(s.date)) { local.sessions.push(s); updated = true; }
+      const idx = local.sessions.findIndex(ls => ls.date === s.date);
+      if (idx >= 0) {
+        if (JSON.stringify(local.sessions[idx]) !== JSON.stringify(s)) {
+          local.sessions[idx] = s; updated = true;
+        }
+      } else {
+        local.sessions.push(s); updated = true;
+      }
     });
     if (updated) {
       local.sessions.sort((a, b) => a.date.localeCompare(b.date));
       saveWorkoutLog(local);
+      stampLastUpdated();
       if (currentTab === 'exercise') deferRender('exercise');
     }
   } catch { /* silent */ }
@@ -1309,6 +1326,7 @@ async function tryFetchFitnessCheck() {
     const remote = await res.json();
     if (!remote.checks) return;
     saveFitnessCheck(remote);
+    stampLastUpdated();
     if (currentTab === 'exercise') deferRender('exercise');
   } catch { /* silent */ }
 }
