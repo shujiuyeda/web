@@ -82,20 +82,20 @@
     "sleep": 6.3578,
     "weight": 86.35,
     "bodyFat": 31.5,
-    "steps": null,
-    "water": 1.0,
-    "fiber": 9.2,
+    "steps": 2656,
+    "water": 2.23,
+    "fiber": 10.0,
     "kcal": 1829
   },
   "2026-02-27": {
-    "overall": 56,
-    "gut": 68,
-    "sleep": 7.74,
+    "overall": 68,
+    "gut": 75,
+    "sleep": 7.7444,
     "weight": 86.55,
     "bodyFat": 31.9,
     "steps": null,
-    "water": 0.3,
-    "fiber": 5.1,
-    "kcal": 523
+    "water": 0,
+    "fiber": 9.3,
+    "kcal": 727
   }
 }

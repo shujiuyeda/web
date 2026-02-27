@@ -44,43 +44,13 @@
     "gut": {
       "score": 34,
       "factors": {
-        "fiber": {
-          "avg": 15.0,
-          "target": 21,
-          "pts": 14
-        },
-        "probiotics": {
-          "rate": 0.56,
-          "pts": 11
-        },
-        "fermented": {
-          "daysHit": 1,
-          "items": [
-            "納豆",
-            "味噌",
-            "西京漬け"
-          ],
-          "pts": 2
-        },
-        "bowel": {
-          "freqDays": 0,
-          "status": "unknown",
-          "regScore": 0,
-          "pts": 0
-        },
-        "water": {
-          "avgL": 0,
-          "target": 2.0,
-          "pts": 0
-        },
-        "sleep": {
-          "avgHrs": 3.7,
-          "pts": 1
-        },
-        "regularity": {
-          "score": 0.7,
-          "pts": 6
-        }
+        "fiber": { "avg": 15.0, "target": 21, "pts": 14 },
+        "probiotics": { "rate": 0.56, "pts": 11 },
+        "fermented": { "daysHit": 1, "items": ["納豆", "味噌", "西京漬け"], "pts": 2 },
+        "bowel": { "freqDays": 0, "status": "unknown", "regScore": 0, "pts": 0 },
+        "water": { "avgL": 0, "target": 2.0, "pts": 0 },
+        "sleep": { "avgHrs": 3.7, "pts": 1 },
+        "regularity": { "score": 0.7, "pts": 6 }
       },
       "insight": "食物繊維15g（今週最高）・発酵食品3種（納豆・味噌・鮭の西京漬け）と腸活面では今週ベスト。しかし睡眠3.7h（REM・深い睡眠ゼロ）が腸の蠕動運動を乱した。",
       "tips": [
@@ -93,11 +63,7 @@
       {
         "title": "食事は今週最高なのに睡眠は今週最低",
         "body": "2/21は食物繊維15g・発酵食品3種・夕食18:30と食事面で今週ベスト。一方で睡眠3.7h（REM・Deep ゼロ・覚醒4.4h）と最悪。夜サプリ全欠（b1含む）が最大の原因。",
-        "relatedTabs": [
-          "meals",
-          "sleep",
-          "supplements"
-        ]
+        "relatedTabs": ["meals", "sleep", "supplements"]
       }
     ]
   },
@@ -144,63 +110,17 @@
     "gut": {
       "score": 46,
       "factors": {
-        "fiber": {
-          "avg": 14.1,
-          "target": 21,
-          "pts": 10
-        },
-        "diversity": {
-          "plantCount": 14,
-          "pts": 5
-        },
-        "fermented": {
-          "daysHit": 2,
-          "items": [
-            "納豆",
-            "味噌"
-          ],
-          "pts": 3
-        },
-        "polyphenol": {
-          "daysHit": 2,
-          "items": [
-            "チョコ",
-            "コーヒー（スタバラテ）"
-          ],
-          "pts": 2
-        },
-        "regularity": {
-          "score": 0.8,
-          "pts": 8
-        },
-        "probiotics": {
-          "rate": 0.29,
-          "pts": 2
-        },
-        "prebiotics": {
-          "rate": 0.31,
-          "type": "サイリウム",
-          "pts": 1
-        },
-        "bowel": {
-          "freqDays": 1,
-          "status": "良好",
-          "regScore": 0.14,
-          "pts": 6
-        },
-        "water": {
-          "avgL": 2.3,
-          "target": 2.0,
-          "pts": 6
-        },
-        "sleep": {
-          "avgHrs": 5.4,
-          "pts": 3
-        },
-        "steps": {
-          "avgSteps": null,
-          "pts": 0
-        }
+        "fiber": { "avg": 14.1, "target": 21, "pts": 10 },
+        "diversity": { "plantCount": 14, "pts": 5 },
+        "fermented": { "daysHit": 2, "items": ["納豆", "味噌"], "pts": 3 },
+        "polyphenol": { "daysHit": 2, "items": ["チョコ", "コーヒー（スタバラテ）"], "pts": 2 },
+        "regularity": { "score": 0.8, "pts": 8 },
+        "probiotics": { "rate": 0.29, "pts": 2 },
+        "prebiotics": { "rate": 0.31, "type": "サイリウム", "pts": 1 },
+        "bowel": { "freqDays": 1, "status": "良好", "regScore": 0.14, "pts": 6 },
+        "water": { "avgL": 2.3, "target": 2.0, "pts": 6 },
+        "sleep": { "avgHrs": 5.4, "pts": 3 },
+        "steps": { "avgSteps": null, "pts": 0 }
       },
       "insight": "新スコアリング（11要素・100点）で46点。水分2.3L✨と食事リズム（19:39夕食）が高評価。",
       "tips": [
@@ -213,10 +133,7 @@
       {
         "title": "パーソナル×タンパク質",
         "body": "今日のP98.6gはパーソナル後の筋肉修復に最適なタイミング。就寝中の成長ホルモン分泌と合わせて筋肉量維持に貢献。",
-        "relatedTabs": [
-          "meals",
-          "supplements"
-        ]
+        "relatedTabs": ["meals", "supplements"]
       }
     ]
   },
@@ -264,65 +181,17 @@
     "gut": {
       "score": 48,
       "factors": {
-        "fiber": {
-          "avg": 10.39,
-          "target": 21,
-          "pts": 7.4
-        },
-        "diversity": {
-          "plantCount": 17,
-          "pts": 7
-        },
-        "fermented": {
-          "daysHit": 3,
-          "items": [
-            "納豆",
-            "味噌",
-            "西京漬け"
-          ],
-          "pts": 5.1
-        },
-        "polyphenol": {
-          "daysHit": 4,
-          "items": [
-            "クランキーチョコ",
-            "スタバ",
-            "チョコレート効果72%"
-          ],
-          "pts": 4.6
-        },
-        "regularity": {
-          "score": 0.8,
-          "pts": 8
-        },
-        "probiotics": {
-          "rate": 0.5,
-          "pts": 4.0
-        },
-        "prebiotics": {
-          "rate": 0.29,
-          "type": "サイリウム",
-          "pts": 1.3
-        },
-        "bowel": {
-          "freqDays": 2,
-          "status": "硬め",
-          "regScore": 0.29,
-          "pts": 5.3
-        },
-        "water": {
-          "avgL": 0.8,
-          "target": 2.0,
-          "pts": 2.4
-        },
-        "sleep": {
-          "avgHrs": 5.17,
-          "pts": 2
-        },
-        "steps": {
-          "avgSteps": 5875,
-          "pts": 1
-        }
+        "fiber": { "avg": 10.39, "target": 21, "pts": 7.4 },
+        "diversity": { "plantCount": 17, "pts": 7 },
+        "fermented": { "daysHit": 3, "items": ["納豆", "味噌", "西京漬け"], "pts": 5.1 },
+        "polyphenol": { "daysHit": 4, "items": ["クランキーチョコ", "スタバ", "チョコレート効果72%"], "pts": 4.6 },
+        "regularity": { "score": 0.8, "pts": 8 },
+        "probiotics": { "rate": 0.5, "pts": 4.0 },
+        "prebiotics": { "rate": 0.29, "type": "サイリウム", "pts": 1.3 },
+        "bowel": { "freqDays": 2, "status": "硬め", "regScore": 0.29, "pts": 5.3 },
+        "water": { "avgL": 0.8, "target": 2.0, "pts": 2.4 },
+        "sleep": { "avgHrs": 5.17, "pts": 2 },
+        "steps": { "avgSteps": 5875, "pts": 1 }
       },
       "insight": "腸内環境スコア48点。今日5食で食物繊維30.5g（今週最高）・発酵食品3日・植物17種と大幅向上。",
       "tips": [
@@ -335,10 +204,7 @@
       {
         "title": "体重KPI達成！週-0.67kgペースで順調",
         "body": "2/23目標87.7kgに対して実際87.05kg（0.65kg下回る）。今の食事パターンを維持することが次のKPI達成の鍵。",
-        "relatedTabs": [
-          "weight",
-          "meals"
-        ]
+        "relatedTabs": ["weight", "meals"]
       }
     ]
   },
@@ -385,66 +251,17 @@
     "gut": {
       "score": 54,
       "factors": {
-        "fiber": {
-          "avg": 19.4,
-          "target": 21,
-          "pts": 13.8
-        },
-        "diversity": {
-          "plantCount": 11,
-          "pts": 5
-        },
-        "fermented": {
-          "daysHit": 4,
-          "items": [
-            "味噌",
-            "納豆"
-          ],
-          "pts": 6.9
-        },
-        "polyphenol": {
-          "daysHit": 4,
-          "items": [
-            "カフェ",
-            "チョコ",
-            "カカオ",
-            "ラテ",
-            "スタバ"
-          ],
-          "pts": 4.6
-        },
-        "regularity": {
-          "score": 0.75,
-          "pts": 5.0
-        },
-        "probiotics": {
-          "rate": 0.5,
-          "pts": 4.0
-        },
-        "prebiotics": {
-          "rate": 0.29,
-          "type": "サイリウム",
-          "pts": 1.3
-        },
-        "bowel": {
-          "freqDays": 2,
-          "status": "硬め",
-          "regScore": 0.29,
-          "pts": 4.3
-        },
-        "water": {
-          "avgL": 2.8,
-          "target": 2.0,
-          "pts": 6
-        },
-        "sleep": {
-          "avgHrs": 5.18,
-          "pts": 2
-        },
-        "steps": {
-          "avgSteps": 5042,
-          "pts": 1
-        }
+        "fiber": { "avg": 19.4, "target": 21, "pts": 13.8 },
+        "diversity": { "plantCount": 11, "pts": 5 },
+        "fermented": { "daysHit": 4, "items": ["味噌", "納豆"], "pts": 6.9 },
+        "polyphenol": { "daysHit": 4, "items": ["カフェ", "チョコ", "カカオ", "ラテ", "スタバ"], "pts": 4.6 },
+        "regularity": { "score": 0.75, "pts": 5.0 },
+        "probiotics": { "rate": 0.5, "pts": 4.0 },
+        "prebiotics": { "rate": 0.29, "type": "サイリウム", "pts": 1.3 },
+        "bowel": { "freqDays": 2, "status": "硬め", "regScore": 0.29, "pts": 4.3 },
+        "water": { "avgL": 2.8, "target": 2.0, "pts": 6 },
+        "sleep": { "avgHrs": 5.18, "pts": 2 },
+        "steps": { "avgSteps": 5042, "pts": 1 }
       },
       "insight": "腸スコア54点。きのこ・玄米パックで植物多様性11種に改善。納豆で発酵食品4日目に到達。",
       "tips": [
@@ -457,10 +274,7 @@
       {
         "title": "良眠→体脂肪-1%の相関",
         "body": "昨夜6.5h（deep37min）の良眠で体脂肪が32.0%→31.0%に改善。深い眠りは成長ホルモン分泌を促進し脂肪燃焼を加速する。",
-        "relatedTabs": [
-          "sleep",
-          "weight"
-        ]
+        "relatedTabs": ["sleep", "weight"]
       }
     ]
   },
@@ -511,67 +325,17 @@
     "gut": {
       "score": 66,
       "factors": {
-        "fiber": {
-          "avg": 16.7,
-          "target": 21,
-          "pts": 11.9
-        },
-        "diversity": {
-          "plantCount": 18,
-          "pts": 7
-        },
-        "fermented": {
-          "daysHit": 5,
-          "items": [
-            "納豆",
-            "味噌",
-            "西京漬け"
-          ],
-          "pts": 8.6
-        },
-        "polyphenol": {
-          "daysHit": 6,
-          "items": [
-            "チョコレート効果72%",
-            "カカオ",
-            "スタバ（ラテ）",
-            "ドトールコーヒー",
-            "クランキーチョコ"
-          ],
-          "pts": 6.9
-        },
-        "regularity": {
-          "score": 0.7,
-          "pts": 8.0
-        },
-        "probiotics": {
-          "rate": 0.64,
-          "pts": 5.1
-        },
-        "prebiotics": {
-          "rate": 0.43,
-          "type": "サイリウム",
-          "pts": 3.0
-        },
-        "bowel": {
-          "freqDays": 4,
-          "status": "硬め",
-          "regScore": 0.57,
-          "pts": 8.6
-        },
-        "water": {
-          "avgL": 1.46,
-          "target": 2.0,
-          "pts": 4.4
-        },
-        "sleep": {
-          "avgHrs": 5.22,
-          "pts": 2.5
-        },
-        "steps": {
-          "avgSteps": 3087,
-          "pts": 0
-        }
+        "fiber": { "avg": 16.7, "target": 21, "pts": 11.9 },
+        "diversity": { "plantCount": 18, "pts": 7 },
+        "fermented": { "daysHit": 5, "items": ["納豆", "味噌", "西京漬け"], "pts": 8.6 },
+        "polyphenol": { "daysHit": 6, "items": ["チョコレート効果72%", "カカオ", "スタバ（ラテ）", "ドトールコーヒー", "クランキーチョコ"], "pts": 6.9 },
+        "regularity": { "score": 0.7, "pts": 8.0 },
+        "probiotics": { "rate": 0.64, "pts": 5.1 },
+        "prebiotics": { "rate": 0.43, "type": "サイリウム", "pts": 3.0 },
+        "bowel": { "freqDays": 4, "status": "硬め", "regScore": 0.57, "pts": 8.6 },
+        "water": { "avgL": 1.46, "target": 2.0, "pts": 4.4 },
+        "sleep": { "avgHrs": 5.22, "pts": 2.5 },
+        "steps": { "avgSteps": 3087, "pts": 0 }
       },
       "insight": "腸内スコア66点。発酵食品5日・ポリフェノール6日・食事リズム8.0ptと食事の質面では高水準。7日平均繊維16.7g（目標21gの79%）と改善継続中。硬便が4日/7日と頻度は改善しているが質（硬め）が継続課題。水分1.46L/日平均と歩数3087歩が主な引き下げ要因。",
       "tips": [
@@ -585,18 +349,12 @@
       {
         "title": "HRV 69.2ms（最高値）と腸内スコア66点が連動—腸脳軸の好循環が始まっている",
         "body": "2/25はHRV 69.2ms（今週最高）と腸内スコア66点（高水準）が同じ日に記録された。腸脳軸（Gut-Brain Axis）の観点から、発酵食品5日連続・植物18種の多様な食事が自律神経の安定化に寄与している可能性がある。今の食事パターンを維持することが自律神経回復の鍵。",
-        "relatedTabs": [
-          "gut",
-          "sleep"
-        ]
+        "relatedTabs": ["gut", "sleep"]
       },
       {
         "title": "食事978kcal + 睡眠4.51h の組み合わせで翌日過食リスク上昇",
         "body": "低カロリー（978kcal）と短時間睡眠（夜間4.51h）が重なると、グレリン（食欲ホルモン）の増加で翌日に過食しやすくなる。2/26は1,700kcal以上を意識して摂ることが大切。ただし一気食いせず、3食に分けて安定した血糖値を維持しよう。",
-        "relatedTabs": [
-          "meals",
-          "weight"
-        ]
+        "relatedTabs": ["meals", "weight"]
       }
     ]
   },
@@ -647,64 +405,17 @@
     "gut": {
       "score": 73,
       "factors": {
-        "fiber": {
-          "avg": 18.0,
-          "target": 21,
-          "pts": 12.8
-        },
-        "diversity": {
-          "plantCount": 22,
-          "pts": 10
-        },
-        "fermented": {
-          "daysHit": 5,
-          "items": [
-            "納豆",
-            "味噌"
-          ],
-          "pts": 8.6
-        },
-        "polyphenol": {
-          "daysHit": 7,
-          "items": [
-            "チョコレート効果",
-            "カカオ",
-            "ブルーベリー"
-          ],
-          "pts": 8.0
-        },
-        "regularity": {
-          "score": 0.9,
-          "pts": 7.0
-        },
-        "probiotics": {
-          "rate": 0.71,
-          "pts": 5.7
-        },
-        "prebiotics": {
-          "rate": 0.43,
-          "type": "サイリウム",
-          "pts": 3.0
-        },
-        "bowel": {
-          "freqDays": 5,
-          "status": "硬め",
-          "regScore": 0.7,
-          "pts": 9.7
-        },
-        "water": {
-          "avgL": 1.6,
-          "target": 2.0,
-          "pts": 4.8
-        },
-        "sleep": {
-          "avgHrs": 5.59,
-          "pts": 2.9
-        },
-        "steps": {
-          "avgSteps": 2869,
-          "pts": 0
-        }
+        "fiber": { "avg": 18.0, "target": 21, "pts": 12.8 },
+        "diversity": { "plantCount": 22, "pts": 10 },
+        "fermented": { "daysHit": 5, "items": ["納豆", "味噌"], "pts": 8.6 },
+        "polyphenol": { "daysHit": 7, "items": ["チョコレート効果", "カカオ", "ブルーベリー"], "pts": 8.0 },
+        "regularity": { "score": 0.9, "pts": 7.0 },
+        "probiotics": { "rate": 0.71, "pts": 5.7 },
+        "prebiotics": { "rate": 0.43, "type": "サイリウム", "pts": 3.0 },
+        "bowel": { "freqDays": 5, "status": "硬め", "regScore": 0.7, "pts": 9.7 },
+        "water": { "avgL": 1.6, "target": 2.0, "pts": 4.8 },
+        "sleep": { "avgHrs": 5.59, "pts": 2.9 },
+        "steps": { "avgSteps": 2869, "pts": 0 }
       },
       "insight": "腸内スコア73点。植物多様性22種はほぼ満点！ポリフェノールも7日連続。課題は①お通じが5日連続で硬め②繊維が目標に届かない日が多い③睡眠不足④歩数ゼロ日が多い。",
       "tips": [
@@ -718,59 +429,49 @@
       {
         "title": "睡眠不足→食欲・体重への影響",
         "body": "7日平均5.6hの睡眠不足はグレリン（食欲ホルモン）を増加させる。今週の食欲コントロールが難しい日があれば、睡眠不足が原因の可能性が高い。22時就寝を目標に。",
-        "relatedTabs": [
-          "sleep",
-          "meals",
-          "weight"
-        ]
+        "relatedTabs": ["sleep", "meals", "weight"]
       },
       {
         "title": "マグネシウム不足と睡眠の質",
         "body": "食事からのマグネシウムは今日142mg（目標370mg）。就寝前のマグネシウムサプリ（87.5mg）は特に今夜のような途中覚醒が多い時期に重要。飲み忘れずに。",
-        "relatedTabs": [
-          "sleep",
-          "supplements"
-        ]
+        "relatedTabs": ["sleep", "supplements"]
       },
       {
         "title": "今日の脂質過多→明日の腸内環境",
         "body": "牛バラの飽和脂肪14gは腸内の悪玉菌を増やしやすい。サイリウム3回＋明日の水分確保でリカバリーを。発酵食品（納豆・味噌）も明日は意識して。",
-        "relatedTabs": [
-          "meals",
-          "gut"
-        ]
+        "relatedTabs": ["meals", "gut"]
       }
     ]
   },
   "2026-02-27": {
-    "generated": "2026-02-27T10:00:00",
+    "generated": "2026-02-27T13:00:00",
     "overall": {
-      "headline": "睡眠は今日7h44m回復。繊維・歩数の底上げで腸内環境が更に改善できる",
-      "score": 56,
-      "topAction": "昼に15分の散歩で歩数・深い睡眠・腸活を同時に改善できるよ"
+      "headline": "今日7h44m快眠！腸スコア75点（植物20種・発酵6日）。昼の散歩で深い眠り・腸活・歩数を同時攻略しよう",
+      "score": 68,
+      "topAction": "今夜の繊維不足（9.3g）に備えてサイリウム3回（a1/a2/a3）を夕食後に飲んで。散歩15分で明日の深い眠りを先取り"
     },
     "meals": {
-      "insight": "7日平均繊維17.4g（目標21g）。植物多様性22種類は良好。バーリーマックスの繊維値修正で過去の記録が正確になった",
+      "insight": "2/27は朝昼の2食で727kcal（P:40.8g / F:32.9g / C:66.1g / 繊維9.3g）。7日平均繊維18.6g（目標21gの89%）と改善傾向が続いている。植物多様性は7日間で20種（週20種以上=満点10pt）。2/26の牛バラ（飽和脂肪14g）に続き今朝も牛バラ53gで飽和脂肪5.5gあり—スタチン服用中なので連日注意が必要。",
       "tips": [
-        "夕食後サイリウムの条件確認：今日の繊維5.1g → 不足16g → 3回分（a1/a2/a3）飲んでね",
-        "植物多様性22種/週は好調！このまま維持しよう",
-        "発酵食品は5日中4日摂取。納豆・味噌を毎日意識できると腸内環境が安定する"
+        "今日の繊維9.3gは目標21gの44%—夕食でほうれん草・わかめ・バーリーマックスをたっぷり使って追加を",
+        "朝昼だけで約730kcal。夕食で700〜800kcal確保すると1日1,400kcal以上をキープできる",
+        "2日連続の牛バラはスタチン観点でやや注意。夕食は豆腐・魚・砂肝・納豆など脂質少なめを選ぼう"
       ],
-      "correlation": "2/25に繊維15g超えた翌朝は排便2回あり（バーリーマックス効果の可能性）"
+      "correlation": "2/25の繊維15g超えた翌朝に排便2回あった実績あり（バーリーマックス効果）。今夜のサイリウム+繊維多い夕食が明日の排便質改善に直結"
     },
     "sleep": {
-      "insight": "今日は7h44m・deep 8.4%で睡眠時間は回復。7日平均は5.69hと短め（昼寝なし計算）。core過多（67%）はdeepが増えれば自然に改善",
+      "insight": "2/27: 23:02就寝→06:55起床、7.74h（deep 0.65h/8.4% / rem 1.94h/25.0% / core 5.15h/66.6% / awake 0.13h/1.7%）。今週最長の睡眠で主観も「最高」。7日間夜間平均5.69hで最も改善した日。マグネシウム（b1）服用翌日のdeep比率を継続追跡中。",
       "tips": [
-        "deep 8.4%は目標10-20%をやや下回り。散歩30分が最も効果的な対策",
-        "b1マグネシウムの服用継続でdeep%の改善を追跡中",
-        "昨日2,656歩の低活動日のあとはdeepが増えにくい傾向あり"
+        "deep 8.4%は目標10%にあと1.6%。散歩30分で今夜のdeepを先取りするのが最も効果的な対策",
+        "rem 25%は理想域（20-25%）の上限—記憶・感情調節の機能は十分発揮されている",
+        "core 67%は目標（45-55%）を大きく超過—deepが増えると自然に改善するため今夜の活動量が鍵"
       ],
-      "weekTrend": "7日平均5.69h（短い日は3.7h・4.1h・4.5hが影響）。今日7.74hは今週最長",
-      "correlation": "2/26マグネシウム服用日の今日deep 8.4%。未服用の翌日と比較データを蓄積中",
+      "weekTrend": "2/21: 3.7h → 2/22: 6.9h → 2/23: 4.1h → 2/24: 6.5h → 2/25: 4.5h → 2/26: 6.4h → 2/27: 7.7h（今週最長）",
+      "correlation": "2/26にb1マグネシウム服用→2/27のdeep 8.4%。未服用翌日（2/21=0%、2/25=14.6%）との比較でb1の効果を追跡継続中",
       "stageHints": {
-        "deep": "昨日2,656歩と少なめ。散歩30分で深い眠りが増えやすいよ",
+        "deep": "昨日2,656歩と低活動。散歩30分で今夜の深い眠りが増えやすいよ",
         "rem": null,
-        "core": "core 67%（目標45-55%）。深い睡眠の割合が増えると改善しやすい",
+        "core": "core 67%（目標45-55%）。deep増えれば自然に改善する",
         "awake": null
       },
       "reboundAlert": {
@@ -779,110 +480,56 @@
       }
     },
     "supplements": {
-      "insight": "7日中プロバイオ服用率50%。b1マグネシウムは2/23・2/24・2/26の3日服用",
+      "insight": "7日間のプロバイオ服用率75%（42/56pt）。b1マグネシウムは2/22・2/23・2/24・2/26の4日服用—連日服用の睡眠との相関を追跡中。今日（2/27）のサプリ記録はまだなし。繊維9.3g（目標21g未満）のため夕食後にサイリウム3回（a1/a2/a3）が必要。",
       "tips": [
-        "ビオスリー(m5/e4)・エビオス(m4/e3)の服用率を上げると腸スコアが大幅改善",
-        "b1マグネシウムは就寝前3粒(262.5mg)継続。sleep深さとの相関を観察中",
-        "夕食後サイリウムの条件判定を毎日習慣にしよう"
+        "今夜の夜サプリ（e3エビオス・e4ビオスリー）を必ず服用—プロバイオ率が週80%超えを狙える",
+        "繊維9.3g → 不足11.7g → サイリウム3回（各2.75g）で補完できる",
+        "b1マグネシウムを就寝前に飲んでdeep睡眠との相関データを積み上げよう"
       ]
     },
     "weight": {
-      "insight": "86.35→86.55kg（2/26→2/27）で+0.2kg。7日間は87.25→86.55で-0.7kg。週次目標-0.25kg達成ペース",
+      "insight": "2/27: 86.55kg（体脂肪31.9%）。前日86.35kgから+0.2kgだが7日間では87.25→86.55で-0.70kg（週目標-0.25kg達成ペース）。30日後マイルストーン86.3kgまで+0.25kgとほぼ到達水準。体脂肪31.9%は先週比-0.5%改善。",
       "tips": [
-        "体重-0.7kg/7日は良好なペース。急ぎすぎず週-0.25〜-0.5kgを目標に",
-        "体脂肪31.5-31.9%の範囲。深い睡眠が増えると成長ホルモンで脂肪燃焼が促進される",
-        "1,400kcal割れに注意。今日の朝食523kcalはまだ1食のみ"
+        "86.55kgは今月3番目の低体重。86.35kgを再度割るのは今週中に現実的",
+        "体脂肪31.9%は昨日より+0.4%だが朝食後の測定タイミングのブレの可能性が高い",
+        "脂肪肝改善（82.2kg）まで-4.35kg。深い睡眠が増えると成長ホルモンで脂肪燃焼が加速する"
       ],
-      "projection": "現在のペースで3月中旬に85kg台が見えてくる",
-      "correlation": "2/25は978kcalの低カロリー日。翌2/26に1,829kcalで自然にバランス。体の声に従えている"
+      "projection": "現在の週-0.25〜0.50kgペースで3/5に86.0kg突入、3月末に85.0kg台が視野に入る",
+      "correlation": "2/25の978kcal低カロリー日→2/26の1,829kcal（自然なバランス）→体重維持。体の声に従えているパターンが出来てきた"
     },
     "gut": {
-      "score": 68,
+      "score": 75,
       "factors": {
-        "fiber": {
-          "avg": 17.4,
-          "target": 21,
-          "pts": 12.4
-        },
-        "diversity": {
-          "plantCount": 22,
-          "pts": 10
-        },
-        "fermented": {
-          "daysHit": 4,
-          "items": [
-            "納豆",
-            "味噌"
-          ],
-          "pts": 9.6
-        },
-        "polyphenol": {
-          "daysHit": 4,
-          "items": [
-            "チョコレート効果",
-            "コーヒー",
-            "カカオ"
-          ],
-          "pts": 6.4
-        },
-        "regularity": {
-          "score": 0.9,
-          "pts": 5.0
-        },
-        "probiotics": {
-          "rate": 0.5,
-          "pts": 4
-        },
-        "prebiotics": {
-          "rate": 0.4,
-          "type": "サイリウム",
-          "pts": 3
-        },
-        "bowel": {
-          "freqDays": 5,
-          "status": "硬め",
-          "regScore": 0.7,
-          "pts": 9.7
-        },
-        "water": {
-          "avgL": 2.13,
-          "target": 2.0,
-          "pts": 6
-        },
-        "sleep": {
-          "avgHrs": 5.69,
-          "pts": 2
-        },
-        "steps": {
-          "avgSteps": 3080,
-          "pts": 0
-        }
+        "fiber": { "avg": 18.6, "target": 21, "pts": 13.3 },
+        "diversity": { "plantCount": 20, "pts": 10 },
+        "fermented": { "daysHit": 6, "items": ["納豆", "味噌", "鮭の西京漬け"], "pts": 10.3 },
+        "polyphenol": { "daysHit": 6, "items": ["チョコレート効果72%", "カカオ", "スタバラテ", "ドトールコーヒー"], "pts": 6.9 },
+        "regularity": { "score": 0.9, "pts": 9.0 },
+        "probiotics": { "rate": 0.75, "pts": 6.0 },
+        "prebiotics": { "rate": 0.43, "type": "サイリウム", "pts": 3.0 },
+        "bowel": { "freqDays": 5, "status": "硬め", "regScore": 0.71, "pts": 9.7 },
+        "water": { "avgL": 1.78, "target": 2.0, "pts": 5.3 },
+        "sleep": { "avgHrs": 5.69, "pts": 2.0 },
+        "steps": { "avgSteps": 2640, "pts": 0 }
       },
-      "insight": "腸スコア68点。植物多様性22種・水分2.1Lは好調。排便質（硬め傾向）・歩数・プロバイオ服用率が改善余地",
+      "insight": "腸スコア75点（今週最高）。植物多様性20種（満点）・発酵食品6日/7日・ポリフェノール6日と食事の質は高水準に到達。課題は①繊維が今日9.3gと不足（7日平均18.6g）②お通じが硬め傾向（5日連続）③歩数が7日平均2,640歩と少なすぎる。",
       "tips": [
-        "散歩を増やすと腸の蠕動運動が活性化。排便質と歩数スコアが同時改善できる",
-        "ビオスリー(m5/e4)の夕服用を習慣化するとプロバイオスコアが最大2点上がる",
-        "バーリーマックス増量（145g→160g）で繊維+0.4g追加。目標21gまで3.6g不足"
+        "今夜はサイリウム3回＋繊維多い夕食で繊維を底上げ—7日平均を19g超に持っていけるチャンス",
+        "硬便が続いている根本原因は水分不足＋歩数不足。今日2L水を飲んで15分散歩するだけで効果が出る",
+        "歩数7日平均2,640歩。今日の散歩15分（約1,200歩）でスコアが0→1ptに改善し、腸の蠕動運動も活性化"
       ],
-      "correlation": "7日間納豆4日+バーリーマックス5日の組み合わせが腸スコアを支えている"
+      "correlation": "納豆6日+バーリーマックス毎日の習慣が腸スコア75点の主要因。7日平均繊維が21gを超えるとスコアが80点台に乗る"
     },
     "crossDomain": [
       {
-        "title": "歩数不足→deep睡眠・腸活・体重すべてに影響",
-        "body": "7日平均3,080歩は目標の38%。散歩15-30分を日課にするとdeep睡眠↑・腸蠕動↑・基礎代謝↑の三重効果が期待できる",
-        "relatedTabs": [
-          "sleep",
-          "gut",
-          "weight"
-        ]
+        "title": "歩数不足が深い眠り・腸・体重の3つを同時に引き下げている",
+        "body": "7日平均2,640歩は目標の33%。昨日2,656歩の低活動日のあと今夜のdeepが少ない傾向が確認できる。散歩15〜30分を日課にするとdeep睡眠↑・腸蠕動↑・基礎代謝↑の三重効果が出る。",
+        "relatedTabs": ["sleep", "gut", "weight"]
       },
       {
-        "title": "バーリーマックス繊維値修正完了",
-        "body": "BM20%ごはんの食物繊維を正確な値（116g=2.4g、145g=3.0g）に修正。2/24-27の繊維記録が更新されtた。食品データベースにも追加済み",
-        "relatedTabs": [
-          "meals",
-          "gut"
-        ]
+        "title": "今夜は7h快眠リバウンドに注意—深夜就寝パターンを再現させない",
+        "body": "過去のデータで7h+睡眠の翌日に就寝が平均1.6h遅れる傾向がある（2/22に7h後→2/23は02:03就寝で4h睡眠）。今夜は外食・作業が長引いても23時就寝を死守する意識を持って。",
+        "relatedTabs": ["sleep", "supplements"]
       }
     ]
   }
