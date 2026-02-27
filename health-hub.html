@@ -3062,18 +3062,26 @@ function renderSleep(container) {
         ${deepH  > 0 ? `<div style="flex:1;text-align:center;background:#E8EEF5;border-radius:8px;padding:7px 2px;"><div style="font-size:13px;font-weight:700;color:#2E4057;">${hrToHM(deepH)}</div><div style="font-size:10px;color:var(--text-muted);">深い ${dPct}%</div>${sInd('deep', dPct)}</div>` : ''}
         ${awakeH > 0 ? `<div style="flex:1;text-align:center;background:#FEF3EB;border-radius:8px;padding:7px 2px;"><div style="font-size:13px;font-weight:700;color:#F4A261;">${hrToHM(awakeH)}</div><div style="font-size:10px;color:var(--text-muted);">覚醒 ${aPct}%</div>${sInd('awake', aPct)}</div>` : ''}
       </div>`;
-      // ヒントカード（理想域でないステージのみ）
+      // ヒントカード v2（AIパーソナライズ対応・2行構成）
+      const stageHints = (adviceData && adviceData.sleep && adviceData.sleep.stageHints) ? adviceData.sleep.stageHints : {};
+      const fallbacks = {
+        deep: '日中の活動量や就寝リズムの安定が深い睡眠を増やします',
+        rem: '規則的な起床時間と十分な睡眠時間がREMを改善します',
+        remOver: 'REM過多はストレスや睡眠不足の反動の可能性。睡眠時間の確保を',
+        core: '総睡眠時間を増やすことがコア睡眠改善の近道です',
+        awake: '夜間の覚醒を減らすにはカフェインの時間帯と就寝環境の見直しを'
+      };
       const hints = [];
-      if (dPct > 0 && dPct < 10) hints.push({ stage: '深い睡眠', text: '就寝90分前の入浴、寝室温度16-18℃、日中の運動が深い睡眠を増やします', color: dPct < 8 ? '#EF4444' : '#F59E0B' });
-      if (rPct > 0 && rPct < 20) hints.push({ stage: 'REM', text: '就寝前のアルコールを控え、規則的な起床時間がREMを改善します', color: rPct < 15 ? '#EF4444' : '#F59E0B' });
-      if (rPct > 25) hints.push({ stage: 'REM', text: 'REM過多はストレスや睡眠不足の反動の可能性。睡眠時間の確保を', color: rPct > 30 ? '#EF4444' : '#F59E0B' });
-      if (cPct > 0 && cPct < 45) hints.push({ stage: 'コア', text: '総睡眠時間を増やすことがコア睡眠改善の近道です', color: '#F59E0B' });
-      if (aPct >= 5) hints.push({ stage: '覚醒', text: '寝室の光・音を遮断、カフェインは14時まで、寝る前のスマホを控えましょう', color: aPct > 10 ? '#EF4444' : '#F59E0B' });
+      if (dPct > 0 && dPct < 10) hints.push({ stage: '深い睡眠', status: `やや少なめ（${dPct}%）`, text: stageHints.deep || fallbacks.deep, color: dPct < 8 ? '#EF4444' : '#F59E0B' });
+      if (rPct > 0 && rPct < 20) hints.push({ stage: 'REM', status: `やや少なめ（${rPct}%）`, text: stageHints.rem || fallbacks.rem, color: rPct < 15 ? '#EF4444' : '#F59E0B' });
+      if (rPct > 25) hints.push({ stage: 'REM', status: `多め（${rPct}%）`, text: stageHints.rem || fallbacks.remOver, color: rPct > 30 ? '#EF4444' : '#F59E0B' });
+      if (cPct > 0 && cPct < 45) hints.push({ stage: 'コア', status: `やや少なめ（${cPct}%）`, text: stageHints.core || fallbacks.core, color: '#F59E0B' });
+      if (aPct >= 5) hints.push({ stage: '覚醒', status: `多め（${aPct}%）`, text: stageHints.awake || fallbacks.awake, color: aPct > 10 ? '#EF4444' : '#F59E0B' });
       if (hints.length === 0) {
         summaryHtml += `<div style="margin-top:8px;padding:7px 10px;background:#F0FDF4;border-radius:8px;font-size:10px;color:#16A34A;text-align:center;">✨ 睡眠バランス良好！</div>`;
       } else {
         hints.forEach(h => {
-          summaryHtml += `<div style="margin-top:6px;padding:6px 10px;background:#FFFBEB;border-radius:8px;border-left:3px solid ${h.color};font-size:10px;color:var(--text-secondary);"><span style="color:${h.color};font-weight:600;">${h.stage}: </span>${h.text}</div>`;
+          summaryHtml += `<div style="margin-top:6px;padding:6px 10px;background:#FFFBEB;border-radius:8px;border-left:3px solid ${h.color};font-size:10px;color:var(--text-secondary);"><span style="color:${h.color};font-weight:600;">${h.stage}: </span>${h.status}<br><span style="color:var(--text-muted);">→ ${h.text}</span></div>`;
         });
       }
     }
