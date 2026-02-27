@@ -780,6 +780,40 @@ eval "$(/opt/homebrew/bin/brew shellenv)"</pre>
             </div>
           </td>
         </tr>
+        <tr>
+          <td><code>cc</code> と打つとC言語コンパイラ（clang）が起動する<br><small style="color:#888">「The default interactive shell is now zsh」と表示されたことがある場合</small></td>
+          <td>
+            <p style="margin-bottom:0.5rem;font-size:0.88rem"><strong>原因：</strong>シェルがbashのまま（.zshrcが読まれていない）。zshに変更してエイリアスを設定する。</p>
+
+            <p style="font-size:0.85rem;margin-bottom:0.3rem">① デフォルトシェルをzshに変更（Macのパスワードが必要）</p>
+            <div class="cmd-block" style="margin:0.3rem 0">
+              <div class="cmd-header"><span class="cmd-label">シェル変更</span><button class="copy-btn" onclick="copyCmd(this)">コピー</button></div>
+              <pre>chsh -s /bin/zsh</pre>
+            </div>
+
+            <p style="font-size:0.85rem;margin:0.6rem 0 0.3rem"><strong>→ ターミナル（Ghostty）をいったん閉じて再起動する</strong></p>
+
+            <p style="font-size:0.85rem;margin-bottom:0.3rem">② Obsidian VaultのパスをGhosttyで確認する</p>
+            <div class="cmd-block" style="margin:0.3rem 0">
+              <div class="cmd-header"><span class="cmd-label">パス確認</span><button class="copy-btn" onclick="copyCmd(this)">コピー</button></div>
+              <pre>ls ~/Library/Mobile\ Documents/iCloud\~md\~obsidian/Documents/</pre>
+            </div>
+            <p style="font-size:0.85rem;margin:0.3rem 0">→ フォルダ一覧が出る。自分のVault名（例: <code>satoyumi-ccws</code>）を確認する</p>
+
+            <p style="font-size:0.85rem;margin:0.6rem 0 0.3rem">③ <code>cc</code> エイリアスを .zshrc に追加する（ボルト名を書き換えてから実行）</p>
+            <div class="cmd-block" style="margin:0.3rem 0">
+              <div class="cmd-header"><span class="cmd-label">エイリアス登録（ボルト名を書き換えてから実行）</span><button class="copy-btn" onclick="copyCmd(this)">コピー</button></div>
+              <pre>echo 'alias cc="cd ~/Library/Mobile\ Documents/iCloud\~md\~obsidian/Documents/（ボルト名） && claude"' >> ~/.zshrc && source ~/.zshrc</pre>
+            </div>
+
+            <p style="font-size:0.85rem;margin:0.6rem 0 0.3rem">④ 動作確認</p>
+            <div class="cmd-block" style="margin:0.3rem 0">
+              <div class="cmd-header"><span class="cmd-label">確認</span><button class="copy-btn" onclick="copyCmd(this)">コピー</button></div>
+              <pre>cc</pre>
+            </div>
+            <div class="note" style="margin-top:0.4rem">✅ Vaultフォルダに移動してClaude Codeが起動すればOK　❌ <code>clang</code> と表示されたら手順①からやり直す</div>
+          </td>
+        </tr>
       </tbody>
     </table>
   </section>
