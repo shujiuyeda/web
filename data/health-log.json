@@ -393,7 +393,7 @@
     "waterBonus": 0.43
   },
   "2026-02-28": {
-    "water": 0.85,
+    "water": 1.2,
     "bowel": null,
     "mood": null,
     "energy": null,
@@ -414,6 +414,6 @@
       "st3": true,
       "st4": true
     },
-    "waterBonus": null
+    "waterBonus": 0.76
   }
 }
