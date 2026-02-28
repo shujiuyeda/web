@@ -99,14 +99,14 @@
     "kcal": 1763
   },
   "2026-02-28": {
-    "overall": 54,
-    "gut": 72,
+    "overall": 67,
+    "gut": 64,
     "sleep": 5.71,
     "weight": 86.95,
     "bodyFat": 31.4,
-    "steps": 0,
-    "water": null,
-    "fiber": null,
-    "kcal": null
+    "steps": null,
+    "water": 0.35,
+    "fiber": 1.5,
+    "kcal": 190
   }
 }
