@@ -1,23 +1,158 @@
 {
-  "date": "2026-02-27",
+  "date": "2026-03-01",
   "tasks": [
-    { "id": "dt1", "label": "今日の体の調子をスキャンする", "slot": "morning", "priority": 10, "minutes": 10, "done": false, "tag": null },
-    { "id": "dt2", "label": "呼吸法（朝）", "slot": "morning", "priority": 11, "minutes": 5, "done": false, "tag": null },
-    { "id": "dt3", "label": "大鳥神社のお札にお参りをする", "slot": "morning", "priority": 12, "minutes": 5, "done": false, "tag": null },
-    { "id": "dt4", "label": "朝の散歩", "slot": "morning", "priority": 13, "minutes": 30, "done": false, "tag": null },
-    { "id": "dt5", "label": "ストレッチをやる", "slot": "morning", "priority": 14, "minutes": 10, "done": false, "tag": null },
-    { "id": "dt6", "label": "アイフルお支払い ¥31,000（staff口座）", "slot": "morning", "priority": 2, "minutes": 10, "done": false, "tag": "cash" },
-    { "id": "dt7", "label": "アイフルお支払い ¥13,000（i@shuji.jp口座）", "slot": "morning", "priority": 2, "minutes": 10, "done": false, "tag": "cash" },
-    { "id": "dt8", "label": "note.com解約手続き（林インターン・山口周研究室・林通常）", "slot": "morning", "priority": 5, "minutes": 20, "done": false, "tag": "important" },
-    { "id": "dt9", "label": "確定申告（野元さん対応 / 期限2/27）", "slot": "daytime", "priority": 12, "minutes": 60, "done": false, "tag": "urgent" },
-    { "id": "dt10", "label": "前日の日報を作る", "slot": "daytime", "priority": 20, "minutes": 10, "done": false, "tag": null },
-    { "id": "dt11", "label": "メールのチェック", "slot": "daytime", "priority": 21, "minutes": 20, "done": false, "tag": null },
-    { "id": "dt12", "label": "台所の洗い物をやる", "slot": "daytime", "priority": 22, "minutes": 20, "done": false, "tag": null },
-    { "id": "dt13", "label": "昼食後の散歩15分", "slot": "daytime", "priority": 23, "minutes": 30, "done": false, "tag": null },
-    { "id": "dt14", "label": "プロモ大体完了（持越し）", "slot": "daytime", "priority": 25, "minutes": 300, "done": false, "tag": "important" },
-    { "id": "dt15", "label": "17:00-18:15 広尾ゴルフ", "slot": "daytime", "priority": 15, "minutes": 75, "done": false, "tag": null },
-    { "id": "dt16", "label": "呼吸法（夜）", "slot": "evening", "priority": 70, "minutes": 5, "done": false, "tag": null },
-    { "id": "dt17", "label": "夕食後の散歩15分", "slot": "evening", "priority": 71, "minutes": 20, "done": false, "tag": null },
-    { "id": "dt18", "label": "お風呂に入る", "slot": "evening", "priority": 72, "minutes": 30, "done": false, "tag": null }
+    {
+      "id": "dt1",
+      "label": "大鳥神社のお札にお参り",
+      "slot": "morning",
+      "priority": 10,
+      "minutes": 5,
+      "done": false,
+      "tag": null
+    },
+    {
+      "id": "dt2",
+      "label": "呼吸法（朝）3-6-9",
+      "slot": "morning",
+      "priority": 12,
+      "minutes": 5,
+      "done": false,
+      "tag": null
+    },
+    {
+      "id": "dt3",
+      "label": "朝の散歩 🚶",
+      "slot": "morning",
+      "priority": 13,
+      "minutes": 30,
+      "done": false,
+      "tag": null
+    },
+    {
+      "id": "dt4",
+      "label": "机の上の掃除",
+      "slot": "morning",
+      "priority": 14,
+      "minutes": 10,
+      "done": false,
+      "tag": null
+    },
+    {
+      "id": "dt5",
+      "label": "ストレッチ",
+      "slot": "morning",
+      "priority": 15,
+      "minutes": 10,
+      "done": false,
+      "tag": null
+    },
+    {
+      "id": "dt6",
+      "label": "前日の日報を作る",
+      "slot": "daytime",
+      "priority": 20,
+      "minutes": 10,
+      "done": false,
+      "tag": null
+    },
+    {
+      "id": "dt7",
+      "label": "メールのチェック",
+      "slot": "daytime",
+      "priority": 21,
+      "minutes": 20,
+      "done": true,
+      "tag": null
+    },
+    {
+      "id": "dt8",
+      "label": "台所の洗い物",
+      "slot": "daytime",
+      "priority": 22,
+      "minutes": 20,
+      "done": false,
+      "tag": null
+    },
+    {
+      "id": "dt9",
+      "label": "昼食後の散歩15分 🚶",
+      "slot": "daytime",
+      "priority": 23,
+      "minutes": 30,
+      "done": false,
+      "tag": null
+    },
+    {
+      "id": "dt10",
+      "label": "日記を書く",
+      "slot": "daytime",
+      "priority": 24,
+      "minutes": 30,
+      "done": false,
+      "tag": "important"
+    },
+    {
+      "id": "dt11",
+      "label": "プロモ大体完了（2/25持越し）",
+      "slot": "daytime",
+      "priority": 17,
+      "minutes": 300,
+      "done": false,
+      "tag": "cash"
+    },
+    {
+      "id": "dt12",
+      "label": "11:55 ロータスポット",
+      "slot": "daytime",
+      "priority": 10,
+      "minutes": 60,
+      "done": false,
+      "tag": "urgent"
+    },
+    {
+      "id": "dt13",
+      "label": "16:05 パーソナル準備 → 17:30 パーソナル",
+      "slot": "daytime",
+      "priority": 11,
+      "minutes": 90,
+      "done": false,
+      "tag": "urgent"
+    },
+    {
+      "id": "dt14",
+      "label": "呼吸法（夜）4-7-8",
+      "slot": "evening",
+      "priority": 70,
+      "minutes": 5,
+      "done": false,
+      "tag": null
+    },
+    {
+      "id": "dt15",
+      "label": "夕食後の散歩15分 🚶",
+      "slot": "evening",
+      "priority": 71,
+      "minutes": 15,
+      "done": false,
+      "tag": null
+    },
+    {
+      "id": "dt16",
+      "label": "A Vibes week1「ととのえる」動画（38:23）",
+      "slot": "evening",
+      "priority": 72,
+      "minutes": 40,
+      "done": false,
+      "tag": null
+    },
+    {
+      "id": "dt17",
+      "label": "お風呂に入る 🛁",
+      "slot": "evening",
+      "priority": 73,
+      "minutes": 30,
+      "done": false,
+      "tag": null
+    }
   ]
 }
