@@ -523,6 +523,16 @@
     }
     .advice-box.green { background: rgba(116,198,157,0.25); }
     .advice-stale-note { font-size: 10px; opacity: 0.55; margin-top: 6px; text-align: right; }
+    .advice-regen-btn {
+      display: inline-flex; align-items: center; gap: 5px;
+      background: rgba(255,255,255,0.18); border: none; border-radius: 20px;
+      color: white; font-size: 12px; font-weight: 600; padding: 6px 14px;
+      cursor: pointer; margin-top: 10px; width: 100%;
+      justify-content: center; transition: opacity 0.2s;
+    }
+    .advice-regen-btn:active { opacity: 0.5; }
+    .advice-regen-btn:disabled { opacity: 0.4; cursor: default; }
+    .advice-regen-btn.running { background: rgba(116,198,157,0.3); }
 
     /* Pull-to-refresh */
     #ptr-indicator {
@@ -1492,6 +1502,67 @@ function syncAdviceToCurrentDate() {
   }
 }
 
+// GitHub Actions 経由でアドバイス再生成をトリガー
+let _regenTimer = null;
+async function triggerAdviceRegeneration() {
+  const btn = document.getElementById('advice-regen-btn');
+  if (!btn || btn.disabled) return;
+
+  const token = ghToken();
+  if (!token) { alert('GitHub連携が未設定です。設定から PAT を登録してください。'); return; }
+
+  btn.disabled = true;
+  btn.classList.add('running');
+  btn.textContent = '⏳ 生成中... (約90秒)';
+
+  try {
+    const res = await fetch('https://api.github.com/repos/shujiuyeda/web/actions/workflows/generate-advice.yml/dispatches', {
+      method: 'POST',
+      headers: {
+        'Authorization': `token ${token}`,
+        'Accept': 'application/vnd.github+json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ ref: 'main' })
+    });
+
+    if (!res.ok) {
+      const msg = res.status === 422 ? 'ワークフローが見つかりません（要push後）' :
+                  res.status === 401 ? 'トークンの権限が不足しています' :
+                  `エラー: HTTP ${res.status}`;
+      btn.textContent = `⚠️ ${msg}`;
+      btn.disabled = false;
+      btn.classList.remove('running');
+      return;
+    }
+
+    // 90秒後に自動リフレッシュ
+    let remaining = 90;
+    const tick = () => {
+      if (remaining <= 0) {
+        tryFetchAdvice().then(() => {
+          if (btn) {
+            btn.disabled = false;
+            btn.classList.remove('running');
+            btn.textContent = '✨ 最新を取得';
+          }
+        });
+        return;
+      }
+      if (btn) btn.textContent = `⏳ 生成中... (${remaining}秒)`;
+      remaining--;
+      _regenTimer = setTimeout(tick, 1000);
+    };
+    tick();
+
+  } catch (err) {
+    console.error('[triggerAdviceRegeneration]', err);
+    btn.textContent = '⚠️ ネットワークエラー';
+    btn.disabled = false;
+    btn.classList.remove('running');
+  }
+}
+
 function isAdviceStale() {
   if (!adviceData?.generated) return true;
   if (currentDate !== todayStr()) return false;  // 過去日は固定データとして扱う
@@ -1505,14 +1576,25 @@ function getAdviceDateLabel() {
 }
 
 function renderOverallBanner() {
+  const isToday = currentDate === todayStr();
+  const regenBtn = isToday && ghToken()
+    ? `<button class="advice-regen-btn" id="advice-regen-btn" onclick="triggerAdviceRegeneration()">✨ 最新を取得</button>`
+    : '';
+
   if (!adviceData?.overall) {
-    if (currentDate !== todayStr()) {
+    if (!isToday) {
       return `<div class="advice-card" style="opacity:0.6;text-align:center;padding:16px;">
         <div class="advice-card-label">🌿 ${getAdviceDateLabel()}</div>
         <div style="font-size:13px;color:var(--text-muted);margin-top:8px;">この日のAI分析データはありません</div>
       </div>`;
     }
-    return '';
+    return regenBtn
+      ? `<div class="advice-card" style="text-align:center;padding:16px;">
+          <div class="advice-card-label">🌿 今日の健康スコア</div>
+          <div style="font-size:13px;opacity:0.7;margin-bottom:8px;">アドバイスがまだ生成されていません</div>
+          ${regenBtn}
+        </div>`
+      : '';
   }
   const stale = isAdviceStale();
   const o = adviceData.overall;
@@ -1530,6 +1612,7 @@ function renderOverallBanner() {
       </div>
       ${o.topAction ? `<div class="advice-top-action">⚡ 今すぐやること：${esc(o.topAction)}</div>` : ''}
       ${stale ? '<div class="advice-stale-note">24時間以上更新されていません</div>' : ''}
+      ${regenBtn}
     </div>`;
 }
 
