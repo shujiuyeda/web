@@ -421,7 +421,7 @@
     "waterBonus": 0.76
   },
   "2026-03-01": {
-    "water": 2.3,
+    "water": 2.8,
     "bowel": {
       "status": "hard",
       "count": 2,
@@ -442,5 +442,11 @@
     "walkHR": 105,
     "stretch": null,
     "waterBonus": 0.43
+  },
+  "2026-03-02": {
+    "bowel": {
+      "status": "none",
+      "note": "朝時点でまだ"
+    }
   }
 }
