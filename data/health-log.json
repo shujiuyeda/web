@@ -441,6 +441,6 @@
     "vo2max": null,
     "walkHR": null,
     "stretch": null,
-    "waterBonus": null
+    "waterBonus": 0.43
   }
 }
