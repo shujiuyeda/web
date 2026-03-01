@@ -37,6 +37,19 @@
       ],
       "totalSets": 17,
       "notes": ""
+    },
+    {
+      "date": "2026-03-01",
+      "type": "personal",
+      "exercises": [
+        { "name": "ランジ", "weight": "自重", "reps": "—", "bodyPart": "脚・臀部・体幹" },
+        { "name": "小胸筋トレーニング①", "weight": "—", "reps": "—", "bodyPart": "胸（小胸筋）" },
+        { "name": "小胸筋トレーニング②", "weight": "—", "reps": "—", "bodyPart": "胸（小胸筋）" },
+        { "name": "腹筋", "weight": "—", "reps": "—", "bodyPart": "腹部" },
+        { "name": "背中", "weight": "—", "reps": "—", "bodyPart": "背中" }
+      ],
+      "totalSets": 0,
+      "notes": "重いものを上げず機能的なアプローチ。小胸筋トレーニング2種目を新規導入（右三角筋の痛み対処）。翌日お尻に張りあり（ランジの成果）、生活支障なし"
     }
   ]
 }
