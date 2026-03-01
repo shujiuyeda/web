@@ -422,7 +422,11 @@
   },
   "2026-03-01": {
     "water": 0.8,
-    "bowel": null,
+    "bowel": {
+      "status": "hard",
+      "count": 2,
+      "note": "2回。1回目：固め・少量、2回目：普通・少量"
+    },
     "mood": null,
     "energy": 3.2,
     "weather": "sunny",
