@@ -3,7 +3,7 @@
     "overall": 52,
     "gut": 9,
     "sleep": 5.19,
-    "weight": 88.0,
+    "weight": 88,
     "bodyFat": 31.2,
     "steps": 1524,
     "water": null,
@@ -29,7 +29,7 @@
     "bodyFat": 32.7,
     "steps": 39,
     "water": null,
-    "fiber": 15.0,
+    "fiber": 15,
     "kcal": 1455
   },
   "2026-02-22": {
@@ -48,7 +48,7 @@
     "gut": 48,
     "sleep": 4.09,
     "weight": 87.05,
-    "bodyFat": 32.0,
+    "bodyFat": 32,
     "steps": 3953,
     "water": 2.5,
     "fiber": 30.7,
@@ -59,7 +59,7 @@
     "gut": 54,
     "sleep": 6.51,
     "weight": 87.25,
-    "bodyFat": 31.0,
+    "bodyFat": 31,
     "steps": 3727,
     "water": 2.4,
     "fiber": 25.4,
@@ -73,7 +73,7 @@
     "bodyFat": 31.4,
     "steps": 1602,
     "water": 2.23,
-    "fiber": 14.0,
+    "fiber": 14,
     "kcal": 978
   },
   "2026-02-26": {
@@ -84,7 +84,7 @@
     "bodyFat": 31.5,
     "steps": 2656,
     "water": 2.23,
-    "fiber": 10.0,
+    "fiber": 10,
     "kcal": 1829
   },
   "2026-02-27": {
@@ -110,14 +110,14 @@
     "kcal": 3625
   },
   "2026-03-01": {
-    "overall": 60,
-    "gut": 70,
+    "overall": 63,
+    "gut": 71,
     "sleep": 5.41,
     "weight": 87.7,
-    "bodyFat": 31.0,
+    "bodyFat": 31,
     "steps": null,
-    "water": 0.8,
+    "water": 1.8,
     "fiber": 14.1,
-    "kcal": 934
+    "kcal": 979
   }
 }

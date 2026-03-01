@@ -76,7 +76,7 @@
         },
         "probiotics": {
           "rate": 0.5,
-          "pts": 4.0
+          "pts": 4
         },
         "prebiotics": {
           "rate": 0.29,
@@ -91,7 +91,7 @@
         },
         "water": {
           "avgL": 0.8,
-          "target": 2.0,
+          "target": 2,
           "pts": 2.4
         },
         "sleep": {
@@ -194,11 +194,11 @@
         },
         "regularity": {
           "score": 0.75,
-          "pts": 5.0
+          "pts": 5
         },
         "probiotics": {
           "rate": 0.5,
-          "pts": 4.0
+          "pts": 4
         },
         "prebiotics": {
           "rate": 0.29,
@@ -213,7 +213,7 @@
         },
         "water": {
           "avgL": 2.8,
-          "target": 2.0,
+          "target": 2,
           "pts": 6
         },
         "sleep": {
@@ -321,7 +321,7 @@
         },
         "regularity": {
           "score": 0.7,
-          "pts": 8.0
+          "pts": 8
         },
         "probiotics": {
           "rate": 0.64,
@@ -330,7 +330,7 @@
         "prebiotics": {
           "rate": 0.43,
           "type": "サイリウム",
-          "pts": 3.0
+          "pts": 3
         },
         "bowel": {
           "freqDays": 4,
@@ -340,7 +340,7 @@
         },
         "water": {
           "avgL": 1.46,
-          "target": 2.0,
+          "target": 2,
           "pts": 4.4
         },
         "sleep": {
@@ -427,7 +427,7 @@
       "score": 73,
       "factors": {
         "fiber": {
-          "avg": 18.0,
+          "avg": 18,
           "target": 21,
           "pts": 12.8
         },
@@ -450,11 +450,11 @@
             "カカオ",
             "ブルーベリー"
           ],
-          "pts": 8.0
+          "pts": 8
         },
         "regularity": {
           "score": 0.9,
-          "pts": 7.0
+          "pts": 7
         },
         "probiotics": {
           "rate": 0.71,
@@ -463,7 +463,7 @@
         "prebiotics": {
           "rate": 0.43,
           "type": "サイリウム",
-          "pts": 3.0
+          "pts": 3
         },
         "bowel": {
           "freqDays": 5,
@@ -473,7 +473,7 @@
         },
         "water": {
           "avgL": 1.6,
-          "target": 2.0,
+          "target": 2,
           "pts": 4.8
         },
         "sleep": {
@@ -581,7 +581,7 @@
         "fiber": {
           "avg": 20.24,
           "target": 21,
-          "pts": 14.0
+          "pts": 14
         },
         "diversity": {
           "plantCount": 22,
@@ -617,7 +617,7 @@
         "prebiotics": {
           "rate": 0.57,
           "type": "サイリウム",
-          "pts": 4.0
+          "pts": 4
         },
         "bowel": {
           "freqDays": 5,
@@ -627,7 +627,7 @@
         },
         "water": {
           "avgL": 1.98,
-          "target": 2.0,
+          "target": 2,
           "pts": 5.9
         },
         "sleep": {
@@ -758,7 +758,7 @@
         "prebiotics": {
           "rate": 0.43,
           "type": "サイリウム",
-          "pts": 3.0
+          "pts": 3
         },
         "bowel": {
           "freqDays": 5,
@@ -768,8 +768,8 @@
         },
         "water": {
           "avgL": 2.24,
-          "target": 2.0,
-          "pts": 6.0
+          "target": 2,
+          "pts": 6
         },
         "sleep": {
           "avgHrs": 5.97,
@@ -808,58 +808,46 @@
     ]
   },
   "2026-03-01": {
-    "generated": "2026-03-01T13:05:40",
+    "generated": "2026-03-01T16:12:35",
     "overall": {
-      "headline": "サバ＋豚汁で良質な昼食！歩数と睡眠が今週の課題",
-      "score": 60,
-      "topAction": "今日は散歩に出て8,000歩を目指そう"
+      "headline": "スコア63点 - データを分析しました",
+      "score": 63,
+      "topAction": null
     },
     "meals": {
-      "insight": "昼食でサバ塩焼き＋豚汁＋納豆ご飯と栄養バランス良好。P38g含む良質な組み合わせ。",
-      "tips": [
-        "繊維は今日現在14.1g。あと6.9g不足。夕食で野菜多めにいこう",
-        "サバのDHA・EPAが睡眠の質向上に働く。夕食後に青魚の効果が出やすい"
-      ],
-      "correlation": "今週平均繊維18.8g（目標21g）。サイリウム達成率が3/7日と低め。夕食後忘れずに"
+      "insight": "",
+      "tips": [],
+      "correlation": ""
     },
     "sleep": {
-      "insight": "5時間24分（チートデイ翌日）。深い睡眠7.7%と少なめ。昨日のワイン7杯の影響が残っている可能性。",
-      "tips": [
-        "今夜は22時台の就寝を目指して。昨日が遅かった分、早めに戻す",
-        "マグネシウム（b1）を就寝前に飲んで深い睡眠をサポートしよう"
-      ],
-      "weekTrend": "7日平均5.76h。週の前半（2/23・2/25）に短眠が続き平均を下げている。2/27の7.7hが唯一の7h越え",
-      "correlation": "睡眠不足日（2/25, 2/23）の翌日は歩数も少ない傾向。睡眠と活動量が連動している",
+      "insight": "",
+      "tips": [],
+      "weekTrend": "",
+      "correlation": "",
       "stageHints": {
-        "deep": "深い睡眠7.7%（理想10-20%）。歩数3,676歩と少なめ。散歩30分で深睡眠↑",
-        "rem": "REM28.4%（理想20-25%）。ワイン翌日にREMが増える傾向あり",
-        "core": "コア63.8%（理想45-55%）。深睡眠不足の分コアが長くなっている",
+        "deep": "深い睡眠8%（理想10-20%）。b1マグネシウム未服用。就寝前に飲むと効果的",
+        "rem": "REM28%（理想20-25%）。ストレスや飲酒翌日にREMが増える傾向",
+        "core": "コア64%（理想45-55%）。深睡眠不足の分コアが長くなっている",
         "awake": null
       }
     },
     "supplements": {
-      "insight": "今日はまだサプリ未記録。朝食後のサプリは飲んだ？",
-      "tips": [
-        "プレバイオ達成率3/7日と低め。夕食の繊維不足日（今日は-6.9g）はサイリウム3回分が目安",
-        "b1マグネシウムは就寝前。飲むと深い睡眠に効果的"
-      ]
+      "insight": "",
+      "tips": []
     },
     "weight": {
-      "insight": "87.70kg（チートデイ翌日）。昨日比+0.75kg。3,625kcal摂取の翌日なので想定範囲内。",
-      "tips": [
-        "チートデイ翌日は水分貯留で体重が増えやすい。2-3日で戻るので焦らずに",
-        "今日は散歩で歩数を稼ぐと代謝が上がり回復が早まる"
-      ],
-      "projection": "食事を適正量に戻せば2/28(86.95kg)水準に戻る見込み。今週末には87.0kg台前半を目指せる",
-      "correlation": "2/28(86.95kg)→3/1(87.70kg): チートデイ後のリバウンドは全て一時的。水分・糖質の貯留が主因"
+      "insight": "",
+      "tips": [],
+      "projection": "",
+      "correlation": ""
     },
     "gut": {
-      "score": 70,
+      "score": 71,
       "factors": {
         "fiber": {
           "avg": 18.8,
           "target": 21,
-          "pts": 13
+          "pts": 13.4
         },
         "diversity": {
           "plantCount": 41,
@@ -867,27 +855,21 @@
         },
         "fermented": {
           "daysHit": 5,
-          "items": [
-            "納豆",
-            "豚汁（味噌）"
-          ],
-          "pts": 9
+          "items": [],
+          "pts": 8.6
         },
         "polyphenol": {
           "daysHit": 5,
-          "items": [
-            "カカオ",
-            "チョコレート効果"
-          ],
-          "pts": 6
+          "items": [],
+          "pts": 5.7
         },
         "regularity": {
-          "score": 0.5,
-          "pts": 5
+          "score": 0.3,
+          "pts": 3.4
         },
         "probiotics": {
-          "rate": 0.64,
-          "pts": 5
+          "rate": 0.71,
+          "pts": 5.7
         },
         "prebiotics": {
           "rate": 0.43,
@@ -895,50 +877,29 @@
           "pts": 3
         },
         "bowel": {
-          "freqDays": 6,
-          "status": "硬め傾向",
-          "regScore": 0.86,
-          "pts": 11
+          "freqDays": 7,
+          "status": "硬め",
+          "regScore": 1,
+          "pts": 13.3
         },
         "water": {
-          "avgL": 2.0,
-          "target": 2.0,
+          "avgL": 2.14,
+          "target": 2,
           "pts": 6
         },
         "sleep": {
           "avgHrs": 5.76,
-          "pts": 3
+          "pts": 2
         },
         "steps": {
           "avgSteps": 3676,
           "pts": 0
         }
       },
-      "insight": "腸スコア70点。植物多様性41種は優秀！水分管理も安定。課題はサイリウム服用率と歩数の少なさ。",
-      "tips": [
-        "今週のお通じは6/7日で硬め傾向。繊維摂取量（18.8g）と水分摂取のバランスが鍵",
-        "歩数が週平均3,676歩と少なめ。腸の蠕動運動に歩行は重要。1日30分の散歩から"
-      ],
-      "correlation": "硬め便が多い日は歩数も少ない（2/23-3,953, 2/24-3,727, 2/25-1,602）。運動が腸の動きに直結"
+      "insight": "",
+      "tips": [],
+      "correlation": ""
     },
-    "crossDomain": [
-      {
-        "title": "歩数↓→腸の動き↓→便秘傾向",
-        "body": "今週平均歩数3,676歩（目標8,000歩の半分以下）。歩行が少ない日に硬め便が多い。今日散歩に出ると明日のお通じが変わる可能性大。",
-        "relatedTabs": [
-          "gut",
-          "weight"
-        ]
-      },
-      {
-        "title": "チートデイ翌日パターン",
-        "body": "2/28(3,625kcal/ワイン7杯)→3/1(+0.75kg, 睡眠5.4h)。水分と糖質の貯留で体重増加、アルコールで睡眠の深度が低下。2-3日で正常化するので今日は食事を戻すだけでOK。",
-        "relatedTabs": [
-          "sleep",
-          "weight",
-          "meals"
-        ]
-      }
-    ]
+    "crossDomain": []
   }
 }
