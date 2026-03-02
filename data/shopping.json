@@ -6,6 +6,18 @@
       "name": "Withings Body Comp（約29,990円）",
       "note": "体組成スマートスケール",
       "category": "other"
+    },
+    {
+      "id": "s5",
+      "name": "ビタミンD3 1000-2000IU",
+      "note": "サプリ見直し（3/2）で追加。マルチビタミンの200IUは全く不足",
+      "category": "supplement"
+    },
+    {
+      "id": "s6",
+      "name": "Sports Research Triple Strength Omega-3（iHerb）",
+      "note": "IFOS 5つ星・rTG型・EPA:DHA=2.65:1。2粒で1,900mg。スタチン服用中に最適",
+      "category": "supplement"
     }
   ],
   "checks": {}
