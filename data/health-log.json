@@ -463,8 +463,9 @@
     "water": 0.5,
     "waterBonus": null,
     "bowel": {
-      "status": "none",
-      "note": "朝時点でまだ"
+      "status": "hard",
+      "time": "10:23",
+      "note": "コロコロ、量少なめ"
     },
     "mood": null,
     "energy": 3.4,
