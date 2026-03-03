@@ -444,7 +444,7 @@
     "waterBonus": 0.43
   },
   "2026-03-02": {
-    "water": 0.55,
+    "water": 2.0,
     "waterBonus": null,
     "bowel": {
       "status": "none",
@@ -458,5 +458,32 @@
     "walkDistance": 4.01,
     "vo2max": null,
     "walkHR": 109
+  },
+  "2026-03-03": {
+    "water": 0.5,
+    "waterBonus": null,
+    "bowel": {
+      "status": "none",
+      "note": "朝時点でまだ"
+    },
+    "mood": null,
+    "energy": 3.4,
+    "weather": "rain",
+    "sleep_feel": "途中で一旦起きたが時間的によく眠れた",
+    "body_note": "朝の腰がつらい（前かがみで物を拾う時）",
+    "steps": 157,
+    "rhr": 54.0,
+    "hrv": 32.5,
+    "stride": null,
+    "walkSpeed": null,
+    "walkDistance": null,
+    "vo2max": null,
+    "walkHR": null,
+    "stretch": {
+      "st1": true,
+      "st2": true,
+      "st3": true,
+      "st4": true
+    }
   }
 }
