@@ -450,6 +450,7 @@
     .nutr-bar-fill.ok { background: var(--green-light); }
     .nutr-bar-fill.warn { background: var(--warning); }
     .nutr-bar-fill.over { background: var(--danger); }
+    .nutr-bar-fill.neutral { background: var(--text-muted); opacity: 0.4; }
     .nutr-group-label {
       font-size: 11px; font-weight: 600; color: var(--text-secondary);
       margin: 12px 0 4px 0; padding-top: 8px;
@@ -2131,7 +2132,7 @@ function renderMeals(container) {
   html += supplGuideHtml(t);
 
   // Nutrion progress bars
-  const unsatFat = Math.max(0, t.f - t.satFat);
+  const otherFat = Math.max(0, t.f - t.satFat - t.goodFat);
   html += `
     <div class="card">
       <div class="card-title">栄養バランス</div>
@@ -2142,7 +2143,8 @@ function renderMeals(container) {
       ${nutrBar('炭水化物', t.c, TARGETS.cMax, 'g', t.c > TARGETS.cMax ? 'over' : t.c >= TARGETS.cMin ? 'ok' : 'warn', '脳と体のエネルギー源')}
       <div class="nutr-group-label">脂質の質 — 量より中身が大事</div>
       ${nutrBar('🔴 悪い脂（控えめに）', t.satFat, TARGETS.satFatMax, 'g', t.satFat > TARGETS.satFatMax ? 'over' : 'ok', '肉・バター・チーズ・菓子の油 → LDLコレステロール↑')}
-      ${nutrBar('🟢 良い脂（積極的に）', unsatFat, TARGETS.unsatFatMin, 'g', unsatFat >= TARGETS.unsatFatMin ? 'ok' : 'warn', '魚(ω3)・オリーブ油(ω9)・ナッツ(ω6) → 血管を守る')}
+      ${nutrBar('🟢 良い脂（積極的に）', t.goodFat, TARGETS.unsatFatMin, 'g', t.goodFat >= TARGETS.unsatFatMin ? 'ok' : 'warn', '魚(ω3)・オリーブ油(ω9)・ナッツ → 血管を守る')}
+      ${nutrBar('⚪ その他の脂（中立）', otherFat, null, 'g', 'neutral', '肉・加工食品の不飽和脂肪酸 — 目標なし・参考値')}
       <div class="nutr-group-label">ミネラル・その他</div>
       ${nutrBar('食物繊維（積極的に）', t.fiber, TARGETS.fiberTarget, 'g', t.fiber >= TARGETS.fiberTarget ? 'ok' : 'warn', '腸内環境・血糖値の急上昇を抑える')}
       ${nutrBar('塩分（控えめに）', t.salt, TARGETS.saltTarget, 'g', t.salt > TARGETS.saltTarget ? 'over' : 'ok', '血圧・むくみの原因 → 日本人の最大リスク')}
@@ -2235,12 +2237,14 @@ function macroCard(name, val, target, status, pct) {
 }
 
 function nutrBar(label, val, max, unit, status, note) {
-  const pct = Math.min((val / max) * 100, 100);
+  const pct = max != null ? Math.min((val / max) * 100, 100) : 100;
+  const valStr = label === 'カロリー' ? Math.round(val) : val.toFixed(1);
+  const targetStr = max != null ? ` / ${max}${unit}` : '';
   return `
     <div class="nutr-bar">
       <div class="nutr-bar-header">
         <span class="nutr-bar-label">${label}${note ? `<span class="nutr-bar-note">${note}</span>` : ''}</span>
-        <span class="nutr-bar-val">${label === 'カロリー' ? Math.round(val) : val.toFixed(1)}${unit} / ${label === 'カロリー' ? max : max}${unit}</span>
+        <span class="nutr-bar-val">${valStr}${unit}${targetStr}</span>
       </div>
       <div class="nutr-bar-track">
         <div class="nutr-bar-fill ${status}" style="width:${pct.toFixed(1)}%"></div>
@@ -2301,8 +2305,9 @@ function totals(meals) {
     kcal: a.kcal + (m.kcal || 0), p: a.p + (m.p || 0), f: a.f + (m.f || 0), c: a.c + (m.c || 0),
     mg: a.mg + (m.mg || 0), fiber: a.fiber + (m.fiber || 0),
     salt: a.salt + (m.salt || 0), satFat: a.satFat + (m.satFat || 0),
+    goodFat: a.goodFat + (m.goodFat || 0),
     ca: a.ca + (m.ca || 0), k: a.k + (m.k || 0)
-  }), {kcal:0, p:0, f:0, c:0, mg:0, fiber:0, salt:0, satFat:0, ca:0, k:0});
+  }), {kcal:0, p:0, f:0, c:0, mg:0, fiber:0, salt:0, satFat:0, goodFat:0, ca:0, k:0});
 }
 
 function deleteMeal(idx) {
