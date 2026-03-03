@@ -460,7 +460,7 @@
     "walkHR": 109
   },
   "2026-03-03": {
-    "water": 0.5,
+    "water": 1.0,
     "waterBonus": null,
     "bowel": {
       "status": "hard",
