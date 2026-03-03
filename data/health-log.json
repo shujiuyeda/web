@@ -449,6 +449,14 @@
     "bowel": {
       "status": "none",
       "note": "朝時点でまだ"
-    }
+    },
+    "steps": 6116,
+    "rhr": 54.0,
+    "hrv": 27.0,
+    "stride": 65.3,
+    "walkSpeed": 4.4,
+    "walkDistance": 4.01,
+    "vo2max": null,
+    "walkHR": 109
   }
 }
