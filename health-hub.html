@@ -2130,7 +2130,7 @@ function renderMeals(container) {
   `;
 
   // Supplement guide card
-  html += supplGuideHtml(t);
+  html += supplGuideHtml(t, getSuppl(currentDate));
 
   // Nutrion progress bars
   const otherFat = Math.max(0, t.f - t.satFat - t.goodFat);
@@ -2253,21 +2253,31 @@ function nutrBar(label, val, max, unit, status, note) {
     </div>`;
 }
 
-function supplGuideHtml(t) {
-  const fiberPct = Math.min(t.fiber / TARGETS.fiberTarget * 100, 100).toFixed(1);
+function supplGuideHtml(t, checks) {
+  // サプリ由来の食物繊維を計算
+  const pFiber = SUPPL_DOSING.psyllium.fiberPerCapsule * SUPPL_DOSING.psyllium.capPerServing;
+  const iFiber = SUPPL_DOSING.inulin.gPerServing;
+  let supplFiber = 0;
+  if (checks.a1 === true) supplFiber += pFiber;
+  if (checks.a2 === true) supplFiber += pFiber;
+  if (checks.a3 === true) supplFiber += iFiber;
+  const totalFiber = t.fiber + supplFiber;
+  const fiberPct = Math.min(totalFiber / TARGETS.fiberTarget * 100, 100).toFixed(1);
   const mgPct    = Math.min(t.mg    / TARGETS.mgTarget    * 100, 100).toFixed(1);
 
   // --- 食物繊維 ---
   let fiberMsg;
-  if (t.fiber >= TARGETS.fiberTarget) {
+  if (totalFiber >= TARGETS.fiberTarget) {
     fiberMsg = `<span style="color:var(--success);font-size:13px;">✅ 目標達成！</span>`;
   } else {
-    const deficit = (TARGETS.fiberTarget - t.fiber).toFixed(1);
-    const fiberPerServing = SUPPL_DOSING.psyllium.fiberPerCapsule * SUPPL_DOSING.psyllium.capPerServing;
-    const psylliumServings = Math.min(Math.ceil(parseFloat(deficit) / fiberPerServing), SUPPL_DOSING.psyllium.maxServings);
-    const psylliumCaps = psylliumServings * SUPPL_DOSING.psyllium.capPerServing;
-    fiberMsg = `<span style="font-size:13px;color:var(--text-muted);">不足 <strong style="color:var(--text);">${deficit}g</strong> → 夕食後サイリウム<strong style="color:var(--accent);">${psylliumServings}回分(${psylliumCaps}粒)</strong>で補完</span>`;
+    const deficit = (TARGETS.fiberTarget - totalFiber).toFixed(1);
+    fiberMsg = `<span style="font-size:13px;color:var(--text-muted);">あと <strong style="color:var(--text);">${deficit}g</strong></span>`;
   }
+
+  // 内訳テキスト
+  let breakdownParts = [`食事 ${t.fiber.toFixed(1)}g`];
+  if (supplFiber > 0) breakdownParts.push(`サプリ ${supplFiber.toFixed(1)}g`);
+  const breakdownText = breakdownParts.join(' + ');
 
   // --- マグネシウム ---
   let mgMsg;
@@ -2285,9 +2295,10 @@ function supplGuideHtml(t) {
       <div style="margin-bottom:14px;">
         <div style="display:flex;justify-content:space-between;margin-bottom:5px;">
           <span style="font-size:13px;">🌾 食物繊維</span>
-          <span style="font-size:13px;font-weight:600;">${t.fiber.toFixed(1)}g / ${TARGETS.fiberTarget}g</span>
+          <span style="font-size:13px;font-weight:600;">${totalFiber.toFixed(1)}g / ${TARGETS.fiberTarget}g</span>
         </div>
-        <div class="nutr-bar-track" style="margin-bottom:6px;"><div class="nutr-bar-fill ${t.fiber >= TARGETS.fiberTarget ? 'ok' : 'warn'}" style="width:${fiberPct}%"></div></div>
+        <div style="font-size:12px;color:var(--text-muted);margin-bottom:4px;">${breakdownText}</div>
+        <div class="nutr-bar-track" style="margin-bottom:6px;"><div class="nutr-bar-fill ${totalFiber >= TARGETS.fiberTarget ? 'ok' : 'warn'}" style="width:${fiberPct}%"></div></div>
         ${fiberMsg}
       </div>
       <div>
