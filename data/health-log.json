@@ -490,20 +490,24 @@
   "2026-03-04": {
     "water": 1.6,
     "waterBonus": null,
-    "bowel": { "status": "hard", "time": "12:20", "note": "少量" },
+    "bowel": {
+      "status": "hard",
+      "time": "12:20",
+      "note": "少量"
+    },
     "mood": null,
     "energy": 3.2,
     "weather": "sunny",
     "sleep_feel": "時間は取れたが夜中2h覚醒（02:23-04:49）で寝不足感",
     "body_note": "腰（相変わらず）、右肩気になる。間さん行くか検討",
-    "steps": null,
-    "rhr": null,
-    "hrv": null,
-    "stride": null,
-    "walkSpeed": null,
-    "walkDistance": null,
+    "steps": 8616,
+    "rhr": 56.0,
+    "hrv": 27.6,
+    "stride": 70.1,
+    "walkSpeed": 4.7,
+    "walkDistance": 5.38,
     "vo2max": null,
-    "walkHR": null,
+    "walkHR": 95,
     "stretch": null
   }
 }
