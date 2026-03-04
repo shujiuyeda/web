@@ -876,7 +876,8 @@ const START_WEIGHT = 88.0;
 const GOAL_WEIGHT = 69.9;
 const SUPPL_DOSING = {
   mg: { perCapsule: 87.5, maxCapsules: 4 },
-  psyllium: { fiberPerCapsule: 0.55, capPerServing: 5, maxServings: 3 }
+  psyllium: { fiberPerCapsule: 0.55, capPerServing: 5, maxServings: 2 },
+  inulin:   { gPerServing: 5, maxServings: 1 }
 };
 
 // ======== STATE ========
@@ -2643,7 +2644,8 @@ function togglePsyllium(id) {
 }
 
 function renderPsylliumCard(t, checks) {
-  const fiberPerServing = SUPPL_DOSING.psyllium.fiberPerCapsule * SUPPL_DOSING.psyllium.capPerServing;
+  const pFiber = SUPPL_DOSING.psyllium.fiberPerCapsule * SUPPL_DOSING.psyllium.capPerServing;
+  const iFiber = SUPPL_DOSING.inulin.gPerServing;
   const hasMeals = getMeals(currentDate).length > 0;
 
   let content;
@@ -2653,29 +2655,33 @@ function renderPsylliumCard(t, checks) {
     content = `<div style="font-size:13px;color:var(--success);">✅ 食物繊維 ${t.fiber.toFixed(1)}g 目標達成！サイリウム不要</div>`;
   } else {
     const deficit = TARGETS.fiberTarget - t.fiber;
-    const servingsNeeded = Math.min(Math.ceil(deficit / fiberPerServing), SUPPL_DOSING.psyllium.maxServings);
-    const psylliumIds = ['a1','a2','a3'].slice(0, servingsNeeded);
-    let checkboxHtml = psylliumIds.map((id, i) => {
-      const checked = checks[id] === true;
+    const items = [
+      { id: 'a1', label: `サイリウム 1回目（${SUPPL_DOSING.psyllium.capPerServing}粒 / ${pFiber.toFixed(1)}g）` },
+      { id: 'a2', label: `サイリウム 2回目（${SUPPL_DOSING.psyllium.capPerServing}粒 / ${pFiber.toFixed(1)}g）` },
+      { id: 'a3', label: `イヌリン（小さじ1 / ${iFiber}g）` }
+    ];
+    const totalFiber = pFiber * 2 + iFiber;
+    let checkboxHtml = items.map(item => {
+      const checked = checks[item.id] === true;
       return `
         <div class="suppl-item" style="padding:6px 0;">
-          <div class="suppl-check ${checked ? 'checked' : ''}" onclick="togglePsyllium('${id}')"></div>
+          <div class="suppl-check ${checked ? 'checked' : ''}" onclick="togglePsyllium('${item.id}')"></div>
           <div class="suppl-label">
-            <div class="suppl-name ${checked ? 'checked' : ''}">${i + 1}回目（${SUPPL_DOSING.psyllium.capPerServing}粒）</div>
+            <div class="suppl-name ${checked ? 'checked' : ''}">${item.label}</div>
           </div>
         </div>`;
     }).join('');
     content = `
       <div style="font-size:13px;color:var(--text-muted);margin-bottom:8px;">
         不足 <strong style="color:var(--text);">${deficit.toFixed(1)}g</strong> →
-        <strong style="color:var(--accent);">${servingsNeeded}回分(${servingsNeeded * SUPPL_DOSING.psyllium.capPerServing}粒)</strong>推奨
+        サイリウム2回+イヌリン1回（計<strong style="color:var(--accent);">${totalFiber.toFixed(1)}g</strong>）推奨
       </div>
       ${checkboxHtml}`;
   }
 
   return `
     <div class="card" id="psyllium-card" style="${!hasMeals ? 'opacity:0.6;' : ''}">
-      <div class="card-title">🌾 夕食後サイリウム（繊維不足時）</div>
+      <div class="card-title">🌿 食物繊維サプリ（繊維不足時）</div>
       ${content}
     </div>`;
 }
