@@ -512,7 +512,7 @@
   },
   "2026-03-05": {
     "water": 0,
-    "waterBonus": null,
+    "waterBonus": 0.5,
     "bowel": null,
     "mood": null,
     "energy": 3.2,
