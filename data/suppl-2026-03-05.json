@@ -1,1 +1,1 @@
-{ "date": "2026-03-05", "checks": {} }
+{ "date": "2026-03-05", "checks": { "e1": true, "e2": true, "e3": true, "e4": true, "e5": true, "a1": true, "a3": true, "b1": true } }
