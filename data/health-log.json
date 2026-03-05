@@ -519,14 +519,14 @@
     "weather": "sunny_windy",
     "sleep_feel": "途中覚醒あるが一応寝た感あり",
     "body_note": "お尻張り（ランジの成果）、腰の張り継続。ストレッチ必要",
-    "steps": null,
-    "rhr": null,
-    "hrv": null,
-    "stride": null,
-    "walkSpeed": null,
-    "walkDistance": null,
+    "steps": 3166,
+    "rhr": 63.0,
+    "hrv": 20.9,
+    "stride": 79.8,
+    "walkSpeed": 5.8,
+    "walkDistance": 1.92,
     "vo2max": null,
-    "walkHR": null,
+    "walkHR": 114,
     "stretch": null
   }
 }
