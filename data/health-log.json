@@ -488,7 +488,7 @@
     }
   },
   "2026-03-04": {
-    "water": 1.6,
+    "water": 2.5,
     "waterBonus": null,
     "bowel": {
       "status": "hard",
@@ -508,6 +508,25 @@
     "walkDistance": 5.38,
     "vo2max": null,
     "walkHR": 95,
+    "stretch": null
+  },
+  "2026-03-05": {
+    "water": 0,
+    "waterBonus": null,
+    "bowel": null,
+    "mood": null,
+    "energy": 3.2,
+    "weather": "sunny_windy",
+    "sleep_feel": "途中覚醒あるが一応寝た感あり",
+    "body_note": "お尻張り（ランジの成果）、腰の張り継続。ストレッチ必要",
+    "steps": null,
+    "rhr": null,
+    "hrv": null,
+    "stride": null,
+    "walkSpeed": null,
+    "walkDistance": null,
+    "vo2max": null,
+    "walkHR": null,
     "stretch": null
   }
 }
