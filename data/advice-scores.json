@@ -174,5 +174,16 @@
     "water": 0.8,
     "fiber": 3.6,
     "kcal": 829
+  },
+  "2026-03-07": {
+    "overall": 60,
+    "gut": 65,
+    "sleep": 5.58,
+    "weight": 88.05,
+    "bodyFat": 31.7,
+    "steps": 1548,
+    "water": 0.8,
+    "fiber": 12.6,
+    "kcal": 1539
   }
 }
