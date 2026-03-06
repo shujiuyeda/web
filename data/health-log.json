@@ -533,7 +533,7 @@
     "stretch": null
   },
   "2026-03-06": {
-    "water": 0.8,
+    "water": 2.0,
     "waterBonus": null,
     "bowel": null,
     "mood": null,
@@ -555,5 +555,24 @@
       "st3": true,
       "st4": true
     }
+  },
+  "2026-03-07": {
+    "water": 0.6,
+    "waterBonus": null,
+    "bowel": null,
+    "mood": null,
+    "energy": 3.2,
+    "weather": "sunny_cool",
+    "sleep_feel": "7.2h眠れた。深くは寝れてない感じ、ちょっとずつ意識あり。日々の疲れ蓄積",
+    "body_note": "腰の張り継続。愛田さん行きたい",
+    "steps": 120,
+    "rhr": null,
+    "hrv": 40.31,
+    "stride": null,
+    "walkSpeed": null,
+    "walkDistance": null,
+    "vo2max": null,
+    "walkHR": null,
+    "stretch": null
   }
 }
