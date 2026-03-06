@@ -136,9 +136,9 @@
     "gut": 69,
     "sleep": 7.118,
     "weight": 88.35,
-    "bodyFat": 31.0,
+    "bodyFat": 31,
     "steps": 157,
-    "water": 1.0,
+    "water": 1,
     "fiber": 8.7,
     "kcal": 1005
   },
@@ -176,14 +176,14 @@
     "kcal": 829
   },
   "2026-03-07": {
-    "overall": 60,
-    "gut": 65,
-    "sleep": 5.58,
-    "weight": 88.05,
-    "bodyFat": 31.7,
-    "steps": 1548,
-    "water": 0.8,
-    "fiber": 12.6,
-    "kcal": 1539
+    "overall": 63,
+    "gut": 63,
+    "sleep": 6.92,
+    "weight": 87.85,
+    "bodyFat": 30.9,
+    "steps": null,
+    "water": null,
+    "fiber": 0,
+    "kcal": 0
   }
 }
