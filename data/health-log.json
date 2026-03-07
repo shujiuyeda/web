@@ -565,14 +565,14 @@
     "weather": "sunny_cool",
     "sleep_feel": "7.2h眠れた。深くは寝れてない感じ、ちょっとずつ意識あり。日々の疲れ蓄積",
     "body_note": "腰の張り継続。愛田さん行きたい",
-    "steps": 120,
-    "rhr": null,
-    "hrv": 40.31,
-    "stride": null,
-    "walkSpeed": null,
-    "walkDistance": null,
+    "steps": 5141,
+    "rhr": 63.0,
+    "hrv": 28.4,
+    "stride": 71.4,
+    "walkSpeed": 4.8,
+    "walkDistance": 3.49,
     "vo2max": null,
-    "walkHR": null,
+    "walkHR": 102,
     "stretch": null
   }
 }
