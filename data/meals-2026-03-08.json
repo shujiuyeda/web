@@ -1,1 +1,9 @@
-{ "date": "2026-03-08", "meals": [{ "time": "20:07", "name": "コーンスープ", "kcal": 80, "p": 2, "f": 2, "c": 14, "mg": 5, "fiber": 0.5, "satFat": 1, "goodFat": 0, "salt": 1.2, "ca": 15, "k": 50, "plants": ["とうもろこし"] }] }
+{ "date": "2026-03-08", "meals": [
+  { "time": "09:00", "name": "ローソン小さな海苔弁", "kcal": 510, "p": 15, "f": 18, "c": 72, "mg": 15, "fiber": 1.5, "satFat": 4, "goodFat": 0, "salt": 2.5, "ca": 20, "k": 80, "plants": ["海苔", "米"] },
+  { "time": "12:00", "name": "柿の種（小袋）", "kcal": 157, "p": 4, "f": 6, "c": 22, "mg": 10, "fiber": 0.5, "satFat": 1, "goodFat": 0, "salt": 0.5, "ca": 5, "k": 30, "plants": ["ピーナッツ"] },
+  { "time": "14:00", "name": "アーモンドチョコレート 7-8粒", "kcal": 210, "p": 4, "f": 14, "c": 18, "mg": 20, "fiber": 1.5, "satFat": 6, "goodFat": 0, "salt": 0.1, "ca": 30, "k": 80, "plants": ["アーモンド"] },
+  { "time": "15:00", "name": "ザバス ミルクプロテイン カフェオレ 430ml", "kcal": 204, "p": 15, "f": 0, "c": 35, "mg": 5, "fiber": 0, "satFat": 0, "goodFat": 0, "salt": 0.5, "ca": 350, "k": 100, "plants": [] },
+  { "time": "17:00", "name": "ローソン焼肉おにぎり", "kcal": 230, "p": 7, "f": 7, "c": 35, "mg": 8, "fiber": 0.5, "satFat": 2, "goodFat": 0, "salt": 1.2, "ca": 10, "k": 40, "plants": ["米"] },
+  { "time": "20:07", "name": "コーンスープ", "kcal": 80, "p": 2, "f": 2, "c": 14, "mg": 5, "fiber": 0.5, "satFat": 1, "goodFat": 0, "salt": 1.2, "ca": 15, "k": 50, "plants": ["とうもろこし"] },
+  { "time": "20:15", "name": "うずらの卵フライ串 3本（9個）", "kcal": 270, "p": 15, "f": 18, "c": 6, "mg": 8, "fiber": 0, "satFat": 4, "goodFat": 0, "salt": 0.9, "ca": 50, "k": 80, "plants": [] }
+] }
