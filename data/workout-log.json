@@ -50,6 +50,20 @@
       ],
       "totalSets": 0,
       "notes": "重いものを上げず機能的なアプローチ。小胸筋トレーニング2種目を新規導入（右三角筋の痛み対処）。翌日お尻に張りあり（ランジの成果）、生活支障なし"
+    },
+    {
+      "date": "2026-03-08",
+      "type": "personal",
+      "exercises": [
+        { "name": "ランジ", "weight": "自重", "reps": "—", "bodyPart": "脚・臀部・体幹" },
+        { "name": "内転筋トレーニング", "weight": "—", "reps": "—", "bodyPart": "内転筋" },
+        { "name": "ラットプルダウン", "weight": "—", "reps": "—", "bodyPart": "背中" },
+        { "name": "プーリーロー", "weight": "—", "reps": "—", "bodyPart": "背中" },
+        { "name": "インナーマッスル系", "weight": "—", "reps": "—", "bodyPart": "体幹" },
+        { "name": "腹筋", "weight": "—", "reps": "—", "bodyPart": "腹部" }
+      ],
+      "totalSets": 0,
+      "notes": ""
     }
   ]
 }
