@@ -584,14 +584,14 @@
     "weather": null,
     "sleep_feel": null,
     "body_note": null,
-    "steps": 1341,
+    "steps": 8486,
     "rhr": 60.0,
-    "hrv": 41.8,
-    "stride": 80.0,
-    "walkSpeed": 5.7,
-    "walkDistance": 0.86,
-    "vo2max": null,
-    "walkHR": 102.5,
+    "hrv": 35.8,
+    "stride": 68.6,
+    "walkSpeed": 4.5,
+    "walkDistance": 6.24,
+    "vo2max": 27.2,
+    "walkHR": 115,
     "stretch": null
   }
 }
