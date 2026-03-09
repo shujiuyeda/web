@@ -818,6 +818,7 @@ async function loadFoodDb() {
 
 // ======== SUPPLEMENTS ========
 const SUPPLEMENTS = [
+  { id:"w1", timing:"wakeup",    name:"ノスポール鼻炎錠FX",    note:"フェキソフェナジン60mg｜水で（ジュース×）", catchup:true },
   { id:"m1", timing:"morning",   name:"ユリス",               note:"処方薬（尿酸値）",         catchup:true },
   { id:"m2", timing:"morning",   name:"マルチビタミン",         note:"",                        catchup:true },
   { id:"m3", timing:"morning",   name:"CoQ10",                note:"",                        catchup:true },
@@ -831,8 +832,10 @@ const SUPPLEMENTS = [
   { id:"e4", timing:"evening",   name:"ビオスリー 2錠",          note:"",                        catchup:false },
   { id:"e5", timing:"evening",   name:"オメガ3（EPA/DHA）",      note:"Barlean's EPA750+DHA250mg", catchup:true },
   { id:"b1", timing:"bedtime",   name:"マグネシウム",            note:"1カプセル≒87.5mg、最大4カプセル", catchup:false },
+  { id:"b2", timing:"bedtime",   name:"ノスポール鼻炎錠FX",    note:"フェキソフェナジン60mg｜Mgの2時間後・水で", catchup:true },
 ];
 const TIMING_LABELS = {
+  wakeup:    "⏰ 起床後すぐ（朝サプリの30分前・空腹時）",
   morning:   "☀️ 朝（1食目後・10時ごろ）",
   evening:   "🌙 夜（2食目後・18時ごろ）",
   bedtime:   "🛏 就寝前（夕食2時間後）",
@@ -2584,7 +2587,7 @@ function renderSuppl(container) {
   container.innerHTML += renderAdviceCard('supplements');
 
   let html = `<div class="card">`;
-  const timings = ['morning','evening','bedtime'];
+  const timings = ['wakeup','morning','evening','bedtime'];
   timings.forEach(t => {
     const items = SUPPLEMENTS.filter(s => s.timing === t);
     html += `<div class="suppl-timing">${TIMING_LABELS[t]}</div>`;
