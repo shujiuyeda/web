@@ -610,5 +610,24 @@
     "walkDistance": 2.88,
     "vo2max": null,
     "walkHR": 69
+  },
+  "2026-03-10": {
+    "water": 0,
+    "bowel": null,
+    "mood": "少し眠い",
+    "energy": 2.9,
+    "weather": "曇り",
+    "sleep_feel": "途中覚醒なし、5h14m",
+    "body_note": "腰の張り、お尻筋肉痛（パーソナルの成果）、ふくらはぎむくみ（塩分過多）",
+    "steps": 0,
+    "rhr": 60.0,
+    "hrv": 34.2,
+    "stride": null,
+    "walkSpeed": null,
+    "walkDistance": null,
+    "waterBonus": null,
+    "stretch": null,
+    "vo2max": null,
+    "walkHR": null
   }
 }
