@@ -601,6 +601,14 @@
       "st2": true,
       "st3": true,
       "st4": true
-    }
+    },
+    "steps": 4521,
+    "rhr": 60.0,
+    "hrv": 31.7,
+    "stride": 74.1,
+    "walkSpeed": 5.2,
+    "walkDistance": 2.88,
+    "vo2max": null,
+    "walkHR": 69
   }
 }
