@@ -16,6 +16,14 @@
       "fiber": 0.3, "salt": 1.3, "mg": 0,
       "satFat": 2.5, "goodFat": 0, "ca": 15, "k": 80,
       "plants": ["青じそ"]
+    },
+    {
+      "time": "11:28",
+      "name": "八分玄米粥 239g",
+      "kcal": 191, "p": 3.8, "f": 1.5, "c": 39.3,
+      "fiber": 1.7, "salt": 0, "mg": 61,
+      "satFat": 0.3, "goodFat": 0, "ca": 5, "k": 127,
+      "plants": ["玄米"]
     }
   ]
 }
