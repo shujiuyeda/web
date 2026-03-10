@@ -1,14 +1,10 @@
 {
   "date": "2026-03-04",
   "checks": {
-    "m1": true,
-    "m2": true,
-    "m3": true,
-    "m4": true,
-    "m5": true,
-    "m6": true,
-    "m7": true,
-    "a1": true,
-    "a3": true
+    "w1": false,
+    "m1": true, "m2": true, "m3": true, "m4": true, "m5": true, "m6": true, "m7": true,
+    "a1": true, "a2": false, "a3": true,
+    "e1": false, "e2": false, "e3": false, "e4": false, "e5": false,
+    "b1": false, "b2": false
   }
 }
