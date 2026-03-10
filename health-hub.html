@@ -980,7 +980,9 @@ function getMeals(ds) {
       const itemNames = m.items?.map(i => i.name).join('、') || m.type || '食事';
       return { time: m.time, name: itemNames,
         kcal: m.total.kcal||0, p: m.total.p||0, f: m.total.f||0, c: m.total.c||0,
-        mg: m.total.mg||0, fiber: m.total.fiber||0 };
+        mg: m.total.mg||0, fiber: m.total.fiber||0,
+        satFat: m.total.satFat||0, salt: m.total.salt||0,
+        ca: m.total.ca||0, k: m.total.k||0, goodFat: m.total.goodFat||0 };
     }
     return null; // 読めないデータは除外
   }).filter(Boolean);
@@ -1095,7 +1097,8 @@ function syncSupplToGitHub(ds) {
     try {
       const checks = getSuppl(ds);
       const saved = {};
-      Object.entries(checks).forEach(([k, v]) => { if (v === true) saved[k] = true; });
+      const ALL_SUPPL_IDS = [...SUPPLEMENTS.map(s => s.id), 'a1','a2','a3'];
+      ALL_SUPPL_IDS.forEach(k => { saved[k] = checks[k] === true ? true : checks[k] === 'skip' ? 'skip' : false; });
       const content = JSON.stringify({ date: ds, checks: saved }, null, 2);
       const ok = await ghPutFile(`data/suppl-${ds}.json`, content, `suppl sync: ${ds}`);
       setSyncStatus(ok ? 'ok' : 'error');
@@ -1278,7 +1281,8 @@ async function tryFetchMeals(ds) {
         const itemNames = m.items?.map(i => i.name).join('、') || m.type || '食事';
         const mgSum = m.total.mg || m.items?.reduce((s, i) => s + (i.mg || 0), 0) || 0;
         const fiberSum = m.total.fiber || m.items?.reduce((s, i) => s + (i.fiber || 0), 0) || 0;
-        return { time: m.time, name: itemNames, kcal: m.total.kcal||0, p: m.total.p||0, f: m.total.f||0, c: m.total.c||0, mg: mgSum, fiber: fiberSum };
+        return { time: m.time, name: itemNames, kcal: m.total.kcal||0, p: m.total.p||0, f: m.total.f||0, c: m.total.c||0, mg: mgSum, fiber: fiberSum,
+          satFat: m.total.satFat||0, salt: m.total.salt||0, ca: m.total.ca||0, k: m.total.k||0, goodFat: m.total.goodFat||0 };
       }
       return m;
     });
@@ -1299,7 +1303,7 @@ async function tryFetchSuppl(ds) {
     const res = await fetch(`${DATA_BASE_URL}suppl-${ds}.json?_=${Date.now()}`, { cache: 'no-store' });
     if (!res.ok) return;
     const data = await res.json();
-    if (!data.checks || Object.keys(data.checks).length === 0) return;
+    if (!data.checks) return;
     notifyRemoteFetchSuccess();
     // リモート(Claude記録)のtrue判定は常に反映。ローカルのtrue・skipも保持
     const local = getSuppl(ds);
