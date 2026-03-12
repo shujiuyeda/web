@@ -631,7 +631,7 @@
     "walkHR": null
   },
   "2026-03-11": {
-    "water": 0.4,
+    "water": 2.0,
     "bowel": null,
     "mood": "不足",
     "energy": 2.9,
@@ -648,5 +648,24 @@
     "stretch": null,
     "vo2max": 26.9,
     "walkHR": 101
+  },
+  "2026-03-12": {
+    "water": 0,
+    "bowel": null,
+    "mood": "まあまあ",
+    "energy": 4.1,
+    "weather": "快晴",
+    "sleep_feel": "よく寝れた。7h02m。質も良い",
+    "body_note": "腰の張り、右肩（重い物で痛み）",
+    "steps": null,
+    "rhr": 60.0,
+    "hrv": 29.0,
+    "stride": null,
+    "walkSpeed": null,
+    "walkDistance": null,
+    "waterBonus": null,
+    "stretch": null,
+    "vo2max": null,
+    "walkHR": null
   }
 }
