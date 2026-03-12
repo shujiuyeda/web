@@ -664,7 +664,7 @@
     "walkSpeed": null,
     "walkDistance": null,
     "waterBonus": null,
-    "stretch": null,
+    "stretch": {"upper": true, "lower": true, "hip": true, "core": true},
     "vo2max": null,
     "walkHR": null
   }
