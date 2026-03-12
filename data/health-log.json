@@ -638,15 +638,15 @@
     "weather": "晴れ",
     "sleep_feel": "浅い。早朝覚醒→2h起きて→二度寝。合計5h50m",
     "body_note": "腰の張り（いつもの）、お尻外側〜もも外側・内股の筋肉痛（筋トレ成果）。パーソナルでは避ける",
-    "steps": null,
-    "rhr": 55.0,
-    "hrv": 27.0,
-    "stride": null,
-    "walkSpeed": null,
-    "walkDistance": null,
+    "steps": 7561,
+    "rhr": 60.0,
+    "hrv": 24.3,
+    "stride": 67.7,
+    "walkSpeed": 4.4,
+    "walkDistance": 5.17,
     "waterBonus": null,
     "stretch": null,
-    "vo2max": null,
-    "walkHR": null
+    "vo2max": 26.9,
+    "walkHR": 101
   }
 }
