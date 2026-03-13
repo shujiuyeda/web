@@ -657,15 +657,20 @@
     "weather": "快晴",
     "sleep_feel": "よく寝れた。7h02m。質も良い",
     "body_note": "腰の張り、右肩（重い物で痛み）",
-    "steps": null,
-    "rhr": 60.0,
-    "hrv": 29.0,
-    "stride": null,
-    "walkSpeed": null,
-    "walkDistance": null,
+    "steps": 3710,
+    "rhr": 66.0,
+    "hrv": 23.4,
+    "stride": 73.7,
+    "walkSpeed": 5.0,
+    "walkDistance": 2.31,
     "waterBonus": null,
-    "stretch": {"upper": true, "lower": true, "hip": true, "core": true},
+    "stretch": {
+      "upper": true,
+      "lower": true,
+      "hip": true,
+      "core": true
+    },
     "vo2max": null,
-    "walkHR": null
+    "walkHR": 110
   }
 }
