@@ -1,9 +1,9 @@
 {
-  "date": "2026-03-13",
+  "date": "2026-03-14",
   "tasks": [
     {
       "id": "dt1",
-      "label": "大鳥神社のお札にお参り",
+      "label": "大鳥神社のお札にお参りをする",
       "slot": "morning",
       "priority": 10,
       "minutes": 5,
@@ -12,7 +12,7 @@
     },
     {
       "id": "dt2",
-      "label": "体の調子をスキャン",
+      "label": "今日の体の調子をスキャンする",
       "slot": "morning",
       "priority": 10,
       "minutes": 10,
@@ -21,10 +21,10 @@
     },
     {
       "id": "dt3",
-      "label": "呼吸法",
+      "label": "呼吸法（3-6-9呼吸 / 4-7-8呼吸）",
       "slot": "morning",
       "priority": 10,
-      "minutes": 5,
+      "minutes": 10,
       "done": false,
       "tag": null
     },
@@ -48,7 +48,7 @@
     },
     {
       "id": "dt6",
-      "label": "ストレッチ",
+      "label": "ストレッチをやる",
       "slot": "morning",
       "priority": 10,
       "minutes": 15,
@@ -75,7 +75,7 @@
     },
     {
       "id": "dt9",
-      "label": "台所の洗い物",
+      "label": "台所の洗い物をやる",
       "slot": "daytime",
       "priority": 20,
       "minutes": 20,
@@ -111,33 +111,78 @@
     },
     {
       "id": "dt13",
-      "label": "アドベイトさん用 SOSMの購入ページ変更",
+      "label": "マツダミヒロさんプロモーション下準備（期限: 3/14）",
       "slot": "daytime",
-      "priority": 20,
-      "minutes": 30,
+      "priority": 15,
+      "minutes": 120,
       "done": false,
-      "tag": null
+      "tag": "urgent"
     },
     {
       "id": "dt14",
-      "label": "確定申告",
+      "label": "今月分（3月）の請求書",
       "slot": "daytime",
-      "priority": 18,
-      "minutes": 60,
+      "priority": 17,
+      "minutes": 30,
       "done": false,
-      "tag": "important"
+      "tag": "cash"
     },
     {
       "id": "dt15",
-      "label": "呼吸法",
-      "slot": "evening",
-      "priority": 70,
-      "minutes": 5,
+      "label": "未請求の作業分の請求書",
+      "slot": "daytime",
+      "priority": 17,
+      "minutes": 30,
+      "done": false,
+      "tag": "cash"
+    },
+    {
+      "id": "dt16",
+      "label": "源泉徴収返還請求（¥1,261,956）",
+      "slot": "daytime",
+      "priority": 17,
+      "minutes": 30,
+      "done": false,
+      "tag": "cash"
+    },
+    {
+      "id": "dt17",
+      "label": "11:00-14:00 ラグビー観戦 クボタvsワイルドナイツ @秩父宮",
+      "slot": "daytime",
+      "priority": 20,
+      "minutes": 180,
       "done": false,
       "tag": null
     },
     {
-      "id": "dt16",
+      "id": "dt18",
+      "label": "19:00-20:00 A Vibes講座フォローアップ",
+      "slot": "evening",
+      "priority": 70,
+      "minutes": 60,
+      "done": false,
+      "tag": null
+    },
+    {
+      "id": "dt19",
+      "label": "21:00-23:00 SOSM2講座",
+      "slot": "evening",
+      "priority": 70,
+      "minutes": 120,
+      "done": false,
+      "tag": null
+    },
+    {
+      "id": "dt20",
+      "label": "呼吸法（夜）",
+      "slot": "evening",
+      "priority": 70,
+      "minutes": 10,
+      "done": false,
+      "tag": null
+    },
+    {
+      "id": "dt21",
       "label": "夕食後の散歩15分",
       "slot": "evening",
       "priority": 70,
@@ -146,16 +191,7 @@
       "tag": null
     },
     {
-      "id": "dt17",
-      "label": "A Vibes week1 レッスン動画",
-      "slot": "evening",
-      "priority": 70,
-      "minutes": 40,
-      "done": false,
-      "tag": null
-    },
-    {
-      "id": "dt18",
+      "id": "dt22",
       "label": "お風呂に入る",
       "slot": "evening",
       "priority": 70,

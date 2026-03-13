@@ -681,15 +681,15 @@
     "weather": "曇り",
     "sleep_feel": "まあまあ。6h12m、途中覚醒なし",
     "body_note": "腰変わらず・右肩痛い（筋トレに支障）。花粉症（鼻づまり・目のかゆみ）",
-    "steps": null,
-    "rhr": null,
-    "hrv": null,
-    "stride": null,
-    "walkSpeed": null,
-    "walkDistance": null,
+    "steps": 2516,
+    "rhr": 62.0,
+    "hrv": 27.9,
+    "stride": 72.8,
+    "walkSpeed": 4.9,
+    "walkDistance": 1.58,
     "waterBonus": null,
     "stretch": null,
     "vo2max": null,
-    "walkHR": null
+    "walkHR": 92
   }
 }
