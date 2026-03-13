@@ -672,5 +672,24 @@
     },
     "vo2max": null,
     "walkHR": 110
+  },
+  "2026-03-13": {
+    "water": 1.0,
+    "bowel": null,
+    "mood": "悪くない",
+    "energy": 3.3,
+    "weather": "曇り",
+    "sleep_feel": "まあまあ。6h12m、途中覚醒なし",
+    "body_note": "腰変わらず・右肩痛い（筋トレに支障）。花粉症（鼻づまり・目のかゆみ）",
+    "steps": null,
+    "rhr": null,
+    "hrv": null,
+    "stride": null,
+    "walkSpeed": null,
+    "walkDistance": null,
+    "waterBonus": null,
+    "stretch": null,
+    "vo2max": null,
+    "walkHR": null
   }
 }
