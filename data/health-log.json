@@ -691,5 +691,8 @@
     "stretch": null,
     "vo2max": null,
     "walkHR": 92
+  },
+  "2026-03-14": {
+    "water": 0.3
   }
 }
