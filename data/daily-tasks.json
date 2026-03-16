@@ -1,5 +1,5 @@
 {
-  "date": "2026-03-14",
+  "date": "2026-03-17",
   "tasks": [
     {
       "id": "dt1",
@@ -35,7 +35,7 @@
       "priority": 10,
       "minutes": 30,
       "done": false,
-      "tag": null
+      "tag": "important"
     },
     {
       "id": "dt5",
@@ -102,79 +102,25 @@
     },
     {
       "id": "dt12",
-      "label": "PL26B オプトイン分析",
+      "label": "13:00 佐藤友美さん講座",
       "slot": "daytime",
       "priority": 12,
-      "minutes": 60,
+      "minutes": 210,
       "done": false,
-      "tag": "urgent"
+      "tag": "important"
     },
     {
       "id": "dt13",
-      "label": "マツダミヒロさんプロモーション下準備（期限: 3/14）",
-      "slot": "daytime",
-      "priority": 15,
-      "minutes": 120,
+      "label": "20:00 伴走サービス",
+      "slot": "evening",
+      "priority": 62,
+      "minutes": 60,
       "done": false,
-      "tag": "urgent"
+      "tag": "important"
     },
     {
       "id": "dt14",
-      "label": "今月分（3月）の請求書",
-      "slot": "daytime",
-      "priority": 17,
-      "minutes": 30,
-      "done": false,
-      "tag": "cash"
-    },
-    {
-      "id": "dt15",
-      "label": "未請求の作業分の請求書",
-      "slot": "daytime",
-      "priority": 17,
-      "minutes": 30,
-      "done": false,
-      "tag": "cash"
-    },
-    {
-      "id": "dt16",
-      "label": "源泉徴収返還請求（¥1,261,956）",
-      "slot": "daytime",
-      "priority": 17,
-      "minutes": 30,
-      "done": false,
-      "tag": "cash"
-    },
-    {
-      "id": "dt17",
-      "label": "11:00-14:00 ラグビー観戦 クボタvsワイルドナイツ @秩父宮",
-      "slot": "daytime",
-      "priority": 20,
-      "minutes": 180,
-      "done": false,
-      "tag": null
-    },
-    {
-      "id": "dt18",
-      "label": "19:00-20:00 A Vibes講座フォローアップ",
-      "slot": "evening",
-      "priority": 70,
-      "minutes": 60,
-      "done": false,
-      "tag": null
-    },
-    {
-      "id": "dt19",
-      "label": "21:00-23:00 SOSM2講座",
-      "slot": "evening",
-      "priority": 70,
-      "minutes": 120,
-      "done": false,
-      "tag": null
-    },
-    {
-      "id": "dt20",
-      "label": "呼吸法（夜）",
+      "label": "呼吸法（3-6-9呼吸 / 4-7-8呼吸）",
       "slot": "evening",
       "priority": 70,
       "minutes": 10,
@@ -182,16 +128,16 @@
       "tag": null
     },
     {
-      "id": "dt21",
+      "id": "dt15",
       "label": "夕食後の散歩15分",
       "slot": "evening",
       "priority": 70,
-      "minutes": 30,
+      "minutes": 15,
       "done": false,
       "tag": null
     },
     {
-      "id": "dt22",
+      "id": "dt16",
       "label": "お風呂に入る",
       "slot": "evening",
       "priority": 70,

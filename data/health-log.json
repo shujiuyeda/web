@@ -693,6 +693,33 @@
     "walkHR": 92
   },
   "2026-03-14": {
-    "water": 1.5
+    "water": 1.5,
+    "steps": 2516,
+    "rhr": 62.0,
+    "hrv": 27.9,
+    "stride": 72.8,
+    "walkSpeed": 4.9,
+    "walkDistance": 1.58,
+    "vo2max": null,
+    "walkHR": 92
+  },
+  "2026-03-16": {
+    "water": null,
+    "bowel": null,
+    "mood": null,
+    "energy": null,
+    "weather": null,
+    "sleep_feel": null,
+    "body_note": null,
+    "waterBonus": null,
+    "stretch": null,
+    "steps": 13451,
+    "rhr": 60.0,
+    "hrv": 30.82,
+    "stride": 66.3,
+    "walkSpeed": 4.4,
+    "walkDistance": 8.58,
+    "vo2max": null,
+    "walkHR": 104
   }
 }
