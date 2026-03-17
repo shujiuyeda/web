@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Claude Code 許可設定ガイド</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Hiragino Sans', sans-serif;
+    background: #0f172a;
+    color: #e2e8f0;
+    min-height: 100vh;
+    padding: 2rem 1rem;
+  }
+  .container { max-width: 640px; margin: 0 auto; }
+  h1 {
+    font-size: 1.5rem;
+    text-align: center;
+    margin-bottom: 0.5rem;
+  }
+  .subtitle {
+    text-align: center;
+    color: #94a3b8;
+    font-size: 0.9rem;
+    margin-bottom: 2rem;
+  }
+  .step { margin-bottom: 2rem; }
+  .step-label {
+    font-size: 0.8rem;
+    color: #60a5fa;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+  .step-title {
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin-bottom: 0.75rem;
+  }
+  .step-desc {
+    color: #94a3b8;
+    font-size: 0.9rem;
+    line-height: 1.6;
+    margin-bottom: 1rem;
+  }
+  .version-buttons {
+    display: flex;
+    gap: 0.75rem;
+    margin-bottom: 1rem;
+  }
+  .version-btn {
+    flex: 1;
+    padding: 1rem;
+    border: 2px solid #334155;
+    border-radius: 12px;
+    background: #1e293b;
+    color: #e2e8f0;
+    cursor: pointer;
+    transition: all 0.2s;
+    text-align: left;
+  }
+  .version-btn:hover { border-color: #60a5fa; }
+  .version-btn.selected {
+    border-color: #60a5fa;
+    background: #1e3a5f;
+  }
+  .version-btn .ver-name {
+    font-weight: 700;
+    font-size: 1rem;
+    margin-bottom: 0.25rem;
+  }
+  .version-btn .ver-desc {
+    font-size: 0.8rem;
+    color: #94a3b8;
+  }
+  .version-btn.selected .ver-desc { color: #bfdbfe; }
+  .prompt-area {
+    display: none;
+    margin-top: 1.5rem;
+  }
+  .prompt-area.visible { display: block; }
+  .prompt-box {
+    background: #1e293b;
+    border: 1px solid #334155;
+    border-radius: 12px;
+    padding: 1.25rem;
+    position: relative;
+  }
+  .prompt-box pre {
+    font-family: 'SF Mono', 'Fira Code', monospace;
+    font-size: 0.8rem;
+    line-height: 1.6;
+    white-space: pre-wrap;
+    word-break: break-all;
+    color: #e2e8f0;
+  }
+  .copy-btn {
+    position: absolute;
+    top: 0.75rem;
+    right: 0.75rem;
+    padding: 0.4rem 0.8rem;
+    background: #60a5fa;
+    color: #0f172a;
+    border: none;
+    border-radius: 6px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s;
+  }
+  .copy-btn:hover { background: #93c5fd; }
+  .copy-btn.copied { background: #34d399; }
+  .how-to {
+    margin-top: 1.5rem;
+    padding: 1rem;
+    background: #1e293b;
+    border-radius: 12px;
+    border-left: 3px solid #60a5fa;
+  }
+  .how-to h3 {
+    font-size: 0.9rem;
+    margin-bottom: 0.5rem;
+  }
+  .how-to ol {
+    padding-left: 1.2rem;
+    color: #94a3b8;
+    font-size: 0.85rem;
+    line-height: 1.8;
+  }
+  .how-to code {
+    background: #334155;
+    padding: 0.15rem 0.4rem;
+    border-radius: 4px;
+    font-size: 0.8rem;
+  }
+  .diff {
+    margin-top: 1rem;
+    padding: 0.75rem 1rem;
+    background: #1a1a2e;
+    border-radius: 8px;
+    font-size: 0.8rem;
+    color: #94a3b8;
+    line-height: 1.6;
+  }
+  .diff strong { color: #e2e8f0; }
+</style>
+</head>
+<body>
+<div class="container">
+  <h1>Claude Code 許可設定ガイド</h1>
+  <p class="subtitle">「いちいち許可を求めてくる問題」を解決しよう</p>
+
+  <div class="step">
+    <div class="step-label">Step 1</div>
+    <div class="step-title">バージョンを選ぶ</div>
+    <div class="step-desc">どちらでもOK。迷ったらAがおすすめ。</div>
+    <div class="version-buttons">
+      <button class="version-btn" onclick="selectVersion('a')" id="btn-a">
+        <div class="ver-name">A. 安心版</div>
+        <div class="ver-desc">ファイルを書き換える時だけ確認が入る。それ以外は全部自動。</div>
+      </button>
+      <button class="version-btn" onclick="selectVersion('b')" id="btn-b">
+        <div class="ver-name">B. 快適版</div>
+        <div class="ver-desc">ほぼ何も聞いてこない。Gitを使っていれば間違えても戻せる。</div>
+      </button>
+    </div>
+    <div class="diff">
+      <strong>違い:</strong> Bはファイルの作成・編集も自動でやってくれる。Aはその都度「変更していい？」と聞いてくる。
+    </div>
+  </div>
+
+  <div class="prompt-area" id="prompt-area">
+    <div class="step">
+      <div class="step-label">Step 2</div>
+      <div class="step-title">Claude Codeにコピペして送る</div>
+      <div class="step-desc">以下をそのままコピーして、Claude Codeに貼り付けて送信するだけ！</div>
+      <div class="prompt-box">
+        <button class="copy-btn" id="copy-btn" onclick="copyPrompt()">コピー</button>
+        <pre id="prompt-text"></pre>
+      </div>
+    </div>
+
+    <div class="how-to">
+      <h3>やり方</h3>
+      <ol>
+        <li>ターミナルで <code>claude</code> と打って起動</li>
+        <li>上のテキストをコピー</li>
+        <li>Claude Codeに貼り付けて Enter</li>
+        <li>「設定しました」と返ってきたら完了！</li>
+      </ol>
+    </div>
+  </div>
+</div>
+
+<script>
+const prompts = {
+  a: `~/.claude/settings.json を以下の内容で作成して。ファイルがすでにある場合は permissions の部分だけ追加・上書きして。
+
+{
+  "permissions": {
+    "allow": [
+      "Bash(*)",
+      "Read(*)"
+    ],
+    "deny": [
+      "Bash(sudo *)",
+      "Bash(rm -rf *)",
+      "Bash(dd *)"
+    ]
+  }
+}`,
+  b: `~/.claude/settings.json を以下の内容で作成して。ファイルがすでにある場合は permissions の部分だけ追加・上書きして。
+
+{
+  "permissions": {
+    "allow": [
+      "Bash(*)",
+      "Read(*)",
+      "Write(*)",
+      "Edit(*)"
+    ],
+    "deny": [
+      "Bash(sudo *)",
+      "Bash(rm -rf *)",
+      "Bash(dd *)"
+    ]
+  }
+}`
+};
+
+function selectVersion(v) {
+  document.getElementById('btn-a').classList.toggle('selected', v === 'a');
+  document.getElementById('btn-b').classList.toggle('selected', v === 'b');
+  document.getElementById('prompt-text').textContent = prompts[v];
+  document.getElementById('prompt-area').classList.add('visible');
+  document.getElementById('copy-btn').textContent = 'コピー';
+  document.getElementById('copy-btn').classList.remove('copied');
+}
+
+function copyPrompt() {
+  const text = document.getElementById('prompt-text').textContent;
+  navigator.clipboard.writeText(text).then(() => {
+    const btn = document.getElementById('copy-btn');
+    btn.textContent = 'コピーした！';
+    btn.classList.add('copied');
+    setTimeout(() => {
+      btn.textContent = 'コピー';
+      btn.classList.remove('copied');
+    }, 2000);
+  });
+}
+</script>
+</body>
+</html>
