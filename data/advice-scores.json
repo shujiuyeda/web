@@ -273,5 +273,16 @@
     "water": 0,
     "fiber": 0,
     "kcal": 0
+  },
+  "2026-03-25": {
+    "overall": 18,
+    "gut": 2,
+    "sleep": 0,
+    "weight": null,
+    "bodyFat": null,
+    "steps": 4945,
+    "water": 0,
+    "fiber": 0,
+    "kcal": 0
   }
 }
