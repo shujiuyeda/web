@@ -778,5 +778,24 @@
     "walkDistance": 0.83,
     "vo2max": null,
     "walkHR": null
+  },
+  "2026-03-27": {
+    "water": 0.2,
+    "bowel": null,
+    "mood": "ぼーっと",
+    "energy": 2,
+    "weather": "晴れ",
+    "sleep_feel": "途中2回覚醒、汗すごい",
+    "body_note": "風邪（喉痛い・36.5度）、腰痛い、肩張ってる",
+    "steps": null,
+    "rhr": null,
+    "hrv": null,
+    "stride": null,
+    "walkSpeed": null,
+    "walkDistance": null,
+    "vo2max": null,
+    "walkHR": null,
+    "waterBonus": null,
+    "stretch": null
   }
 }
