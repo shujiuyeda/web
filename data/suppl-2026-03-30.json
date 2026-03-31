@@ -1,0 +1,23 @@
+{
+  "date": "2026-03-30",
+  "checks": {
+    "w1": false,
+    "m1": false,
+    "m2": false,
+    "m3": false,
+    "m4": false,
+    "m5": false,
+    "m6": false,
+    "m7": false,
+    "a1": false,
+    "a2": false,
+    "a3": false,
+    "e1": false,
+    "e2": false,
+    "e3": false,
+    "e4": false,
+    "e5": false,
+    "b1": false,
+    "b2": false
+  }
+}
