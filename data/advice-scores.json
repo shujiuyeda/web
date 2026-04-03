@@ -350,5 +350,16 @@
     "water": 0,
     "fiber": 0,
     "kcal": 0
+  },
+  "2026-04-03": {
+    "overall": 20,
+    "gut": 1,
+    "sleep": 3.569,
+    "weight": 86.2,
+    "bodyFat": 32.8,
+    "steps": null,
+    "water": null,
+    "fiber": null,
+    "kcal": null
   }
 }
