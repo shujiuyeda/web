@@ -814,10 +814,26 @@
     function renderTaskList(elId, tasks) {
       const el = document.getElementById(elId);
       if (!tasks.length) { el.innerHTML = '<div class="empty-state">なし</div>'; return; }
-      el.innerHTML = tasks.map(t => `<li class="task-item">
+      el.innerHTML = tasks.map(t => `<li class="task-item" style="cursor:pointer" onclick="toggleTask('${t.id}')">
         <span class="task-check ${t.done?'done':'pending'}">${t.done?'✓':'○'}</span>
         <span class="task-label ${t.done?'done':''}" style="font-weight:500">${t.label}</span>
       </li>`).join('');
+    }
+
+    async function toggleTask(taskId) {
+      if (!_tasksData) return;
+      const task = _tasksData.tasks.find(t => t.id === taskId);
+      if (!task) return;
+      task.done = !task.done;
+      // Re-render
+      renderTaskList('taskListMihiro', _tasksData.tasks.filter(t => t.type === 'task-mihiro'));
+      renderTaskList('taskListSelf', _tasksData.tasks.filter(t => t.type === 'task-self'));
+      renderTaskList('taskListPrivate', _tasksData.tasks.filter(t => t.type === 'task-private'));
+      // Sync to GitHub
+      if (ghSyncEnabled()) {
+        const content = JSON.stringify(_tasksData, null, 2);
+        await ghPutFile('data/daily-tasks.json', content, `task: ${task.label} ${task.done ? '✓' : '○'}`);
+      }
     }
 
     async function loadTasks() {
