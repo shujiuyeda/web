@@ -568,6 +568,8 @@
 
       // Other health metrics
       const items = [];
+      if (todayRhr != null) items.push({ value: todayRhr, label: '安静心拍 bpm' });
+      if (todayHrv != null) items.push({ value: todayHrv.toFixed(0), label: 'HRV ms' });
       if (sleep && sleep.length) {
         const l = sleep[sleep.length - 1];
         if (l.totalHours) items.push({ value: l.totalHours.toFixed(1), label: '睡眠 h' });
