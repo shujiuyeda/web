@@ -841,6 +841,19 @@
         });
       }
 
+      // Chatwork Tasks
+      if (data.chatwork?.tasks?.length) {
+        html += `<div style="font-size:11px;font-weight:700;color:var(--text-muted);margin:${html?'10px':'0'} 0 4px;display:flex;align-items:center;gap:6px">
+          <span style="background:#f59e0b;color:white;padding:1px 6px;border-radius:4px;font-size:10px">Task</span>
+          Chatworkタスク（${data.chatwork.tasks.length}件）</div>`;
+        data.chatwork.tasks.forEach(t => {
+          html += `<a href="${t.url}" target="_blank" style="display:block;padding:5px 0;border-bottom:1px solid #f3f4f6;text-decoration:none;color:var(--text)">
+            <div style="font-size:12px;font-weight:500">${t.body}</div>
+            <div style="font-size:10px;color:var(--text-muted)">${t.room}</div>
+          </a>`;
+        });
+      }
+
       if (!html) html = '<div class="empty-state">未返信なし</div>';
       el.innerHTML = html;
     }

@@ -3,7 +3,19 @@
   "chatwork": {
     "unread": 0,
     "mention": 0,
-    "items": []
+    "items": [],
+    "tasks": [
+      { "body": "LINEでプロモマスターの自動販売構築する", "room": "LINEでMA", "url": "https://www.chatwork.com/#!rid" },
+      { "body": "基本お願い料金 今回のプロジェクト依頼30万円", "room": "マツダミヒロ", "url": "https://www.chatwork.com/#!rid" },
+      { "body": "今後やったほうがいいと思うこと", "room": "SNS2022 カンファレンス", "url": "https://www.chatwork.com/#!rid" },
+      { "body": "HubSpotフォーム オプトイン設定", "room": "日常プロモ構築", "url": "https://www.chatwork.com/#!rid" },
+      { "body": "余白の件", "room": "日常プロモ構築", "url": "https://www.chatwork.com/#!rid" },
+      { "body": "日常プロモ構築の件", "room": "日常プロモ構築", "url": "https://www.chatwork.com/#!rid" },
+      { "body": "LINEプロモーション オンラインスクール対応", "room": "LINEプロモーション", "url": "https://www.chatwork.com/#!rid" },
+      { "body": "銀行振込の人に送るメールの自動設定化", "room": "LINEプロモーション", "url": "https://www.chatwork.com/#!rid" },
+      { "body": "プロモブラッシュアップの件", "room": "プロモブラッシュアップ", "url": "https://www.chatwork.com/#!rid" },
+      { "body": "メルマガタグ設定（永松茂久さん講座）", "room": "永松茂久さんオンライン講座", "url": "https://www.chatwork.com/#!rid" }
+    ]
   },
   "gmail": {
     "unread": 0,
