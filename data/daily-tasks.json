@@ -2,13 +2,44 @@
   "date": "2026-04-08",
   "tasks": [
     {
+      "id": "dt0a",
+      "label": "Gmail受信トレイ整理 → Inbox Zero",
+      "slot": "daytime",
+      "priority": 2,
+      "minutes": 60,
+      "done": false,
+      "tag": "urgent",
+      "type": "task"
+    },
+    {
+      "id": "dt0b",
+      "label": "プロモ大体完了",
+      "slot": "daytime",
+      "priority": 15,
+      "minutes": 300,
+      "done": false,
+      "tag": null,
+      "type": "task"
+    },
+    {
+      "id": "dt0c",
+      "label": "NHK文化センター青山 課題（4/14締切）",
+      "slot": "daytime",
+      "priority": 5,
+      "minutes": 60,
+      "done": false,
+      "tag": "urgent",
+      "type": "task"
+    },
+    {
       "id": "dt1",
       "label": "大鳥神社のお札にお参りをする",
       "slot": "morning",
       "priority": 10,
       "minutes": 5,
       "done": false,
-      "tag": null
+      "tag": null,
+      "type": "habit"
     },
     {
       "id": "dt2",
@@ -17,7 +48,8 @@
       "priority": 10,
       "minutes": 5,
       "done": false,
-      "tag": null
+      "tag": null,
+      "type": "habit"
     },
     {
       "id": "dt3",
@@ -26,7 +58,8 @@
       "priority": 10,
       "minutes": 10,
       "done": false,
-      "tag": null
+      "tag": null,
+      "type": "habit"
     },
     {
       "id": "dt4",
@@ -35,7 +68,8 @@
       "priority": 10,
       "minutes": 30,
       "done": false,
-      "tag": null
+      "tag": null,
+      "type": "habit"
     },
     {
       "id": "dt5",
@@ -44,7 +78,8 @@
       "priority": 10,
       "minutes": 10,
       "done": false,
-      "tag": null
+      "tag": null,
+      "type": "habit"
     },
     {
       "id": "dt6",
@@ -53,7 +88,8 @@
       "priority": 10,
       "minutes": 15,
       "done": false,
-      "tag": null
+      "tag": null,
+      "type": "habit"
     },
     {
       "id": "dt7",
@@ -62,7 +98,8 @@
       "priority": 20,
       "minutes": 10,
       "done": false,
-      "tag": null
+      "tag": null,
+      "type": "habit"
     },
     {
       "id": "dt8",
@@ -71,7 +108,8 @@
       "priority": 20,
       "minutes": 20,
       "done": false,
-      "tag": null
+      "tag": null,
+      "type": "habit"
     },
     {
       "id": "dt9",
@@ -80,7 +118,8 @@
       "priority": 20,
       "minutes": 20,
       "done": false,
-      "tag": null
+      "tag": null,
+      "type": "habit"
     },
     {
       "id": "dt10",
@@ -89,7 +128,8 @@
       "priority": 20,
       "minutes": 30,
       "done": false,
-      "tag": null
+      "tag": null,
+      "type": "habit"
     },
     {
       "id": "dt11",
@@ -98,7 +138,8 @@
       "priority": 20,
       "minutes": 30,
       "done": false,
-      "tag": null
+      "tag": null,
+      "type": "habit"
     },
     {
       "id": "dt12",
@@ -107,7 +148,8 @@
       "priority": 20,
       "minutes": 90,
       "done": false,
-      "tag": null
+      "tag": null,
+      "type": "task"
     },
     {
       "id": "dt13",
@@ -116,7 +158,8 @@
       "priority": 70,
       "minutes": 10,
       "done": false,
-      "tag": null
+      "tag": null,
+      "type": "habit"
     },
     {
       "id": "dt14",
@@ -125,7 +168,8 @@
       "priority": 70,
       "minutes": 30,
       "done": false,
-      "tag": null
+      "tag": null,
+      "type": "habit"
     },
     {
       "id": "dt15",
@@ -134,7 +178,8 @@
       "priority": 70,
       "minutes": 40,
       "done": false,
-      "tag": null
+      "tag": null,
+      "type": "habit"
     },
     {
       "id": "dt16",
@@ -143,7 +188,8 @@
       "priority": 70,
       "minutes": 30,
       "done": false,
-      "tag": null
+      "tag": null,
+      "type": "habit"
     }
   ]
 }

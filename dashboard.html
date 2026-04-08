@@ -115,6 +115,7 @@
     .icon-biz { background: linear-gradient(135deg, #ec4899, #f472b6); }
     .icon-msg { background: linear-gradient(135deg, #06b6d4, #22d3ee); }
     .icon-cash { background: linear-gradient(135deg, #f59e0b, #fbbf24); }
+    .icon-habit { background: linear-gradient(135deg, #94a3b8, #cbd5e1); }
 
     /* ── Condition ── */
     .condition-row {
@@ -381,12 +382,18 @@
       <div class="health-grid" id="healthGrid"></div>
     </div>
     <div class="card">
-      <div class="card-title"><div class="card-icon icon-task">✅</div> 今日のタスク</div>
-      <div class="task-progress">
-        <div class="task-progress-bar"><div class="task-progress-fill" id="taskProgressFill"></div></div>
-        <div class="task-progress-text" id="taskCount"></div>
-      </div>
+      <div class="card-title"><div class="card-icon icon-task">🎯</div> 今日のタスク</div>
       <ul class="task-list" id="taskList"></ul>
+    </div>
+    <div class="card">
+      <div class="card-title" style="cursor:pointer" onclick="toggleHabits()"><div class="card-icon icon-habit">🔄</div> 日々の習慣 <span id="habitCount"></span><span id="habitToggle" style="margin-left:auto;font-size:12px;color:var(--text-muted)">▼</span></div>
+      <div id="habitSection" style="display:none">
+        <div class="task-progress">
+          <div class="task-progress-bar"><div class="task-progress-fill" id="taskProgressFill"></div></div>
+          <div class="task-progress-text" id="habitProgressText"></div>
+        </div>
+        <ul class="task-list" id="habitList"></ul>
+      </div>
     </div>
     <div class="card">
       <div class="card-title"><div class="card-icon icon-schedule">📅</div> 今日の予定</div>
@@ -532,18 +539,42 @@
       `).join('');
     }
 
+    function toggleHabits() {
+      const s = document.getElementById('habitSection');
+      const t = document.getElementById('habitToggle');
+      if (s.style.display === 'none') { s.style.display = 'block'; t.textContent = '▲'; }
+      else { s.style.display = 'none'; t.textContent = '▼'; }
+    }
+
     async function loadTasks() {
       const data = await fetchJSON('daily-tasks.json');
-      const list = document.getElementById('taskList');
-      const count = document.getElementById('taskCount');
+      const taskList = document.getElementById('taskList');
+      const habitList = document.getElementById('habitList');
+      const habitCount = document.getElementById('habitCount');
+      const habitProgress = document.getElementById('habitProgressText');
       const fill = document.getElementById('taskProgressFill');
-      if (!data || !data.tasks) { list.innerHTML = '<div class="empty-state">タスクなし</div>'; return; }
-      const tasks = data.tasks;
-      const done = tasks.filter(t => t.done).length;
-      const pct = Math.round((done / tasks.length) * 100);
-      count.textContent = `${done}/${tasks.length}`;
-      fill.style.width = pct + '%';
-      list.innerHTML = tasks.map(t => {
+      if (!data || !data.tasks) { taskList.innerHTML = '<div class="empty-state">タスクなし</div>'; return; }
+
+      const tasks = data.tasks.filter(t => t.type === 'task').sort((a,b) => a.priority - b.priority);
+      const habits = data.tasks.filter(t => t.type !== 'task');
+
+      // Top 3 tasks
+      const top3 = tasks.slice(0, 3);
+      if (!top3.length) { taskList.innerHTML = '<div class="empty-state">今日のタスクなし</div>'; }
+      else {
+        taskList.innerHTML = top3.map((t,i) => `<li class="task-item">
+          <span class="task-check ${t.done?'done':'pending'}" style="font-size:16px;font-weight:800">${t.done?'✓':(i+1)}</span>
+          <span class="task-label ${t.done?'done':''}" style="font-weight:600">${t.label}</span>
+        </li>`).join('');
+      }
+
+      // Habits
+      const habitDone = habits.filter(t => t.done).length;
+      const habitPct = habits.length ? Math.round((habitDone / habits.length) * 100) : 0;
+      habitCount.textContent = `${habitDone}/${habits.length}`;
+      habitProgress.textContent = `${habitDone}/${habits.length}`;
+      fill.style.width = habitPct + '%';
+      habitList.innerHTML = habits.map(t => {
         const sc = t.slot === 'morning' ? 'slot-morning' : t.slot === 'daytime' ? 'slot-daytime' : 'slot-evening';
         const sl = t.slot === 'morning' ? '朝' : t.slot === 'daytime' ? '日中' : '夜';
         return `<li class="task-item">
