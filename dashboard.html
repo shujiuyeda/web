@@ -800,7 +800,7 @@
       const habitCount = document.getElementById('habitCount');
       const habitProgress = document.getElementById('habitProgressText');
       const fill = document.getElementById('taskProgressFill');
-      const habits = data.tasks.filter(t => t.type !== 'task');
+      const habits = data.tasks.filter(t => t.type === 'habit');
       const habitDone = habits.filter(t => t.done).length;
       const habitPct = habits.length ? Math.round((habitDone / habits.length) * 100) : 0;
       habitCount.textContent = `${habitDone}/${habits.length}`;
