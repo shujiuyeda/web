@@ -817,6 +817,23 @@
       `).join('');
     }
 
+    async function loadMessages() {
+      const data = await fetchJSON('messages.json');
+      if (!data) return;
+      const cwEl = document.getElementById('cwBadge');
+      const gmEl = document.getElementById('gmBadge');
+      if (data.chatwork) {
+        const n = data.chatwork.unread + data.chatwork.mention;
+        cwEl.textContent = n > 0 ? `${n}件` : '0';
+        cwEl.className = `msg-badge ${n > 0 ? 'alert' : 'ok'}`;
+      }
+      if (data.gmail) {
+        const n = data.gmail.unread;
+        gmEl.textContent = n > 0 ? `${n}件` : '0';
+        gmEl.className = `msg-badge ${n > 0 ? 'alert' : 'ok'}`;
+      }
+    }
+
     async function loadSchedule() {
       const data = await fetchJSON('calendar-today.json');
       const el = document.getElementById('scheduleList');
@@ -892,7 +909,7 @@
 
     async function loadAll() {
       document.getElementById('updatedDisplay').textContent = '更新中...';
-      await Promise.all([loadHealth(), loadTasks(), loadFeed(), loadSchedule(), loadKPI(), loadBizMetrics()]);
+      await Promise.all([loadHealth(), loadTasks(), loadFeed(), loadSchedule(), loadKPI(), loadBizMetrics(), loadMessages()]);
       document.getElementById('updatedDisplay').textContent =
         '最終更新 ' + new Date().toLocaleTimeString('ja-JP', {hour:'2-digit',minute:'2-digit'});
     }
