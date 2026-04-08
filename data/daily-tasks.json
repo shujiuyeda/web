@@ -9,7 +9,7 @@
       "minutes": 30,
       "done": false,
       "tag": "urgent",
-      "type": "task"
+      "type": "task-self"
     },
     {
       "id": "dt2",
@@ -19,7 +19,7 @@
       "minutes": 30,
       "done": false,
       "tag": "urgent",
-      "type": "task"
+      "type": "task-self"
     },
     {
       "id": "dt3",
@@ -2185,361 +2185,361 @@
       "id": "dt219",
       "label": "食事の写真を撮る → カロリー・マクロ栄養素を自動推定",
       "slot": "daytime",
-      "priority": 40,
+      "priority": 10,
       "minutes": 30,
       "done": false,
       "tag": null,
-      "type": "task"
+      "type": "task-private"
     },
     {
       "id": "dt220",
       "label": "最初は口頭で補足 → 徐々に学習して精度を上げる",
       "slot": "daytime",
-      "priority": 40,
+      "priority": 10,
       "minutes": 30,
       "done": false,
       "tag": null,
-      "type": "task"
+      "type": "task-private"
     },
     {
       "id": "dt221",
       "label": "「今日何カロリー？」で1日分の食事を集計・栄養バランスを報告",
       "slot": "daytime",
-      "priority": 40,
+      "priority": 10,
       "minutes": 30,
       "done": false,
       "tag": null,
-      "type": "task"
+      "type": "task-private"
     },
     {
       "id": "dt222",
       "label": "不足している栄養素のアドバイスも出す",
       "slot": "daytime",
-      "priority": 40,
+      "priority": 10,
       "minutes": 30,
       "done": false,
       "tag": null,
-      "type": "task"
+      "type": "task-private"
     },
     {
       "id": "dt223",
       "label": "ヘルスケアデータの取得方法を調査（Apple Health Export / API等）",
       "slot": "daytime",
-      "priority": 40,
+      "priority": 10,
       "minutes": 30,
       "done": false,
       "tag": null,
-      "type": "task"
+      "type": "task-private"
     },
     {
       "id": "dt224",
       "label": "オムロンの体重計のデータ取得",
       "slot": "daytime",
-      "priority": 40,
+      "priority": 10,
       "minutes": 30,
       "done": false,
       "tag": null,
-      "type": "task"
+      "type": "task-private"
     },
     {
       "id": "dt225",
       "label": "睡眠・食事・運動の状況をダッシュボード化",
       "slot": "daytime",
-      "priority": 40,
+      "priority": 10,
       "minutes": 30,
       "done": false,
       "tag": null,
-      "type": "task"
+      "type": "task-private"
     },
     {
       "id": "dt226",
       "label": "良質なメモを書き貯める仕組みを作る（飯塚さんの「ニワトリ＝メモ」理論）",
       "slot": "daytime",
-      "priority": 40,
+      "priority": 10,
       "minutes": 30,
       "done": false,
       "tag": null,
-      "type": "task"
+      "type": "task-private"
     },
     {
       "id": "dt227",
       "label": "メモ → アウトプット → AI → 効率化 → メモ の複利循環を設計する",
       "slot": "daytime",
-      "priority": 40,
+      "priority": 10,
       "minutes": 30,
       "done": false,
       "tag": null,
-      "type": "task"
+      "type": "task-private"
     },
     {
       "id": "dt228",
       "label": "日記環境は構築済み。どう活用するか考察する",
       "slot": "daytime",
-      "priority": 40,
+      "priority": 10,
       "minutes": 30,
       "done": false,
       "tag": null,
-      "type": "task"
+      "type": "task-private"
     },
     {
       "id": "dt229",
       "label": "少しずつ継続する",
       "slot": "daytime",
-      "priority": 40,
+      "priority": 10,
       "minutes": 30,
       "done": false,
       "tag": null,
-      "type": "task"
+      "type": "task-private"
     },
     {
       "id": "dt230",
       "label": "便器フチ裏の尿石除去（サンポール湿布法 30分〜1時間）— 材料購入後に実施。手順は [[260224_便器掃除プラン]] or 上記買い物メモ参照",
       "slot": "daytime",
-      "priority": 40,
+      "priority": 10,
       "minutes": 30,
       "done": false,
       "tag": null,
-      "type": "task"
+      "type": "task-private"
     },
     {
       "id": "dt231",
       "label": "ミヒロ事務所に連絡して事実確認・返還請求の意向を伝える",
       "slot": "daytime",
-      "priority": 40,
+      "priority": 10,
       "minutes": 30,
       "done": false,
       "tag": null,
-      "type": "task"
+      "type": "task-private"
     },
     {
       "id": "dt232",
       "label": "返還請求書を作成してミヒロ事務所に送付（¥1,261,956 / 集計表参照）",
       "slot": "daytime",
-      "priority": 40,
+      "priority": 10,
       "minutes": 30,
       "done": false,
       "tag": null,
-      "type": "task"
+      "type": "task-private"
     },
     {
       "id": "dt233",
       "label": "野元さん（税理士）に修正申告の相談予約（2021〜2024年分・4年分）",
       "slot": "daytime",
-      "priority": 40,
+      "priority": 10,
       "minutes": 30,
       "done": false,
       "tag": null,
-      "type": "task"
+      "type": "task-private"
     },
     {
       "id": "dt234",
       "label": "2021〜2024年分の確定申告書コピーを手元に用意",
       "slot": "daytime",
-      "priority": 40,
+      "priority": 10,
       "minutes": 30,
       "done": false,
       "tag": null,
-      "type": "task"
+      "type": "task-private"
     },
     {
       "id": "dt235",
       "label": "2023-04-001（小阪様4月分 ¥500K）の実在をミヒロ事務所に確認（Documents PDFなし）",
       "slot": "daytime",
-      "priority": 40,
+      "priority": 10,
       "minutes": 30,
       "done": false,
       "tag": null,
-      "type": "task"
+      "type": "task-private"
     },
     {
       "id": "dt236",
       "label": "2025年分確定申告: 源泉徴収なしで申告（INV-00000026〜INV-00000047）",
       "slot": "daytime",
-      "priority": 40,
+      "priority": 10,
       "minutes": 30,
       "done": false,
       "tag": null,
-      "type": "task"
+      "type": "task-private"
     },
     {
       "id": "dt237",
       "label": "`260224_freee_野元さん確認事項.md` の内容を野元さんに共有",
       "slot": "daytime",
-      "priority": 40,
+      "priority": 10,
       "minutes": 30,
       "done": false,
       "tag": null,
-      "type": "task"
+      "type": "task-private"
     },
     {
       "id": "dt238",
       "label": "各取引先のインボイス番号を調べてfreeeに登録（現状: 全9件がnull）",
       "slot": "daytime",
-      "priority": 40,
+      "priority": 10,
       "minutes": 30,
       "done": false,
       "tag": null,
-      "type": "task"
+      "type": "task-private"
     },
     {
       "id": "dt239",
       "label": "AIセンター・ペイディのfreee同期再開or手動明細入力（野元さんに相談推奨）",
       "slot": "daytime",
-      "priority": 40,
+      "priority": 10,
       "minutes": 30,
       "done": false,
       "tag": null,
-      "type": "task"
+      "type": "task-private"
     },
     {
       "id": "dt240",
       "label": "人間ドック結果が届いたら → 先生に結果を見せてユリスを処方してもらう（在庫切れ中）",
       "slot": "daytime",
-      "priority": 40,
+      "priority": 10,
       "minutes": 30,
       "done": false,
       "tag": null,
-      "type": "task"
+      "type": "task-private"
     },
     {
       "id": "dt241",
       "label": "GoogleフォルダURLをもらう → 経費領収書（7〜12月 1万円超 16件）を格納",
       "slot": "daytime",
-      "priority": 40,
+      "priority": 10,
       "minutes": 30,
       "done": false,
       "tag": null,
-      "type": "task"
+      "type": "task-private"
     },
     {
       "id": "dt242",
       "label": "支払調書の到着を待つ（到着したら野元さんへ）",
       "slot": "daytime",
-      "priority": 40,
+      "priority": 10,
       "minutes": 30,
       "done": false,
       "tag": null,
-      "type": "task"
+      "type": "task-private"
     },
     {
       "id": "dt243",
       "label": "生命保険料控除証明書の到着を待つ（到着したら野元さんへ）",
       "slot": "daytime",
-      "priority": 40,
+      "priority": 10,
       "minutes": 30,
       "done": false,
       "tag": null,
-      "type": "task"
+      "type": "task-private"
     },
     {
       "id": "dt244",
       "label": "六右衛門庵に予約の問い合わせ（9月の空きがあるか確認）",
       "slot": "daytime",
-      "priority": 40,
+      "priority": 10,
       "minutes": 30,
       "done": false,
       "tag": null,
-      "type": "task"
+      "type": "task-private"
     },
     {
       "id": "dt245",
       "label": "読書会設定",
       "slot": "daytime",
-      "priority": 40,
+      "priority": 10,
       "minutes": 30,
       "done": false,
       "tag": null,
-      "type": "task"
+      "type": "task-private"
     },
     {
       "id": "dt246",
       "label": "書く会設定",
       "slot": "daytime",
-      "priority": 40,
+      "priority": 10,
       "minutes": 30,
       "done": false,
       "tag": null,
-      "type": "task"
+      "type": "task-private"
     },
     {
       "id": "dt247",
       "label": "神時間術読む",
       "slot": "daytime",
-      "priority": 40,
+      "priority": 10,
       "minutes": 30,
       "done": false,
       "tag": null,
-      "type": "task"
+      "type": "task-private"
     },
     {
       "id": "dt248",
       "label": "さみしい夜にはペンを持て 読む",
       "slot": "daytime",
-      "priority": 40,
+      "priority": 10,
       "minutes": 30,
       "done": false,
       "tag": null,
-      "type": "task"
+      "type": "task-private"
     },
     {
       "id": "dt249",
       "label": "AIに選ばれ、ファンに愛される 読む",
       "slot": "daytime",
-      "priority": 40,
+      "priority": 10,
       "minutes": 30,
       "done": false,
       "tag": null,
-      "type": "task"
+      "type": "task-private"
     },
     {
       "id": "dt250",
       "label": "インザメガチャーチ（趣味の読書）",
       "slot": "daytime",
-      "priority": 40,
+      "priority": 10,
       "minutes": 30,
       "done": false,
       "tag": null,
-      "type": "task"
+      "type": "task-private"
     },
     {
       "id": "dt251",
       "label": "風とともにゆとりぬ（趣味の読書）",
       "slot": "daytime",
-      "priority": 40,
+      "priority": 10,
       "minutes": 30,
       "done": false,
       "tag": null,
-      "type": "task"
+      "type": "task-private"
     },
     {
       "id": "dt252",
       "label": "A Vibes week1「ととのえる」レッスン動画を見る",
       "slot": "daytime",
-      "priority": 40,
+      "priority": 10,
       "minutes": 30,
       "done": false,
       "tag": null,
-      "type": "task"
+      "type": "task-private"
     },
     {
       "id": "dt253",
       "label": "A Vibes week2「意識の使い方」レッスン動画を見る",
       "slot": "daytime",
-      "priority": 40,
+      "priority": 10,
       "minutes": 30,
       "done": false,
       "tag": null,
-      "type": "task"
+      "type": "task-private"
     },
     {
       "id": "dt254",
       "label": "SHIFT AIの講座に参加してみる",
       "slot": "daytime",
-      "priority": 40,
+      "priority": 10,
       "minutes": 30,
       "done": false,
       "tag": null,
-      "type": "task"
+      "type": "task-private"
     }
   ]
 }
