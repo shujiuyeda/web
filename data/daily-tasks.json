@@ -313,26 +313,6 @@
     },
     {
       "id": "dt32",
-      "label": "A Vibes week1「ととのえる」レッスン動画（38:23） ← 視聴中",
-      "slot": "evening",
-      "priority": 70,
-      "minutes": 30,
-      "done": false,
-      "tag": null,
-      "type": "habit"
-    },
-    {
-      "id": "dt33",
-      "label": "A Vibes week2「意識の使い方」レッスン動画（25:46）",
-      "slot": "evening",
-      "priority": 70,
-      "minutes": 30,
-      "done": false,
-      "tag": null,
-      "type": "habit"
-    },
-    {
-      "id": "dt34",
       "label": "🛁 お風呂に入る",
       "slot": "evening",
       "priority": 70,
@@ -342,17 +322,7 @@
       "type": "habit"
     },
     {
-      "id": "dt35",
-      "label": "Netflixの番組を見る（4/6解約予定だった → 要確認）",
-      "slot": "evening",
-      "priority": 70,
-      "minutes": 30,
-      "done": false,
-      "tag": null,
-      "type": "habit"
-    },
-    {
-      "id": "dt36",
+      "id": "dt33",
       "label": "15:00 パーソナル準備 → 15:20 家を出る → 16:15 パーソナル開始",
       "slot": "daytime",
       "priority": 20,
@@ -362,7 +332,7 @@
       "type": "task"
     },
     {
-      "id": "dt37",
+      "id": "dt34",
       "label": "源泉返還入金後 → iFull①残高45万を一括返済（利息停止のため最優先）",
       "slot": "daytime",
       "priority": 25,
@@ -372,7 +342,7 @@
       "type": "task"
     },
     {
-      "id": "dt38",
+      "id": "dt35",
       "label": "アイフル②返済額を54,600円/月に引き上げ（東急カード完済分を充当）",
       "slot": "daytime",
       "priority": 25,
@@ -382,7 +352,7 @@
       "type": "task"
     },
     {
-      "id": "dt39",
+      "id": "dt36",
       "label": "ディスプレイ購入: Dell P2725QE（27\" 4K・¥52,800）（タイミング: 3月新生活セール（3/1〜3/5頃）狙い。アメックス4/10払いなの",
       "slot": "daytime",
       "priority": 30,
@@ -392,7 +362,7 @@
       "type": "task"
     },
     {
-      "id": "dt40",
+      "id": "dt37",
       "label": "机の上の箱を整理する（10分）",
       "slot": "daytime",
       "priority": 30,
@@ -402,7 +372,7 @@
       "type": "task"
     },
     {
-      "id": "dt41",
+      "id": "dt38",
       "label": "freee: 自動登録ルールの見直し・設定（現行ルールを一回整理してから設定）",
       "slot": "daytime",
       "priority": 30,
@@ -412,7 +382,7 @@
       "type": "task"
     },
     {
-      "id": "dt42",
+      "id": "dt39",
       "label": "Claude Codeパーミッション設定統合 — 3ファイル→1ファイルに集約（詳細: [[260325_パーミッション設定統合]]）",
       "slot": "daytime",
       "priority": 30,
@@ -422,7 +392,7 @@
       "type": "task"
     },
     {
-      "id": "dt43",
+      "id": "dt40",
       "label": "NURO光ONU交換依頼（0120-65-3810、9:00-18:00）— F660A→WPA3対応機種へ無償交換",
       "slot": "daytime",
       "priority": 30,
@@ -432,7 +402,7 @@
       "type": "task"
     },
     {
-      "id": "dt44",
+      "id": "dt41",
       "label": "使える助成金探す",
       "slot": "daytime",
       "priority": 30,
@@ -442,7 +412,7 @@
       "type": "task"
     },
     {
-      "id": "dt45",
+      "id": "dt42",
       "label": "お客様が助成金を使えるようにする",
       "slot": "daytime",
       "priority": 30,
@@ -452,7 +422,7 @@
       "type": "task"
     },
     {
-      "id": "dt46",
+      "id": "dt43",
       "label": "今日のタスクキューはビジネスのことだけにする",
       "slot": "daytime",
       "priority": 30,
@@ -462,7 +432,7 @@
       "type": "task"
     },
     {
-      "id": "dt47",
+      "id": "dt44",
       "label": "Facebook",
       "slot": "daytime",
       "priority": 40,
@@ -472,7 +442,7 @@
       "type": "task"
     },
     {
-      "id": "dt48",
+      "id": "dt45",
       "label": "Instagram",
       "slot": "daytime",
       "priority": 40,
@@ -482,7 +452,7 @@
       "type": "task"
     },
     {
-      "id": "dt49",
+      "id": "dt46",
       "label": "Threads",
       "slot": "daytime",
       "priority": 40,
@@ -492,7 +462,7 @@
       "type": "task"
     },
     {
-      "id": "dt50",
+      "id": "dt47",
       "label": "Instagram Stories",
       "slot": "daytime",
       "priority": 40,
@@ -502,7 +472,7 @@
       "type": "task"
     },
     {
-      "id": "dt51",
+      "id": "dt48",
       "label": "X",
       "slot": "daytime",
       "priority": 40,
@@ -512,7 +482,7 @@
       "type": "task"
     },
     {
-      "id": "dt52",
+      "id": "dt49",
       "label": "朝散歩55分で32個のアイデア。2分に1個ペース。歩くからアイデアが湧き出る",
       "slot": "daytime",
       "priority": 40,
@@ -522,7 +492,7 @@
       "type": "task"
     },
     {
-      "id": "dt53",
+      "id": "dt50",
       "label": "自分の言葉と他人の言葉を「あたかも自分のように喋っている自分」。違和感を一個一個持つ",
       "slot": "daytime",
       "priority": 40,
@@ -532,7 +502,7 @@
       "type": "task"
     },
     {
-      "id": "dt54",
+      "id": "dt51",
       "label": "モーニングスピーク — 書くから考える、歩くからアイデアが湧き出る",
       "slot": "daytime",
       "priority": 40,
@@ -542,7 +512,7 @@
       "type": "task"
     },
     {
-      "id": "dt55",
+      "id": "dt52",
       "label": "クロードコードで自分を取り戻す",
       "slot": "daytime",
       "priority": 40,
@@ -552,7 +522,7 @@
       "type": "task"
     },
     {
-      "id": "dt56",
+      "id": "dt53",
       "label": "頭のわちゃわちゃがいっぱいある人のためのモーニングスピーク",
       "slot": "daytime",
       "priority": 40,
@@ -562,7 +532,7 @@
       "type": "task"
     },
     {
-      "id": "dt57",
+      "id": "dt54",
       "label": "クロードコード導入2週間でやったことすべて",
       "slot": "daytime",
       "priority": 40,
@@ -572,7 +542,7 @@
       "type": "task"
     },
     {
-      "id": "dt58",
+      "id": "dt55",
       "label": "アイデアだけは死ぬほど出てくる",
       "slot": "daytime",
       "priority": 40,
@@ -582,7 +552,7 @@
       "type": "task"
     },
     {
-      "id": "dt59",
+      "id": "dt56",
       "label": "終始の未来化プロジェクト、楽しい",
       "slot": "daytime",
       "priority": 40,
@@ -592,7 +562,7 @@
       "type": "task"
     },
     {
-      "id": "dt60",
+      "id": "dt57",
       "label": "メールが毎日増えるように、アイデアも溢れて積み重なる。アイデアは脳内メモリをちょっとずつ食いつぶして、溜まると知らないうちにストレスになってる。クロードコードは",
       "slot": "daytime",
       "priority": 40,
@@ -602,7 +572,7 @@
       "type": "task"
     },
     {
-      "id": "dt61",
+      "id": "dt58",
       "label": "ダイエットには買い物癖と食事の癖がある。根性でやるんじゃなく環境で癖を修正する。家に物は置かない、買い物もクロードコードと相談して決める。AIを嫌わない、人生を",
       "slot": "daytime",
       "priority": 40,
@@ -612,7 +582,7 @@
       "type": "task"
     },
     {
-      "id": "dt62",
+      "id": "dt59",
       "label": "朝散歩＝頭の毒だし散歩",
       "slot": "daytime",
       "priority": 40,
@@ -622,7 +592,7 @@
       "type": "task"
     },
     {
-      "id": "dt63",
+      "id": "dt60",
       "label": "決断疲れと整理整頓 — 一つ一つはちっちゃな決断なのにエネルギーを使う。本当は借金減らしや1億円企業が大事なのに、体が汚れたら洗いたいように、身の回りが汚いと本",
       "slot": "daytime",
       "priority": 40,
@@ -632,7 +602,7 @@
       "type": "task"
     },
     {
-      "id": "dt64",
+      "id": "dt61",
       "label": "🔥 恐れの値段は341円 — 「足りないかも」の恐れで買いすぎ→341円+253kcalの無駄。日常の小さな恐れが借金や体重に繋がる（2/15 ローソン不動前",
       "slot": "daytime",
       "priority": 40,
@@ -642,7 +612,7 @@
       "type": "task"
     },
     {
-      "id": "dt65",
+      "id": "dt62",
       "label": "3つの脳 — AI時代の情報処理に必要な「RGB」（飯塚啓也さん元ネタ。自分の頭×Obsidian×AIエージェント。「正解はAIに任せた。じゃああなたは？」）",
       "slot": "daytime",
       "priority": 40,
@@ -652,7 +622,7 @@
       "type": "task"
     },
     {
-      "id": "dt66",
+      "id": "dt63",
       "label": "そもそも夢は持たなきゃいけないのか — 大きな夢なくてもいい。小さな目標を1〜3ヶ月で区切って達成するスタイル（2/13 散歩ボイスメモ）",
       "slot": "daytime",
       "priority": 40,
@@ -662,7 +632,7 @@
       "type": "task"
     },
     {
-      "id": "dt67",
+      "id": "dt64",
       "label": "僕が作り上げたい世界 — 自由で思いやりがある世界。IT×発信力でみんなに発信力をつけてもらう（2/13 散歩ボイスメモ）",
       "slot": "daytime",
       "priority": 40,
@@ -672,7 +642,7 @@
       "type": "task"
     },
     {
-      "id": "dt68",
+      "id": "dt65",
       "label": "「眠れない夜にいじってたら勝手にできちゃった」体験",
       "slot": "daytime",
       "priority": 40,
@@ -682,7 +652,7 @@
       "type": "task"
     },
     {
-      "id": "dt69",
+      "id": "dt66",
       "label": "Claude Codeのセットアップ記事の僕バージョン",
       "slot": "daytime",
       "priority": 40,
@@ -692,7 +662,7 @@
       "type": "task"
     },
     {
-      "id": "dt70",
+      "id": "dt67",
       "label": "Claudeアプリのコードモードから自分のワークスペースに接続する方法",
       "slot": "daytime",
       "priority": 40,
@@ -702,7 +672,7 @@
       "type": "task"
     },
     {
-      "id": "dt71",
+      "id": "dt68",
       "label": "Ghosttyの使い方の記事",
       "slot": "daytime",
       "priority": 40,
@@ -712,7 +682,7 @@
       "type": "task"
     },
     {
-      "id": "dt72",
+      "id": "dt69",
       "label": "obsidian 使い方完全ガイド",
       "slot": "daytime",
       "priority": 40,
@@ -722,7 +692,7 @@
       "type": "task"
     },
     {
-      "id": "dt73",
+      "id": "dt70",
       "label": "AQUAVOICE使い方完全ガイド",
       "slot": "daytime",
       "priority": 40,
@@ -732,7 +702,7 @@
       "type": "task"
     },
     {
-      "id": "dt74",
+      "id": "dt71",
       "label": "MailchimpでMA(Marketing Automation)",
       "slot": "daytime",
       "priority": 40,
@@ -742,7 +712,7 @@
       "type": "task"
     },
     {
-      "id": "dt75",
+      "id": "dt72",
       "label": "出羽屋さんの記事（Instagram・Facebook・note）",
       "slot": "daytime",
       "priority": 40,
@@ -752,7 +722,7 @@
       "type": "task"
     },
     {
-      "id": "dt76",
+      "id": "dt73",
       "label": "小林さんの記事（note）",
       "slot": "daytime",
       "priority": 40,
@@ -762,7 +732,7 @@
       "type": "task"
     },
     {
-      "id": "dt77",
+      "id": "dt74",
       "label": "一周回って鮒谷周史",
       "slot": "daytime",
       "priority": 40,
@@ -772,7 +742,7 @@
       "type": "task"
     },
     {
-      "id": "dt78",
+      "id": "dt75",
       "label": "山口周の研究",
       "slot": "daytime",
       "priority": 40,
@@ -782,7 +752,7 @@
       "type": "task"
     },
     {
-      "id": "dt79",
+      "id": "dt76",
       "label": "星野佳路の研究",
       "slot": "daytime",
       "priority": 40,
@@ -792,7 +762,7 @@
       "type": "task"
     },
     {
-      "id": "dt80",
+      "id": "dt77",
       "label": "r-K選択説と少子化 — 少子化は衰退じゃなく進化。AIとの共存に繋がる話（→ [[40_リサーチメモ/r-K選択説と少子化]]）",
       "slot": "daytime",
       "priority": 40,
@@ -802,7 +772,7 @@
       "type": "task"
     },
     {
-      "id": "dt81",
+      "id": "dt78",
       "label": "政治・選挙についての考え",
       "slot": "daytime",
       "priority": 40,
@@ -812,7 +782,7 @@
       "type": "task"
     },
     {
-      "id": "dt82",
+      "id": "dt79",
       "label": "Diaブラウザを便利に使う方法（日本語化手順含む）",
       "slot": "daytime",
       "priority": 40,
@@ -822,7 +792,7 @@
       "type": "task"
     },
     {
-      "id": "dt83",
+      "id": "dt80",
       "label": "すごいGPTsの作り方",
       "slot": "daytime",
       "priority": 40,
@@ -832,7 +802,7 @@
       "type": "task"
     },
     {
-      "id": "dt84",
+      "id": "dt81",
       "label": "GPTsの本質",
       "slot": "daytime",
       "priority": 40,
@@ -842,7 +812,7 @@
       "type": "task"
     },
     {
-      "id": "dt85",
+      "id": "dt82",
       "label": "ビジネスのお話",
       "slot": "daytime",
       "priority": 40,
@@ -852,7 +822,7 @@
       "type": "task"
     },
     {
-      "id": "dt86",
+      "id": "dt83",
       "label": "会食をする",
       "slot": "daytime",
       "priority": 40,
@@ -862,7 +832,7 @@
       "type": "task"
     },
     {
-      "id": "dt87",
+      "id": "dt84",
       "label": "X投稿の運用開始（音声入力・Claude Code体験の4本投稿）",
       "slot": "daytime",
       "priority": 40,
@@ -872,7 +842,7 @@
       "type": "task"
     },
     {
-      "id": "dt88",
+      "id": "dt85",
       "label": "三瓶さんフィッティングの感想をXに投稿",
       "slot": "daytime",
       "priority": 40,
@@ -882,7 +852,7 @@
       "type": "task"
     },
     {
-      "id": "dt89",
+      "id": "dt86",
       "label": "「書くこととアウトプット」の考察をコンテンツ化（→ リサーチメモ/書くこととアウトプットについての考察.md）",
       "slot": "daytime",
       "priority": 40,
@@ -892,7 +862,7 @@
       "type": "task"
     },
     {
-      "id": "dt90",
+      "id": "dt87",
       "label": "PL26B オプトイン分析 — PL26Aとの比較（初日からの集まり具合・メール内容の違い）、ヨッシー資料でデータ取得 → 次のオプトイン施策へ",
       "slot": "daytime",
       "priority": 40,
@@ -902,7 +872,7 @@
       "type": "task"
     },
     {
-      "id": "dt91",
+      "id": "dt88",
       "label": "アドベイトさん用 SOSMの購入ページ変更",
       "slot": "daytime",
       "priority": 40,
@@ -912,7 +882,7 @@
       "type": "task"
     },
     {
-      "id": "dt92",
+      "id": "dt89",
       "label": "請求書: 今月分（3月）",
       "slot": "daytime",
       "priority": 40,
@@ -922,7 +892,7 @@
       "type": "task"
     },
     {
-      "id": "dt93",
+      "id": "dt90",
       "label": "請求書: 未請求の作業分",
       "slot": "daytime",
       "priority": 40,
@@ -932,7 +902,7 @@
       "type": "task"
     },
     {
-      "id": "dt94",
+      "id": "dt91",
       "label": "請求書: 源泉徴収返還請求（¥1,261,956）",
       "slot": "daytime",
       "priority": 40,
@@ -942,7 +912,7 @@
       "type": "task"
     },
     {
-      "id": "dt95",
+      "id": "dt92",
       "label": "★ミヒロさんの広告ちょっと変更する",
       "slot": "daytime",
       "priority": 40,
@@ -952,7 +922,7 @@
       "type": "task"
     },
     {
-      "id": "dt96",
+      "id": "dt93",
       "label": "拓巳さんのセールスページの特典部分を書き換える",
       "slot": "daytime",
       "priority": 40,
@@ -962,7 +932,7 @@
       "type": "task"
     },
     {
-      "id": "dt97",
+      "id": "dt94",
       "label": "オンラインビジネスマスターのセールスページを修正",
       "slot": "daytime",
       "priority": 40,
@@ -972,7 +942,7 @@
       "type": "task"
     },
     {
-      "id": "dt98",
+      "id": "dt95",
       "label": "のっちから言われているウェビナーを設定 → 日常プロモに組み込み",
       "slot": "daytime",
       "priority": 40,
@@ -982,7 +952,7 @@
       "type": "task"
     },
     {
-      "id": "dt99",
+      "id": "dt96",
       "label": "のっち以来のオートメーション設定 日常プロモ化",
       "slot": "daytime",
       "priority": 40,
@@ -992,7 +962,7 @@
       "type": "task"
     },
     {
-      "id": "dt100",
+      "id": "dt97",
       "label": "★せかゆるのサンクスを変更（販売形式変えるとどうなるか確認）",
       "slot": "daytime",
       "priority": 40,
@@ -1002,7 +972,7 @@
       "type": "task"
     },
     {
-      "id": "dt101",
+      "id": "dt98",
       "label": "匠さんのライティングスキルを改良する",
       "slot": "daytime",
       "priority": 40,
@@ -1012,7 +982,7 @@
       "type": "task"
     },
     {
-      "id": "dt102",
+      "id": "dt99",
       "label": "ふじしーの環境を変更 wawawa.today",
       "slot": "daytime",
       "priority": 40,
@@ -1022,7 +992,7 @@
       "type": "task"
     },
     {
-      "id": "dt103",
+      "id": "dt100",
       "label": "ふじしー英語翻訳",
       "slot": "daytime",
       "priority": 40,
@@ -1032,7 +1002,7 @@
       "type": "task"
     },
     {
-      "id": "dt104",
+      "id": "dt101",
       "label": "ひまわりの記事書きます",
       "slot": "daytime",
       "priority": 40,
@@ -1042,7 +1012,7 @@
       "type": "task"
     },
     {
-      "id": "dt105",
+      "id": "dt102",
       "label": "めぐみさんの記事ブラッシュアップします",
       "slot": "daytime",
       "priority": 40,
@@ -1052,7 +1022,7 @@
       "type": "task"
     },
     {
-      "id": "dt106",
+      "id": "dt103",
       "label": "ゆーみーに八納さんのタスクをベースに作り方を教える",
       "slot": "daytime",
       "priority": 40,
@@ -1062,7 +1032,7 @@
       "type": "task"
     },
     {
-      "id": "dt107",
+      "id": "dt104",
       "label": "まゆみちゃんサイト復旧作業（Xserver→Local.app）",
       "slot": "daytime",
       "priority": 40,
@@ -1072,7 +1042,7 @@
       "type": "task"
     },
     {
-      "id": "dt108",
+      "id": "dt105",
       "label": "ホンダ浩一さんに動画の依頼をする",
       "slot": "daytime",
       "priority": 40,
@@ -1082,7 +1052,7 @@
       "type": "task"
     },
     {
-      "id": "dt109",
+      "id": "dt106",
       "label": "🔥 しつもんオンラインシステム → Teachableに移行（移行完了したら解約 → 月5,000円削減）",
       "slot": "daytime",
       "priority": 40,
@@ -1092,7 +1062,7 @@
       "type": "task"
     },
     {
-      "id": "dt110",
+      "id": "dt107",
       "label": "💸 Xサーバー1契約を解約する（要データ移行・月3,960円削減） ← 2契約あり、1本に統合",
       "slot": "daytime",
       "priority": 40,
@@ -1102,7 +1072,7 @@
       "type": "task"
     },
     {
-      "id": "dt111",
+      "id": "dt108",
       "label": "muumuudomain→xserverにする",
       "slot": "daytime",
       "priority": 40,
@@ -1112,7 +1082,7 @@
       "type": "task"
     },
     {
-      "id": "dt112",
+      "id": "dt109",
       "label": "lolipopをxserverにする",
       "slot": "daytime",
       "priority": 40,
@@ -1122,7 +1092,7 @@
       "type": "task"
     },
     {
-      "id": "dt113",
+      "id": "dt110",
       "label": "xserver businessに移行する",
       "slot": "daytime",
       "priority": 40,
@@ -1132,7 +1102,7 @@
       "type": "task"
     },
     {
-      "id": "dt114",
+      "id": "dt111",
       "label": "shujiuyeda.com",
       "slot": "daytime",
       "priority": 40,
@@ -1142,7 +1112,7 @@
       "type": "task"
     },
     {
-      "id": "dt115",
+      "id": "dt112",
       "label": "shujiuyeda.jp",
       "slot": "daytime",
       "priority": 40,
@@ -1152,7 +1122,7 @@
       "type": "task"
     },
     {
-      "id": "dt116",
+      "id": "dt113",
       "label": "shujiueda.jp",
       "slot": "daytime",
       "priority": 40,
@@ -1162,7 +1132,7 @@
       "type": "task"
     },
     {
-      "id": "dt117",
+      "id": "dt114",
       "label": "shujiueda.com",
       "slot": "daytime",
       "priority": 40,
@@ -1172,7 +1142,7 @@
       "type": "task"
     },
     {
-      "id": "dt118",
+      "id": "dt115",
       "label": "Zapierエラー確認（オーウェビナー→Mailchimp）",
       "slot": "daytime",
       "priority": 40,
@@ -1182,7 +1152,7 @@
       "type": "task"
     },
     {
-      "id": "dt119",
+      "id": "dt116",
       "label": "Amazonアソシエイト申請が即却下される問題の対策（審査基準の確認・サイト改善・再申請）",
       "slot": "daytime",
       "priority": 40,
@@ -1192,7 +1162,7 @@
       "type": "task"
     },
     {
-      "id": "dt120",
+      "id": "dt117",
       "label": "確定申告",
       "slot": "daytime",
       "priority": 40,
@@ -1202,7 +1172,7 @@
       "type": "task"
     },
     {
-      "id": "dt121",
+      "id": "dt118",
       "label": "妄想プロフィールを書く（さとゆみ記事 CORECOLOR #440より）",
       "slot": "daytime",
       "priority": 40,
@@ -1212,7 +1182,7 @@
       "type": "task"
     },
     {
-      "id": "dt122",
+      "id": "dt119",
       "label": "Voices https://www.voiceos.com/ の調査",
       "slot": "daytime",
       "priority": 40,
@@ -1222,7 +1192,7 @@
       "type": "task"
     },
     {
-      "id": "dt123",
+      "id": "dt120",
       "label": "家の中に撮影スポットを作る（本・ガジェット・料理用。背景・照明・定位置を決める）",
       "slot": "daytime",
       "priority": 40,
@@ -1232,7 +1202,7 @@
       "type": "task"
     },
     {
-      "id": "dt124",
+      "id": "dt121",
       "label": "Mailchimp講座のスクリプト考える",
       "slot": "daytime",
       "priority": 40,
@@ -1242,7 +1212,7 @@
       "type": "task"
     },
     {
-      "id": "dt125",
+      "id": "dt122",
       "label": "初動負荷2回目入れる→9900円だってさ高いよね",
       "slot": "daytime",
       "priority": 40,
@@ -1252,7 +1222,7 @@
       "type": "task"
     },
     {
-      "id": "dt126",
+      "id": "dt123",
       "label": "コーデュロイのパンツを直しに出す",
       "slot": "daytime",
       "priority": 40,
@@ -1262,7 +1232,7 @@
       "type": "task"
     },
     {
-      "id": "dt127",
+      "id": "dt124",
       "label": "よむらぼ",
       "slot": "daytime",
       "priority": 40,
@@ -1272,7 +1242,7 @@
       "type": "task"
     },
     {
-      "id": "dt128",
+      "id": "dt125",
       "label": "かくらぼ",
       "slot": "daytime",
       "priority": 40,
@@ -1282,7 +1252,7 @@
       "type": "task"
     },
     {
-      "id": "dt129",
+      "id": "dt126",
       "label": "きくらぼ",
       "slot": "daytime",
       "priority": 40,
@@ -1292,7 +1262,7 @@
       "type": "task"
     },
     {
-      "id": "dt130",
+      "id": "dt127",
       "label": "余白度を設定",
       "slot": "daytime",
       "priority": 40,
@@ -1302,7 +1272,7 @@
       "type": "task"
     },
     {
-      "id": "dt131",
+      "id": "dt128",
       "label": "余白どう設定",
       "slot": "daytime",
       "priority": 40,
@@ -1312,7 +1282,7 @@
       "type": "task"
     },
     {
-      "id": "dt132",
+      "id": "dt129",
       "label": "Windows PCを探してみる（買うかは未定）",
       "slot": "daytime",
       "priority": 40,
@@ -1322,7 +1292,7 @@
       "type": "task"
     },
     {
-      "id": "dt133",
+      "id": "dt130",
       "label": "設定サービス用の会議室を探す（安ければ会議室、なければカフェ等）",
       "slot": "daytime",
       "priority": 40,
@@ -1332,7 +1302,7 @@
       "type": "task"
     },
     {
-      "id": "dt134",
+      "id": "dt131",
       "label": "アクシネットのパターンを買う",
       "slot": "daytime",
       "priority": 40,
@@ -1342,7 +1312,7 @@
       "type": "task"
     },
     {
-      "id": "dt135",
+      "id": "dt132",
       "label": "ASICSの靴を買いに行く",
       "slot": "daytime",
       "priority": 40,
@@ -1352,7 +1322,7 @@
       "type": "task"
     },
     {
-      "id": "dt136",
+      "id": "dt133",
       "label": "やすらぎの里を調べる",
       "slot": "daytime",
       "priority": 40,
@@ -1362,7 +1332,7 @@
       "type": "task"
     },
     {
-      "id": "dt137",
+      "id": "dt134",
       "label": "PubSendの申し込みをする",
       "slot": "daytime",
       "priority": 40,
@@ -1372,7 +1342,7 @@
       "type": "task"
     },
     {
-      "id": "dt138",
+      "id": "dt135",
       "label": "AIとClaude Codeに関するChatworkグループの情報を確認・処理",
       "slot": "daytime",
       "priority": 40,
@@ -1382,7 +1352,7 @@
       "type": "task"
     },
     {
-      "id": "dt139",
+      "id": "dt136",
       "label": "Web広告グループのデータを確認・処理",
       "slot": "daytime",
       "priority": 40,
@@ -1392,7 +1362,7 @@
       "type": "task"
     },
     {
-      "id": "dt140",
+      "id": "dt137",
       "label": "Claude Code環境設定を1日5万円でやるサービスを考える",
       "slot": "daytime",
       "priority": 40,
@@ -1402,7 +1372,7 @@
       "type": "task"
     },
     {
-      "id": "dt141",
+      "id": "dt138",
       "label": "Claude Codeの設定方法を動画で撮ってオンライン講座として販売",
       "slot": "daytime",
       "priority": 40,
@@ -1412,7 +1382,7 @@
       "type": "task"
     },
     {
-      "id": "dt142",
+      "id": "dt139",
       "label": "Claude Codeのコマンドを調べる",
       "slot": "daytime",
       "priority": 40,
@@ -1422,7 +1392,7 @@
       "type": "task"
     },
     {
-      "id": "dt143",
+      "id": "dt140",
       "label": "[The Complete Guide to Building Skill for Claude](https://resources.anthropic.co",
       "slot": "daytime",
       "priority": 40,
@@ -1432,7 +1402,7 @@
       "type": "task"
     },
     {
-      "id": "dt144",
+      "id": "dt141",
       "label": "Claude Codeのスキル・プロンプト・エージェントの違いを調べる",
       "slot": "daytime",
       "priority": 40,
@@ -1442,7 +1412,7 @@
       "type": "task"
     },
     {
-      "id": "dt145",
+      "id": "dt142",
       "label": "事業戦略プロンプト集12選の内容を精査する",
       "slot": "daytime",
       "priority": 40,
@@ -1452,7 +1422,7 @@
       "type": "task"
     },
     {
-      "id": "dt146",
+      "id": "dt143",
       "label": "オリつくの動画を一つ見る",
       "slot": "daytime",
       "priority": 40,
@@ -1462,7 +1432,7 @@
       "type": "task"
     },
     {
-      "id": "dt147",
+      "id": "dt144",
       "label": "A Vibesの動画を見る",
       "slot": "daytime",
       "priority": 40,
@@ -1472,7 +1442,7 @@
       "type": "task"
     },
     {
-      "id": "dt148",
+      "id": "dt145",
       "label": "まえちゃんの講座の動画を見る",
       "slot": "daytime",
       "priority": 40,
@@ -1482,7 +1452,7 @@
       "type": "task"
     },
     {
-      "id": "dt149",
+      "id": "dt146",
       "label": "読書会の日程を確定させる",
       "slot": "daytime",
       "priority": 40,
@@ -1492,7 +1462,7 @@
       "type": "task"
     },
     {
-      "id": "dt150",
+      "id": "dt147",
       "label": "規格外さんの本を骨の髄まで染み込ませる",
       "slot": "daytime",
       "priority": 40,
@@ -1502,7 +1472,7 @@
       "type": "task"
     },
     {
-      "id": "dt151",
+      "id": "dt148",
       "label": "規格外さんのXを染み込ませる",
       "slot": "daytime",
       "priority": 40,
@@ -1512,7 +1482,7 @@
       "type": "task"
     },
     {
-      "id": "dt152",
+      "id": "dt149",
       "label": "規格外さんのX残り記事を読む（#4, #5, #7〜#11）",
       "slot": "daytime",
       "priority": 40,
@@ -1522,7 +1492,7 @@
       "type": "task"
     },
     {
-      "id": "dt153",
+      "id": "dt150",
       "label": "内向哲学さんの研究をする",
       "slot": "daytime",
       "priority": 40,
@@ -1532,7 +1502,7 @@
       "type": "task"
     },
     {
-      "id": "dt154",
+      "id": "dt151",
       "label": "平川さんの研究をする",
       "slot": "daytime",
       "priority": 40,
@@ -1542,7 +1512,7 @@
       "type": "task"
     },
     {
-      "id": "dt155",
+      "id": "dt152",
       "label": "ブックスキャンの本を1冊読み込ませてデータベース化する",
       "slot": "daytime",
       "priority": 40,
@@ -1552,7 +1522,7 @@
       "type": "task"
     },
     {
-      "id": "dt156",
+      "id": "dt153",
       "label": "ブックスキャン読書",
       "slot": "daytime",
       "priority": 40,
@@ -1562,7 +1532,7 @@
       "type": "task"
     },
     {
-      "id": "dt157",
+      "id": "dt154",
       "label": "林インターン課題に取り組む（1日1課題、70_リソース/林インターン/）",
       "slot": "daytime",
       "priority": 40,
@@ -1572,7 +1542,7 @@
       "type": "task"
     },
     {
-      "id": "dt158",
+      "id": "dt155",
       "label": "https://note.freee.co.jp/n/n3dc93dc763fc",
       "slot": "daytime",
       "priority": 40,
@@ -1582,7 +1552,7 @@
       "type": "task"
     },
     {
-      "id": "dt159",
+      "id": "dt156",
       "label": "確定申告資料を探す",
       "slot": "daytime",
       "priority": 40,
@@ -1592,7 +1562,7 @@
       "type": "task"
     },
     {
-      "id": "dt160",
+      "id": "dt157",
       "label": "田村耕太郎さんのメルマガ「FUTURE ASIA PREMIUM」の内容を精査してきちんと学ぶ",
       "slot": "daytime",
       "priority": 40,
@@ -1602,7 +1572,7 @@
       "type": "task"
     },
     {
-      "id": "dt161",
+      "id": "dt158",
       "label": "Teachableのチェックアウト最適化レポートをまとめる（メール: 2/12 「25% more sales from 1 setting」from Teac",
       "slot": "daytime",
       "priority": 40,
@@ -1612,7 +1582,7 @@
       "type": "task"
     },
     {
-      "id": "dt162",
+      "id": "dt159",
       "label": "YouTubeのお気に入りの整理",
       "slot": "daytime",
       "priority": 40,
@@ -1622,7 +1592,7 @@
       "type": "task"
     },
     {
-      "id": "dt163",
+      "id": "dt160",
       "label": "Facebookのお気に入りの整理",
       "slot": "daytime",
       "priority": 40,
@@ -1632,7 +1602,7 @@
       "type": "task"
     },
     {
-      "id": "dt164",
+      "id": "dt161",
       "label": "Instagramのお気に入りの整理",
       "slot": "daytime",
       "priority": 40,
@@ -1642,7 +1612,7 @@
       "type": "task"
     },
     {
-      "id": "dt165",
+      "id": "dt162",
       "label": "Amazonカートのリストを整理する",
       "slot": "daytime",
       "priority": 40,
@@ -1652,7 +1622,7 @@
       "type": "task"
     },
     {
-      "id": "dt166",
+      "id": "dt163",
       "label": "写真データの保存方法を検討して実施する",
       "slot": "daytime",
       "priority": 40,
@@ -1662,7 +1632,7 @@
       "type": "task"
     },
     {
-      "id": "dt167",
+      "id": "dt164",
       "label": "Gmailの整理整頓をする",
       "slot": "daytime",
       "priority": 40,
@@ -1672,7 +1642,7 @@
       "type": "task"
     },
     {
-      "id": "dt168",
+      "id": "dt165",
       "label": "Googleドライブの整理整頓をする",
       "slot": "daytime",
       "priority": 40,
@@ -1682,7 +1652,7 @@
       "type": "task"
     },
     {
-      "id": "dt169",
+      "id": "dt166",
       "label": "デスクトップの整理",
       "slot": "daytime",
       "priority": 40,
@@ -1692,7 +1662,7 @@
       "type": "task"
     },
     {
-      "id": "dt170",
+      "id": "dt167",
       "label": "書類フォルダの整理",
       "slot": "daytime",
       "priority": 40,
@@ -1702,7 +1672,7 @@
       "type": "task"
     },
     {
-      "id": "dt171",
+      "id": "dt168",
       "label": "ダウンロードフォルダの整理",
       "slot": "daytime",
       "priority": 40,
@@ -1712,7 +1682,7 @@
       "type": "task"
     },
     {
-      "id": "dt172",
+      "id": "dt169",
       "label": "ドメイン管理をGoogle Workspaceに移す必要があるか調査",
       "slot": "daytime",
       "priority": 40,
@@ -1722,7 +1692,7 @@
       "type": "task"
     },
     {
-      "id": "dt173",
+      "id": "dt170",
       "label": "120枚ダウンロード（詳細 → [[16_Adobe Stock 整理整頓]]）",
       "slot": "daytime",
       "priority": 40,
@@ -1732,7 +1702,7 @@
       "type": "task"
     },
     {
-      "id": "dt174",
+      "id": "dt171",
       "label": "ダウンロード完了後、サブスクリプション解約",
       "slot": "daytime",
       "priority": 40,
@@ -1742,7 +1712,7 @@
       "type": "task"
     },
     {
-      "id": "dt175",
+      "id": "dt172",
       "label": "こうすけ君にウェブサイトの提案を送る",
       "slot": "daytime",
       "priority": 40,
@@ -1752,7 +1722,7 @@
       "type": "task"
     },
     {
-      "id": "dt176",
+      "id": "dt173",
       "label": "45問から12〜15問を選ぶ ← いまここ",
       "slot": "daytime",
       "priority": 40,
@@ -1762,7 +1732,7 @@
       "type": "task"
     },
     {
-      "id": "dt177",
+      "id": "dt174",
       "label": "選んだ質問の並び順を決める",
       "slot": "daytime",
       "priority": 40,
@@ -1772,7 +1742,7 @@
       "type": "task"
     },
     {
-      "id": "dt178",
+      "id": "dt175",
       "label": "講座の台本を作成（台本作成プログラムを使用）",
       "slot": "daytime",
       "priority": 40,
@@ -1782,7 +1752,7 @@
       "type": "task"
     },
     {
-      "id": "dt179",
+      "id": "dt176",
       "label": "講座を完成させる",
       "slot": "daytime",
       "priority": 40,
@@ -1792,7 +1762,7 @@
       "type": "task"
     },
     {
-      "id": "dt180",
+      "id": "dt177",
       "label": "アンケート回答が集まったら日程確定",
       "slot": "daytime",
       "priority": 40,
@@ -1802,7 +1772,7 @@
       "type": "task"
     },
     {
-      "id": "dt181",
+      "id": "dt178",
       "label": "読書会の詳細案内を作成",
       "slot": "daytime",
       "priority": 40,
@@ -1812,7 +1782,7 @@
       "type": "task"
     },
     {
-      "id": "dt182",
+      "id": "dt179",
       "label": "データ取得プログラムの作成",
       "slot": "daytime",
       "priority": 40,
@@ -1822,7 +1792,7 @@
       "type": "task"
     },
     {
-      "id": "dt183",
+      "id": "dt180",
       "label": "ダッシュボードにデータを表示",
       "slot": "daytime",
       "priority": 40,
@@ -1832,7 +1802,7 @@
       "type": "task"
     },
     {
-      "id": "dt184",
+      "id": "dt181",
       "label": "教育用コンテンツ作成（なぜMailchimpを使うのか等の動画）",
       "slot": "daytime",
       "priority": 40,
@@ -1842,7 +1812,7 @@
       "type": "task"
     },
     {
-      "id": "dt185",
+      "id": "dt182",
       "label": "オンライン講座の販売方法に関する無料プレゼント動画を作成",
       "slot": "daytime",
       "priority": 40,
@@ -1852,7 +1822,7 @@
       "type": "task"
     },
     {
-      "id": "dt186",
+      "id": "dt183",
       "label": "基礎講座本体を作成",
       "slot": "daytime",
       "priority": 40,
@@ -1862,7 +1832,7 @@
       "type": "task"
     },
     {
-      "id": "dt187",
+      "id": "dt184",
       "label": "Claude Code環境設定を1日5万円でやるサービスの募集",
       "slot": "daytime",
       "priority": 40,
@@ -1872,7 +1842,7 @@
       "type": "task"
     },
     {
-      "id": "dt188",
+      "id": "dt185",
       "label": "Windowsのパソコンを1台購入（Mac/Windows両対応）",
       "slot": "daytime",
       "priority": 40,
@@ -1882,7 +1852,7 @@
       "type": "task"
     },
     {
-      "id": "dt189",
+      "id": "dt186",
       "label": "設定方法の動画を撮ってオンライン講座として販売",
       "slot": "daytime",
       "priority": 40,
@@ -1892,7 +1862,7 @@
       "type": "task"
     },
     {
-      "id": "dt190",
+      "id": "dt187",
       "label": "アクションネットのパターンをいくつか買ってみる",
       "slot": "daytime",
       "priority": 40,
@@ -1902,7 +1872,7 @@
       "type": "task"
     },
     {
-      "id": "dt191",
+      "id": "dt188",
       "label": "カレンダー→Zoom設定→通知送信の自動化スクリプト",
       "slot": "daytime",
       "priority": 40,
@@ -1912,7 +1882,7 @@
       "type": "task"
     },
     {
-      "id": "dt192",
+      "id": "dt189",
       "label": "Mailchimp + EasyWebinar連携でファネル自動化",
       "slot": "daytime",
       "priority": 40,
@@ -1922,7 +1892,7 @@
       "type": "task"
     },
     {
-      "id": "dt193",
+      "id": "dt190",
       "label": "LP・フォーム・タグ・コピーの自動生成",
       "slot": "daytime",
       "priority": 40,
@@ -1932,7 +1902,7 @@
       "type": "task"
     },
     {
-      "id": "dt194",
+      "id": "dt191",
       "label": "入金管理・計測の自動化",
       "slot": "daytime",
       "priority": 40,
@@ -1942,7 +1912,7 @@
       "type": "task"
     },
     {
-      "id": "dt195",
+      "id": "dt192",
       "label": "ドメイン管理をGoogle Workspaceに移すか検討",
       "slot": "daytime",
       "priority": 40,
@@ -1952,7 +1922,7 @@
       "type": "task"
     },
     {
-      "id": "dt196",
+      "id": "dt193",
       "label": "Claude CodeからMailchimpに接続する",
       "slot": "daytime",
       "priority": 40,
@@ -1962,7 +1932,7 @@
       "type": "task"
     },
     {
-      "id": "dt197",
+      "id": "dt194",
       "label": "Vercel + Supabase がどんなものか調べる（一般的な理解）",
       "slot": "daytime",
       "priority": 40,
@@ -1972,7 +1942,7 @@
       "type": "task"
     },
     {
-      "id": "dt198",
+      "id": "dt195",
       "label": "Anthropic公式スキルマーケットプレイスを追加（`/plugin marketplace add anthropics/skills`）",
       "slot": "daytime",
       "priority": 40,
@@ -1982,7 +1952,7 @@
       "type": "task"
     },
     {
-      "id": "dt199",
+      "id": "dt196",
       "label": "example-skills をインストール（skill-creator含む）",
       "slot": "daytime",
       "priority": 40,
@@ -1992,7 +1962,7 @@
       "type": "task"
     },
     {
-      "id": "dt200",
+      "id": "dt197",
       "label": "Claude Code 再起動 → `/skills` で確認",
       "slot": "daytime",
       "priority": 40,
@@ -2002,7 +1972,7 @@
       "type": "task"
     },
     {
-      "id": "dt201",
+      "id": "dt198",
       "label": "Google Apps ScriptのコードをClaude Codeで管理できる環境を整える",
       "slot": "daytime",
       "priority": 40,
@@ -2012,7 +1982,7 @@
       "type": "task"
     },
     {
-      "id": "dt202",
+      "id": "dt199",
       "label": "録音アプリの選定（vault内フォルダに保存できるもの）",
       "slot": "daytime",
       "priority": 40,
@@ -2022,7 +1992,7 @@
       "type": "task"
     },
     {
-      "id": "dt203",
+      "id": "dt200",
       "label": "voice-inbox/ フォルダをvault内に作成",
       "slot": "daytime",
       "priority": 40,
@@ -2032,7 +2002,7 @@
       "type": "task"
     },
     {
-      "id": "dt204",
+      "id": "dt201",
       "label": "録音→文字起こし→タスク化→音声削除のワークフロー確立",
       "slot": "daytime",
       "priority": 40,
@@ -2042,7 +2012,7 @@
       "type": "task"
     },
     {
-      "id": "dt205",
+      "id": "dt202",
       "label": "AwG学習サイトに登録して中身を見てみる",
       "slot": "daytime",
       "priority": 40,
@@ -2052,7 +2022,7 @@
       "type": "task"
     },
     {
-      "id": "dt206",
+      "id": "dt203",
       "label": "P-MAXやデマンドジェネレーションが自分のビジネスに使えるか検討",
       "slot": "daytime",
       "priority": 40,
@@ -2062,7 +2032,7 @@
       "type": "task"
     },
     {
-      "id": "dt207",
+      "id": "dt204",
       "label": "良質なメモを書き貯める仕組みを作る（飯塚さんの「ニワトリ＝メモ」理論）",
       "slot": "daytime",
       "priority": 40,
@@ -2072,7 +2042,7 @@
       "type": "task"
     },
     {
-      "id": "dt208",
+      "id": "dt205",
       "label": "メモ → アウトプット → AI → 効率化 → メモ の複利循環を設計する",
       "slot": "daytime",
       "priority": 40,
@@ -2082,7 +2052,7 @@
       "type": "task"
     },
     {
-      "id": "dt209",
+      "id": "dt206",
       "label": "日記環境は構築済み。どう活用するか考察する",
       "slot": "daytime",
       "priority": 40,
@@ -2092,7 +2062,7 @@
       "type": "task"
     },
     {
-      "id": "dt210",
+      "id": "dt207",
       "label": "少しずつ継続する",
       "slot": "daytime",
       "priority": 40,
@@ -2102,7 +2072,7 @@
       "type": "task"
     },
     {
-      "id": "dt211",
+      "id": "dt208",
       "label": "便器フチ裏の尿石除去（サンポール湿布法 30分〜1時間）— 材料購入後に実施。手順は [[260224_便器掃除プラン]] or 上記買い物メモ参照",
       "slot": "daytime",
       "priority": 40,
@@ -2112,7 +2082,7 @@
       "type": "task"
     },
     {
-      "id": "dt212",
+      "id": "dt209",
       "label": "六右衛門庵に予約の問い合わせ（9月の空きがあるか確認）",
       "slot": "daytime",
       "priority": 40,
@@ -2122,7 +2092,7 @@
       "type": "task"
     },
     {
-      "id": "dt213",
+      "id": "dt210",
       "label": "読書会設定",
       "slot": "daytime",
       "priority": 40,
@@ -2132,7 +2102,7 @@
       "type": "task"
     },
     {
-      "id": "dt214",
+      "id": "dt211",
       "label": "書く会設定",
       "slot": "daytime",
       "priority": 40,
@@ -2142,7 +2112,7 @@
       "type": "task"
     },
     {
-      "id": "dt215",
+      "id": "dt212",
       "label": "神時間術読む",
       "slot": "daytime",
       "priority": 40,
@@ -2152,7 +2122,7 @@
       "type": "task"
     },
     {
-      "id": "dt216",
+      "id": "dt213",
       "label": "さみしい夜にはペンを持て 読む",
       "slot": "daytime",
       "priority": 40,
@@ -2162,7 +2132,7 @@
       "type": "task"
     },
     {
-      "id": "dt217",
+      "id": "dt214",
       "label": "AIに選ばれ、ファンに愛される 読む",
       "slot": "daytime",
       "priority": 40,
@@ -2172,7 +2142,7 @@
       "type": "task"
     },
     {
-      "id": "dt218",
+      "id": "dt215",
       "label": "インザメガチャーチ（趣味の読書）",
       "slot": "daytime",
       "priority": 40,
@@ -2182,7 +2152,7 @@
       "type": "task"
     },
     {
-      "id": "dt219",
+      "id": "dt216",
       "label": "風とともにゆとりぬ（趣味の読書）",
       "slot": "daytime",
       "priority": 40,
@@ -2192,7 +2162,7 @@
       "type": "task"
     },
     {
-      "id": "dt220",
+      "id": "dt217",
       "label": "A Vibes week1「ととのえる」レッスン動画を見る",
       "slot": "daytime",
       "priority": 40,
@@ -2202,7 +2172,7 @@
       "type": "task"
     },
     {
-      "id": "dt221",
+      "id": "dt218",
       "label": "A Vibes week2「意識の使い方」レッスン動画を見る",
       "slot": "daytime",
       "priority": 40,
@@ -2212,7 +2182,7 @@
       "type": "task"
     },
     {
-      "id": "dt222",
+      "id": "dt219",
       "label": "SHIFT AIの講座に参加してみる",
       "slot": "daytime",
       "priority": 40,
