@@ -438,6 +438,10 @@
           <ul class="task-list" id="taskListPrivate"></ul>
         </div>
         <div class="card">
+          <div class="card-title"><div class="card-icon icon-kpi">🎉</div> お楽しみ</div>
+          <ul class="task-list" id="taskListFun"></ul>
+        </div>
+        <div class="card">
           <div class="card-title"><div class="card-icon icon-schedule">📅</div> 今日の予定</div>
           <div id="scheduleList"><div class="empty-state">データ準備中</div></div>
         </div>
@@ -578,6 +582,7 @@
         renderTaskList('taskListMihiro', newData.tasks.filter(t => t.type === 'task-mihiro'));
         renderTaskList('taskListSelf', newData.tasks.filter(t => t.type === 'task-self'));
         renderTaskList('taskListPrivate', newData.tasks.filter(t => t.type === 'task-private'));
+        renderTaskList('taskListFun', newData.tasks.filter(t => t.type === 'task-fun'));
         renderHabits(newData);
 
         btn.textContent = '完了!';
@@ -603,6 +608,7 @@
         if (line.match(/^## 💼.*ミヒロ/)) { currentSection = 'mihiro'; currentType = 'task-mihiro'; priority = 5; continue; }
         if (line.match(/^## 💼.*自分/)) { currentSection = 'self'; currentType = 'task-self'; priority = 5; continue; }
         if (line.match(/^## 🏠.*プライベート/)) { currentSection = 'private'; currentType = 'task-private'; priority = 10; continue; }
+        if (line.match(/^## 🎉.*お楽しみ/)) { currentSection = 'fun'; currentType = 'task-fun'; priority = 15; continue; }
         if (line.match(/^## 🌅/)) { currentSection = 'morning'; currentType = 'habit'; priority = 10; continue; }
         if (line.match(/^## ☀️/)) { currentSection = 'daytime'; currentType = 'habit'; priority = 20; continue; }
         if (line.match(/^## 🌙/)) { currentSection = 'evening'; currentType = 'habit'; priority = 70; continue; }
@@ -829,6 +835,7 @@
       renderTaskList('taskListMihiro', _tasksData.tasks.filter(t => t.type === 'task-mihiro'));
       renderTaskList('taskListSelf', _tasksData.tasks.filter(t => t.type === 'task-self'));
       renderTaskList('taskListPrivate', _tasksData.tasks.filter(t => t.type === 'task-private'));
+      renderTaskList('taskListFun', _tasksData.tasks.filter(t => t.type === 'task-fun'));
       // Sync to GitHub
       if (ghSyncEnabled()) {
         const content = JSON.stringify(_tasksData, null, 2);
@@ -845,9 +852,11 @@
       const self = data.tasks.filter(t => t.type === 'task-self');
       const priv = data.tasks.filter(t => t.type === 'task-private');
 
+      const fun = data.tasks.filter(t => t.type === 'task-fun');
       renderTaskList('taskListMihiro', mihiro);
       renderTaskList('taskListSelf', self);
       renderTaskList('taskListPrivate', priv);
+      renderTaskList('taskListFun', fun);
       renderHabits(data);
     }
 
