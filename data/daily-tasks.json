@@ -155,21 +155,21 @@
       "id": "dt16",
       "label": "雲仙ツアーを企画する",
       "slot": "daytime",
-      "priority": 10,
+      "priority": 15,
       "minutes": 30,
       "done": false,
       "tag": null,
-      "type": "task-private"
+      "type": "task-fun"
     },
     {
       "id": "dt17",
       "label": "スイデンテラスツアーを企画する",
       "slot": "daytime",
-      "priority": 10,
+      "priority": 15,
       "minutes": 30,
       "done": false,
       "tag": null,
-      "type": "task-private"
+      "type": "task-fun"
     },
     {
       "id": "dt18",
