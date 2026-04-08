@@ -463,16 +463,7 @@
         </div>
         <div class="card">
           <div class="card-title"><div class="card-icon icon-msg">💬</div> 未返信メッセージ</div>
-          <div id="msgList">
-            <div class="msg-row">
-              <span class="msg-label">Chatwork</span>
-              <span class="msg-badge ok" id="cwBadge">—</span>
-            </div>
-            <div class="msg-row">
-              <span class="msg-label">Gmail</span>
-              <span class="msg-badge ok" id="gmBadge">—</span>
-            </div>
-          </div>
+          <div id="msgList"></div>
         </div>
         <div class="card">
           <div class="card-title"><div class="card-icon icon-task">🎯</div> 今日のタスク</div>
@@ -819,19 +810,39 @@
 
     async function loadMessages() {
       const data = await fetchJSON('messages.json');
-      if (!data) return;
-      const cwEl = document.getElementById('cwBadge');
-      const gmEl = document.getElementById('gmBadge');
-      if (data.chatwork) {
-        const n = data.chatwork.unread + data.chatwork.mention;
-        cwEl.textContent = n > 0 ? `${n}件` : '0';
-        cwEl.className = `msg-badge ${n > 0 ? 'alert' : 'ok'}`;
+      const el = document.getElementById('msgList');
+      if (!data) { el.innerHTML = '<div class="empty-state">データなし</div>'; return; }
+
+      let html = '';
+
+      // Chatwork
+      if (data.chatwork?.items?.length) {
+        html += `<div style="font-size:11px;font-weight:700;color:var(--text-muted);margin-bottom:4px;display:flex;align-items:center;gap:6px">
+          <span style="background:#e63946;color:white;padding:1px 6px;border-radius:4px;font-size:10px">CW</span>
+          Chatwork（${data.chatwork.items.length}件）</div>`;
+        data.chatwork.items.forEach(m => {
+          html += `<a href="${m.url}" target="_blank" style="display:block;padding:6px 0;border-bottom:1px solid #f3f4f6;text-decoration:none;color:var(--text)">
+            <div style="font-size:13px;font-weight:500">${m.title}</div>
+            <div style="font-size:11px;color:var(--text-muted)">${m.from} — ${m.room}</div>
+          </a>`;
+        });
       }
-      if (data.gmail) {
-        const n = data.gmail.unread;
-        gmEl.textContent = n > 0 ? `${n}件` : '0';
-        gmEl.className = `msg-badge ${n > 0 ? 'alert' : 'ok'}`;
+
+      // Gmail
+      if (data.gmail?.items?.length) {
+        html += `<div style="font-size:11px;font-weight:700;color:var(--text-muted);margin:${html?'10px':'0'} 0 4px;display:flex;align-items:center;gap:6px">
+          <span style="background:#4285f4;color:white;padding:1px 6px;border-radius:4px;font-size:10px">Gmail</span>
+          Gmail（${data.gmail.items.length}件）</div>`;
+        data.gmail.items.forEach(m => {
+          html += `<a href="${m.url}" target="_blank" style="display:block;padding:6px 0;border-bottom:1px solid #f3f4f6;text-decoration:none;color:var(--text)">
+            <div style="font-size:13px;font-weight:500">${m.title}</div>
+            <div style="font-size:11px;color:var(--text-muted)">${m.from}</div>
+          </a>`;
+        });
       }
+
+      if (!html) html = '<div class="empty-state">未返信なし</div>';
+      el.innerHTML = html;
     }
 
     async function loadSchedule() {

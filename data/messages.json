@@ -2,9 +2,50 @@
   "date": "2026-04-08",
   "chatwork": {
     "unread": 2,
-    "mention": 0
+    "mention": 0,
+    "items": [
+      {
+        "from": "野田恵美",
+        "room": "説明会プロジェクト",
+        "title": "渡辺さまにご連絡いたしました",
+        "url": "https://www.chatwork.com/#!rid279199666-2093653549048406016"
+      },
+      {
+        "from": "上杉 佳子",
+        "room": "説明会プロジェクト",
+        "title": "ありがとうございます",
+        "url": "https://www.chatwork.com/#!rid279199666-2093653633026756608"
+      }
+    ]
   },
   "gmail": {
-    "unread": 5
+    "unread": 5,
+    "items": [
+      {
+        "from": "経営科学出版",
+        "title": "ご注文ありがとうございます",
+        "url": "https://mail.google.com/mail/u/0/#all/19d2cb8699e4bfe3"
+      },
+      {
+        "from": "JRE ID",
+        "title": "ログイン通知",
+        "url": "https://mail.google.com/mail/u/0/#all/19d08fc81b977a92"
+      },
+      {
+        "from": "マイナポータル",
+        "title": "マイナポータルにログインしました",
+        "url": "https://mail.google.com/mail/u/0/#all/19cf45b7a4f0e90e"
+      },
+      {
+        "from": "マイナポータル",
+        "title": "税務署からのお知らせが届きました",
+        "url": "https://mail.google.com/mail/u/0/#all/19cf45ac274a357a"
+      },
+      {
+        "from": "マイナポータル",
+        "title": "マイナポータルにログインしました",
+        "url": "https://mail.google.com/mail/u/0/#all/19cf4497c738b834"
+      }
+    ]
   }
 }
