@@ -453,11 +453,10 @@
       <div class="cards">
         <div class="card">
           <div class="card-title"><div class="card-icon icon-biz">📊</div> ビジネス指標</div>
-          <div class="biz-grid" id="bizGrid">
-            <div class="biz-item"><div class="value" id="salesValue">—</div><div class="label">前日売上</div></div>
+          <div id="salesProgress"></div>
+          <div class="biz-grid" id="bizGrid" style="margin-top:12px">
             <div class="biz-item"><div class="value" id="subsNew">—</div><div class="label">新規メルマガ登録</div></div>
             <div class="biz-item"><div class="value" id="subsTotal">—</div><div class="label">メルマガ総数</div></div>
-            <div class="biz-item"><div class="value" id="cashValue">—</div><div class="label">手元資金</div></div>
           </div>
         </div>
         <div class="card">
@@ -743,15 +742,25 @@
       const data = await fetchJSON('biz-metrics.json');
       if (!data) return;
 
-      // Sales
-      const salesEl = document.getElementById('salesValue');
+      const SALES_TARGET = 1000000;
+
+      // Sales progress
+      const salesEl = document.getElementById('salesProgress');
       if (data.sales) {
-        if (data.sales.yesterday > 0) {
-          salesEl.textContent = `¥${data.sales.yesterday.toLocaleString()}`;
-        } else {
-          salesEl.textContent = '¥0';
-          salesEl.style.fontSize = '18px';
-        }
+        const mtd = data.sales.mtd || 0;
+        const pct = Math.min(100, Math.round((mtd / SALES_TARGET) * 100));
+        const col = pct >= 100 ? 'var(--green)' : pct >= 50 ? 'var(--orange)' : 'var(--red)';
+        const mtdStr = mtd >= 10000 ? `¥${(mtd/10000).toFixed(1)}万` : `¥${mtd.toLocaleString()}`;
+        salesEl.innerHTML = `
+          <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:6px">
+            <span style="font-size:22px;font-weight:800;color:${col}">${mtdStr}</span>
+            <span style="font-size:12px;color:var(--text-muted);font-weight:600">/ ¥100万（${pct}%）</span>
+          </div>
+          <div style="height:10px;border-radius:5px;background:#f3f4f6;overflow:hidden">
+            <div style="height:100%;width:${pct}%;border-radius:5px;background:${col};transition:width 0.5s"></div>
+          </div>
+          <div style="font-size:11px;color:var(--text-muted);margin-top:4px;font-weight:500">月間売上</div>
+        `;
       }
 
       // Newsletter
@@ -759,12 +768,6 @@
       const totalEl = document.getElementById('subsTotal');
       newEl.textContent = data.newsletter?.newToday != null ? data.newsletter.newToday : '—';
       totalEl.textContent = data.newsletter?.total != null ? data.newsletter.total.toLocaleString() : '—';
-
-      // Cash
-      const cashEl = document.getElementById('cashValue');
-      if (data.cashOnHand != null) {
-        cashEl.textContent = `¥${data.cashOnHand.toFixed(0)}万`;
-      }
     }
 
     async function loadKPI() {
