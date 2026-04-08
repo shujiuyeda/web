@@ -116,6 +116,67 @@
     .icon-msg { background: linear-gradient(135deg, #06b6d4, #22d3ee); }
     .icon-cash { background: linear-gradient(135deg, #f59e0b, #fbbf24); }
 
+    /* ── Condition ── */
+    .condition-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin-bottom: 12px;
+    }
+    .condition-card {
+      padding: 14px;
+      border-radius: 14px;
+      text-align: center;
+      position: relative;
+    }
+    .condition-card.rhr { background: linear-gradient(135deg, #fef2f2, #fee2e2); border: 1px solid #fecaca; }
+    .condition-card.hrv { background: linear-gradient(135deg, #eff6ff, #dbeafe); border: 1px solid #bfdbfe; }
+    .condition-card .cond-value {
+      font-size: 28px; font-weight: 800;
+    }
+    .condition-card.rhr .cond-value { color: #dc2626; }
+    .condition-card.hrv .cond-value { color: #2563eb; }
+    .condition-card .cond-label { font-size: 11px; color: var(--text-muted); font-weight: 600; }
+    .condition-card .cond-avg {
+      font-size: 10px; color: var(--text-muted);
+      margin-top: 2px;
+    }
+    .condition-card .cond-arrow {
+      font-size: 12px; font-weight: 800;
+      margin-left: 4px;
+    }
+    .cond-good { color: var(--green) !important; }
+    .cond-warn { color: var(--orange) !important; }
+    .cond-bad { color: var(--red) !important; }
+
+    .action-guide {
+      padding: 12px 14px;
+      border-radius: 12px;
+      margin-bottom: 12px;
+      font-size: 13px;
+      font-weight: 600;
+      line-height: 1.6;
+      display: none;
+    }
+    .action-guide.good {
+      display: block;
+      background: linear-gradient(135deg, #f0fdf4, #dcfce7);
+      border: 1px solid #bbf7d0;
+      color: #166534;
+    }
+    .action-guide.caution {
+      display: block;
+      background: linear-gradient(135deg, #fffbeb, #fef3c7);
+      border: 1px solid #fde68a;
+      color: #92400e;
+    }
+    .action-guide.rest {
+      display: block;
+      background: linear-gradient(135deg, #fef2f2, #fee2e2);
+      border: 1px solid #fecaca;
+      color: #991b1b;
+    }
+
     /* ── Health ── */
     .health-grid {
       display: grid;
@@ -314,7 +375,9 @@
   <div class="section-label private">Private</div>
   <div class="cards">
     <div class="card">
-      <div class="card-title"><div class="card-icon icon-health">💪</div> 健康データ</div>
+      <div class="card-title"><div class="card-icon icon-health">💪</div> コンディション</div>
+      <div class="condition-row" id="conditionRow"></div>
+      <div class="action-guide" id="actionGuide"></div>
       <div class="health-grid" id="healthGrid"></div>
     </div>
     <div class="card">
@@ -386,26 +449,84 @@
 
     async function loadHealth() {
       const grid = document.getElementById('healthGrid');
+      const condRow = document.getElementById('conditionRow');
+      const guide = document.getElementById('actionGuide');
       const [weights, sleep, healthLog] = await Promise.all([
         fetchJSON('weights.json'), fetchJSON('sleep.json'), fetchJSON('health-log.json'),
       ]);
+
+      // health-log is date-keyed object
+      const hlEntries = healthLog ? Object.entries(healthLog).sort((a,b) => a[0].localeCompare(b[0])) : [];
+      const recent = hlEntries.slice(-14).map(([d,v]) => ({date:d,...v}));
+      const latest = recent[recent.length - 1];
+      const prev = recent.slice(0, -1).filter(e => e.rhr != null);
+
+      // RHR & HRV: today vs 7-day average
+      const rhrAvg = prev.length ? prev.slice(-7).reduce((s,e) => s + (e.rhr||0), 0) / prev.filter(e=>e.rhr).length : null;
+      const hrvAvg = prev.length ? prev.slice(-7).filter(e=>e.hrv).reduce((s,e) => s + e.hrv, 0) / prev.filter(e=>e.hrv).length : null;
+      const todayRhr = latest?.rhr;
+      const todayHrv = latest?.hrv;
+
+      // Condition cards
+      if (todayRhr != null || todayHrv != null) {
+        let rhrHtml = '', hrvHtml = '';
+        if (todayRhr != null) {
+          const diff = rhrAvg ? todayRhr - rhrAvg : 0;
+          const arrow = diff <= -2 ? '↓' : diff >= 2 ? '↑' : '→';
+          const cls = diff <= -2 ? 'cond-good' : diff >= 3 ? 'cond-bad' : diff >= 2 ? 'cond-warn' : '';
+          rhrHtml = `<div class="condition-card rhr">
+            <div class="cond-value">${todayRhr}<span class="cond-arrow ${cls}">${arrow}</span></div>
+            <div class="cond-label">安静時心拍 bpm</div>
+            <div class="cond-avg">7日平均 ${rhrAvg ? rhrAvg.toFixed(0) : '—'}</div>
+          </div>`;
+        }
+        if (todayHrv != null) {
+          const diff = hrvAvg ? todayHrv - hrvAvg : 0;
+          const arrow = diff >= 3 ? '↑' : diff <= -3 ? '↓' : '→';
+          const cls = diff >= 3 ? 'cond-good' : diff <= -5 ? 'cond-bad' : diff <= -3 ? 'cond-warn' : '';
+          hrvHtml = `<div class="condition-card hrv">
+            <div class="cond-value">${todayHrv.toFixed(0)}<span class="cond-arrow ${cls}">${arrow}</span></div>
+            <div class="cond-label">HRV ms</div>
+            <div class="cond-avg">7日平均 ${hrvAvg ? hrvAvg.toFixed(0) : '—'}</div>
+          </div>`;
+        }
+        condRow.innerHTML = rhrHtml + hrvHtml;
+      }
+
+      // Action guide based on RHR/HRV
+      if (todayRhr != null && rhrAvg && todayHrv != null && hrvAvg) {
+        const rhrDiff = todayRhr - rhrAvg;
+        const hrvDiff = todayHrv - hrvAvg;
+        // Score: positive = good condition
+        const score = -rhrDiff + hrvDiff * 0.5;
+        if (score >= 3) {
+          guide.className = 'action-guide good';
+          guide.innerHTML = '回復バッチリ。今日はハードに動いてOK。筋トレや集中が必要な仕事に向いてる日。';
+        } else if (score <= -5) {
+          guide.className = 'action-guide rest';
+          guide.innerHTML = '体が疲れてるサイン。無理せず軽めに。散歩程度にして、判断が必要な仕事は明日に。';
+        } else {
+          guide.className = 'action-guide caution';
+          guide.innerHTML = '普通のコンディション。いつも通りのペースでOK。午後に疲れたら無理しないこと。';
+        }
+      }
+
+      // Other health metrics
       const items = [];
+      if (sleep && sleep.length) {
+        const l = sleep[sleep.length - 1];
+        if (l.totalHours) items.push({ value: l.totalHours.toFixed(1), label: '睡眠 h' });
+      }
       if (weights && weights.length) {
         const l = weights[weights.length - 1];
         items.push({ value: l.weight.toFixed(1), label: '体重 kg' });
         if (l.bodyFat) items.push({ value: l.bodyFat.toFixed(1), label: '体脂肪 %' });
       }
-      if (sleep && sleep.length) {
-        const l = sleep[sleep.length - 1];
-        if (l.totalHours) items.push({ value: l.totalHours.toFixed(1), label: '睡眠 h' });
+      if (latest) {
+        if (latest.steps) items.push({ value: latest.steps.toLocaleString(), label: '歩数' });
+        if (latest.water) items.push({ value: latest.water.toFixed(1), label: '水分 L' });
       }
-      if (healthLog && healthLog.length) {
-        const l = healthLog[healthLog.length - 1];
-        if (l.steps) items.push({ value: l.steps.toLocaleString(), label: '歩数' });
-        if (l.rhr) items.push({ value: l.rhr, label: '安静心拍' });
-        if (l.water) items.push({ value: l.water.toFixed(1), label: '水分 L' });
-      }
-      if (!items.length) { grid.innerHTML = '<div class="empty-state">データなし</div>'; return; }
+      if (!items.length) { grid.innerHTML = ''; return; }
       grid.style.gridTemplateColumns = `repeat(${Math.min(items.length, 3)}, 1fr)`;
       grid.innerHTML = items.map(i => `
         <div class="health-item"><div class="value">${i.value}</div><div class="label">${i.label}</div></div>
