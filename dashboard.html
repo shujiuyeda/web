@@ -671,14 +671,70 @@
         el.innerHTML = '<div class="empty-state">予定なし</div>';
         return;
       }
-      el.innerHTML = data.events.map(e => {
-        const time = e.allDay ? '終日' : e.time;
-        return `<div class="schedule-item">
-          <div class="schedule-dot"></div>
-          <span class="schedule-time">${time}</span>
-          <span class="schedule-label">${e.title}</span>
-        </div>`;
-      }).join('');
+
+      const today = now.toISOString().slice(0, 10);
+      const tom = new Date(now); tom.setDate(tom.getDate() + 1);
+      const tomStr = tom.toISOString().slice(0, 10);
+      const dat = new Date(now); dat.setDate(dat.getDate() + 2);
+      const datStr = dat.toISOString().slice(0, 10);
+      const dayNames = ['日','月','火','水','木','金','土'];
+
+      function dateLabelShort(dateStr) {
+        if (dateStr === today) return '今日';
+        if (dateStr === tomStr) return '明日';
+        if (dateStr === datStr) return '明後日';
+        const d = new Date(dateStr + 'T00:00:00+09:00');
+        return `${d.getMonth()+1}/${d.getDate()}(${dayNames[d.getDay()]})`;
+      }
+
+      // Group by date
+      const byDate = {};
+      data.events.forEach(e => {
+        if (!byDate[e.date]) byDate[e.date] = [];
+        byDate[e.date].push(e);
+      });
+
+      // Build display: today, tomorrow, day-after. If no events on tom/dat, show next event
+      const showDates = [today, tomStr, datStr];
+      let html = '';
+      let hasEvents = false;
+
+      showDates.forEach(dateStr => {
+        const events = byDate[dateStr];
+        if (events && events.length) {
+          hasEvents = true;
+          const label = dateLabelShort(dateStr);
+          html += `<div style="font-size:11px;font-weight:700;color:var(--text-muted);margin:${html?'10px':'0'} 0 4px;text-transform:uppercase">${label}</div>`;
+          events.forEach(e => {
+            const time = e.allDay ? '終日' : e.time;
+            html += `<div class="schedule-item">
+              <div class="schedule-dot"></div>
+              <span class="schedule-time">${time}</span>
+              <span class="schedule-label">${e.title}</span>
+            </div>`;
+          });
+        }
+      });
+
+      // If tomorrow or day-after have no events, find the next event after today
+      if (!byDate[tomStr] && !byDate[datStr]) {
+        const futureDates = Object.keys(byDate).filter(d => d > today).sort();
+        if (futureDates.length) {
+          const nextDate = futureDates[0];
+          const label = dateLabelShort(nextDate);
+          html += `<div style="font-size:11px;font-weight:700;color:var(--text-muted);margin:10px 0 4px;text-transform:uppercase">次の予定（${label}）</div>`;
+          byDate[nextDate].forEach(e => {
+            const time = e.allDay ? '終日' : e.time;
+            html += `<div class="schedule-item">
+              <div class="schedule-dot" style="background:var(--orange)"></div>
+              <span class="schedule-time">${time}</span>
+              <span class="schedule-label">${e.title}</span>
+            </div>`;
+          });
+        }
+      }
+
+      el.innerHTML = html || '<div class="empty-state">予定なし</div>';
     }
 
     async function loadAll() {
