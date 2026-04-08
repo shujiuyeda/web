@@ -489,6 +489,51 @@
 
   <script>
     const BASE = './data/';
+    const GH_REPO = 'shujiuyeda/web';
+    const GH_API = 'https://api.github.com';
+    function ghToken() { return localStorage.getItem('gh_pat') || ''; }
+    function ghSyncEnabled() { return !!ghToken(); }
+
+    async function ghGetFileSha(path) {
+      try {
+        const res = await fetch(`${GH_API}/repos/${GH_REPO}/contents/${path}?_=${Date.now()}`, {
+          headers: { 'Authorization': `Bearer ${ghToken()}`, 'Accept': 'application/vnd.github+json' }
+        });
+        if (!res.ok) return null;
+        return (await res.json()).sha || null;
+      } catch { return null; }
+    }
+
+    async function ghPutFile(path, content, message) {
+      const sha = await ghGetFileSha(path);
+      const body = { message, content: btoa(unescape(encodeURIComponent(content))) };
+      if (sha) body.sha = sha;
+      try {
+        const res = await fetch(`${GH_API}/repos/${GH_REPO}/contents/${path}`, {
+          method: 'PUT',
+          headers: { 'Authorization': `Bearer ${ghToken()}`, 'Accept': 'application/vnd.github+json' },
+          body: JSON.stringify(body)
+        });
+        return res.ok;
+      } catch { return false; }
+    }
+
+    let _tasksData = null; // cache for toggle
+
+    async function toggleHabit(taskId) {
+      if (!_tasksData) return;
+      const task = _tasksData.tasks.find(t => t.id === taskId);
+      if (!task) return;
+      task.done = !task.done;
+      // Re-render immediately
+      renderHabits(_tasksData);
+      // Sync to GitHub
+      if (ghSyncEnabled()) {
+        const content = JSON.stringify(_tasksData, null, 2);
+        await ghPutFile('data/daily-tasks.json', content, `habit: ${task.label} ${task.done ? '✓' : '○'}`);
+      }
+    }
+
     const now = new Date();
     const hour = now.getHours();
     const days = ['日','月','火','水','木','金','土'];
@@ -619,17 +664,35 @@
       else { s.style.display = 'none'; t.textContent = '▼'; }
     }
 
-    async function loadTasks() {
-      const data = await fetchJSON('daily-tasks.json');
-      const taskList = document.getElementById('taskList');
+    function renderHabits(data) {
       const habitList = document.getElementById('habitList');
       const habitCount = document.getElementById('habitCount');
       const habitProgress = document.getElementById('habitProgressText');
       const fill = document.getElementById('taskProgressFill');
+      const habits = data.tasks.filter(t => t.type !== 'task');
+      const habitDone = habits.filter(t => t.done).length;
+      const habitPct = habits.length ? Math.round((habitDone / habits.length) * 100) : 0;
+      habitCount.textContent = `${habitDone}/${habits.length}`;
+      habitProgress.textContent = `${habitDone}/${habits.length}`;
+      fill.style.width = habitPct + '%';
+      habitList.innerHTML = habits.map(t => {
+        const sc = t.slot === 'morning' ? 'slot-morning' : t.slot === 'daytime' ? 'slot-daytime' : 'slot-evening';
+        const sl = t.slot === 'morning' ? '朝' : t.slot === 'daytime' ? '日中' : '夜';
+        return `<li class="task-item" style="cursor:pointer" onclick="toggleHabit('${t.id}')">
+          <span class="task-check ${t.done?'done':'pending'}">${t.done?'✓':''}</span>
+          <span class="task-slot ${sc}">${sl}</span>
+          <span class="task-label ${t.done?'done':''}">${t.label}</span>
+        </li>`;
+      }).join('');
+    }
+
+    async function loadTasks() {
+      const data = await fetchJSON('daily-tasks.json');
+      const taskList = document.getElementById('taskList');
       if (!data || !data.tasks) { taskList.innerHTML = '<div class="empty-state">タスクなし</div>'; return; }
+      _tasksData = data;
 
       const tasks = data.tasks.filter(t => t.type === 'task').sort((a,b) => a.priority - b.priority);
-      const habits = data.tasks.filter(t => t.type !== 'task');
 
       // Top 3 tasks
       const top3 = tasks.slice(0, 3);
@@ -641,21 +704,7 @@
         </li>`).join('');
       }
 
-      // Habits
-      const habitDone = habits.filter(t => t.done).length;
-      const habitPct = habits.length ? Math.round((habitDone / habits.length) * 100) : 0;
-      habitCount.textContent = `${habitDone}/${habits.length}`;
-      habitProgress.textContent = `${habitDone}/${habits.length}`;
-      fill.style.width = habitPct + '%';
-      habitList.innerHTML = habits.map(t => {
-        const sc = t.slot === 'morning' ? 'slot-morning' : t.slot === 'daytime' ? 'slot-daytime' : 'slot-evening';
-        const sl = t.slot === 'morning' ? '朝' : t.slot === 'daytime' ? '日中' : '夜';
-        return `<li class="task-item">
-          <span class="task-check ${t.done?'done':'pending'}">${t.done?'✓':''}</span>
-          <span class="task-slot ${sc}">${sl}</span>
-          <span class="task-label ${t.done?'done':''}">${t.label}</span>
-        </li>`;
-      }).join('');
+      renderHabits(data);
     }
 
     async function loadFeed() {
