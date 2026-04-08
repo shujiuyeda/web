@@ -466,7 +466,7 @@
           <div id="msgList"></div>
         </div>
         <div class="card">
-          <div class="card-title"><div class="card-icon icon-task">🎯</div> 今日のタスク</div>
+          <div class="card-title"><div class="card-icon icon-task">🎯</div> 今日のタスク <button onclick="refreshTasks()" style="margin-left:auto;background:var(--purple);color:white;border:none;border-radius:8px;padding:4px 10px;font-size:11px;font-weight:700;cursor:pointer">更新</button></div>
           <ul class="task-list" id="taskList"></ul>
         </div>
         <div class="card">
@@ -510,7 +510,105 @@
       } catch { return false; }
     }
 
+    const CCWS_REPO = 'shujiuyeda/yuru-ccws';
     let _tasksData = null; // cache for toggle
+
+    async function refreshTasks() {
+      if (!ghSyncEnabled()) { alert('GitHub Token未設定（HealthHubで設定してください）'); return; }
+      const btn = document.querySelector('[onclick="refreshTasks()"]');
+      btn.textContent = '更新中...';
+      btn.disabled = true;
+      try {
+        // Fetch 00_タスクリスト.md from yuru-ccws repo
+        const res = await fetch(`${GH_API}/repos/${CCWS_REPO}/contents/00_タスクリスト.md`, {
+          headers: { 'Authorization': `Bearer ${ghToken()}`, 'Accept': 'application/vnd.github+json' }
+        });
+        if (!res.ok) throw new Error('タスクリスト取得失敗');
+        const fileData = await res.json();
+        const md = decodeURIComponent(escape(atob(fileData.content)));
+
+        // Parse markdown into tasks
+        const tasks = parseTaskList(md);
+        const today = now.toISOString().slice(0, 10);
+        const newData = { date: today, tasks };
+
+        // Push to web repo
+        const content = JSON.stringify(newData, null, 2);
+        const ok = await ghPutFile('data/daily-tasks.json', content, `tasks: ${today}`);
+        if (!ok) throw new Error('push失敗');
+
+        // Reload
+        _tasksData = newData;
+        renderHabits(newData);
+        const taskList = document.getElementById('taskList');
+        const taskItems = newData.tasks.filter(t => t.type === 'task').sort((a,b) => a.priority - b.priority);
+        const top3 = taskItems.slice(0, 3);
+        taskList.innerHTML = top3.map((t,i) => `<li class="task-item">
+          <span class="task-check ${t.done?'done':'pending'}" style="font-size:16px;font-weight:800">${t.done?'✓':(i+1)}</span>
+          <span class="task-label ${t.done?'done':''}" style="font-weight:600">${t.label}</span>
+        </li>`).join('') || '<div class="empty-state">今日のタスクなし</div>';
+
+        btn.textContent = '完了!';
+        setTimeout(() => { btn.textContent = '更新'; btn.disabled = false; }, 2000);
+      } catch (e) {
+        btn.textContent = '更新';
+        btn.disabled = false;
+        alert('更新失敗: ' + e.message);
+      }
+    }
+
+    function parseTaskList(md) {
+      const tasks = [];
+      let id = 0;
+      let currentSection = '';
+      let currentType = 'habit';
+      let priority = 10;
+
+      const lines = md.split('\n');
+      for (const line of lines) {
+        // Section headers
+        if (line.match(/^## 🔥/)) { currentSection = 'important'; currentType = 'task'; priority = 2; continue; }
+        if (line.match(/^## 🌅/)) { currentSection = 'morning'; currentType = 'habit'; priority = 10; continue; }
+        if (line.match(/^## ☀️/)) { currentSection = 'daytime'; currentType = 'habit'; priority = 20; continue; }
+        if (line.match(/^## 🌙/)) { currentSection = 'evening'; currentType = 'habit'; priority = 70; continue; }
+        if (line.match(/^## 🏋️/)) { currentSection = 'personal'; currentType = 'task'; priority = 20; continue; }
+        if (line.match(/^## 💳/)) { currentSection = 'cashflow'; currentType = 'task'; priority = 25; continue; }
+        if (line.match(/^## 📦/)) { currentSection = 'backlog'; currentType = 'task'; priority = 30; continue; }
+        if (line.match(/^## 📋/)) { currentSection = 'other'; currentType = 'task'; priority = 40; continue; }
+        if (line.match(/^---$/)) continue;
+        if (line.match(/^## /) && !['important','morning','daytime','evening','personal','cashflow','backlog','other'].includes(currentSection)) continue;
+
+        // Task items
+        const m = line.match(/^- \[([ x])\] (.+)/);
+        if (!m) continue;
+        const done = m[1] === 'x';
+        let label = m[2].replace(/\*\*/g, '').trim();
+        if (label.startsWith('~~') || !label) continue;
+
+        // Determine slot
+        let slot = 'daytime';
+        if (currentSection === 'morning') slot = 'morning';
+        else if (currentSection === 'evening') slot = 'evening';
+
+        // Tag detection
+        let tag = null;
+        if (line.includes('🔥') || currentSection === 'important') tag = 'urgent';
+        if (line.includes('💰') || currentSection === 'cashflow') tag = 'cash';
+
+        id++;
+        tasks.push({
+          id: 'dt' + id,
+          label: label.slice(0, 80),
+          slot,
+          priority: currentSection === 'important' ? 2 : priority,
+          minutes: 30,
+          done,
+          tag,
+          type: currentType
+        });
+      }
+      return tasks;
+    }
 
     async function toggleHabit(taskId) {
       if (!_tasksData) return;
