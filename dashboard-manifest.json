@@ -1,0 +1,20 @@
+{
+  "name": "しゅうしゅう Dashboard",
+  "short_name": "Dashboard",
+  "start_url": "/web/dashboard.html",
+  "display": "standalone",
+  "background_color": "#f0f4ff",
+  "theme_color": "#667eea",
+  "icons": [
+    {
+      "src": "icons/dashboard-192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "icons/dashboard-512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
