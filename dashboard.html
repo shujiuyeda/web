@@ -125,30 +125,27 @@
       margin-bottom: 12px;
     }
     .condition-card {
-      padding: 14px;
+      padding: 16px 14px;
       border-radius: 14px;
       text-align: center;
       position: relative;
     }
-    .condition-card.rhr { background: linear-gradient(135deg, #fef2f2, #fee2e2); border: 1px solid #fecaca; }
-    .condition-card.hrv { background: linear-gradient(135deg, #eff6ff, #dbeafe); border: 1px solid #bfdbfe; }
+    .condition-card.body-data { background: linear-gradient(135deg, #eff6ff, #dbeafe); border: 1px solid #bfdbfe; }
+    .condition-card.body-feel { background: linear-gradient(135deg, #fef3c7, #fde68a); border: 1px solid #fcd34d; }
     .condition-card .cond-value {
-      font-size: 28px; font-weight: 800;
+      font-size: 32px; font-weight: 800;
     }
-    .condition-card.rhr .cond-value { color: #dc2626; }
-    .condition-card.hrv .cond-value { color: #2563eb; }
-    .condition-card .cond-label { font-size: 11px; color: var(--text-muted); font-weight: 600; }
-    .condition-card .cond-avg {
+    .condition-card.body-data .cond-value { color: #2563eb; }
+    .condition-card.body-feel .cond-value { color: #d97706; }
+    .condition-card .cond-label { font-size: 12px; color: var(--text-muted); font-weight: 700; margin-bottom: 4px; }
+    .condition-card .cond-sub {
       font-size: 10px; color: var(--text-muted);
-      margin-top: 2px;
-    }
-    .condition-card .cond-arrow {
-      font-size: 12px; font-weight: 800;
-      margin-left: 4px;
+      margin-top: 4px;
     }
     .cond-good { color: var(--green) !important; }
     .cond-warn { color: var(--orange) !important; }
     .cond-bad { color: var(--red) !important; }
+    .cond-match { font-size: 11px; text-align: center; padding: 6px 0; color: var(--text-muted); font-weight: 600; }
 
     .action-guide {
       padding: 12px 14px;
@@ -504,47 +501,68 @@
       const todayRhr = latest?.rhr;
       const todayHrv = latest?.hrv;
 
-      // Condition cards
-      if (todayRhr != null || todayHrv != null) {
-        let rhrHtml = '', hrvHtml = '';
-        if (todayRhr != null) {
-          const diff = rhrAvg ? todayRhr - rhrAvg : 0;
-          const arrow = diff <= -2 ? '↓' : diff >= 2 ? '↑' : '→';
-          const cls = diff <= -2 ? 'cond-good' : diff >= 3 ? 'cond-bad' : diff >= 2 ? 'cond-warn' : '';
-          rhrHtml = `<div class="condition-card rhr">
-            <div class="cond-value">${todayRhr}<span class="cond-arrow ${cls}">${arrow}</span></div>
-            <div class="cond-label">安静時心拍 bpm</div>
-            <div class="cond-avg">7日平均 ${rhrAvg ? rhrAvg.toFixed(0) : '—'}</div>
-          </div>`;
-        }
-        if (todayHrv != null) {
-          const diff = hrvAvg ? todayHrv - hrvAvg : 0;
-          const arrow = diff >= 3 ? '↑' : diff <= -3 ? '↓' : '→';
-          const cls = diff >= 3 ? 'cond-good' : diff <= -5 ? 'cond-bad' : diff <= -3 ? 'cond-warn' : '';
-          hrvHtml = `<div class="condition-card hrv">
-            <div class="cond-value">${todayHrv.toFixed(0)}<span class="cond-arrow ${cls}">${arrow}</span></div>
-            <div class="cond-label">HRV ms</div>
-            <div class="cond-avg">7日平均 ${hrvAvg ? hrvAvg.toFixed(0) : '—'}</div>
-          </div>`;
-        }
-        condRow.innerHTML = rhrHtml + hrvHtml;
-      }
-
-      // Action guide based on RHR/HRV
+      // Body Data Score (RHR+HRV combined) & Energy Level
+      let bodyScore = null;
+      let bodyLabel = '';
+      let bodyCls = '';
       if (todayRhr != null && rhrAvg && todayHrv != null && hrvAvg) {
         const rhrDiff = todayRhr - rhrAvg;
         const hrvDiff = todayHrv - hrvAvg;
-        // Score: positive = good condition
-        const score = -rhrDiff + hrvDiff * 0.5;
-        if (score >= 3) {
+        const raw = -rhrDiff + hrvDiff * 0.5;
+        // Map to 1-5 scale
+        if (raw >= 5) { bodyScore = 5; bodyLabel = '絶好調'; bodyCls = 'cond-good'; }
+        else if (raw >= 3) { bodyScore = 4; bodyLabel = '好調'; bodyCls = 'cond-good'; }
+        else if (raw >= -2) { bodyScore = 3; bodyLabel = 'ふつう'; bodyCls = ''; }
+        else if (raw >= -5) { bodyScore = 2; bodyLabel = 'やや疲れ'; bodyCls = 'cond-warn'; }
+        else { bodyScore = 1; bodyLabel = '要休息'; bodyCls = 'cond-bad'; }
+      }
+
+      const energy = latest?.energy || null;
+
+      // Condition cards: body data vs body feel
+      let dataHtml = '', feelHtml = '';
+      if (bodyScore != null) {
+        dataHtml = `<div class="condition-card body-data">
+          <div class="cond-label">からだデータ</div>
+          <div class="cond-value ${bodyCls}">${bodyScore}<span style="font-size:16px;font-weight:600">/5</span></div>
+          <div class="cond-sub">${bodyLabel}（RHR ${todayRhr} / HRV ${todayHrv.toFixed(0)}）</div>
+        </div>`;
+      } else {
+        dataHtml = `<div class="condition-card body-data">
+          <div class="cond-label">からだデータ</div>
+          <div class="cond-value" style="color:var(--text-muted)">—</div>
+          <div class="cond-sub">データ待ち</div>
+        </div>`;
+      }
+      feelHtml = `<div class="condition-card body-feel">
+        <div class="cond-label">体感エネルギー</div>
+        <div class="cond-value">${energy != null ? energy : '—'}<span style="font-size:16px;font-weight:600">/5</span></div>
+        <div class="cond-sub">${energy != null ? 'ボディスキャンより' : '未入力'}</div>
+      </div>`;
+      condRow.innerHTML = dataHtml + feelHtml;
+
+      // Match/mismatch indicator
+      if (bodyScore != null && energy != null) {
+        const diff = Math.abs(bodyScore - energy);
+        let matchMsg = '';
+        if (diff === 0) matchMsg = 'データと体感が一致';
+        else if (energy > bodyScore) matchMsg = '体感の方が良い → 無理してないか注意';
+        else matchMsg = '体感の方が低い → メンタルか環境要因かも';
+        condRow.innerHTML += `<div class="cond-match" style="grid-column:1/-1">${matchMsg}</div>`;
+      }
+
+      // Action guide
+      const guideScore = energy != null ? Math.min(bodyScore || 3, energy) : bodyScore;
+      if (guideScore != null) {
+        if (guideScore >= 4) {
           guide.className = 'action-guide good';
-          guide.innerHTML = '回復バッチリ。今日はハードに動いてOK。筋トレや集中が必要な仕事に向いてる日。';
-        } else if (score <= -5) {
+          guide.innerHTML = '回復バッチリ。ハードに動いてOK。筋トレや集中が必要な仕事に向いてる日。';
+        } else if (guideScore <= 2) {
           guide.className = 'action-guide rest';
-          guide.innerHTML = '体が疲れてるサイン。無理せず軽めに。散歩程度にして、判断が必要な仕事は明日に。';
+          guide.innerHTML = '無理しない日。散歩程度にして、判断が必要な仕事は明日に。';
         } else {
           guide.className = 'action-guide caution';
-          guide.innerHTML = '普通のコンディション。いつも通りのペースでOK。午後に疲れたら無理しないこと。';
+          guide.innerHTML = 'いつも通りのペースでOK。午後に疲れたら無理しないこと。';
         }
       }
 
