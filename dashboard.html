@@ -434,6 +434,10 @@
           <div class="kpi-row" id="kpiRow"></div>
         </div>
         <div class="card">
+          <div class="card-title"><div class="card-icon icon-task">🏠</div> プライベート</div>
+          <ul class="task-list" id="taskListPrivate"></ul>
+        </div>
+        <div class="card">
           <div class="card-title"><div class="card-icon icon-schedule">📅</div> 今日の予定</div>
           <div id="scheduleList"><div class="empty-state">データ準備中</div></div>
         </div>
@@ -466,8 +470,12 @@
           <div id="msgList"></div>
         </div>
         <div class="card">
-          <div class="card-title"><div class="card-icon icon-task">🎯</div> 今日のタスク <button onclick="refreshTasks()" style="margin-left:auto;background:var(--purple);color:white;border:none;border-radius:8px;padding:4px 10px;font-size:11px;font-weight:700;cursor:pointer">更新</button></div>
-          <ul class="task-list" id="taskList"></ul>
+          <div class="card-title"><div class="card-icon icon-task">🎯</div> ミヒロさんの仕事 <button onclick="refreshTasks()" style="margin-left:auto;background:var(--purple);color:white;border:none;border-radius:8px;padding:4px 10px;font-size:11px;font-weight:700;cursor:pointer">更新</button></div>
+          <ul class="task-list" id="taskListMihiro"></ul>
+        </div>
+        <div class="card">
+          <div class="card-title"><div class="card-icon icon-task">🎯</div> 自分の仕事</div>
+          <ul class="task-list" id="taskListSelf"></ul>
         </div>
         <div class="card">
           <div class="card-title"><div class="card-icon icon-feed">📡</div> リサーチフィード</div>
@@ -567,14 +575,10 @@
 
         // Reload
         _tasksData = newData;
+        renderTaskList('taskListMihiro', newData.tasks.filter(t => t.type === 'task-mihiro'));
+        renderTaskList('taskListSelf', newData.tasks.filter(t => t.type === 'task-self'));
+        renderTaskList('taskListPrivate', newData.tasks.filter(t => t.type === 'task-private'));
         renderHabits(newData);
-        const taskList = document.getElementById('taskList');
-        const taskItems = newData.tasks.filter(t => t.type === 'task').sort((a,b) => a.priority - b.priority);
-        const top3 = taskItems.slice(0, 3);
-        taskList.innerHTML = top3.map((t,i) => `<li class="task-item">
-          <span class="task-check ${t.done?'done':'pending'}" style="font-size:16px;font-weight:800">${t.done?'✓':(i+1)}</span>
-          <span class="task-label ${t.done?'done':''}" style="font-weight:600">${t.label}</span>
-        </li>`).join('') || '<div class="empty-state">今日のタスクなし</div>';
 
         btn.textContent = '完了!';
         setTimeout(() => { btn.textContent = '更新'; btn.disabled = false; }, 2000);
@@ -595,7 +599,10 @@
       const lines = md.split('\n');
       for (const line of lines) {
         // Section headers
-        if (line.match(/^## 🔥/)) { currentSection = 'important'; currentType = 'task'; priority = 2; continue; }
+        if (line.match(/^## 🔥/)) { currentSection = 'important'; currentType = 'task-self'; priority = 2; continue; }
+        if (line.match(/^## 💼.*ミヒロ/)) { currentSection = 'mihiro'; currentType = 'task-mihiro'; priority = 5; continue; }
+        if (line.match(/^## 💼.*自分/)) { currentSection = 'self'; currentType = 'task-self'; priority = 5; continue; }
+        if (line.match(/^## 🏠.*プライベート/)) { currentSection = 'private'; currentType = 'task-private'; priority = 10; continue; }
         if (line.match(/^## 🌅/)) { currentSection = 'morning'; currentType = 'habit'; priority = 10; continue; }
         if (line.match(/^## ☀️/)) { currentSection = 'daytime'; currentType = 'habit'; priority = 20; continue; }
         if (line.match(/^## 🌙/)) { currentSection = 'evening'; currentType = 'habit'; priority = 70; continue; }
@@ -804,24 +811,27 @@
       }).join('');
     }
 
+    function renderTaskList(elId, tasks) {
+      const el = document.getElementById(elId);
+      if (!tasks.length) { el.innerHTML = '<div class="empty-state">なし</div>'; return; }
+      el.innerHTML = tasks.map(t => `<li class="task-item">
+        <span class="task-check ${t.done?'done':'pending'}">${t.done?'✓':'○'}</span>
+        <span class="task-label ${t.done?'done':''}" style="font-weight:500">${t.label}</span>
+      </li>`).join('');
+    }
+
     async function loadTasks() {
       const data = await fetchJSON('daily-tasks.json');
-      const taskList = document.getElementById('taskList');
-      if (!data || !data.tasks) { taskList.innerHTML = '<div class="empty-state">タスクなし</div>'; return; }
+      if (!data || !data.tasks) { return; }
       _tasksData = data;
 
-      const tasks = data.tasks.filter(t => t.type === 'task').sort((a,b) => a.priority - b.priority);
+      const mihiro = data.tasks.filter(t => t.type === 'task-mihiro');
+      const self = data.tasks.filter(t => t.type === 'task-self');
+      const priv = data.tasks.filter(t => t.type === 'task-private');
 
-      // Top 3 tasks
-      const top3 = tasks.slice(0, 3);
-      if (!top3.length) { taskList.innerHTML = '<div class="empty-state">今日のタスクなし</div>'; }
-      else {
-        taskList.innerHTML = top3.map((t,i) => `<li class="task-item">
-          <span class="task-check ${t.done?'done':'pending'}" style="font-size:16px;font-weight:800">${t.done?'✓':(i+1)}</span>
-          <span class="task-label ${t.done?'done':''}" style="font-weight:600">${t.label}</span>
-        </li>`).join('');
-      }
-
+      renderTaskList('taskListMihiro', mihiro);
+      renderTaskList('taskListSelf', self);
+      renderTaskList('taskListPrivate', priv);
       renderHabits(data);
     }
 
