@@ -739,21 +739,32 @@
       }).join('');
     }
 
-    async function loadCash() {
-      const data = await fetchJSON('finance.json');
+    async function loadBizMetrics() {
+      const data = await fetchJSON('biz-metrics.json');
       if (!data) return;
+
+      // Sales
+      const salesEl = document.getElementById('salesValue');
+      if (data.sales) {
+        if (data.sales.yesterday > 0) {
+          salesEl.textContent = `¥${data.sales.yesterday.toLocaleString()}`;
+        } else {
+          salesEl.textContent = '¥0';
+          salesEl.style.fontSize = '18px';
+        }
+      }
+
+      // Newsletter
+      const newEl = document.getElementById('subsNew');
+      const totalEl = document.getElementById('subsTotal');
+      newEl.textContent = data.newsletter?.newToday != null ? data.newsletter.newToday : '—';
+      totalEl.textContent = data.newsletter?.total != null ? data.newsletter.total.toLocaleString() : '—';
+
+      // Cash
       const cashEl = document.getElementById('cashValue');
-      const detail = document.getElementById('cashDetail');
       if (data.cashOnHand != null) {
         cashEl.textContent = `¥${data.cashOnHand.toFixed(0)}万`;
-        if (data.cashOnHand < data.safetyLine) cashEl.closest('.biz-item').classList.add('danger');
       }
-      const pct = data.safetyLine ? Math.min(100, (data.cashOnHand / data.safetyLine) * 100) : 0;
-      const col = pct >= 100 ? 'var(--green)' : pct >= 70 ? 'var(--orange)' : 'var(--red)';
-      detail.innerHTML = `
-        <div class="cash-bar"><div class="cash-bar-fill" style="width:${pct}%;background:${col}"></div></div>
-        <div class="cash-info"><span>手元 ¥${(data.cashOnHand||0).toFixed(1)}万</span><span>安全ライン ¥${(data.safetyLine||0)}万</span></div>
-      `;
     }
 
     async function loadKPI() {
@@ -854,7 +865,7 @@
 
     async function loadAll() {
       document.getElementById('updatedDisplay').textContent = '更新中...';
-      await Promise.all([loadHealth(), loadTasks(), loadFeed(), loadSchedule(), loadKPI()]);
+      await Promise.all([loadHealth(), loadTasks(), loadFeed(), loadSchedule(), loadKPI(), loadBizMetrics()]);
       document.getElementById('updatedDisplay').textContent =
         '最終更新 ' + new Date().toLocaleTimeString('ja-JP', {hour:'2-digit',minute:'2-digit'});
     }

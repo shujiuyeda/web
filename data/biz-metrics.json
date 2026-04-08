@@ -1,0 +1,14 @@
+{
+  "date": "2026-04-08",
+  "sales": {
+    "yesterday": 0,
+    "lastDate": "2026-04-02",
+    "lastAmount": 10580,
+    "mtd": 10580
+  },
+  "newsletter": {
+    "newToday": null,
+    "total": null
+  },
+  "cashOnHand": 72.31
+}
