@@ -51,11 +51,6 @@
       font-size: 22px; font-weight: 800;
       text-shadow: 0 1px 3px rgba(0,0,0,0.15);
     }
-    .header .greeting {
-      font-size: 32px; font-weight: 800;
-      margin-bottom: 4px;
-      text-shadow: 0 2px 4px rgba(0,0,0,0.1);
-    }
     .header .date {
       font-size: 14px; opacity: 0.9;
       font-weight: 500;
@@ -116,7 +111,6 @@
     .icon-feed { background: linear-gradient(135deg, #8b5cf6, #a78bfa); }
     .icon-biz { background: linear-gradient(135deg, #ec4899, #f472b6); }
     .icon-msg { background: linear-gradient(135deg, #06b6d4, #22d3ee); }
-    .icon-cash { background: linear-gradient(135deg, #f59e0b, #fbbf24); }
     .icon-habit { background: linear-gradient(135deg, #94a3b8, #cbd5e1); }
     .icon-kpi { background: linear-gradient(135deg, #f59e0b, #ef4444); }
 
@@ -291,8 +285,6 @@
       padding: 2px 8px; border-radius: 6px; font-weight: 700; font-size: 10px;
     }
     .source-x { background: #dbeafe; color: #2563eb; }
-    .source-github { background: #ede9fe; color: #7c3aed; }
-    .source-hn { background: #ffedd5; color: #ea580c; }
     .source-release { background: #d1fae5; color: #059669; }
     .feed-title { font-size: 13px; line-height: 1.5; font-weight: 500; }
     .feed-title a { color: var(--text); text-decoration: none; }
@@ -355,6 +347,12 @@
     .cash-info {
       display: flex; justify-content: space-between;
       font-size: 12px; color: var(--text-muted); font-weight: 600;
+    }
+
+    .btn-refresh {
+      margin-left: auto; border: none; border-radius: 8px;
+      padding: 4px 10px; font-size: 11px; font-weight: 700;
+      cursor: pointer; color: white;
     }
 
     .empty-state {
@@ -434,11 +432,11 @@
           <div class="kpi-row" id="kpiRow"></div>
         </div>
         <div class="card">
-          <div class="card-title"><div class="card-icon icon-task">🏠</div> タスクリスト（プライベート）<button onclick="refreshTasks()" style="margin-left:auto;background:var(--green);color:white;border:none;border-radius:8px;padding:4px 10px;font-size:11px;font-weight:700;cursor:pointer">更新</button></div>
+          <div class="card-title"><div class="card-icon icon-task">🏠</div> タスクリスト（プライベート）<button onclick="refreshTasks()" class="btn-refresh" style="background:var(--green)">更新</button></div>
           <ul class="task-list" id="taskListPrivate"></ul>
         </div>
         <div class="card">
-          <div class="card-title"><div class="card-icon icon-kpi">🎉</div> お楽しみ <button onclick="refreshTasks()" style="margin-left:auto;background:var(--orange);color:white;border:none;border-radius:8px;padding:4px 10px;font-size:11px;font-weight:700;cursor:pointer">更新</button></div>
+          <div class="card-title"><div class="card-icon icon-kpi">🎉</div> お楽しみ <button onclick="refreshTasks()" class="btn-refresh" style="background:var(--orange)">更新</button></div>
           <ul class="task-list" id="taskListFun"></ul>
         </div>
         <div class="card">
@@ -474,11 +472,11 @@
           <div id="msgList"></div>
         </div>
         <div class="card">
-          <div class="card-title"><div class="card-icon icon-task">🎯</div> タスクリスト（ミヒロさんの仕事）<button onclick="refreshTasks()" style="margin-left:auto;background:var(--purple);color:white;border:none;border-radius:8px;padding:4px 10px;font-size:11px;font-weight:700;cursor:pointer">更新</button></div>
+          <div class="card-title"><div class="card-icon icon-task">🎯</div> タスクリスト（ミヒロさんの仕事）<button onclick="refreshTasks()" class="btn-refresh" style="background:var(--purple)">更新</button></div>
           <ul class="task-list" id="taskListMihiro"></ul>
         </div>
         <div class="card">
-          <div class="card-title"><div class="card-icon icon-task">🎯</div> タスクリスト（自分の仕事）<button onclick="refreshTasks()" style="margin-left:auto;background:var(--purple);color:white;border:none;border-radius:8px;padding:4px 10px;font-size:11px;font-weight:700;cursor:pointer">更新</button></div>
+          <div class="card-title"><div class="card-icon icon-task">🎯</div> タスクリスト（自分の仕事）<button onclick="refreshTasks()" class="btn-refresh" style="background:var(--purple)">更新</button></div>
           <ul class="task-list" id="taskListSelf"></ul>
         </div>
         <div class="card">
@@ -492,7 +490,7 @@
   <button class="refresh-btn" onclick="loadAll()">↻</button>
   <button onclick="setupToken()" style="position:fixed;bottom:24px;left:20px;width:52px;height:52px;border-radius:16px;background:var(--card);border:1px solid #e2e8f0;font-size:18px;cursor:pointer;box-shadow:var(--shadow);z-index:100">⚙️</button>
 
-  <div id="tokenModal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.4);z-index:200;display:none;align-items:center;justify-content:center">
+  <div id="tokenModal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.4);z-index:200;align-items:center;justify-content:center">
     <div style="background:white;border-radius:16px;padding:24px;max-width:400px;width:90%;box-shadow:0 8px 32px rgba(0,0,0,0.2)">
       <h3 style="font-size:16px;margin-bottom:12px">GitHub Token設定</h3>
       <p style="font-size:12px;color:var(--text-muted);margin-bottom:12px">習慣チェックやタスク更新に必要です。<br><a href="https://github.com/settings/personal-access-tokens/new" target="_blank" style="color:var(--purple);font-weight:600">こちらでトークンを作成</a>（Fine-grained）<br>権限: Contents (Read and write) を2リポジトリ (web, yuru-ccws) に付与。</p>
@@ -552,12 +550,24 @@
 
     const CCWS_REPO = 'shujiuyeda/yuru-ccws';
     let _tasksData = null; // cache for toggle
+    let _syncTimer = null;
+    let _healthLogCache = null;
+
+    const TASK_LISTS = {
+      taskListMihiro: 'task-mihiro', taskListSelf: 'task-self',
+      taskListPrivate: 'task-private', taskListFun: 'task-fun'
+    };
+    function renderAllTasks() {
+      Object.entries(TASK_LISTS).forEach(([elId, type]) => {
+        renderTaskList(elId, _tasksData.tasks.filter(t => t.type === type));
+      });
+      renderHabits(_tasksData);
+    }
 
     async function refreshTasks() {
       if (!ghSyncEnabled()) { alert('GitHub Token未設定（HealthHubで設定してください）'); return; }
-      const btn = document.querySelector('[onclick="refreshTasks()"]');
-      btn.textContent = '更新中...';
-      btn.disabled = true;
+      const btns = document.querySelectorAll('[onclick="refreshTasks()"]');
+      btns.forEach(b => { b.textContent = '更新中...'; b.disabled = true; });
       try {
         // Fetch 00_タスクリスト.md from yuru-ccws repo
         const res = await fetch(`${GH_API}/repos/${CCWS_REPO}/contents/00_タスクリスト.md`, {
@@ -579,17 +589,12 @@
 
         // Reload
         _tasksData = newData;
-        renderTaskList('taskListMihiro', newData.tasks.filter(t => t.type === 'task-mihiro'));
-        renderTaskList('taskListSelf', newData.tasks.filter(t => t.type === 'task-self'));
-        renderTaskList('taskListPrivate', newData.tasks.filter(t => t.type === 'task-private'));
-        renderTaskList('taskListFun', newData.tasks.filter(t => t.type === 'task-fun'));
-        renderHabits(newData);
+        renderAllTasks();
 
-        btn.textContent = '完了!';
-        setTimeout(() => { btn.textContent = '更新'; btn.disabled = false; }, 2000);
+        btns.forEach(b => { b.textContent = '完了!'; b.disabled = false; });
+        setTimeout(() => btns.forEach(b => b.textContent = '更新'), 2000);
       } catch (e) {
-        btn.textContent = '更新';
-        btn.disabled = false;
+        btns.forEach(b => { b.textContent = '更新'; b.disabled = false; });
         alert('更新失敗: ' + e.message);
       }
     }
@@ -651,22 +656,21 @@
       return tasks;
     }
 
-    async function toggleHabit(taskId) {
+    async function toggleItem(taskId) {
       if (!_tasksData) return;
       const task = _tasksData.tasks.find(t => t.id === taskId);
       if (!task) return;
       task.done = !task.done;
-      // Re-render immediately
-      renderHabits(_tasksData);
-      // Sync to GitHub
+      renderAllTasks();
       if (ghSyncEnabled()) {
-        const content = JSON.stringify(_tasksData, null, 2);
-        await ghPutFile('data/daily-tasks.json', content, `habit: ${task.label} ${task.done ? '✓' : '○'}`);
+        clearTimeout(_syncTimer);
+        _syncTimer = setTimeout(async () => {
+          await ghPutFile('data/daily-tasks.json', JSON.stringify(_tasksData, null, 2), `toggle: ${task.label} ${task.done ? '✓' : '○'}`);
+        }, 1500);
       }
     }
 
     const now = new Date();
-    const hour = now.getHours();
     const days = ['日','月','火','水','木','金','土'];
 
     document.getElementById('dateDisplay').textContent =
@@ -687,6 +691,7 @@
       const [weights, sleep, healthLog] = await Promise.all([
         fetchJSON('weights.json'), fetchJSON('sleep.json'), fetchJSON('health-log.json'),
       ]);
+      _healthLogCache = healthLog;
 
       // health-log is date-keyed object
       const hlEntries = healthLog ? Object.entries(healthLog).sort((a,b) => a[0].localeCompare(b[0])) : [];
@@ -695,8 +700,10 @@
       const prev = recent.slice(0, -1).filter(e => e.rhr != null);
 
       // RHR & HRV: today vs 7-day average
-      const rhrAvg = prev.length ? prev.slice(-7).reduce((s,e) => s + (e.rhr||0), 0) / prev.filter(e=>e.rhr).length : null;
-      const hrvAvg = prev.length ? prev.slice(-7).filter(e=>e.hrv).reduce((s,e) => s + e.hrv, 0) / prev.filter(e=>e.hrv).length : null;
+      const rhrRecent = prev.slice(-7).filter(e => e.rhr != null);
+      const hrvRecent = prev.slice(-7).filter(e => e.hrv != null);
+      const rhrAvg = rhrRecent.length ? rhrRecent.reduce((s,e) => s + e.rhr, 0) / rhrRecent.length : null;
+      const hrvAvg = hrvRecent.length ? hrvRecent.reduce((s,e) => s + e.hrv, 0) / hrvRecent.length : null;
       const todayRhr = latest?.rhr;
       const todayHrv = latest?.hrv;
 
@@ -809,7 +816,7 @@
       habitList.innerHTML = habits.map(t => {
         const sc = t.slot === 'morning' ? 'slot-morning' : t.slot === 'daytime' ? 'slot-daytime' : 'slot-evening';
         const sl = t.slot === 'morning' ? '朝' : t.slot === 'daytime' ? '日中' : '夜';
-        return `<li class="task-item" style="cursor:pointer" onclick="toggleHabit('${t.id}')">
+        return `<li class="task-item" style="cursor:pointer" onclick="toggleItem('${t.id}')">
           <span class="task-check ${t.done?'done':'pending'}">${t.done?'✓':''}</span>
           <span class="task-slot ${sc}">${sl}</span>
           <span class="task-label ${t.done?'done':''}">${t.label}</span>
@@ -820,44 +827,19 @@
     function renderTaskList(elId, tasks) {
       const el = document.getElementById(elId);
       if (!tasks.length) { el.innerHTML = '<div class="empty-state">なし</div>'; return; }
-      el.innerHTML = tasks.map(t => `<li class="task-item" style="cursor:pointer" onclick="toggleTask('${t.id}')">
+      el.innerHTML = tasks.map(t => `<li class="task-item" style="cursor:pointer" onclick="toggleItem('${t.id}')">
         <span class="task-check ${t.done?'done':'pending'}">${t.done?'✓':'○'}</span>
         <span class="task-label ${t.done?'done':''}" style="font-weight:500">${t.label}</span>
       </li>`).join('');
     }
 
-    async function toggleTask(taskId) {
-      if (!_tasksData) return;
-      const task = _tasksData.tasks.find(t => t.id === taskId);
-      if (!task) return;
-      task.done = !task.done;
-      // Re-render
-      renderTaskList('taskListMihiro', _tasksData.tasks.filter(t => t.type === 'task-mihiro'));
-      renderTaskList('taskListSelf', _tasksData.tasks.filter(t => t.type === 'task-self'));
-      renderTaskList('taskListPrivate', _tasksData.tasks.filter(t => t.type === 'task-private'));
-      renderTaskList('taskListFun', _tasksData.tasks.filter(t => t.type === 'task-fun'));
-      // Sync to GitHub
-      if (ghSyncEnabled()) {
-        const content = JSON.stringify(_tasksData, null, 2);
-        await ghPutFile('data/daily-tasks.json', content, `task: ${task.label} ${task.done ? '✓' : '○'}`);
-      }
-    }
+
 
     async function loadTasks() {
       const data = await fetchJSON('daily-tasks.json');
       if (!data || !data.tasks) { return; }
       _tasksData = data;
-
-      const mihiro = data.tasks.filter(t => t.type === 'task-mihiro');
-      const self = data.tasks.filter(t => t.type === 'task-self');
-      const priv = data.tasks.filter(t => t.type === 'task-private');
-
-      const fun = data.tasks.filter(t => t.type === 'task-fun');
-      renderTaskList('taskListMihiro', mihiro);
-      renderTaskList('taskListSelf', self);
-      renderTaskList('taskListPrivate', priv);
-      renderTaskList('taskListFun', fun);
-      renderHabits(data);
+      renderAllTasks();
     }
 
     async function loadFeed() {
@@ -939,7 +921,7 @@
     }
 
     async function loadKPI() {
-      const healthLog = await fetchJSON('health-log.json');
+      const healthLog = _healthLogCache || await fetchJSON('health-log.json');
       const el = document.getElementById('kpiRow');
       const today = now.toISOString().slice(0, 10);
       const entry = healthLog ? healthLog[today] : null;
@@ -961,6 +943,15 @@
       `).join('');
     }
 
+    function renderMsgSection(items, badge, badgeColor, label, renderItem) {
+      if (!items?.length) return '';
+      let html = `<div style="font-size:11px;font-weight:700;color:var(--text-muted);margin-bottom:4px;display:flex;align-items:center;gap:6px">
+        <span style="background:${badgeColor};color:white;padding:1px 6px;border-radius:4px;font-size:10px">${badge}</span>
+        ${label}（${items.length}件）</div>`;
+      items.forEach(m => { html += renderItem(m); });
+      return html;
+    }
+
     async function loadMessages() {
       const data = await fetchJSON('messages.json');
       const el = document.getElementById('msgList');
@@ -968,44 +959,23 @@
 
       let html = '';
 
-      // Chatwork
-      if (data.chatwork?.items?.length) {
-        html += `<div style="font-size:11px;font-weight:700;color:var(--text-muted);margin-bottom:4px;display:flex;align-items:center;gap:6px">
-          <span style="background:#e63946;color:white;padding:1px 6px;border-radius:4px;font-size:10px">CW</span>
-          Chatwork（${data.chatwork.items.length}件）</div>`;
-        data.chatwork.items.forEach(m => {
-          html += `<a href="${m.url}" target="_blank" style="display:block;padding:6px 0;border-bottom:1px solid #f3f4f6;text-decoration:none;color:var(--text)">
-            <div style="font-size:13px;font-weight:500">${m.title}</div>
-            <div style="font-size:11px;color:var(--text-muted)">${m.from} — ${m.room}</div>
-          </a>`;
-        });
-      }
+      html += renderMsgSection(data.chatwork?.items, 'CW', '#e63946', 'Chatwork', m =>
+        `<a href="${m.url}" target="_blank" style="display:block;padding:6px 0;border-bottom:1px solid #f3f4f6;text-decoration:none;color:var(--text)">
+          <div style="font-size:13px;font-weight:500">${m.title}</div>
+          <div style="font-size:11px;color:var(--text-muted)">${m.from} — ${m.room}</div>
+        </a>`);
 
-      // Gmail
-      if (data.gmail?.items?.length) {
-        html += `<div style="font-size:11px;font-weight:700;color:var(--text-muted);margin:${html?'10px':'0'} 0 4px;display:flex;align-items:center;gap:6px">
-          <span style="background:#4285f4;color:white;padding:1px 6px;border-radius:4px;font-size:10px">Gmail</span>
-          Gmail（${data.gmail.items.length}件）</div>`;
-        data.gmail.items.forEach(m => {
-          html += `<a href="${m.url}" target="_blank" style="display:block;padding:6px 0;border-bottom:1px solid #f3f4f6;text-decoration:none;color:var(--text)">
-            <div style="font-size:13px;font-weight:500">${m.title}</div>
-            <div style="font-size:11px;color:var(--text-muted)">${m.from}</div>
-          </a>`;
-        });
-      }
+      html += renderMsgSection(data.gmail?.items, 'Gmail', '#4285f4', 'Gmail', m =>
+        `<a href="${m.url}" target="_blank" style="display:block;padding:6px 0;border-bottom:1px solid #f3f4f6;text-decoration:none;color:var(--text)">
+          <div style="font-size:13px;font-weight:500">${m.title}</div>
+          <div style="font-size:11px;color:var(--text-muted)">${m.from}</div>
+        </a>`);
 
-      // Chatwork Tasks
-      if (data.chatwork?.tasks?.length) {
-        html += `<div style="font-size:11px;font-weight:700;color:var(--text-muted);margin:${html?'10px':'0'} 0 4px;display:flex;align-items:center;gap:6px">
-          <span style="background:#f59e0b;color:white;padding:1px 6px;border-radius:4px;font-size:10px">Task</span>
-          Chatworkタスク（${data.chatwork.tasks.length}件）</div>`;
-        data.chatwork.tasks.forEach(t => {
-          html += `<a href="${t.url}" target="_blank" style="display:block;padding:5px 0;border-bottom:1px solid #f3f4f6;text-decoration:none;color:var(--text)">
-            <div style="font-size:12px;font-weight:500">${t.body}</div>
-            <div style="font-size:10px;color:var(--text-muted)">${t.room}</div>
-          </a>`;
-        });
-      }
+      html += renderMsgSection(data.chatwork?.tasks, 'Task', '#f59e0b', 'Chatworkタスク', t =>
+        `<a href="${t.url}" target="_blank" style="display:block;padding:5px 0;border-bottom:1px solid #f3f4f6;text-decoration:none;color:var(--text)">
+          <div style="font-size:12px;font-weight:500">${t.body}</div>
+          <div style="font-size:10px;color:var(--text-muted)">${t.room}</div>
+        </a>`);
 
       if (!html) html = '<div class="empty-state">未返信なし</div>';
       el.innerHTML = html;
