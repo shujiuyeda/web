@@ -358,9 +358,35 @@
     }
     .refresh-btn:active { transform: scale(0.9) rotate(180deg); }
 
-    @media (min-width: 600px) {
-      .cards { max-width: 560px; margin: 0 auto; }
-      .section-label { max-width: 560px; margin: 0 auto; padding-left: 0; }
+    /* ── Two columns ── */
+    .two-col {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0 12px;
+      padding: 0 14px;
+    }
+    .two-col .section-label { padding-left: 0; }
+    .two-col .cards { padding: 0; }
+    .col-header {
+      display: flex; align-items: center; gap: 8px;
+      padding: 16px 0 8px;
+      font-size: 13px; font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+    }
+    .col-header::after {
+      content: ''; flex: 1; height: 2px; border-radius: 1px;
+    }
+    .col-header.private { color: var(--green); }
+    .col-header.private::after { background: var(--grad-private); }
+    .col-header.biz { color: var(--purple); }
+    .col-header.biz::after { background: var(--grad-biz); }
+
+    @media (max-width: 700px) {
+      .two-col { grid-template-columns: 1fr; }
+    }
+    @media (min-width: 700px) {
+      .top-cards, .two-col { max-width: 900px; margin: 0 auto; }
       .header { text-align: center; }
       .header .updated { position: static; margin-top: 6px; }
     }
@@ -373,65 +399,77 @@
     <div class="updated" id="updatedDisplay"></div>
   </div>
 
-  <div class="section-label private">Private</div>
-  <div class="cards">
+  <!-- Condition (full width, top) -->
+  <div class="top-cards" style="padding:0 14px">
     <div class="card">
       <div class="card-title"><div class="card-icon icon-health">💪</div> コンディション</div>
       <div class="condition-row" id="conditionRow"></div>
       <div class="action-guide" id="actionGuide"></div>
       <div class="health-grid" id="healthGrid"></div>
     </div>
-    <div class="card">
-      <div class="card-title"><div class="card-icon icon-task">🎯</div> 今日のタスク</div>
-      <ul class="task-list" id="taskList"></ul>
-    </div>
-    <div class="card">
-      <div class="card-title" style="cursor:pointer" onclick="toggleHabits()"><div class="card-icon icon-habit">🔄</div> 日々の習慣 <span id="habitCount"></span><span id="habitToggle" style="margin-left:auto;font-size:12px;color:var(--text-muted)">▼</span></div>
-      <div id="habitSection" style="display:none">
-        <div class="task-progress">
-          <div class="task-progress-bar"><div class="task-progress-fill" id="taskProgressFill"></div></div>
-          <div class="task-progress-text" id="habitProgressText"></div>
-        </div>
-        <ul class="task-list" id="habitList"></ul>
-      </div>
-    </div>
-    <div class="card">
-      <div class="card-title"><div class="card-icon icon-schedule">📅</div> 今日の予定</div>
-      <div id="scheduleList"><div class="empty-state">データ準備中</div></div>
-    </div>
-    <div class="card">
-      <div class="card-title"><div class="card-icon icon-feed">📡</div> リサーチフィード</div>
-      <div id="feedList"></div>
-    </div>
   </div>
 
-  <div class="section-label biz">Business</div>
-  <div class="cards">
-    <div class="card">
-      <div class="card-title"><div class="card-icon icon-biz">📊</div> ビジネス指標</div>
-      <div class="biz-grid" id="bizGrid">
-        <div class="biz-item"><div class="value" id="salesValue">—</div><div class="label">前日売上</div></div>
-        <div class="biz-item"><div class="value" id="subsNew">—</div><div class="label">新規メルマガ登録</div></div>
-        <div class="biz-item"><div class="value" id="subsTotal">—</div><div class="label">メルマガ総数</div></div>
-        <div class="biz-item"><div class="value" id="cashValue">—</div><div class="label">手元資金</div></div>
+  <!-- PRIVATE | BUSINESS two columns -->
+  <div class="two-col">
+    <!-- LEFT: Private -->
+    <div>
+      <div class="col-header private">Private</div>
+      <div class="cards">
+        <div class="card">
+          <div class="card-title"><div class="card-icon icon-task">🎯</div> 今日のタスク</div>
+          <ul class="task-list" id="taskList"></ul>
+        </div>
+        <div class="card">
+          <div class="card-title"><div class="card-icon icon-schedule">📅</div> 今日の予定</div>
+          <div id="scheduleList"><div class="empty-state">データ準備中</div></div>
+        </div>
+        <div class="card">
+          <div class="card-title"><div class="card-icon icon-feed">📡</div> リサーチフィード</div>
+          <div id="feedList"></div>
+        </div>
+        <div class="card">
+          <div class="card-title" style="cursor:pointer" onclick="toggleHabits()"><div class="card-icon icon-habit">🔄</div> 日々の習慣 <span id="habitCount"></span><span id="habitToggle" style="margin-left:auto;font-size:12px;color:var(--text-muted)">▼</span></div>
+          <div id="habitSection" style="display:none">
+            <div class="task-progress">
+              <div class="task-progress-bar"><div class="task-progress-fill" id="taskProgressFill"></div></div>
+              <div class="task-progress-text" id="habitProgressText"></div>
+            </div>
+            <ul class="task-list" id="habitList"></ul>
+          </div>
+        </div>
       </div>
     </div>
-    <div class="card">
-      <div class="card-title"><div class="card-icon icon-msg">💬</div> 未返信メッセージ</div>
-      <div id="msgList">
-        <div class="msg-row">
-          <span class="msg-label">Chatwork</span>
-          <span class="msg-badge ok" id="cwBadge">—</span>
+    <!-- RIGHT: Business -->
+    <div>
+      <div class="col-header biz">Business</div>
+      <div class="cards">
+        <div class="card">
+          <div class="card-title"><div class="card-icon icon-biz">📊</div> ビジネス指標</div>
+          <div class="biz-grid" id="bizGrid">
+            <div class="biz-item"><div class="value" id="salesValue">—</div><div class="label">前日売上</div></div>
+            <div class="biz-item"><div class="value" id="subsNew">—</div><div class="label">新規メルマガ登録</div></div>
+            <div class="biz-item"><div class="value" id="subsTotal">—</div><div class="label">メルマガ総数</div></div>
+            <div class="biz-item"><div class="value" id="cashValue">—</div><div class="label">手元資金</div></div>
+          </div>
         </div>
-        <div class="msg-row">
-          <span class="msg-label">Gmail</span>
-          <span class="msg-badge ok" id="gmBadge">—</span>
+        <div class="card">
+          <div class="card-title"><div class="card-icon icon-msg">💬</div> 未返信メッセージ</div>
+          <div id="msgList">
+            <div class="msg-row">
+              <span class="msg-label">Chatwork</span>
+              <span class="msg-badge ok" id="cwBadge">—</span>
+            </div>
+            <div class="msg-row">
+              <span class="msg-label">Gmail</span>
+              <span class="msg-badge ok" id="gmBadge">—</span>
+            </div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-title"><div class="card-icon icon-cash">💰</div> キャッシュフロー</div>
+          <div id="cashDetail"></div>
         </div>
       </div>
-    </div>
-    <div class="card">
-      <div class="card-title"><div class="card-icon icon-cash">💰</div> キャッシュフロー</div>
-      <div id="cashDetail"></div>
     </div>
   </div>
 
