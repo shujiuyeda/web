@@ -399,16 +399,6 @@
     <div class="updated" id="updatedDisplay"></div>
   </div>
 
-  <!-- Condition (full width, top) -->
-  <div class="top-cards" style="padding:0 14px">
-    <div class="card">
-      <div class="card-title"><div class="card-icon icon-health">💪</div> コンディション</div>
-      <div class="condition-row" id="conditionRow"></div>
-      <div class="action-guide" id="actionGuide"></div>
-      <div class="health-grid" id="healthGrid"></div>
-    </div>
-  </div>
-
   <!-- PRIVATE | BUSINESS two columns -->
   <div class="two-col">
     <!-- LEFT: Private -->
@@ -416,12 +406,10 @@
       <div class="col-header private">Private</div>
       <div class="cards">
         <div class="card">
-          <div class="card-title"><div class="card-icon icon-task">🎯</div> 今日のタスク</div>
-          <ul class="task-list" id="taskList"></ul>
-        </div>
-        <div class="card">
-          <div class="card-title"><div class="card-icon icon-schedule">📅</div> 今日の予定</div>
-          <div id="scheduleList"><div class="empty-state">データ準備中</div></div>
+          <div class="card-title"><div class="card-icon icon-health">💪</div> コンディション</div>
+          <div class="condition-row" id="conditionRow"></div>
+          <div class="action-guide" id="actionGuide"></div>
+          <div class="health-grid" id="healthGrid"></div>
         </div>
         <div class="card">
           <div class="card-title"><div class="card-icon icon-feed">📡</div> リサーチフィード</div>
@@ -444,6 +432,14 @@
       <div class="col-header biz">Business</div>
       <div class="cards">
         <div class="card">
+          <div class="card-title"><div class="card-icon icon-schedule">📅</div> 今日の予定</div>
+          <div id="scheduleList"><div class="empty-state">データ準備中</div></div>
+        </div>
+        <div class="card">
+          <div class="card-title"><div class="card-icon icon-task">🎯</div> 今日のタスク</div>
+          <ul class="task-list" id="taskList"></ul>
+        </div>
+        <div class="card">
           <div class="card-title"><div class="card-icon icon-biz">📊</div> ビジネス指標</div>
           <div class="biz-grid" id="bizGrid">
             <div class="biz-item"><div class="value" id="salesValue">—</div><div class="label">前日売上</div></div>
@@ -464,10 +460,6 @@
               <span class="msg-badge ok" id="gmBadge">—</span>
             </div>
           </div>
-        </div>
-        <div class="card">
-          <div class="card-title"><div class="card-icon icon-cash">💰</div> キャッシュフロー</div>
-          <div id="cashDetail"></div>
         </div>
       </div>
     </div>
@@ -674,7 +666,7 @@
 
     async function loadAll() {
       document.getElementById('updatedDisplay').textContent = '更新中...';
-      await Promise.all([loadHealth(), loadTasks(), loadFeed(), loadCash()]);
+      await Promise.all([loadHealth(), loadTasks(), loadFeed()]);
       document.getElementById('updatedDisplay').textContent =
         '最終更新 ' + new Date().toLocaleTimeString('ja-JP', {hour:'2-digit',minute:'2-digit'});
     }
