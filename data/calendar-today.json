@@ -1,0 +1,17 @@
+{
+  "date": "2026-04-08",
+  "events": [
+    {
+      "time": null,
+      "end": null,
+      "title": "資源ゴミ",
+      "allDay": true
+    },
+    {
+      "time": "16:15",
+      "end": "17:15",
+      "title": "パーソナル",
+      "allDay": false
+    }
+  ]
+}

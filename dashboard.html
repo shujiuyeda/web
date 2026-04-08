@@ -664,9 +664,26 @@
       `;
     }
 
+    async function loadSchedule() {
+      const data = await fetchJSON('calendar-today.json');
+      const el = document.getElementById('scheduleList');
+      if (!data || !data.events || !data.events.length) {
+        el.innerHTML = '<div class="empty-state">予定なし</div>';
+        return;
+      }
+      el.innerHTML = data.events.map(e => {
+        const time = e.allDay ? '終日' : e.time;
+        return `<div class="schedule-item">
+          <div class="schedule-dot"></div>
+          <span class="schedule-time">${time}</span>
+          <span class="schedule-label">${e.title}</span>
+        </div>`;
+      }).join('');
+    }
+
     async function loadAll() {
       document.getElementById('updatedDisplay').textContent = '更新中...';
-      await Promise.all([loadHealth(), loadTasks(), loadFeed()]);
+      await Promise.all([loadHealth(), loadTasks(), loadFeed(), loadSchedule()]);
       document.getElementById('updatedDisplay').textContent =
         '最終更新 ' + new Date().toLocaleTimeString('ja-JP', {hour:'2-digit',minute:'2-digit'});
     }
