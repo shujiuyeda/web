@@ -524,7 +524,6 @@
       }
       if (latest) {
         if (latest.steps) items.push({ value: latest.steps.toLocaleString(), label: '歩数' });
-        if (latest.water) items.push({ value: latest.water.toFixed(1), label: '水分 L' });
       }
       if (!items.length) { grid.innerHTML = ''; return; }
       grid.style.gridTemplateColumns = `repeat(${Math.min(items.length, 3)}, 1fr)`;
