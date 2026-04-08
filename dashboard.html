@@ -3,230 +3,342 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-  <meta name="theme-color" content="#1a1a2e">
+  <meta name="theme-color" content="#667eea">
   <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
   <meta name="apple-mobile-web-app-title" content="Dashboard">
   <title>しゅうしゅう Dashboard</title>
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     :root {
-      --bg: #0f0f1a;
-      --card: #1a1a2e;
-      --card-border: #2a2a4a;
-      --text: #e8e8f0;
-      --text-muted: #8888aa;
-      --accent-private: #52B788;
-      --accent-biz: #4dabf7;
-      --accent-warn: #ffa94d;
-      --accent-danger: #ff6b6b;
-      --section-private: #1B4332;
-      --section-biz: #1a2744;
+      --bg: #f0f4ff;
+      --card: #ffffff;
+      --text: #2d3748;
+      --text-muted: #718096;
+      --shadow: 0 2px 12px rgba(100,120,200,0.1);
+      --shadow-hover: 0 4px 20px rgba(100,120,200,0.18);
+      --radius: 16px;
+      --grad-private: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+      --grad-biz: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      --grad-header: linear-gradient(135deg, #f6d365 0%, #fda085 50%, #f093fb 100%);
+      --green: #10b981;
+      --blue: #3b82f6;
+      --purple: #8b5cf6;
+      --orange: #f59e0b;
+      --pink: #ec4899;
+      --red: #ef4444;
+      --cyan: #06b6d4;
     }
     body {
       font-family: -apple-system, BlinkMacSystemFont, 'Hiragino Kaku Gothic ProN', sans-serif;
       background: var(--bg);
       color: var(--text);
       min-height: 100vh;
-      padding: 0;
       -webkit-font-smoothing: antialiased;
+      padding-bottom: 80px;
     }
+
+    /* ── Header ── */
     .header {
-      position: sticky; top: 0;
-      background: linear-gradient(135deg, #1a1a2e, #16213e);
-      padding: 16px 20px;
-      z-index: 100;
-      border-bottom: 1px solid var(--card-border);
+      background: var(--grad-header);
+      padding: 24px 20px 20px;
+      color: white;
+      position: relative;
     }
-    .header h1 { font-size: 18px; font-weight: 700; }
-    .header .date { font-size: 13px; color: var(--text-muted); margin-top: 2px; }
-    .header .updated { font-size: 11px; color: var(--text-muted); position: absolute; right: 20px; top: 50%; transform: translateY(-50%); }
+    .header h1 {
+      font-size: 22px; font-weight: 800;
+      text-shadow: 0 1px 3px rgba(0,0,0,0.15);
+    }
+    .header .greeting {
+      font-size: 32px; font-weight: 800;
+      margin-bottom: 4px;
+      text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+    .header .date {
+      font-size: 14px; opacity: 0.9;
+      font-weight: 500;
+    }
+    .header .updated {
+      position: absolute; right: 20px; bottom: 12px;
+      font-size: 11px; opacity: 0.7;
+    }
 
+    /* ── Section ── */
     .section-label {
-      display: flex; align-items: center; gap: 8px;
-      padding: 14px 20px 8px;
-      font-size: 12px; font-weight: 700;
+      display: flex; align-items: center; gap: 10px;
+      padding: 20px 20px 10px;
+      font-size: 13px; font-weight: 800;
       text-transform: uppercase;
-      letter-spacing: 1px;
+      letter-spacing: 1.5px;
     }
-    .section-label.private { color: var(--accent-private); }
-    .section-label.biz { color: var(--accent-biz); }
     .section-label::after {
-      content: ''; flex: 1; height: 1px;
-      background: currentColor; opacity: 0.3;
+      content: ''; flex: 1; height: 2px;
+      border-radius: 1px;
     }
+    .section-label.private {
+      color: var(--green);
+    }
+    .section-label.private::after { background: var(--grad-private); }
+    .section-label.biz {
+      color: var(--purple);
+    }
+    .section-label.biz::after { background: var(--grad-biz); }
 
-    .cards { padding: 0 12px 12px; }
+    /* ── Cards ── */
+    .cards { padding: 0 14px 8px; }
     .card {
       background: var(--card);
-      border: 1px solid var(--card-border);
-      border-radius: 12px;
-      padding: 16px;
-      margin-bottom: 10px;
+      border-radius: var(--radius);
+      padding: 18px;
+      margin-bottom: 12px;
+      box-shadow: var(--shadow);
+      border: none;
+      transition: box-shadow 0.2s;
     }
+    .card:hover { box-shadow: var(--shadow-hover); }
     .card-title {
-      font-size: 13px; font-weight: 700; color: var(--text-muted);
-      margin-bottom: 10px;
-      display: flex; align-items: center; gap: 6px;
+      font-size: 14px; font-weight: 700; color: var(--text);
+      margin-bottom: 12px;
+      display: flex; align-items: center; gap: 8px;
     }
-    .card-title .icon { font-size: 15px; }
+    .card-icon {
+      width: 32px; height: 32px;
+      border-radius: 10px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 16px;
+      flex-shrink: 0;
+    }
+    .icon-health { background: linear-gradient(135deg, #10b981, #34d399); }
+    .icon-task { background: linear-gradient(135deg, #f59e0b, #fbbf24); }
+    .icon-schedule { background: linear-gradient(135deg, #3b82f6, #60a5fa); }
+    .icon-feed { background: linear-gradient(135deg, #8b5cf6, #a78bfa); }
+    .icon-biz { background: linear-gradient(135deg, #ec4899, #f472b6); }
+    .icon-msg { background: linear-gradient(135deg, #06b6d4, #22d3ee); }
+    .icon-cash { background: linear-gradient(135deg, #f59e0b, #fbbf24); }
 
-    /* Health card */
+    /* ── Health ── */
     .health-grid {
       display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 8px;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
     }
     .health-item {
       text-align: center;
-      padding: 8px 4px;
-      background: rgba(255,255,255,0.03);
-      border-radius: 8px;
+      padding: 12px 6px;
+      background: linear-gradient(135deg, #f0fdf4, #ecfdf5);
+      border-radius: 12px;
+      border: 1px solid #d1fae5;
     }
-    .health-item .value { font-size: 20px; font-weight: 700; color: var(--accent-private); }
-    .health-item .label { font-size: 10px; color: var(--text-muted); margin-top: 2px; }
+    .health-item .value {
+      font-size: 22px; font-weight: 800;
+      background: linear-gradient(135deg, #059669, #10b981);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .health-item .label {
+      font-size: 11px; color: var(--text-muted);
+      margin-top: 3px; font-weight: 500;
+    }
 
-    /* Tasks */
+    /* ── Tasks ── */
+    .task-progress {
+      display: flex; align-items: center; gap: 10px;
+      margin-bottom: 12px;
+    }
+    .task-progress-bar {
+      flex: 1; height: 8px; border-radius: 4px;
+      background: #f3f4f6; overflow: hidden;
+    }
+    .task-progress-fill {
+      height: 100%; border-radius: 4px;
+      background: var(--grad-private);
+      transition: width 0.5s;
+    }
+    .task-progress-text { font-size: 13px; font-weight: 700; color: var(--green); min-width: 40px; }
     .task-list { list-style: none; }
     .task-item {
-      display: flex; align-items: center; gap: 8px;
-      padding: 6px 0;
+      display: flex; align-items: center; gap: 10px;
+      padding: 8px 0;
       font-size: 14px;
-      border-bottom: 1px solid rgba(255,255,255,0.04);
+      border-bottom: 1px solid #f3f4f6;
     }
     .task-item:last-child { border-bottom: none; }
-    .task-check { font-size: 14px; }
-    .task-check.done { color: var(--accent-private); }
-    .task-check.pending { color: var(--text-muted); }
-    .task-slot {
-      font-size: 10px; padding: 2px 6px;
-      border-radius: 4px; font-weight: 600;
+    .task-check {
+      width: 22px; height: 22px; border-radius: 6px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 12px; font-weight: 700; flex-shrink: 0;
     }
-    .slot-morning { background: rgba(255,193,7,0.15); color: #ffc107; }
-    .slot-daytime { background: rgba(82,183,136,0.15); color: var(--accent-private); }
-    .slot-evening { background: rgba(77,171,247,0.15); color: var(--accent-biz); }
+    .task-check.done { background: var(--green); color: white; }
+    .task-check.pending { background: #f3f4f6; color: #cbd5e1; border: 2px solid #e2e8f0; }
+    .task-slot {
+      font-size: 10px; padding: 2px 8px;
+      border-radius: 6px; font-weight: 700;
+    }
+    .slot-morning { background: #fef3c7; color: #d97706; }
+    .slot-daytime { background: #d1fae5; color: #059669; }
+    .slot-evening { background: #dbeafe; color: #2563eb; }
+    .task-label { font-weight: 500; }
     .task-label.done { text-decoration: line-through; color: var(--text-muted); }
 
-    /* Schedule */
+    /* ── Schedule ── */
     .schedule-item {
-      display: flex; gap: 10px;
-      padding: 6px 0;
-      font-size: 14px;
-      border-bottom: 1px solid rgba(255,255,255,0.04);
+      display: flex; align-items: center; gap: 12px;
+      padding: 8px 0;
+      border-bottom: 1px solid #f3f4f6;
     }
     .schedule-item:last-child { border-bottom: none; }
-    .schedule-time { color: var(--accent-private); font-weight: 600; min-width: 50px; font-size: 13px; }
+    .schedule-dot {
+      width: 10px; height: 10px; border-radius: 50%;
+      background: var(--blue); flex-shrink: 0;
+    }
+    .schedule-time {
+      font-size: 13px; font-weight: 700; color: var(--blue);
+      min-width: 50px;
+    }
+    .schedule-label { font-size: 14px; font-weight: 500; }
 
-    /* Research feed */
+    /* ── Feed ── */
     .feed-item {
-      padding: 8px 0;
-      border-bottom: 1px solid rgba(255,255,255,0.04);
+      padding: 10px 0;
+      border-bottom: 1px solid #f3f4f6;
     }
     .feed-item:last-child { border-bottom: none; }
     .feed-meta {
-      display: flex; align-items: center; gap: 6px;
-      font-size: 11px; color: var(--text-muted); margin-bottom: 3px;
+      display: flex; align-items: center; gap: 8px;
+      font-size: 11px; color: var(--text-muted); margin-bottom: 4px;
     }
     .feed-source {
-      padding: 1px 5px; border-radius: 3px; font-weight: 600; font-size: 10px;
+      padding: 2px 8px; border-radius: 6px; font-weight: 700; font-size: 10px;
     }
-    .source-x { background: rgba(29,161,242,0.15); color: #1da1f2; }
-    .source-github { background: rgba(110,84,148,0.15); color: #a78bfa; }
-    .source-hn { background: rgba(255,102,0,0.15); color: #ff6600; }
-    .feed-title { font-size: 13px; line-height: 1.4; }
+    .source-x { background: #dbeafe; color: #2563eb; }
+    .source-github { background: #ede9fe; color: #7c3aed; }
+    .source-hn { background: #ffedd5; color: #ea580c; }
+    .source-release { background: #d1fae5; color: #059669; }
+    .feed-title { font-size: 13px; line-height: 1.5; font-weight: 500; }
     .feed-title a { color: var(--text); text-decoration: none; }
-    .feed-engagement { color: var(--accent-warn); font-size: 11px; }
+    .feed-title a:hover { color: var(--purple); }
+    .feed-engagement {
+      font-weight: 700; font-size: 11px;
+    }
+    .engagement-high { color: var(--pink); }
+    .engagement-mid { color: var(--orange); }
+    .engagement-low { color: var(--text-muted); }
 
-    /* Biz metrics */
+    /* ── Biz Metrics ── */
     .biz-grid {
       display: grid;
       grid-template-columns: repeat(2, 1fr);
-      gap: 8px;
+      gap: 10px;
     }
     .biz-item {
-      padding: 12px;
-      background: rgba(255,255,255,0.03);
-      border-radius: 8px;
+      padding: 14px;
+      border-radius: 12px;
       text-align: center;
     }
-    .biz-item .value { font-size: 22px; font-weight: 700; color: var(--accent-biz); }
-    .biz-item .label { font-size: 11px; color: var(--text-muted); margin-top: 2px; }
-    .biz-item.warn .value { color: var(--accent-warn); }
-    .biz-item.danger .value { color: var(--accent-danger); }
+    .biz-item:nth-child(1) { background: linear-gradient(135deg, #fdf2f8, #fce7f3); border: 1px solid #fbcfe8; }
+    .biz-item:nth-child(2) { background: linear-gradient(135deg, #eff6ff, #dbeafe); border: 1px solid #bfdbfe; }
+    .biz-item:nth-child(3) { background: linear-gradient(135deg, #f5f3ff, #ede9fe); border: 1px solid #ddd6fe; }
+    .biz-item:nth-child(4) { background: linear-gradient(135deg, #fefce8, #fef9c3); border: 1px solid #fde68a; }
+    .biz-item .value {
+      font-size: 24px; font-weight: 800;
+      color: var(--text);
+    }
+    .biz-item .label { font-size: 11px; color: var(--text-muted); margin-top: 3px; font-weight: 600; }
+    .biz-item.danger .value { color: var(--red); }
 
-    /* Messages */
+    /* ── Messages ── */
     .msg-row {
       display: flex; justify-content: space-between; align-items: center;
-      padding: 8px 0;
-      border-bottom: 1px solid rgba(255,255,255,0.04);
+      padding: 10px 0;
+      border-bottom: 1px solid #f3f4f6;
     }
     .msg-row:last-child { border-bottom: none; }
-    .msg-label { font-size: 14px; }
+    .msg-label { font-size: 14px; font-weight: 600; }
     .msg-badge {
-      font-size: 13px; font-weight: 700;
-      padding: 2px 10px; border-radius: 12px;
+      font-size: 13px; font-weight: 800;
+      padding: 4px 14px; border-radius: 20px;
     }
-    .msg-badge.alert { background: rgba(255,107,107,0.15); color: var(--accent-danger); }
-    .msg-badge.ok { background: rgba(82,183,136,0.15); color: var(--accent-private); }
+    .msg-badge.alert { background: #fef2f2; color: var(--red); }
+    .msg-badge.ok { background: #f0fdf4; color: var(--green); }
 
-    /* Cash flow */
+    /* ── Cash ── */
     .cash-bar {
-      height: 8px; border-radius: 4px;
-      background: rgba(255,255,255,0.08);
-      margin: 8px 0;
+      height: 10px; border-radius: 5px;
+      background: #f3f4f6;
+      margin: 10px 0;
       overflow: hidden;
     }
-    .cash-bar-fill { height: 100%; border-radius: 4px; transition: width 0.5s; }
-    .cash-info { display: flex; justify-content: space-between; font-size: 12px; color: var(--text-muted); }
-
-    .empty-state { color: var(--text-muted); font-size: 13px; text-align: center; padding: 20px 0; }
-
-    .refresh-btn {
-      position: fixed; bottom: 20px; right: 20px;
-      width: 48px; height: 48px; border-radius: 50%;
-      background: var(--accent-private); border: none;
-      color: white; font-size: 20px; cursor: pointer;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.3);
-      z-index: 100;
+    .cash-bar-fill {
+      height: 100%; border-radius: 5px;
+      transition: width 0.6s ease;
     }
-    .refresh-btn:active { transform: scale(0.9); }
+    .cash-info {
+      display: flex; justify-content: space-between;
+      font-size: 12px; color: var(--text-muted); font-weight: 600;
+    }
+
+    .empty-state {
+      color: var(--text-muted); font-size: 13px;
+      text-align: center; padding: 24px 0;
+      font-weight: 500;
+    }
+
+    /* ── Refresh ── */
+    .refresh-btn {
+      position: fixed; bottom: 24px; right: 20px;
+      width: 52px; height: 52px; border-radius: 16px;
+      background: var(--grad-header);
+      border: none; color: white;
+      font-size: 22px; cursor: pointer;
+      box-shadow: 0 4px 16px rgba(246,211,101,0.4);
+      z-index: 100;
+      transition: transform 0.15s;
+    }
+    .refresh-btn:active { transform: scale(0.9) rotate(180deg); }
+
+    @media (min-width: 600px) {
+      .cards { max-width: 560px; margin: 0 auto; }
+      .section-label { max-width: 560px; margin: 0 auto; padding-left: 0; }
+      .header { text-align: center; }
+      .header .updated { position: static; margin-top: 6px; }
+    }
   </style>
 </head>
 <body>
   <div class="header">
-    <div>
-      <h1>しゅうしゅう Dashboard</h1>
-      <div class="date" id="dateDisplay"></div>
-    </div>
+    <div class="greeting" id="greeting"></div>
+    <div class="date" id="dateDisplay"></div>
     <div class="updated" id="updatedDisplay"></div>
   </div>
 
-  <!-- PRIVATE SECTION -->
   <div class="section-label private">Private</div>
   <div class="cards">
-    <div class="card" id="healthCard">
-      <div class="card-title"><span class="icon">💪</span> 健康データ</div>
+    <div class="card">
+      <div class="card-title"><div class="card-icon icon-health">💪</div> 健康データ</div>
       <div class="health-grid" id="healthGrid"></div>
     </div>
-    <div class="card" id="taskCard">
-      <div class="card-title"><span class="icon">✅</span> 今日のタスク <span id="taskCount" style="color:var(--accent-private)"></span></div>
+    <div class="card">
+      <div class="card-title"><div class="card-icon icon-task">✅</div> 今日のタスク</div>
+      <div class="task-progress">
+        <div class="task-progress-bar"><div class="task-progress-fill" id="taskProgressFill"></div></div>
+        <div class="task-progress-text" id="taskCount"></div>
+      </div>
       <ul class="task-list" id="taskList"></ul>
     </div>
-    <div class="card" id="scheduleCard">
-      <div class="card-title"><span class="icon">📅</span> 今日の予定</div>
+    <div class="card">
+      <div class="card-title"><div class="card-icon icon-schedule">📅</div> 今日の予定</div>
       <div id="scheduleList"><div class="empty-state">データ準備中</div></div>
     </div>
-    <div class="card" id="feedCard">
-      <div class="card-title"><span class="icon">📡</span> リサーチフィード</div>
+    <div class="card">
+      <div class="card-title"><div class="card-icon icon-feed">📡</div> リサーチフィード</div>
       <div id="feedList"></div>
     </div>
   </div>
 
-  <!-- BUSINESS SECTION -->
   <div class="section-label biz">Business</div>
   <div class="cards">
-    <div class="card" id="metricsCard">
-      <div class="card-title"><span class="icon">📊</span> ビジネス指標</div>
+    <div class="card">
+      <div class="card-title"><div class="card-icon icon-biz">📊</div> ビジネス指標</div>
       <div class="biz-grid" id="bizGrid">
         <div class="biz-item"><div class="value" id="salesValue">—</div><div class="label">前日売上</div></div>
         <div class="biz-item"><div class="value" id="subsNew">—</div><div class="label">新規メルマガ登録</div></div>
@@ -234,8 +346,8 @@
         <div class="biz-item"><div class="value" id="cashValue">—</div><div class="label">手元資金</div></div>
       </div>
     </div>
-    <div class="card" id="msgCard">
-      <div class="card-title"><span class="icon">💬</span> 未返信メッセージ</div>
+    <div class="card">
+      <div class="card-title"><div class="card-icon icon-msg">💬</div> 未返信メッセージ</div>
       <div id="msgList">
         <div class="msg-row">
           <span class="msg-label">Chatwork</span>
@@ -247,8 +359,8 @@
         </div>
       </div>
     </div>
-    <div class="card" id="cashCard">
-      <div class="card-title"><span class="icon">💰</span> キャッシュフロー</div>
+    <div class="card">
+      <div class="card-title"><div class="card-icon icon-cash">💰</div> キャッシュフロー</div>
       <div id="cashDetail"></div>
     </div>
   </div>
@@ -257,10 +369,13 @@
 
   <script>
     const BASE = './data/';
-
-    // Date display
     const now = new Date();
+    const hour = now.getHours();
     const days = ['日','月','火','水','木','金','土'];
+
+    // Greeting
+    const greetText = hour < 11 ? 'おはよう!' : hour < 17 ? 'がんばってるね!' : 'おつかれさま!';
+    document.getElementById('greeting').textContent = greetText;
     document.getElementById('dateDisplay').textContent =
       `${now.getFullYear()}/${(now.getMonth()+1).toString().padStart(2,'0')}/${now.getDate().toString().padStart(2,'0')}（${days[now.getDay()]}）`;
 
@@ -272,149 +387,111 @@
       } catch { return null; }
     }
 
-    // ── Health ──
     async function loadHealth() {
       const grid = document.getElementById('healthGrid');
       const [weights, sleep, healthLog] = await Promise.all([
-        fetchJSON('weights.json'),
-        fetchJSON('sleep.json'),
-        fetchJSON('health-log.json'),
+        fetchJSON('weights.json'), fetchJSON('sleep.json'), fetchJSON('health-log.json'),
       ]);
-
       const items = [];
-
       if (weights && weights.length) {
-        const latest = weights[weights.length - 1];
-        items.push({ value: latest.weight.toFixed(1), label: '体重 kg' });
-        if (latest.bodyFat) items.push({ value: latest.bodyFat.toFixed(1), label: '体脂肪 %' });
+        const l = weights[weights.length - 1];
+        items.push({ value: l.weight.toFixed(1), label: '体重 kg' });
+        if (l.bodyFat) items.push({ value: l.bodyFat.toFixed(1), label: '体脂肪 %' });
       }
-
       if (sleep && sleep.length) {
-        const latest = sleep[sleep.length - 1];
-        if (latest.totalHours) items.push({ value: latest.totalHours.toFixed(1), label: '睡眠 h' });
+        const l = sleep[sleep.length - 1];
+        if (l.totalHours) items.push({ value: l.totalHours.toFixed(1), label: '睡眠 h' });
       }
-
       if (healthLog && healthLog.length) {
-        const latest = healthLog[healthLog.length - 1];
-        if (latest.steps) items.push({ value: latest.steps.toLocaleString(), label: '歩数' });
-        if (latest.rhr) items.push({ value: latest.rhr, label: '安静心拍' });
-        if (latest.water) items.push({ value: latest.water.toFixed(1), label: '水分 L' });
+        const l = healthLog[healthLog.length - 1];
+        if (l.steps) items.push({ value: l.steps.toLocaleString(), label: '歩数' });
+        if (l.rhr) items.push({ value: l.rhr, label: '安静心拍' });
+        if (l.water) items.push({ value: l.water.toFixed(1), label: '水分 L' });
       }
-
       if (!items.length) { grid.innerHTML = '<div class="empty-state">データなし</div>'; return; }
-      grid.style.gridTemplateColumns = `repeat(${Math.min(items.length, 4)}, 1fr)`;
+      grid.style.gridTemplateColumns = `repeat(${Math.min(items.length, 3)}, 1fr)`;
       grid.innerHTML = items.map(i => `
-        <div class="health-item">
-          <div class="value">${i.value}</div>
-          <div class="label">${i.label}</div>
-        </div>
+        <div class="health-item"><div class="value">${i.value}</div><div class="label">${i.label}</div></div>
       `).join('');
     }
 
-    // ── Tasks ──
     async function loadTasks() {
       const data = await fetchJSON('daily-tasks.json');
       const list = document.getElementById('taskList');
       const count = document.getElementById('taskCount');
+      const fill = document.getElementById('taskProgressFill');
       if (!data || !data.tasks) { list.innerHTML = '<div class="empty-state">タスクなし</div>'; return; }
-
       const tasks = data.tasks;
       const done = tasks.filter(t => t.done).length;
+      const pct = Math.round((done / tasks.length) * 100);
       count.textContent = `${done}/${tasks.length}`;
-
+      fill.style.width = pct + '%';
       list.innerHTML = tasks.map(t => {
-        const slotClass = t.slot === 'morning' ? 'slot-morning' : t.slot === 'daytime' ? 'slot-daytime' : 'slot-evening';
-        const slotLabel = t.slot === 'morning' ? '朝' : t.slot === 'daytime' ? '日中' : '夜';
-        return `
-          <li class="task-item">
-            <span class="task-check ${t.done ? 'done' : 'pending'}">${t.done ? '✓' : '○'}</span>
-            <span class="task-slot ${slotClass}">${slotLabel}</span>
-            <span class="task-label ${t.done ? 'done' : ''}">${t.label}</span>
-          </li>
-        `;
+        const sc = t.slot === 'morning' ? 'slot-morning' : t.slot === 'daytime' ? 'slot-daytime' : 'slot-evening';
+        const sl = t.slot === 'morning' ? '朝' : t.slot === 'daytime' ? '日中' : '夜';
+        return `<li class="task-item">
+          <span class="task-check ${t.done?'done':'pending'}">${t.done?'✓':''}</span>
+          <span class="task-slot ${sc}">${sl}</span>
+          <span class="task-label ${t.done?'done':''}">${t.label}</span>
+        </li>`;
       }).join('');
     }
 
-    // ── Research Feed ──
     async function loadFeed() {
       const data = await fetchJSON('cc-daily-feed.json');
-      const container = document.getElementById('feedList');
-      if (!data || !data.items) { container.innerHTML = '<div class="empty-state">フィードなし</div>'; return; }
-
-      // Merge all items, sort by engagement
+      const el = document.getElementById('feedList');
+      if (!data || !data.items) { el.innerHTML = '<div class="empty-state">フィードなし</div>'; return; }
       const all = [];
-
       (data.items.x || []).forEach(i => all.push({
-        source: 'X', sourceClass: 'source-x',
-        title: i.title, url: i.url,
-        engagement: `♥${i.likes}`, sortVal: i.likes,
-        author: '@' + i.author,
+        source: 'X', sc: 'source-x', title: i.title, url: i.url,
+        eng: `♥${i.likes}`, val: i.likes, author: '@'+i.author,
       }));
-
       (data.items.github || []).filter(i => i.type === 'release').forEach(i => all.push({
-        source: 'GitHub', sourceClass: 'source-github',
-        title: `${i.repo} ${i.title}`, url: i.url,
-        engagement: 'Release', sortVal: 1000,
-        author: i.repo,
+        source: 'Release', sc: 'source-release', title: `${i.repo} ${i.title}`, url: i.url,
+        eng: 'NEW', val: 1000, author: '',
       }));
-
       (data.items.hackernews || []).filter(i => i.points >= 5).forEach(i => all.push({
-        source: 'HN', sourceClass: 'source-hn',
-        title: i.title, url: i.url,
-        engagement: `${i.points}pt`, sortVal: i.points,
-        author: '',
+        source: 'HN', sc: 'source-hn', title: i.title, url: i.url,
+        eng: `${i.points}pt`, val: i.points, author: '',
       }));
-
-      all.sort((a, b) => b.sortVal - a.sortVal);
-
-      if (!all.length) { container.innerHTML = '<div class="empty-state">注目アイテムなし</div>'; return; }
-
-      container.innerHTML = all.slice(0, 10).map(i => `
-        <div class="feed-item">
+      all.sort((a, b) => b.val - a.val);
+      if (!all.length) { el.innerHTML = '<div class="empty-state">注目アイテムなし</div>'; return; }
+      el.innerHTML = all.slice(0, 8).map(i => {
+        const ec = i.val >= 100 ? 'engagement-high' : i.val >= 20 ? 'engagement-mid' : 'engagement-low';
+        return `<div class="feed-item">
           <div class="feed-meta">
-            <span class="feed-source ${i.sourceClass}">${i.source}</span>
-            <span class="feed-engagement">${i.engagement}</span>
-            ${i.author ? '<span>' + i.author + '</span>' : ''}
+            <span class="feed-source ${i.sc}">${i.source}</span>
+            <span class="feed-engagement ${ec}">${i.eng}</span>
+            ${i.author ? '<span>'+i.author+'</span>' : ''}
           </div>
-          <div class="feed-title"><a href="${i.url}" target="_blank">${i.title.slice(0, 100)}</a></div>
-        </div>
-      `).join('');
+          <div class="feed-title"><a href="${i.url}" target="_blank">${i.title.slice(0,100)}</a></div>
+        </div>`;
+      }).join('');
     }
 
-    // ── Cash Flow ──
     async function loadCash() {
       const data = await fetchJSON('finance.json');
       if (!data) return;
-
       const cashEl = document.getElementById('cashValue');
       const detail = document.getElementById('cashDetail');
-
       if (data.cashOnHand != null) {
         cashEl.textContent = `¥${data.cashOnHand.toFixed(0)}万`;
-        const parent = cashEl.closest('.biz-item');
-        if (data.cashOnHand < data.safetyLine) parent.classList.add('danger');
+        if (data.cashOnHand < data.safetyLine) cashEl.closest('.biz-item').classList.add('danger');
       }
-
       const pct = data.safetyLine ? Math.min(100, (data.cashOnHand / data.safetyLine) * 100) : 0;
-      const barColor = pct >= 100 ? 'var(--accent-private)' : pct >= 70 ? 'var(--accent-warn)' : 'var(--accent-danger)';
-
+      const col = pct >= 100 ? 'var(--green)' : pct >= 70 ? 'var(--orange)' : 'var(--red)';
       detail.innerHTML = `
-        <div class="cash-bar"><div class="cash-bar-fill" style="width:${pct}%;background:${barColor}"></div></div>
-        <div class="cash-info">
-          <span>手元 ¥${(data.cashOnHand || 0).toFixed(1)}万</span>
-          <span>安全ライン ¥${(data.safetyLine || 0)}万</span>
-        </div>
+        <div class="cash-bar"><div class="cash-bar-fill" style="width:${pct}%;background:${col}"></div></div>
+        <div class="cash-info"><span>手元 ¥${(data.cashOnHand||0).toFixed(1)}万</span><span>安全ライン ¥${(data.safetyLine||0)}万</span></div>
       `;
     }
 
-    // ── Load All ──
     async function loadAll() {
       document.getElementById('updatedDisplay').textContent = '更新中...';
       await Promise.all([loadHealth(), loadTasks(), loadFeed(), loadCash()]);
       document.getElementById('updatedDisplay').textContent =
-        '最終更新 ' + new Date().toLocaleTimeString('ja-JP', { hour: '2-digit', minute: '2-digit' });
+        '最終更新 ' + new Date().toLocaleTimeString('ja-JP', {hour:'2-digit',minute:'2-digit'});
     }
-
     loadAll();
   </script>
 </body>
