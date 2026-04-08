@@ -127,7 +127,7 @@
       "slot": "daytime",
       "priority": 10,
       "minutes": 30,
-      "done": false,
+      "done": true,
       "tag": null,
       "type": "task-private"
     },
