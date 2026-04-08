@@ -861,36 +861,25 @@
     }
 
     async function loadFeed() {
-      const data = await fetchJSON('cc-daily-feed.json');
+      const data = await fetchJSON('cc-daily-curated.json');
       const el = document.getElementById('feedList');
-      if (!data || !data.items) { el.innerHTML = '<div class="empty-state">フィードなし</div>'; return; }
-      const all = [];
-      (data.items.x || []).filter(i => !i.title.startsWith('@')).forEach(i => {
+      if (!data || !data.items || !data.items.length) {
+        el.innerHTML = '<div class="empty-state">注目アイテムなし</div>';
+        return;
+      }
+      el.innerHTML = data.items.map(i => {
         const total = (i.likes || 0) + (i.retweets || 0);
-        all.push({
-          source: 'X', sc: 'source-x', title: i.title, url: i.url,
-          eng: `♥${i.likes} 🔁${i.retweets}`, val: total, author: '@'+i.author,
-        });
-      });
-      (data.items.github || []).filter(i => i.type === 'release').forEach(i => all.push({
-        source: 'Release', sc: 'source-release', title: `${i.repo} ${i.title}`, url: i.url,
-        eng: 'NEW', val: 1000, author: '',
-      }));
-      (data.items.hackernews || []).filter(i => i.points >= 5).forEach(i => all.push({
-        source: 'HN', sc: 'source-hn', title: i.title, url: i.url,
-        eng: `${i.points}pt`, val: i.points, author: '',
-      }));
-      all.sort((a, b) => b.val - a.val);
-      if (!all.length) { el.innerHTML = '<div class="empty-state">注目アイテムなし</div>'; return; }
-      el.innerHTML = all.slice(0, 8).map(i => {
-        const ec = i.val >= 100 ? 'engagement-high' : i.val >= 20 ? 'engagement-mid' : 'engagement-low';
+        const ec = total >= 100 ? 'engagement-high' : total >= 20 ? 'engagement-mid' : 'engagement-low';
+        const eng = i.source === 'X' ? `♥${i.likes||0} 🔁${i.retweets||0}` : 'NEW';
+        const sc = i.source === 'X' ? 'source-x' : 'source-release';
         return `<div class="feed-item">
           <div class="feed-meta">
-            <span class="feed-source ${i.sc}">${i.source}</span>
-            <span class="feed-engagement ${ec}">${i.eng}</span>
+            <span class="feed-source ${sc}">${i.source}</span>
+            <span class="feed-engagement ${ec}">${eng}</span>
             ${i.author ? '<span>'+i.author+'</span>' : ''}
+            ${i.actionable ? '<span style="color:var(--green);font-weight:700;font-size:10px">実装候補</span>' : ''}
           </div>
-          <div class="feed-title"><a href="${i.url}" target="_blank">${i.title.slice(0,100)}</a></div>
+          <div class="feed-title"><a href="${i.url}" target="_blank">${i.title}</a></div>
         </div>`;
       }).join('');
     }
