@@ -317,7 +317,7 @@
       "slot": "evening",
       "priority": 70,
       "minutes": 30,
-      "done": false,
+      "done": true,
       "tag": null,
       "type": "habit"
     },
