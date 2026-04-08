@@ -406,6 +406,12 @@
       <div class="col-header private">Private</div>
       <div class="cards">
         <div class="card">
+          <div class="card-title"><div class="card-icon icon-health">💪</div> コンディション</div>
+          <div class="condition-row" id="conditionRow"></div>
+          <div class="action-guide" id="actionGuide"></div>
+          <div class="health-grid" id="healthGrid"></div>
+        </div>
+        <div class="card">
           <div class="card-title"><div class="card-icon icon-schedule">📅</div> 今日の予定</div>
           <div id="scheduleList"><div class="empty-state">データ準備中</div></div>
         </div>
@@ -419,26 +425,12 @@
             <ul class="task-list" id="habitList"></ul>
           </div>
         </div>
-        <div class="card">
-          <div class="card-title"><div class="card-icon icon-health">💪</div> コンディション</div>
-          <div class="condition-row" id="conditionRow"></div>
-          <div class="action-guide" id="actionGuide"></div>
-          <div class="health-grid" id="healthGrid"></div>
-        </div>
       </div>
     </div>
     <!-- RIGHT: Business -->
     <div>
       <div class="col-header biz">Business</div>
       <div class="cards">
-        <div class="card">
-          <div class="card-title"><div class="card-icon icon-feed">📡</div> リサーチフィード</div>
-          <div id="feedList"></div>
-        </div>
-        <div class="card">
-          <div class="card-title"><div class="card-icon icon-task">🎯</div> 今日のタスク</div>
-          <ul class="task-list" id="taskList"></ul>
-        </div>
         <div class="card">
           <div class="card-title"><div class="card-icon icon-biz">📊</div> ビジネス指標</div>
           <div class="biz-grid" id="bizGrid">
@@ -460,6 +452,14 @@
               <span class="msg-badge ok" id="gmBadge">—</span>
             </div>
           </div>
+        </div>
+        <div class="card">
+          <div class="card-title"><div class="card-icon icon-task">🎯</div> 今日のタスク</div>
+          <ul class="task-list" id="taskList"></ul>
+        </div>
+        <div class="card">
+          <div class="card-title"><div class="card-icon icon-feed">📡</div> リサーチフィード</div>
+          <div id="feedList"></div>
         </div>
       </div>
     </div>
