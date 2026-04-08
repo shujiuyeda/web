@@ -1,14 +1,17 @@
 {
   "date": "2026-04-08",
   "sales": {
-    "yesterday": 0,
-    "lastDate": "2026-03-12",
-    "lastAmount": 154000,
-    "mtd": 0
+    "mtd": 0,
+    "monthly": {
+      "2026-01": 29937,
+      "2026-02": 209790,
+      "2026-03": 1635489,
+      "2026-04": 0
+    },
+    "target": 1000000
   },
   "newsletter": {
     "newToday": null,
     "total": null
-  },
-  "cashOnHand": 72.31
+  }
 }

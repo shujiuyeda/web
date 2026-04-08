@@ -742,24 +742,40 @@
       const data = await fetchJSON('biz-metrics.json');
       if (!data) return;
 
-      const SALES_TARGET = 1000000;
-
-      // Sales progress
       const salesEl = document.getElementById('salesProgress');
       if (data.sales) {
-        const mtd = data.sales.mtd || 0;
-        const pct = Math.min(100, Math.round((mtd / SALES_TARGET) * 100));
-        const col = pct >= 100 ? 'var(--green)' : pct >= 50 ? 'var(--orange)' : 'var(--red)';
-        const mtdStr = mtd >= 10000 ? `¥${(mtd/10000).toFixed(1)}万` : `¥${mtd.toLocaleString()}`;
+        const target = data.sales.target || 1000000;
+        const monthly = data.sales.monthly || {};
+        const months = Object.keys(monthly).sort();
+        const maxVal = Math.max(target, ...Object.values(monthly));
+
+        let barsHtml = months.map(m => {
+          const val = monthly[m];
+          const pct = maxVal ? Math.round((val / maxVal) * 100) : 0;
+          const col = val >= target ? 'var(--green)' : val >= target * 0.5 ? 'var(--orange)' : 'var(--purple)';
+          const label = m.split('-')[1] + '月';
+          const valStr = val >= 10000 ? `${(val/10000).toFixed(1)}万` : `¥${val.toLocaleString()}`;
+          return `<div style="text-align:center;flex:1">
+            <div style="height:80px;display:flex;align-items:flex-end;justify-content:center">
+              <div style="width:100%;max-width:32px;height:${Math.max(pct, 3)}%;background:${col};border-radius:6px 6px 0 0;transition:height 0.5s"></div>
+            </div>
+            <div style="font-size:10px;font-weight:700;color:var(--text-muted);margin-top:4px">${label}</div>
+            <div style="font-size:10px;font-weight:800;color:${col}">${valStr}</div>
+          </div>`;
+        }).join('');
+
+        // Target line
+        const targetPct = maxVal ? Math.round((target / maxVal) * 100) : 0;
+
         salesEl.innerHTML = `
-          <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:6px">
-            <span style="font-size:22px;font-weight:800;color:${col}">${mtdStr}</span>
-            <span style="font-size:12px;color:var(--text-muted);font-weight:600">/ ¥100万（${pct}%）</span>
+          <div style="position:relative">
+            <div style="display:flex;gap:4px;align-items:flex-end">${barsHtml}</div>
+            <div style="position:absolute;left:0;right:0;bottom:${targetPct * 0.8 + 20}px;border-top:2px dashed var(--red);opacity:0.4"></div>
           </div>
-          <div style="height:10px;border-radius:5px;background:#f3f4f6;overflow:hidden">
-            <div style="height:100%;width:${pct}%;border-radius:5px;background:${col};transition:width 0.5s"></div>
+          <div style="font-size:11px;color:var(--text-muted);margin-top:6px;display:flex;justify-content:space-between">
+            <span>2026年 月別売上</span>
+            <span style="color:var(--red)">目標 ¥100万/月</span>
           </div>
-          <div style="font-size:11px;color:var(--text-muted);margin-top:4px;font-weight:500">月間売上</div>
         `;
       }
 
