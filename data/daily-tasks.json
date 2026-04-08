@@ -123,7 +123,7 @@
     },
     {
       "id": "dt13",
-      "label": "9/17 出会い屋の宿泊を確認する",
+      "label": "9/17 出羽屋の宿泊を確認する",
       "slot": "daytime",
       "priority": 10,
       "minutes": 30,
