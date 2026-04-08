@@ -116,6 +116,25 @@
     .icon-msg { background: linear-gradient(135deg, #06b6d4, #22d3ee); }
     .icon-cash { background: linear-gradient(135deg, #f59e0b, #fbbf24); }
     .icon-habit { background: linear-gradient(135deg, #94a3b8, #cbd5e1); }
+    .icon-kpi { background: linear-gradient(135deg, #f59e0b, #ef4444); }
+
+    /* ── Life KPI ── */
+    .kpi-row {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 8px;
+    }
+    .kpi-item {
+      text-align: center;
+      padding: 10px 4px;
+      border-radius: 12px;
+    }
+    .kpi-item .kpi-icon { font-size: 20px; margin-bottom: 4px; }
+    .kpi-item .kpi-label { font-size: 10px; color: var(--text-muted); font-weight: 600; }
+    .kpi-item.done { background: linear-gradient(135deg, #f0fdf4, #dcfce7); border: 1px solid #bbf7d0; }
+    .kpi-item.done .kpi-icon { filter: none; }
+    .kpi-item.not-done { background: #f9fafb; border: 1px solid #e5e7eb; }
+    .kpi-item.not-done .kpi-icon { opacity: 0.3; }
 
     /* ── Condition ── */
     .condition-row {
@@ -409,6 +428,10 @@
           <div class="health-grid" id="healthGrid"></div>
         </div>
         <div class="card">
+          <div class="card-title"><div class="card-icon icon-kpi">🌟</div> 人生を味わえてるか</div>
+          <div class="kpi-row" id="kpiRow"></div>
+        </div>
+        <div class="card">
           <div class="card-title"><div class="card-icon icon-schedule">📅</div> 今日の予定</div>
           <div id="scheduleList"><div class="empty-state">データ準備中</div></div>
         </div>
@@ -684,6 +707,29 @@
       `;
     }
 
+    async function loadKPI() {
+      const healthLog = await fetchJSON('health-log.json');
+      const el = document.getElementById('kpiRow');
+      const today = now.toISOString().slice(0, 10);
+      const entry = healthLog ? healthLog[today] : null;
+
+      // Body condition from condition card (reuse bodyScore computed in loadHealth)
+      // For KPI we read energy as proxy for body condition
+      const kpis = [
+        { icon: '💪', label: '体調', key: 'energy', done: entry?.energy != null && entry.energy >= 3 },
+        { icon: '🌿', label: '余白', key: 'margin', done: entry?.lifeKpi?.margin === true },
+        { icon: '✍️', label: 'アウトプット', key: 'output', done: entry?.lifeKpi?.output === true },
+        { icon: '💕', label: 'つながり', key: 'connection', done: entry?.lifeKpi?.connection === true },
+      ];
+
+      el.innerHTML = kpis.map(k => `
+        <div class="kpi-item ${k.done ? 'done' : 'not-done'}">
+          <div class="kpi-icon">${k.icon}</div>
+          <div class="kpi-label">${k.label}</div>
+        </div>
+      `).join('');
+    }
+
     async function loadSchedule() {
       const data = await fetchJSON('calendar-today.json');
       const el = document.getElementById('scheduleList');
@@ -759,7 +805,7 @@
 
     async function loadAll() {
       document.getElementById('updatedDisplay').textContent = '更新中...';
-      await Promise.all([loadHealth(), loadTasks(), loadFeed(), loadSchedule()]);
+      await Promise.all([loadHealth(), loadTasks(), loadFeed(), loadSchedule(), loadKPI()]);
       document.getElementById('updatedDisplay').textContent =
         '最終更新 ' + new Date().toLocaleTimeString('ja-JP', {hour:'2-digit',minute:'2-digit'});
     }
