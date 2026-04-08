@@ -747,6 +747,8 @@
         const target = data.sales.target || 1000000;
         const monthly = data.sales.monthly || {};
         const months = Object.keys(monthly).sort();
+        const ytd = Object.values(monthly).reduce((s, v) => s + v, 0);
+        const ytdStr = ytd >= 10000 ? `¥${(ytd/10000).toFixed(1)}万` : `¥${ytd.toLocaleString()}`;
         const maxVal = Math.max(target, ...Object.values(monthly));
 
         let barsHtml = months.map(m => {
@@ -772,9 +774,13 @@
             <div style="display:flex;gap:4px;align-items:flex-end">${barsHtml}</div>
             <div style="position:absolute;left:0;right:0;bottom:${targetPct * 0.8 + 20}px;border-top:2px dashed var(--red);opacity:0.4"></div>
           </div>
-          <div style="font-size:11px;color:var(--text-muted);margin-top:6px;display:flex;justify-content:space-between">
+          <div style="font-size:11px;color:var(--text-muted);margin-top:6px;display:flex;justify-content:space-between;align-items:baseline">
             <span>2026年 月別売上</span>
             <span style="color:var(--red)">目標 ¥100万/月</span>
+          </div>
+          <div style="margin-top:10px;padding:10px 12px;background:linear-gradient(135deg,#f5f3ff,#ede9fe);border-radius:10px;border:1px solid #ddd6fe;display:flex;justify-content:space-between;align-items:baseline">
+            <span style="font-size:12px;font-weight:700;color:var(--text-muted)">年間累計</span>
+            <span style="font-size:20px;font-weight:800;color:var(--purple)">${ytdStr}</span>
           </div>
         `;
       }
