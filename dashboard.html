@@ -306,7 +306,7 @@
 </head>
 <body>
   <div class="header">
-    <div class="greeting" id="greeting"></div>
+    <h1>しゅうしゅう Dashboard</h1>
     <div class="date" id="dateDisplay"></div>
     <div class="updated" id="updatedDisplay"></div>
   </div>
@@ -373,9 +373,6 @@
     const hour = now.getHours();
     const days = ['日','月','火','水','木','金','土'];
 
-    // Greeting
-    const greetText = hour < 11 ? 'おはよう!' : hour < 17 ? 'がんばってるね!' : 'おつかれさま!';
-    document.getElementById('greeting').textContent = greetText;
     document.getElementById('dateDisplay').textContent =
       `${now.getFullYear()}/${(now.getMonth()+1).toString().padStart(2,'0')}/${now.getDate().toString().padStart(2,'0')}（${days[now.getDay()]}）`;
 
