@@ -483,6 +483,10 @@
           <div class="card-title"><div class="card-icon icon-feed">📡</div> リサーチフィード</div>
           <div id="feedList"></div>
         </div>
+        <div class="card">
+          <div class="card-title"><div class="card-icon icon-schedule">🔖</div> Xブックマーク</div>
+          <div id="bookmarkList"></div>
+        </div>
       </div>
     </div>
   </div>
@@ -842,6 +846,23 @@
       renderAllTasks();
     }
 
+    async function loadBookmarks() {
+      const data = await fetchJSON('x-bookmarks.json');
+      const el = document.getElementById('bookmarkList');
+      if (!data || !data.items || !data.items.length) {
+        el.innerHTML = '<div class="empty-state">ブックマークなし</div>';
+        return;
+      }
+      el.innerHTML = data.items.map(i => `<div class="feed-item">
+        <div class="feed-meta">
+          <span class="feed-source source-x">X</span>
+          <span class="feed-engagement engagement-mid">♥${i.likes} 🔖${i.bookmarks}</span>
+          <span>${i.author}</span>
+        </div>
+        <div class="feed-title"><a href="${i.url}" target="_blank">${i.text.slice(0, 100)}</a></div>
+      </div>`).join('');
+    }
+
     async function loadFeed() {
       const data = await fetchJSON('cc-daily-curated.json');
       const el = document.getElementById('feedList');
@@ -1056,7 +1077,7 @@
 
     async function loadAll() {
       document.getElementById('updatedDisplay').textContent = '更新中...';
-      await Promise.all([loadHealth(), loadTasks(), loadFeed(), loadSchedule(), loadKPI(), loadBizMetrics(), loadMessages()]);
+      await Promise.all([loadHealth(), loadTasks(), loadFeed(), loadSchedule(), loadKPI(), loadBizMetrics(), loadMessages(), loadBookmarks()]);
       document.getElementById('updatedDisplay').textContent =
         '最終更新 ' + new Date().toLocaleTimeString('ja-JP', {hour:'2-digit',minute:'2-digit'});
     }
