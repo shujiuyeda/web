@@ -5,16 +5,16 @@
     "mention": 0,
     "items": [],
     "tasks": [
-      { "body": "LINEでプロモマスターの自動販売構築する", "room": "LINEでMA", "url": "https://www.chatwork.com/#!rid" },
-      { "body": "基本お願い料金 今回のプロジェクト依頼30万円", "room": "マツダミヒロ", "url": "https://www.chatwork.com/#!rid" },
-      { "body": "今後やったほうがいいと思うこと", "room": "SNS2022 カンファレンス", "url": "https://www.chatwork.com/#!rid" },
-      { "body": "HubSpotフォーム オプトイン設定", "room": "日常プロモ構築", "url": "https://www.chatwork.com/#!rid" },
-      { "body": "余白の件", "room": "日常プロモ構築", "url": "https://www.chatwork.com/#!rid" },
-      { "body": "日常プロモ構築の件", "room": "日常プロモ構築", "url": "https://www.chatwork.com/#!rid" },
-      { "body": "LINEプロモーション オンラインスクール対応", "room": "LINEプロモーション", "url": "https://www.chatwork.com/#!rid" },
-      { "body": "銀行振込の人に送るメールの自動設定化", "room": "LINEプロモーション", "url": "https://www.chatwork.com/#!rid" },
-      { "body": "プロモブラッシュアップの件", "room": "プロモブラッシュアップ", "url": "https://www.chatwork.com/#!rid" },
-      { "body": "メルマガタグ設定（永松茂久さん講座）", "room": "永松茂久さんオンライン講座", "url": "https://www.chatwork.com/#!rid" }
+      { "body": "広告回し始め→相談会に来ない件", "room": "MQ全員：業務連絡用", "url": "https://www.chatwork.com/#!rid" },
+      { "body": "ウェビナー特典の音声が聴けない問い合わせ", "room": "MQ全員：業務連絡用", "url": "https://www.chatwork.com/#!rid" },
+      { "body": "ウェビナー申込リンクが視聴予約ページになる件", "room": "MQ全員：業務連絡用", "url": "https://www.chatwork.com/#!rid" },
+      { "body": "やのうさんプロジェクト確認", "room": "やのうさんプロジェクト", "url": "https://www.chatwork.com/#!rid" },
+      { "body": "nanobananaでデザイン作成の件", "room": "AIを革新的活用しようチャット", "url": "https://www.chatwork.com/#!rid" },
+      { "body": "Claude Code活用のやり方共有", "room": "ClaudeCode活用", "url": "https://www.chatwork.com/#!rid" },
+      { "body": "Claude Code活用の件", "room": "ClaudeCode活用", "url": "https://www.chatwork.com/#!rid" },
+      { "body": "ライティングスキル（Claude Code）作成依頼", "room": "ClaudeCode活用", "url": "https://www.chatwork.com/#!rid" },
+      { "body": "音声入力ツール voiceos.com の共有", "room": "AIを革新的活用しようチャット", "url": "https://www.chatwork.com/#!rid" },
+      { "body": "The Vibrationの件", "room": "The Vibration", "url": "https://www.chatwork.com/#!rid" }
     ]
   },
   "gmail": {
