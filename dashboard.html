@@ -865,10 +865,13 @@
       const el = document.getElementById('feedList');
       if (!data || !data.items) { el.innerHTML = '<div class="empty-state">フィードなし</div>'; return; }
       const all = [];
-      (data.items.x || []).forEach(i => all.push({
-        source: 'X', sc: 'source-x', title: i.title, url: i.url,
-        eng: `♥${i.likes}`, val: i.likes, author: '@'+i.author,
-      }));
+      (data.items.x || []).filter(i => !i.title.startsWith('@')).forEach(i => {
+        const total = (i.likes || 0) + (i.retweets || 0);
+        all.push({
+          source: 'X', sc: 'source-x', title: i.title, url: i.url,
+          eng: `♥${i.likes} 🔁${i.retweets}`, val: total, author: '@'+i.author,
+        });
+      });
       (data.items.github || []).filter(i => i.type === 'release').forEach(i => all.push({
         source: 'Release', sc: 'source-release', title: `${i.repo} ${i.title}`, url: i.url,
         eng: 'NEW', val: 1000, author: '',
