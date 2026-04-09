@@ -1,17 +1,524 @@
 {
-  "generated": "2026-04-08T21:08:24.182Z",
+  "generated": "2026-04-09T21:03:04.436Z",
   "period_hours": 28,
   "summary": {
-    "github": 0,
+    "github": 22,
     "reddit": 0,
-    "hackernews": 0,
-    "x": 0,
-    "total": 0
+    "hackernews": 15,
+    "x": 13,
+    "total": 50
   },
   "items": {
-    "github": [],
+    "github": [
+      {
+        "source": "github",
+        "type": "release",
+        "repo": "anthropics/claude-code",
+        "title": "v2.1.98",
+        "url": "https://github.com/anthropics/claude-code/releases/tag/v2.1.98",
+        "date": "2026-04-09T19:18:28Z",
+        "body": "## What's changed\n\n- Added interactive Google Vertex AI setup wizard accessible from the login screen when selecting \"3rd-party platform\", guiding you through GCP authentication, project and region configuration, credential verification, and model pinning\n- Added `CLAUDE_CODE_PERFORCE_MODE` env var: when set, Edit/Write/NotebookEdit fail on read-only files with a `p4 edit` hint instead of silently overwriting them\n- Added Monitor tool for streaming events from background scripts\n- Added subproce"
+      },
+      {
+        "source": "github",
+        "type": "release",
+        "repo": "anthropics/claude-code",
+        "title": "v2.1.97",
+        "url": "https://github.com/anthropics/claude-code/releases/tag/v2.1.97",
+        "date": "2026-04-08T21:52:34Z",
+        "body": "## What's changed\n\n- Added focus view toggle (`Ctrl+O`) in `NO_FLICKER` mode showing prompt, one-line tool summary with edit diffstats, and final response\n- Added `refreshInterval` status line setting to re-run the status line command every N seconds\n- Added `workspace.git_worktree` to the status line JSON input, set when the current directory is inside a linked git worktree\n- Added `● N running` indicator in `/agents` next to agent types with live subagent instances\n- Added syntax highlighting "
+      },
+      {
+        "source": "github",
+        "type": "issue",
+        "repo": "anthropics/claude-code",
+        "title": "[DOCS] Sandboxing docs missing Linux subprocess isolation and `CLAUDE_CODE_SCRIPT_CAPS`",
+        "url": "https://github.com/anthropics/claude-code/issues/45929",
+        "date": "2026-04-09T21:02:06Z",
+        "reactions": 0,
+        "comments": 0
+      },
+      {
+        "source": "github",
+        "type": "issue",
+        "repo": "anthropics/claude-code",
+        "title": "[DOCS] Tools docs missing Monitor tool for streaming events from background scripts",
+        "url": "https://github.com/anthropics/claude-code/issues/45928",
+        "date": "2026-04-09T21:01:05Z",
+        "reactions": 0,
+        "comments": 0
+      },
+      {
+        "source": "github",
+        "type": "issue",
+        "repo": "anthropics/claude-code",
+        "title": "[DOCS] Perforce docs missing `CLAUDE_CODE_PERFORCE_MODE` and read-only file workflow",
+        "url": "https://github.com/anthropics/claude-code/issues/45927",
+        "date": "2026-04-09T21:00:04Z",
+        "reactions": 0,
+        "comments": 0
+      },
+      {
+        "source": "github",
+        "type": "issue",
+        "repo": "anthropics/claude-code",
+        "title": "[DOCS] Google Vertex AI docs missing interactive setup wizard and login-screen flow",
+        "url": "https://github.com/anthropics/claude-code/issues/45926",
+        "date": "2026-04-09T20:59:01Z",
+        "reactions": 0,
+        "comments": 0
+      },
+      {
+        "source": "github",
+        "type": "issue",
+        "repo": "anthropics/claude-code",
+        "title": "[BUG] Promotional Extra Usage credits show remaining balance but system blocks as if /usr/bin/bash — billing enforcement/display parity",
+        "url": "https://github.com/anthropics/claude-code/issues/45925",
+        "date": "2026-04-09T20:54:32Z",
+        "reactions": 0,
+        "comments": 1
+      },
+      {
+        "source": "github",
+        "type": "issue",
+        "repo": "anthropics/claude-code",
+        "title": "[MODEL]",
+        "url": "https://github.com/anthropics/claude-code/issues/45924",
+        "date": "2026-04-09T20:45:52Z",
+        "reactions": 0,
+        "comments": 0
+      },
+      {
+        "source": "github",
+        "type": "issue",
+        "repo": "anthropics/claude-code",
+        "title": "computer-use MCP: checkAccessibility error on macOS",
+        "url": "https://github.com/anthropics/claude-code/issues/45923",
+        "date": "2026-04-09T20:44:30Z",
+        "reactions": 0,
+        "comments": 1
+      },
+      {
+        "source": "github",
+        "type": "issue",
+        "repo": "anthropics/claude-code",
+        "title": "[BUG] Active Max subscription not recognized — subscriptionType: null, cannot authenticate",
+        "url": "https://github.com/anthropics/claude-code/issues/45922",
+        "date": "2026-04-09T20:42:53Z",
+        "reactions": 0,
+        "comments": 1
+      },
+      {
+        "source": "github",
+        "type": "issue",
+        "repo": "anthropics/claude-code",
+        "title": "[BUG] Claude Desktop VM leaks ~13 GB/hr of kernel memory (NonPaged Pool) via temp file churn",
+        "url": "https://github.com/anthropics/claude-code/issues/45921",
+        "date": "2026-04-09T20:35:17Z",
+        "reactions": 0,
+        "comments": 2
+      },
+      {
+        "source": "github",
+        "type": "issue",
+        "repo": "anthropics/claude-code",
+        "title": "Feature request: Add `agent_depth` (or caller identity) to hook event payload",
+        "url": "https://github.com/anthropics/claude-code/issues/45920",
+        "date": "2026-04-09T20:30:42Z",
+        "reactions": 0,
+        "comments": 1
+      },
+      {
+        "source": "github",
+        "type": "commit",
+        "repo": "hesreallyhim/awesome-claude-code",
+        "title": "chore: update repo ticker data and SVGs [skip ci]",
+        "url": "https://github.com/hesreallyhim/awesome-claude-code/commit/5dbf04c5625b68179b99e3d7fb14a929cd886350",
+        "date": "2026-04-09T18:30:44Z"
+      },
+      {
+        "source": "github",
+        "type": "commit",
+        "repo": "hesreallyhim/awesome-claude-code",
+        "title": "chore: update repo ticker data and SVGs [skip ci]",
+        "url": "https://github.com/hesreallyhim/awesome-claude-code/commit/daad319567370649b8a395d0bc4da3eb05dd1b0d",
+        "date": "2026-04-09T15:41:20Z"
+      },
+      {
+        "source": "github",
+        "type": "commit",
+        "repo": "hesreallyhim/awesome-claude-code",
+        "title": "chore: update repo ticker data and SVGs [skip ci]",
+        "url": "https://github.com/hesreallyhim/awesome-claude-code/commit/a488e2808defed138c92fc60ab75b613c3c9a590",
+        "date": "2026-04-09T12:36:14Z"
+      },
+      {
+        "source": "github",
+        "type": "commit",
+        "repo": "hesreallyhim/awesome-claude-code",
+        "title": "chore: update repo ticker data and SVGs [skip ci]",
+        "url": "https://github.com/hesreallyhim/awesome-claude-code/commit/bfd7c37aa8f32e6352a93fbfad863f09e9913179",
+        "date": "2026-04-09T09:38:27Z"
+      },
+      {
+        "source": "github",
+        "type": "commit",
+        "repo": "hesreallyhim/awesome-claude-code",
+        "title": "chore: update repo ticker data and SVGs [skip ci]",
+        "url": "https://github.com/hesreallyhim/awesome-claude-code/commit/c3c19d0d4b407a774321efcac3950b25726dbd53",
+        "date": "2026-04-09T06:44:28Z"
+      },
+      {
+        "source": "github",
+        "type": "commit",
+        "repo": "affaan-m/everything-claude-code",
+        "title": "feat: add otel export for ecc sessions",
+        "url": "https://github.com/affaan-m/everything-claude-code/commit/0513898b9dab4d088a7c55e26f2814f363695420",
+        "date": "2026-04-09T16:02:39Z"
+      },
+      {
+        "source": "github",
+        "type": "commit",
+        "repo": "affaan-m/everything-claude-code",
+        "title": "feat: add word diff highlighting to tui diffs",
+        "url": "https://github.com/affaan-m/everything-claude-code/commit/2048f0d6f5dbeac428b2c5286d3659d2cecf2259",
+        "date": "2026-04-09T15:55:53Z"
+      },
+      {
+        "source": "github",
+        "type": "commit",
+        "repo": "affaan-m/everything-claude-code",
+        "title": "feat: add diff view modes and hunk navigation",
+        "url": "https://github.com/affaan-m/everything-claude-code/commit/f5437078e1a8ff9597470ff4ef949887800a802c",
+        "date": "2026-04-09T15:41:10Z"
+      },
+      {
+        "source": "github",
+        "type": "commit",
+        "repo": "affaan-m/everything-claude-code",
+        "title": "feat: add worktree retention cleanup policy",
+        "url": "https://github.com/affaan-m/everything-claude-code/commit/13f99cbf1c56ff35473b3cf925752b01458af4d7",
+        "date": "2026-04-09T15:29:21Z"
+      },
+      {
+        "source": "github",
+        "type": "commit",
+        "repo": "affaan-m/everything-claude-code",
+        "title": "feat: enforce queued parallel worktree limits",
+        "url": "https://github.com/affaan-m/everything-claude-code/commit/491f213fbd2fb6fba52faa5854fd4d0e4bc093e1",
+        "date": "2026-04-09T15:23:01Z"
+      }
+    ],
     "reddit": [],
-    "hackernews": [],
-    "x": []
+    "hackernews": [
+      {
+        "source": "hackernews",
+        "type": "story",
+        "title": "The Vercel plugin on Claude Code wants to read your prompts",
+        "url": "https://akshaychugh.xyz/writings/png/vercel-plugin-telemetry",
+        "hn_url": "https://news.ycombinator.com/item?id=47704881",
+        "date": "2026-04-09T15:17:27Z",
+        "points": 247,
+        "comments": 95
+      },
+      {
+        "source": "hackernews",
+        "type": "story",
+        "title": "Reallocating $100/Month Claude Code Spend to Zed and OpenRouter",
+        "url": "https://braw.dev/blog/2026-04-06-reallocating-100-month-claude-spend/",
+        "hn_url": "https://news.ycombinator.com/item?id=47700972",
+        "date": "2026-04-09T08:55:18Z",
+        "points": 245,
+        "comments": 176
+      },
+      {
+        "source": "hackernews",
+        "type": "story",
+        "title": "AMD AI director says Claude Code is becoming dumber and lazier since update",
+        "url": "https://www.theregister.com/2026/04/06/anthropic_claude_code_dumber_lazier_amd_ai_director/",
+        "hn_url": "https://news.ycombinator.com/item?id=47696210",
+        "date": "2026-04-08T21:01:23Z",
+        "points": 50,
+        "comments": 14
+      },
+      {
+        "source": "hackernews",
+        "type": "story",
+        "title": "I Let Claude Code Autonomously Run Ads for a Month",
+        "url": "https://read.technically.dev/p/i-let-claude-code-autonomously-run",
+        "hn_url": "https://news.ycombinator.com/item?id=47706611",
+        "date": "2026-04-09T17:30:41Z",
+        "points": 17,
+        "comments": 3
+      },
+      {
+        "source": "hackernews",
+        "type": "story",
+        "title": "Codex overtakes Claude Code to become #1 AI coding tool (April 2026)",
+        "url": "https://ai-coding.info/en",
+        "hn_url": "https://news.ycombinator.com/item?id=47698249",
+        "date": "2026-04-09T01:20:04Z",
+        "points": 5,
+        "comments": 0
+      },
+      {
+        "source": "hackernews",
+        "type": "story",
+        "title": "Using Claude Code with my ChatGPT subscription instead of paying for both",
+        "url": "https://prabal.ca/posts/claude-code-chatgpt-subscription/",
+        "hn_url": "https://news.ycombinator.com/item?id=47694188",
+        "date": "2026-04-08T18:20:04Z",
+        "points": 5,
+        "comments": 0
+      },
+      {
+        "source": "hackernews",
+        "type": "story",
+        "title": "Claude Code's Local Memory Is a Security Risk, and You Can Verify It Yourself",
+        "url": "https://serendb.com/blog/claude-code-local-memory-security-risk",
+        "hn_url": "https://news.ycombinator.com/item?id=47708277",
+        "date": "2026-04-09T19:09:30Z",
+        "points": 4,
+        "comments": 1
+      },
+      {
+        "source": "hackernews",
+        "type": "story",
+        "title": "66 Tickets, 536 tests, 20k lines – Claude Code, 4 hours, zero magic to prod",
+        "url": "https://widal.substack.com/p/we-shipped-a-66-ticket-architecture",
+        "hn_url": "https://news.ycombinator.com/item?id=47705376",
+        "date": "2026-04-09T16:01:02Z",
+        "points": 4,
+        "comments": 0
+      },
+      {
+        "source": "hackernews",
+        "type": "story",
+        "title": "FlyCrys – Native Linux GUI for Claude Code Agents (Rust and GTK4)",
+        "url": "https://github.com/SergKam/FlyCrys",
+        "hn_url": "https://news.ycombinator.com/item?id=47705375",
+        "date": "2026-04-09T16:00:58Z",
+        "points": 4,
+        "comments": 0
+      },
+      {
+        "source": "hackernews",
+        "type": "story",
+        "title": "I rebuilt Claude Code's removed /buddy companion as a permanent MCP app",
+        "url": "https://github.com/1270011/claude-buddy",
+        "hn_url": "https://news.ycombinator.com/item?id=47699319",
+        "date": "2026-04-09T04:38:33Z",
+        "points": 4,
+        "comments": 0
+      },
+      {
+        "source": "hackernews",
+        "type": "story",
+        "title": "Claude Code's sandbox.denyRead doesn't stop the Read tool",
+        "url": "https://www.claudecodecamp.com/p/claude-code-sandboxing-how-sandbox-works-and-what-it-doesn-t-protect",
+        "hn_url": "https://news.ycombinator.com/item?id=47699054",
+        "date": "2026-04-09T03:44:02Z",
+        "points": 4,
+        "comments": 0
+      },
+      {
+        "source": "hackernews",
+        "type": "story",
+        "title": "Show HN: Spicedb-dev. Claude Code plugin that adds authorization as you build",
+        "url": "https://github.com/authzed/authzed-marketplace/tree/main/spicedb-dev",
+        "hn_url": "https://news.ycombinator.com/item?id=47707352",
+        "date": "2026-04-09T18:15:54Z",
+        "points": 3,
+        "comments": 0
+      },
+      {
+        "source": "hackernews",
+        "type": "story",
+        "title": "Using spec-driven development with Claude Code",
+        "url": "https://heeki.medium.com/using-spec-driven-development-with-claude-code-4a1ebe5d9f29",
+        "hn_url": "https://news.ycombinator.com/item?id=47703039",
+        "date": "2026-04-09T12:48:59Z",
+        "points": 3,
+        "comments": 0
+      },
+      {
+        "source": "hackernews",
+        "type": "story",
+        "title": "Claude Code plugin for LLM research with typed claims and conflict detection",
+        "url": "https://github.com/grainulation/grainulator",
+        "hn_url": "https://news.ycombinator.com/item?id=47698620",
+        "date": "2026-04-09T02:20:36Z",
+        "points": 3,
+        "comments": 0
+      },
+      {
+        "source": "hackernews",
+        "type": "story",
+        "title": "Rakuten accelerates development with Claude Code",
+        "url": "https://claude.com/customers/rakuten",
+        "hn_url": "https://news.ycombinator.com/item?id=47697197",
+        "date": "2026-04-08T22:43:47Z",
+        "points": 3,
+        "comments": 0
+      }
+    ],
+    "x": [
+      {
+        "source": "x",
+        "type": "tweet",
+        "author": "alexalbert__",
+        "author_name": "Alex Albert",
+        "title": "Allowing Sonnet to \"phone a friend\" (i.e. call Opus) increases performance while also reducing total cost since it reduces tokens spent tryi",
+        "url": "https://x.com/alexalbert__/status/2042329150086922574",
+        "date": "2026-04-09T19:49:48.000Z",
+        "likes": 711,
+        "retweets": 15,
+        "replies": 41
+      },
+      {
+        "source": "x",
+        "type": "tweet",
+        "author": "trq212",
+        "author_name": "Thariq",
+        "title": "you'll need to explicitly prompt Claude Code to use it, but the Monitor Tool is super powerful\n\ne.g. \"start my dev server and use the Monito",
+        "url": "https://x.com/trq212/status/2042335178388103559",
+        "date": "2026-04-09T20:13:45.000Z",
+        "likes": 436,
+        "retweets": 16,
+        "replies": 25
+      },
+      {
+        "source": "x",
+        "type": "tweet",
+        "author": "bcherny",
+        "author_name": "Boris Cherny",
+        "title": "Claude Cowork, now generally available! https://t.co/y0gDkmyYRg",
+        "url": "https://x.com/bcherny/status/2042344772153848043",
+        "date": "2026-04-09T20:51:53.000Z",
+        "likes": 127,
+        "retweets": 5,
+        "replies": 15
+      },
+      {
+        "source": "x",
+        "type": "tweet",
+        "author": "bcherny",
+        "author_name": "Boris Cherny",
+        "title": "@peter_szilagyi Forgot to respond. It looks like the person who received the gift has a credit available for them to use (so they can redeem",
+        "url": "https://x.com/bcherny/status/2042336695107133443",
+        "date": "2026-04-09T20:19:47.000Z",
+        "likes": 33,
+        "retweets": 0,
+        "replies": 5
+      },
+      {
+        "source": "x",
+        "type": "tweet",
+        "author": "trq212",
+        "author_name": "Thariq",
+        "title": "@kloss_xyz Yeah, Boris is the best prompter I've ever seen.",
+        "url": "https://x.com/trq212/status/2042325056144228687",
+        "date": "2026-04-09T19:33:32.000Z",
+        "likes": 15,
+        "retweets": 0,
+        "replies": 2
+      },
+      {
+        "source": "x",
+        "type": "tweet",
+        "author": "trq212",
+        "author_name": "Thariq",
+        "title": "@jyothiwrites yeah I dont think of prompting as \"saying the right magic words\", but I think of it as communicating clearly with the agent an",
+        "url": "https://x.com/trq212/status/2042320856404410789",
+        "date": "2026-04-09T19:16:51.000Z",
+        "likes": 15,
+        "retweets": 0,
+        "replies": 3
+      },
+      {
+        "source": "x",
+        "type": "tweet",
+        "author": "sefa_ai",
+        "author_name": "Sefa",
+        "title": "SIFIRDAN VIBE CODING - GÜN 17\n\nHooks, Claude Code’un her hareketine sessizce bağlanan, senin yazdığın otomasyon katmanı.\n\n1. Ne işe yarıyor\n",
+        "url": "https://x.com/sefa_ai/status/2042307474842403213",
+        "date": "2026-04-09T18:23:40.000Z",
+        "likes": 14,
+        "retweets": 0,
+        "replies": 6
+      },
+      {
+        "source": "x",
+        "type": "tweet",
+        "author": "trq212",
+        "author_name": "Thariq",
+        "title": "@wallstsavage80 working on a new account for this",
+        "url": "https://x.com/trq212/status/2042336910581121534",
+        "date": "2026-04-09T20:20:38.000Z",
+        "likes": 14,
+        "retweets": 0,
+        "replies": 4
+      },
+      {
+        "source": "x",
+        "type": "tweet",
+        "author": "trq212",
+        "author_name": "Thariq",
+        "title": "@pdrmnvd im... im not a wordcel",
+        "url": "https://x.com/trq212/status/2042325479202701449",
+        "date": "2026-04-09T19:35:13.000Z",
+        "likes": 11,
+        "retweets": 0,
+        "replies": 2
+      },
+      {
+        "source": "x",
+        "type": "tweet",
+        "author": "swarm_ai_cloud",
+        "author_name": "Dai Motoki",
+        "title": "git worktreeよりクラウドって何かで見たけどさ、\n\nCCA久々に使ったけど全然ダメやし、Claude Codeの並列実装モード、あれgit worktree使ってんねん。\n\n爆速だしローカルの方が良くない。\n\nクラウドは開発用途じゃないやろ。",
+        "url": "https://x.com/swarm_ai_cloud/status/2042205276473020581",
+        "date": "2026-04-09T11:37:34.000Z",
+        "likes": 10,
+        "retweets": 0,
+        "replies": 0
+      },
+      {
+        "source": "x",
+        "type": "tweet",
+        "author": "DeepLearningAI",
+        "author_name": "DeepLearning.AI",
+        "title": "An accidental leak exposed over 500,000 lines of Anthropic’s Claude Code, revealing its agentic structure: modular tools, subagent swarms, a",
+        "url": "https://x.com/DeepLearningAI/status/2042336860773429312",
+        "date": "2026-04-09T20:20:27.000Z",
+        "likes": 8,
+        "retweets": 2,
+        "replies": 0
+      },
+      {
+        "source": "x",
+        "type": "tweet",
+        "author": "trq212",
+        "author_name": "Thariq",
+        "title": "@seconds_0 @pdrmnvd 🫥",
+        "url": "https://x.com/trq212/status/2042327852901925120",
+        "date": "2026-04-09T19:44:39.000Z",
+        "likes": 2,
+        "retweets": 0,
+        "replies": 0
+      },
+      {
+        "source": "x",
+        "type": "tweet",
+        "author": "trq212",
+        "author_name": "Thariq",
+        "title": "@jamesparsloe yeah I think some of it is modeling how the agent/model itself works and is capable of",
+        "url": "https://x.com/trq212/status/2042324234333274196",
+        "date": "2026-04-09T19:30:16.000Z",
+        "likes": 0,
+        "retweets": 0,
+        "replies": 1
+      }
+    ]
   }
 }
