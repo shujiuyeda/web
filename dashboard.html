@@ -780,14 +780,22 @@
       const items = [];
       if (todayRhr != null) items.push({ value: todayRhr, label: '安静心拍 bpm' });
       if (todayHrv != null) items.push({ value: todayHrv.toFixed(0), label: 'HRV ms' });
-      if (sleep && sleep.length) {
-        const l = sleep[sleep.length - 1];
-        if (l.totalHours) items.push({ value: l.totalHours.toFixed(1), label: '睡眠 h' });
+      if (sleep && typeof sleep === 'object') {
+        const dates = Object.keys(sleep).sort();
+        if (dates.length) {
+          const l = sleep[dates[dates.length - 1]];
+          if (l.total) items.push({ value: l.total.toFixed(1), label: '睡眠 h' });
+        }
       }
-      if (weights && weights.length) {
-        const l = weights[weights.length - 1];
-        items.push({ value: l.weight.toFixed(1), label: '体重 kg' });
-        if (l.bodyFat) items.push({ value: l.bodyFat.toFixed(1), label: '体脂肪 %' });
+      if (weights && weights.weights) {
+        const dates = Object.keys(weights.weights).sort();
+        if (dates.length) {
+          const latestDate = dates[dates.length - 1];
+          items.push({ value: weights.weights[latestDate].toFixed(1), label: '体重 kg' });
+          if (weights.bodyFat && weights.bodyFat[latestDate]) {
+            items.push({ value: weights.bodyFat[latestDate].toFixed(1), label: '体脂肪 %' });
+          }
+        }
       }
       if (latest) {
         if (latest.steps) items.push({ value: latest.steps.toLocaleString(), label: '歩数' });
