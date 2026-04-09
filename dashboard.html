@@ -969,7 +969,7 @@
       ];
 
       let html = '';
-      if (isYesterday) html += `<div style="font-size:10px;color:#aaa;margin-bottom:4px;width:100%;text-align:center">昨日の結果</div>`;
+      if (isYesterday) html += `<div style="font-size:10px;color:#aaa;margin-bottom:2px;text-align:center;grid-column:1/-1">昨日の結果</div>`;
       html += kpis.map(k => `
         <div class="kpi-item ${k.done ? 'done' : 'not-done'}">
           <div class="kpi-icon">${k.icon}</div>
