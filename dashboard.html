@@ -952,23 +952,31 @@
       const healthLog = _healthLogCache || await fetchJSON('health-log.json');
       const el = document.getElementById('kpiRow');
       const today = now.toISOString().slice(0, 10);
-      const entry = healthLog ? healthLog[today] : null;
+      const yesterday = new Date(now - 86400000).toISOString().slice(0, 10);
+      const todayEntry = healthLog ? healthLog[today] : null;
+      const yesterdayEntry = healthLog ? healthLog[yesterday] : null;
 
-      // Body condition from condition card (reuse bodyScore computed in loadHealth)
-      // For KPI we read energy as proxy for body condition
+      // Use today's KPI if recorded, otherwise fall back to yesterday's
+      const todayHasKpi = todayEntry?.lifeKpi && Object.keys(todayEntry.lifeKpi).length > 0;
+      const entry = todayHasKpi ? todayEntry : yesterdayEntry;
+      const isYesterday = !todayHasKpi && yesterdayEntry?.lifeKpi;
+
       const kpis = [
-        { icon: '💪', label: '体調', key: 'energy', done: entry?.energy != null && entry.energy >= 3 },
-        { icon: '🌿', label: '余白', key: 'margin', done: entry?.lifeKpi?.margin === true },
-        { icon: '✍️', label: 'アウトプット', key: 'output', done: entry?.lifeKpi?.output === true },
-        { icon: '💕', label: 'つながり', key: 'connection', done: entry?.lifeKpi?.connection === true },
+        { icon: '💪', label: '体調', done: (todayHasKpi ? todayEntry : entry)?.energy != null && (todayHasKpi ? todayEntry : entry)?.energy >= 3 },
+        { icon: '🌿', label: '余白', done: entry?.lifeKpi?.margin === true },
+        { icon: '✍️', label: 'アウトプット', done: entry?.lifeKpi?.output === true },
+        { icon: '💕', label: 'つながり', done: entry?.lifeKpi?.connection === true },
       ];
 
-      el.innerHTML = kpis.map(k => `
+      let html = '';
+      if (isYesterday) html += `<div style="font-size:10px;color:#aaa;margin-bottom:4px;width:100%;text-align:center">昨日の結果</div>`;
+      html += kpis.map(k => `
         <div class="kpi-item ${k.done ? 'done' : 'not-done'}">
           <div class="kpi-icon">${k.icon}</div>
           <div class="kpi-label">${k.label}</div>
         </div>
       `).join('');
+      el.innerHTML = html;
     }
 
     function renderMsgSection(items, badge, badgeColor, label, renderItem) {
