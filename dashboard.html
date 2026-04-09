@@ -217,6 +217,27 @@
       font-size: 10px; color: #aaa;
       margin-top: 1px;
     }
+    .health-targets {
+      margin-top: 12px; padding: 10px 12px;
+      background: linear-gradient(135deg, #f0f9ff, #eff6ff);
+      border: 1px solid #bfdbfe; border-radius: 10px;
+      font-size: 11px; line-height: 1.6;
+    }
+    .health-targets .ht-title {
+      font-weight: 700; font-size: 12px; color: #1e40af; margin-bottom: 6px;
+    }
+    .health-targets .ht-row {
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 2px 0;
+    }
+    .health-targets .ht-metric { font-weight: 600; color: #334155; }
+    .health-targets .ht-current { color: #64748b; }
+    .health-targets .ht-goal { color: #16a34a; font-weight: 700; }
+    .health-targets .ht-tips {
+      margin-top: 8px; padding-top: 8px; border-top: 1px solid #bfdbfe;
+      color: #475569;
+    }
+    .health-targets .ht-tips li { margin-bottom: 3px; }
 
     /* ── Tasks ── */
     .task-progress {
@@ -430,6 +451,7 @@
           <div class="condition-row" id="conditionRow"></div>
           <div class="action-guide" id="actionGuide"></div>
           <div class="health-grid" id="healthGrid"></div>
+          <div id="healthTargets" class="health-targets"></div>
         </div>
         <div class="card">
           <div class="card-title"><div class="card-icon icon-kpi">🌟</div> 人生を味わえてるか</div>
@@ -804,6 +826,34 @@
       grid.innerHTML = items.map(i => `
         <div class="health-item"><div class="value">${i.value}</div><div class="label">${i.label}</div>${i.hint ? `<div class="hint">${i.hint}</div>` : ''}</div>
       `).join('');
+
+      // Health targets
+      const tEl = document.getElementById('healthTargets');
+      const rhrNow = rhrAvg ? rhrAvg.toFixed(0) : '—';
+      const hrvNow = hrvAvg ? hrvAvg.toFixed(0) : '—';
+      tEl.innerHTML = `
+        <div class="ht-title">🎯 目標（3〜6ヶ月）</div>
+        <div class="ht-row">
+          <span class="ht-metric">安静心拍</span>
+          <span><span class="ht-current">現在 ${rhrNow}</span> → <span class="ht-goal">55以下</span></span>
+        </div>
+        <div class="ht-row">
+          <span class="ht-metric">HRV</span>
+          <span><span class="ht-current">現在 ${hrvNow}</span> → <span class="ht-goal">35以上</span></span>
+        </div>
+        <div class="ht-tips">
+          <div style="font-weight:600;margin-bottom:3px">やること</div>
+          <ul style="margin:0;padding-left:16px">
+            <li>🚶 散歩 8,000歩/日（朝+昼食後+夕食後）</li>
+            <li>🏋️ パーソナル週2回を継続</li>
+            <li>😴 睡眠7h確保（23時就寝 → 6時起床）</li>
+            <li>🌙 寝る1h前にスマホやめる</li>
+            <li>☕ カフェインは14時まで</li>
+            <li>🍽 夕食は寝る3h前までに</li>
+            <li>🛁 寝る前にお風呂（体温下がるタイミングで眠くなる）</li>
+          </ul>
+        </div>
+      `;
     }
 
     function toggleHabits() {
