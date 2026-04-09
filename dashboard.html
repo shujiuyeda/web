@@ -956,27 +956,24 @@
       const todayEntry = healthLog ? healthLog[today] : null;
       const yesterdayEntry = healthLog ? healthLog[yesterday] : null;
 
-      // Use today's KPI if recorded, otherwise fall back to yesterday's
+      // 体調 is always today. 余白/アウトプット/つながり fall back to yesterday if today not recorded.
       const todayHasKpi = todayEntry?.lifeKpi && Object.keys(todayEntry.lifeKpi).length > 0;
-      const entry = todayHasKpi ? todayEntry : yesterdayEntry;
-      const isYesterday = !todayHasKpi && yesterdayEntry?.lifeKpi;
+      const kpiSource = todayHasKpi ? todayEntry : yesterdayEntry;
+      const suffix = !todayHasKpi && yesterdayEntry?.lifeKpi ? '(昨日)' : '';
 
       const kpis = [
-        { icon: '💪', label: '体調', done: (todayHasKpi ? todayEntry : entry)?.energy != null && (todayHasKpi ? todayEntry : entry)?.energy >= 3 },
-        { icon: '🌿', label: '余白', done: entry?.lifeKpi?.margin === true },
-        { icon: '✍️', label: 'アウトプット', done: entry?.lifeKpi?.output === true },
-        { icon: '💕', label: 'つながり', done: entry?.lifeKpi?.connection === true },
+        { icon: '💪', label: '体調', done: todayEntry?.energy != null && todayEntry.energy >= 3 },
+        { icon: '🌿', label: `余白${suffix}`, done: kpiSource?.lifeKpi?.margin === true },
+        { icon: '✍️', label: `アウトプット${suffix}`, done: kpiSource?.lifeKpi?.output === true },
+        { icon: '💕', label: `つながり${suffix}`, done: kpiSource?.lifeKpi?.connection === true },
       ];
 
-      let html = '';
-      if (isYesterday) html += `<div style="font-size:10px;color:#aaa;margin-bottom:2px;text-align:center;grid-column:1/-1">昨日の結果</div>`;
-      html += kpis.map(k => `
+      el.innerHTML = kpis.map(k => `
         <div class="kpi-item ${k.done ? 'done' : 'not-done'}">
           <div class="kpi-icon">${k.icon}</div>
           <div class="kpi-label">${k.label}</div>
         </div>
       `).join('');
-      el.innerHTML = html;
     }
 
     function renderMsgSection(items, badge, badgeColor, label, renderItem) {
