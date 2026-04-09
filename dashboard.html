@@ -783,7 +783,7 @@
       // Other health metrics
       const items = [];
       if (todayRhr != null) items.push({ value: todayRhr, label: '安静心拍 bpm', hint: `低いほど◎（平均${rhrAvg ? rhrAvg.toFixed(0) : '—'}）` });
-      if (todayHrv != null) items.push({ value: todayHrv.toFixed(0), label: 'HRV ms', hint: '高いほど◎' });
+      if (todayHrv != null) items.push({ value: todayHrv.toFixed(0), label: 'HRV ms', hint: `高いほど◎（平均${hrvAvg ? hrvAvg.toFixed(0) : '—'}）` });
       const today = new Date().toISOString().slice(0, 10);
       const yesterday = new Date(Date.now() - 86400000).toISOString().slice(0, 10);
       {
