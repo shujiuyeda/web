@@ -213,6 +213,10 @@
       font-size: 11px; color: var(--text-muted);
       margin-top: 3px; font-weight: 500;
     }
+    .health-item .hint {
+      font-size: 10px; color: #aaa;
+      margin-top: 1px;
+    }
 
     /* ── Tasks ── */
     .task-progress {
@@ -778,8 +782,8 @@
 
       // Other health metrics
       const items = [];
-      if (todayRhr != null) items.push({ value: todayRhr, label: '安静心拍 bpm' });
-      if (todayHrv != null) items.push({ value: todayHrv.toFixed(0), label: 'HRV ms' });
+      if (todayRhr != null) items.push({ value: todayRhr, label: '安静心拍 bpm', hint: '低いほど◎' });
+      if (todayHrv != null) items.push({ value: todayHrv.toFixed(0), label: 'HRV ms', hint: '高いほど◎' });
       const today = new Date().toISOString().slice(0, 10);
       const yesterday = new Date(Date.now() - 86400000).toISOString().slice(0, 10);
       {
@@ -798,7 +802,7 @@
       if (!items.length) { grid.innerHTML = ''; return; }
       grid.style.gridTemplateColumns = `repeat(${Math.min(items.length, 3)}, 1fr)`;
       grid.innerHTML = items.map(i => `
-        <div class="health-item"><div class="value">${i.value}</div><div class="label">${i.label}</div></div>
+        <div class="health-item"><div class="value">${i.value}</div><div class="label">${i.label}</div>${i.hint ? `<div class="hint">${i.hint}</div>` : ''}</div>
       `).join('');
     }
 
