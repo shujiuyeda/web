@@ -913,14 +913,14 @@
     "walkHR": 99
   },
   "2026-04-08": {
-    "water": 0.5,
+    "water": 1.0,
     "bowel": null,
     "mood": null,
     "energy": null,
     "weather": null,
     "sleep_feel": null,
     "body_note": null,
-    "waterBonus": null,
+    "waterBonus": 0.2,
     "stretch": null,
     "steps": null,
     "rhr": null,
@@ -935,5 +935,24 @@
       "output": true,
       "connection": true
     }
+  },
+  "2026-04-09": {
+    "water": 0.0,
+    "bowel": null,
+    "mood": "超寝不足",
+    "energy": 1.9,
+    "weather": "曇り",
+    "sleep_feel": "2時間睡眠、途中で起きてそのまま",
+    "body_note": "筋肉痛（胸・お尻）— ダンベルフライとランジの成果",
+    "waterBonus": 0.0,
+    "stretch": null,
+    "steps": null,
+    "rhr": null,
+    "hrv": null,
+    "stride": null,
+    "walkSpeed": null,
+    "walkDistance": null,
+    "vo2max": null,
+    "walkHR": null
   }
 }
