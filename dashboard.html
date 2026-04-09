@@ -700,7 +700,7 @@
       }
     }
 
-    const now = new Date();
+    const now = new Date(Date.now() + 9 * 3600000);
     const days = ['日','月','火','水','木','金','土'];
 
     document.getElementById('dateDisplay').textContent =
@@ -806,8 +806,8 @@
       const items = [];
       if (todayRhr != null) items.push({ value: todayRhr, label: '安静心拍 bpm', hint: `低いほど◎（平均${rhrAvg ? rhrAvg.toFixed(0) : '—'}）` });
       if (todayHrv != null) items.push({ value: todayHrv.toFixed(0), label: 'HRV ms', hint: `高いほど◎（平均${hrvAvg ? hrvAvg.toFixed(0) : '—'}）` });
-      const today = new Date().toISOString().slice(0, 10);
-      const yesterday = new Date(Date.now() - 86400000).toISOString().slice(0, 10);
+      const today = now.toISOString().slice(0, 10);
+      const yesterday = new Date(now - 86400000).toISOString().slice(0, 10);
       {
         const sl = sleep && typeof sleep === 'object' ? (sleep[today] || sleep[yesterday]) : null;
         items.push({ value: sl && sl.total ? sl.total.toFixed(1) : '—', label: '睡眠 h' });
