@@ -1,16 +1,15 @@
 {
-  "generated": "2026-04-08",
+  "generated": "2026-04-09",
   "events": [
-    { "date": "2026-04-08", "time": null, "end": null, "title": "資源ゴミ", "allDay": true },
-    { "date": "2026-04-08", "time": "16:15", "end": "17:15", "title": "パーソナル", "allDay": false },
-    { "date": "2026-04-09", "time": "05:40", "end": "06:00", "title": "電車に乗る（町田へ）", "allDay": false },
-    { "date": "2026-04-09", "time": "08:30", "end": "09:45", "title": "父、病院", "allDay": false },
+    { "date": "2026-04-09", "time": "05:40", "end": "09:45", "title": "父、病院", "allDay": false },
     { "date": "2026-04-10", "time": "10:00", "end": "11:00", "title": "ワクワク系", "allDay": false },
-    { "date": "2026-04-10", "time": "15:00", "end": "16:00", "title": "桑田佳祐 LIVE TOUR チケット受付開始", "allDay": false },
+    { "date": "2026-04-10", "time": "15:00", "end": "16:00", "title": "桑田佳祐 LIVE TOUR 2026 チケット受付開始（SAS応援団）", "allDay": false },
     { "date": "2026-04-12", "time": "17:30", "end": "18:30", "title": "パーソナル", "allDay": false },
     { "date": "2026-04-15", "time": "16:15", "end": "17:15", "title": "パーソナル", "allDay": false },
     { "date": "2026-04-19", "time": "17:30", "end": "18:30", "title": "パーソナル", "allDay": false },
     { "date": "2026-04-21", "time": "13:00", "end": "16:30", "title": "佐藤友美さん講座", "allDay": false },
-    { "date": "2026-04-22", "time": null, "end": null, "title": "資源ゴミ", "allDay": true }
+    { "date": "2026-04-22", "time": null, "end": null, "title": "資源ゴミ", "allDay": true },
+    { "date": "2026-04-22", "time": "09:15", "end": "12:30", "title": "しむらさんに行って薬をもらう", "allDay": false },
+    { "date": "2026-04-22", "time": "16:15", "end": "17:15", "title": "パーソナル", "allDay": false }
   ]
 }

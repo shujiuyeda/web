@@ -1,20 +1,20 @@
 {
-  "date": "2026-04-08",
+  "date": "2026-04-09",
   "chatwork": {
     "unread": 0,
     "mention": 0,
     "items": [],
     "tasks": [
-      { "body": "広告回し始め→相談会に来ない件", "room": "MQ全員：業務連絡用", "url": "https://www.chatwork.com/#!rid56247-2078492286773366784" },
-      { "body": "ウェビナー特典の音声が聴けない問い合わせ", "room": "MQ全員：業務連絡用", "url": "https://www.chatwork.com/#!rid56247-2078400887726022656" },
-      { "body": "ウェビナー申込リンクが視聴予約ページになる件", "room": "MQ全員：業務連絡用", "url": "https://www.chatwork.com/#!rid56247-2078339447006703616" },
-      { "body": "やのうさんプロジェクト確認", "room": "やのうさんプロジェクト", "url": "https://www.chatwork.com/#!rid368212529-2077300298812231680" },
-      { "body": "nanobananaでデザイン作成の件", "room": "AIを革新的活用しようチャット", "url": "https://www.chatwork.com/#!rid382413308-2076639953072435200" },
-      { "body": "Claude Code活用のやり方共有", "room": "ClaudeCode活用", "url": "https://www.chatwork.com/#!rid422208145-2075485983834640384" },
-      { "body": "PC右上に通知表示する設定", "room": "ClaudeCode活用", "url": "https://www.chatwork.com/#!rid422208145-2075426917552754688" },
-      { "body": "ライティングスキル（Claude Code）作成依頼", "room": "ClaudeCode活用", "url": "https://www.chatwork.com/#!rid422208145-2074079528325750784" },
-      { "body": "音声入力ツール voiceos.com の共有", "room": "AIを革新的活用しようチャット", "url": "https://www.chatwork.com/#!rid382413308-2073752836050784256" },
-      { "body": "タスク変換の提案", "room": "The Vibration", "url": "https://www.chatwork.com/#!rid418681940-2072908168920576000" }
+      { "body": "広告回し始め→相談会に来ない件", "room": "MQ全員：業務連絡用", "url": "https://www.chatwork.com/#!rid56247" },
+      { "body": "ウェビナー特典の音声が聴けない問い合わせ", "room": "MQ全員：業務連絡用", "url": "https://www.chatwork.com/#!rid56247" },
+      { "body": "ウェビナー申込リンクが視聴予約ページになる件", "room": "MQ全員：業務連絡用", "url": "https://www.chatwork.com/#!rid56247" },
+      { "body": "やのうさんプロジェクト確認", "room": "やのうさんプロジェクト", "url": "https://www.chatwork.com/#!rid368212529" },
+      { "body": "nanobananaでデザイン作成の件", "room": "AIを革新的活用しようチャット", "url": "https://www.chatwork.com/#!rid382413308" },
+      { "body": "Claude Code活用のやり方共有", "room": "ClaudeCode活用", "url": "https://www.chatwork.com/#!rid422208145" },
+      { "body": "PC右上に通知表示する設定", "room": "ClaudeCode活用", "url": "https://www.chatwork.com/#!rid422208145" },
+      { "body": "ライティングスキル（Claude Code）作成依頼", "room": "ClaudeCode活用", "url": "https://www.chatwork.com/#!rid422208145" },
+      { "body": "音声入力ツール voiceos.com の共有", "room": "AIを革新的活用しようチャット", "url": "https://www.chatwork.com/#!rid382413308" },
+      { "body": "タスク変換の提案", "room": "The Vibration", "url": "https://www.chatwork.com/#!rid418681940" }
     ]
   },
   "gmail": {
