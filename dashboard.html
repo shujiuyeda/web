@@ -782,15 +782,15 @@
       if (todayHrv != null) items.push({ value: todayHrv.toFixed(0), label: 'HRV ms' });
       const today = new Date().toISOString().slice(0, 10);
       const yesterday = new Date(Date.now() - 86400000).toISOString().slice(0, 10);
-      if (sleep && typeof sleep === 'object') {
-        const l = sleep[today] || sleep[yesterday];
-        if (l && l.total) items.push({ value: l.total.toFixed(1), label: '睡眠 h' });
+      {
+        const sl = sleep && typeof sleep === 'object' ? (sleep[today] || sleep[yesterday]) : null;
+        items.push({ value: sl && sl.total ? sl.total.toFixed(1) : '—', label: '睡眠 h' });
       }
-      if (weights && weights.weights) {
-        const w = weights.weights[today] ?? weights.weights[yesterday];
-        const bf = weights.bodyFat && (weights.bodyFat[today] ?? weights.bodyFat[yesterday]);
-        if (w != null) items.push({ value: w.toFixed(1), label: '体重 kg' });
-        if (bf != null) items.push({ value: bf.toFixed(1), label: '体脂肪 %' });
+      {
+        const w = weights && weights.weights ? (weights.weights[today] ?? weights.weights[yesterday] ?? null) : null;
+        const bf = weights && weights.bodyFat ? (weights.bodyFat[today] ?? weights.bodyFat[yesterday] ?? null) : null;
+        items.push({ value: w != null ? w.toFixed(1) : '—', label: '体重 kg' });
+        items.push({ value: bf != null ? bf.toFixed(1) : '—', label: '体脂肪 %' });
       }
       if (latest) {
         if (latest.steps) items.push({ value: latest.steps.toLocaleString(), label: '歩数' });
