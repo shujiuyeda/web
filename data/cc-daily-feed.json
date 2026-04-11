@@ -1,12 +1,12 @@
 {
-  "generated": "2026-04-10T21:03:05.533Z",
+  "generated": "2026-04-11T21:14:00.909Z",
   "period_hours": 28,
   "summary": {
-    "github": 23,
+    "github": 21,
     "reddit": 0,
     "hackernews": 15,
-    "x": 15,
-    "total": 53
+    "x": 11,
+    "total": 47
   },
   "items": {
     "github": [
@@ -21,29 +21,11 @@
       },
       {
         "source": "github",
-        "type": "release",
-        "repo": "anthropics/claude-code",
-        "title": "v2.1.100",
-        "url": "https://github.com/anthropics/claude-code/releases/tag/v2.1.100",
-        "date": "2026-04-10T05:16:35Z",
-        "body": "\n"
-      },
-      {
-        "source": "github",
-        "type": "release",
-        "repo": "anthropics/claude-code",
-        "title": "v2.1.98",
-        "url": "https://github.com/anthropics/claude-code/releases/tag/v2.1.98",
-        "date": "2026-04-09T19:18:28Z",
-        "body": "## What's changed\n\n- Added interactive Google Vertex AI setup wizard accessible from the login screen when selecting \"3rd-party platform\", guiding you through GCP authentication, project and region configuration, credential verification, and model pinning\n- Added `CLAUDE_CODE_PERFORCE_MODE` env var: when set, Edit/Write/NotebookEdit fail on read-only files with a `p4 edit` hint instead of silently overwriting them\n- Added Monitor tool for streaming events from background scripts\n- Added subproce"
-      },
-      {
-        "source": "github",
         "type": "issue",
         "repo": "anthropics/claude-code",
-        "title": "[DOCS] instructions for project memory updates from the terminal are not updated or does not covers all cases",
-        "url": "https://github.com/anthropics/claude-code/issues/46412",
-        "date": "2026-04-10T21:01:13Z",
+        "title": "[Bug] Claude Code 1M context incorrectly billed as Extra Usage instead of Max plan coverage",
+        "url": "https://github.com/anthropics/claude-code/issues/46780",
+        "date": "2026-04-11T21:13:54Z",
         "reactions": 0,
         "comments": 0
       },
@@ -51,9 +33,9 @@
         "source": "github",
         "type": "issue",
         "repo": "anthropics/claude-code",
-        "title": "[BUG] CLI output becomes corrupted with unreadable/garbled tokens until restart",
-        "url": "https://github.com/anthropics/claude-code/issues/46411",
-        "date": "2026-04-10T21:00:09Z",
+        "title": "Claude Code repeatedly deletes user data without explicit approval despite instructions prohibiting it",
+        "url": "https://github.com/anthropics/claude-code/issues/46779",
+        "date": "2026-04-11T21:13:28Z",
         "reactions": 0,
         "comments": 0
       },
@@ -61,9 +43,39 @@
         "source": "github",
         "type": "issue",
         "repo": "anthropics/claude-code",
-        "title": "[MODEL] Claude passively acknowledges self-caused git error instead of proactively proposing a fix",
-        "url": "https://github.com/anthropics/claude-code/issues/46410",
-        "date": "2026-04-10T20:48:34Z",
+        "title": "Expose active agent & background task counts in statusline JSON",
+        "url": "https://github.com/anthropics/claude-code/issues/46778",
+        "date": "2026-04-11T21:11:13Z",
+        "reactions": 0,
+        "comments": 0
+      },
+      {
+        "source": "github",
+        "type": "issue",
+        "repo": "anthropics/claude-code",
+        "title": "[FEATURE] Feature request: support persistent user tmux overrides from /config/.tmux.conf",
+        "url": "https://github.com/anthropics/claude-code/issues/46777",
+        "date": "2026-04-11T21:07:04Z",
+        "reactions": 0,
+        "comments": 0
+      },
+      {
+        "source": "github",
+        "type": "issue",
+        "repo": "anthropics/claude-code",
+        "title": "[Bug] Excessive token consumption on simple queries (25k tokens for \"what is 1+1\")",
+        "url": "https://github.com/anthropics/claude-code/issues/46776",
+        "date": "2026-04-11T21:06:49Z",
+        "reactions": 1,
+        "comments": 1
+      },
+      {
+        "source": "github",
+        "type": "issue",
+        "repo": "anthropics/claude-code",
+        "title": "[BUG] Terminal scroll shows duplicated prompt/response on session start with parallel tool calls",
+        "url": "https://github.com/anthropics/claude-code/issues/46775",
+        "date": "2026-04-11T21:01:44Z",
         "reactions": 0,
         "comments": 1
       },
@@ -71,39 +83,9 @@
         "source": "github",
         "type": "issue",
         "repo": "anthropics/claude-code",
-        "title": "[FEATURE] What is the point of ultra plan if I need to leave CLI and go onto the web?",
-        "url": "https://github.com/anthropics/claude-code/issues/46409",
-        "date": "2026-04-10T20:44:22Z",
-        "reactions": 0,
-        "comments": 0
-      },
-      {
-        "source": "github",
-        "type": "issue",
-        "repo": "anthropics/claude-code",
-        "title": "[FEATURE] npx-style ephemeral skill execution from remote URL/registry",
-        "url": "https://github.com/anthropics/claude-code/issues/46408",
-        "date": "2026-04-10T20:40:01Z",
-        "reactions": 0,
-        "comments": 0
-      },
-      {
-        "source": "github",
-        "type": "issue",
-        "repo": "anthropics/claude-code",
-        "title": "[FEATURE] Safe, Declarative Response Text Substitutions (Post-Render Transforms)",
-        "url": "https://github.com/anthropics/claude-code/issues/46407",
-        "date": "2026-04-10T20:34:34Z",
-        "reactions": 0,
-        "comments": 0
-      },
-      {
-        "source": "github",
-        "type": "issue",
-        "repo": "anthropics/claude-code",
-        "title": "`--channels <plugin>` no longer exposes plugin MCP tools in v2.1.101 (regression from 2.1.91)",
-        "url": "https://github.com/anthropics/claude-code/issues/46406",
-        "date": "2026-04-10T20:33:17Z",
+        "title": "Safety: /resume shows sessions from all directories — risk of modifying wrong project",
+        "url": "https://github.com/anthropics/claude-code/issues/46774",
+        "date": "2026-04-11T21:01:42Z",
         "reactions": 0,
         "comments": 1
       },
@@ -111,19 +93,9 @@
         "source": "github",
         "type": "issue",
         "repo": "anthropics/claude-code",
-        "title": "[BUG] Limits in Claude Code are applied inconsistently and I've lost a lot of development progress.",
-        "url": "https://github.com/anthropics/claude-code/issues/46404",
-        "date": "2026-04-10T20:24:08Z",
-        "reactions": 0,
-        "comments": 0
-      },
-      {
-        "source": "github",
-        "type": "issue",
-        "repo": "anthropics/claude-code",
-        "title": "Phantom \"human:\" messages auto-generated during Monitor events, triggering actions without user consent",
-        "url": "https://github.com/anthropics/claude-code/issues/46403",
-        "date": "2026-04-10T20:18:38Z",
+        "title": "[Bug] Claude exhibits condescending and judgmental tone in responses",
+        "url": "https://github.com/anthropics/claude-code/issues/46772",
+        "date": "2026-04-11T20:47:59Z",
         "reactions": 0,
         "comments": 1
       },
@@ -131,51 +103,61 @@
         "source": "github",
         "type": "issue",
         "repo": "anthropics/claude-code",
-        "title": "[MODEL]  opus4.6",
-        "url": "https://github.com/anthropics/claude-code/issues/46402",
-        "date": "2026-04-10T20:12:26Z",
+        "title": "[BUG] An unexpected error occurred while setting up the git_repository source.",
+        "url": "https://github.com/anthropics/claude-code/issues/46771",
+        "date": "2026-04-11T20:47:58Z",
         "reactions": 0,
         "comments": 2
       },
       {
         "source": "github",
+        "type": "issue",
+        "repo": "anthropics/claude-code",
+        "title": "Claude Code surfaces are invisible, undocumented, and unreliable — users waste significant effort on workarounds",
+        "url": "https://github.com/anthropics/claude-code/issues/46770",
+        "date": "2026-04-11T20:46:14Z",
+        "reactions": 0,
+        "comments": 0
+      },
+      {
+        "source": "github",
         "type": "commit",
         "repo": "hesreallyhim/awesome-claude-code",
-        "title": "chore: update repo ticker data and SVGs [skip ci]",
-        "url": "https://github.com/hesreallyhim/awesome-claude-code/commit/bb71ab9b3a89dbe30bd72b23ce2a272f5e9ba580",
-        "date": "2026-04-10T18:28:15Z"
+        "title": "run validate (#1493)",
+        "url": "https://github.com/hesreallyhim/awesome-claude-code/commit/82e0f632e814b4d0f0865229aaa6e9ecc02ff32a",
+        "date": "2026-04-11T18:39:08Z"
       },
       {
         "source": "github",
         "type": "commit",
         "repo": "hesreallyhim/awesome-claude-code",
         "title": "chore: update repo ticker data and SVGs [skip ci]",
-        "url": "https://github.com/hesreallyhim/awesome-claude-code/commit/64d761535372260a982996cac057ae4c31abb291",
-        "date": "2026-04-10T15:25:43Z"
+        "url": "https://github.com/hesreallyhim/awesome-claude-code/commit/5020418dcb518d99f031cc019c7b9591f339a1b4",
+        "date": "2026-04-11T18:19:05Z"
       },
       {
         "source": "github",
         "type": "commit",
         "repo": "hesreallyhim/awesome-claude-code",
         "title": "chore: update repo ticker data and SVGs [skip ci]",
-        "url": "https://github.com/hesreallyhim/awesome-claude-code/commit/f3ed5375428d338c61fc104c4a03fa37c4983577",
-        "date": "2026-04-10T12:28:30Z"
+        "url": "https://github.com/hesreallyhim/awesome-claude-code/commit/e6c399ce669b9724731e7a0e6ff94e8744bbba60",
+        "date": "2026-04-11T15:17:00Z"
       },
       {
         "source": "github",
         "type": "commit",
         "repo": "hesreallyhim/awesome-claude-code",
         "title": "chore: update repo ticker data and SVGs [skip ci]",
-        "url": "https://github.com/hesreallyhim/awesome-claude-code/commit/be88fbaacd554308820db8dfbba323f6acdc8bb6",
-        "date": "2026-04-10T09:37:04Z"
+        "url": "https://github.com/hesreallyhim/awesome-claude-code/commit/ea7f9ba86af03cf9c5e72252029d35c6d966ebef",
+        "date": "2026-04-11T12:21:33Z"
       },
       {
         "source": "github",
         "type": "commit",
         "repo": "hesreallyhim/awesome-claude-code",
         "title": "chore: update repo ticker data and SVGs [skip ci]",
-        "url": "https://github.com/hesreallyhim/awesome-claude-code/commit/3df1edd8f872feb29b8704815ddb22477155ec65",
-        "date": "2026-04-10T06:49:40Z"
+        "url": "https://github.com/hesreallyhim/awesome-claude-code/commit/e3fbb803d933096e262d3b7c8bf3ef61680c7862",
+        "date": "2026-04-11T09:22:16Z"
       },
       {
         "source": "github",
@@ -223,52 +205,22 @@
       {
         "source": "hackernews",
         "type": "story",
-        "title": "I Let Claude Code Autonomously Run Ads for a Month",
-        "url": "https://read.technically.dev/p/i-let-claude-code-autonomously-run",
-        "hn_url": "https://news.ycombinator.com/item?id=47706611",
-        "date": "2026-04-09T17:30:41Z",
-        "points": 18,
-        "comments": 3
-      },
-      {
-        "source": "hackernews",
-        "type": "story",
-        "title": "I watched Claude Code read my AWS credentials on startup",
-        "url": "https://github.com/diemoeve/forgeterm/releases/tag/v0.2.0",
-        "hn_url": "https://news.ycombinator.com/item?id=47714988",
-        "date": "2026-04-10T08:02:50Z",
-        "points": 14,
-        "comments": 1
-      },
-      {
-        "source": "hackernews",
-        "type": "story",
-        "title": "Show HN: Tinycloud – Claude Code for video work",
-        "url": "https://tinycloud.cloudglue.dev/",
-        "hn_url": "https://news.ycombinator.com/item?id=47720755",
-        "date": "2026-04-10T16:48:12Z",
-        "points": 12,
-        "comments": 2
-      },
-      {
-        "source": "hackernews",
-        "type": "story",
-        "title": "Claude Code is a vibe-coded mess. Some of it is good",
-        "url": "https://blog.raed.dev/posts/claude_code_clever_ideas/",
-        "hn_url": "https://news.ycombinator.com/item?id=47720379",
-        "date": "2026-04-10T16:19:47Z",
-        "points": 5,
-        "comments": 1
-      },
-      {
-        "source": "hackernews",
-        "type": "story",
-        "title": "Show HN: Spicedb-dev. Claude Code plugin that adds authorization as you build",
-        "url": "https://github.com/authzed/authzed-marketplace/tree/main/spicedb-dev",
-        "hn_url": "https://news.ycombinator.com/item?id=47707352",
-        "date": "2026-04-09T18:15:54Z",
-        "points": 5,
+        "title": "Cut Token Costs on Claude Code, Cursor, and Codex",
+        "url": "https://github.com/juyterman1000/entroly",
+        "hn_url": "https://news.ycombinator.com/item?id=47733157",
+        "date": "2026-04-11T19:07:59Z",
+        "points": 7,
         "comments": 0
+      },
+      {
+        "source": "hackernews",
+        "type": "story",
+        "title": "Measure coding productivity with this Claude Code Plugin",
+        "url": "https://github.com/Facens/coding-productivity",
+        "hn_url": "https://news.ycombinator.com/item?id=47730857",
+        "date": "2026-04-11T14:18:16Z",
+        "points": 4,
+        "comments": 3
       },
       {
         "source": "hackernews",
@@ -283,22 +235,42 @@
       {
         "source": "hackernews",
         "type": "story",
-        "title": "Claude Code's Local Memory Is a Security Risk, and You Can Verify It Yourself",
-        "url": "https://serendb.com/blog/claude-code-local-memory-security-risk",
-        "hn_url": "https://news.ycombinator.com/item?id=47708277",
-        "date": "2026-04-09T19:09:30Z",
+        "title": "Show HN: TopRank – Open-Source Claude Code Skills for SEO and Google Ads",
+        "url": "https://github.com/nowork-studio/toprank",
+        "hn_url": "https://news.ycombinator.com/item?id=47724937",
+        "date": "2026-04-10T23:07:57Z",
         "points": 4,
+        "comments": 0
+      },
+      {
+        "source": "hackernews",
+        "type": "story",
+        "title": "Claude Code: all issues get auto-closed without review?",
+        "url": "https://github.com/anthropics/claude-code/issues/30407",
+        "hn_url": "https://news.ycombinator.com/item?id=47730173",
+        "date": "2026-04-11T12:58:04Z",
+        "points": 3,
+        "comments": 2
+      },
+      {
+        "source": "hackernews",
+        "type": "story",
+        "title": "Session-roam – Resume Claude Code conversations from any machine via Syncthing",
+        "url": "https://github.com/VirelNode/session-roam",
+        "hn_url": "https://news.ycombinator.com/item?id=47728234",
+        "date": "2026-04-11T07:06:18Z",
+        "points": 3,
         "comments": 1
       },
       {
         "source": "hackernews",
         "type": "story",
-        "title": "I built ClawIDE: A web-based IDE for managing multiple Claude Code sessions",
-        "url": "https://news.ycombinator.com/item?id=47720187",
-        "hn_url": "https://news.ycombinator.com/item?id=47720187",
-        "date": "2026-04-10T16:05:57Z",
+        "title": "Gem. Claude Code with Google Lighthouse Testing",
+        "url": "https://github.com/dansinger93/AI-Coding-with-Speed-Guardrails",
+        "hn_url": "https://news.ycombinator.com/item?id=47731936",
+        "date": "2026-04-11T16:36:22Z",
         "points": 3,
-        "comments": 2
+        "comments": 0
       },
       {
         "source": "hackernews",
@@ -323,52 +295,62 @@
       {
         "source": "hackernews",
         "type": "story",
-        "title": "Tell HN: Claude Code usage depletion makes it basically unusable now",
-        "url": "https://news.ycombinator.com/item?id=47715954",
-        "hn_url": "https://news.ycombinator.com/item?id=47715954",
-        "date": "2026-04-10T10:23:43Z",
-        "points": 3,
-        "comments": 0
+        "title": "Claude Code doesn't trust Claude with permissions",
+        "url": "https://blog.raed.dev/posts/claude_code_permissions/",
+        "hn_url": "https://news.ycombinator.com/item?id=47729016",
+        "date": "2026-04-11T09:27:15Z",
+        "points": 2,
+        "comments": 1
       },
       {
         "source": "hackernews",
         "type": "story",
-        "title": "Wozcode: A Claude Code plugin that supercharges performance, cost, and speed",
-        "url": "https://www.wozcode.com/",
-        "hn_url": "https://news.ycombinator.com/item?id=47720704",
-        "date": "2026-04-10T16:44:26Z",
+        "title": "We reverse-engineered Claude Code's billing system to fix overage charges",
+        "url": "https://github.com/askalf/dario",
+        "hn_url": "https://news.ycombinator.com/item?id=47731526",
+        "date": "2026-04-11T15:42:17Z",
         "points": 2,
         "comments": 0
       },
       {
         "source": "hackernews",
         "type": "story",
-        "title": "Zero-token progress bar for Claude Code that tracks actual task completion",
-        "url": "https://github.com/PRAFULREDDYM/task-progress-bar",
-        "hn_url": "https://news.ycombinator.com/item?id=47716850",
-        "date": "2026-04-10T12:07:47Z",
-        "points": 2,
-        "comments": 0
-      },
-      {
-        "source": "hackernews",
-        "type": "story",
-        "title": "Have 2 accounts in Claude Code and it sucks switching between them?",
-        "url": "https://github.com/Mamdouh66/claude-switch",
-        "hn_url": "https://news.ycombinator.com/item?id=47715862",
-        "date": "2026-04-10T10:09:48Z",
-        "points": 2,
-        "comments": 0
-      },
-      {
-        "source": "hackernews",
-        "type": "story",
-        "title": "Nezha: Run multiple AI coding agents across projects (Claude Code and Codex)",
-        "url": "https://github.com/hanshuaikang/nezha",
-        "hn_url": "https://news.ycombinator.com/item?id=47716973",
-        "date": "2026-04-10T12:18:56Z",
+        "title": "\"The Terminal Prophet\" by Claude Code. An ePub Short Story",
+        "url": "https://gist.github.com/henrik/401e6142f25e9dce309259384b59ea8e",
+        "hn_url": "https://news.ycombinator.com/item?id=47731252",
+        "date": "2026-04-11T15:04:30Z",
         "points": 1,
-        "comments": 2
+        "comments": 1
+      },
+      {
+        "source": "hackernews",
+        "type": "story",
+        "title": "Show HN: Collabmem – a memory system for long-term collaboration with AI",
+        "url": "https://github.com/visionscaper/collabmem",
+        "hn_url": "https://news.ycombinator.com/item?id=47726056",
+        "date": "2026-04-11T01:02:17Z",
+        "points": 9,
+        "comments": 1
+      },
+      {
+        "source": "hackernews",
+        "type": "story",
+        "title": "Show HN: Dux, a TUI Agent Multiplexer",
+        "url": "https://github.com/patrickdappollonio/dux",
+        "hn_url": "https://news.ycombinator.com/item?id=47727890",
+        "date": "2026-04-11T06:05:03Z",
+        "points": 2,
+        "comments": 1
+      },
+      {
+        "source": "hackernews",
+        "type": "story",
+        "title": "Show HN: Superpowers-UML – UML-Enabled Superpowers",
+        "url": "https://github.com/takaakit/superpowers-uml",
+        "hn_url": "https://news.ycombinator.com/item?id=47730586",
+        "date": "2026-04-11T13:49:05Z",
+        "points": 2,
+        "comments": 0
       }
     ],
     "x": [
@@ -377,70 +359,10 @@
         "type": "tweet",
         "author": "trq212",
         "author_name": "Thariq",
-        "title": "New in Claude Code: /ultraplan\n\nClaude builds an implementation plan for you on the web. You can read it and edit it, then run the plan on t",
-        "url": "https://x.com/trq212/status/2042671370186973589",
-        "date": "2026-04-10T18:29:40.000Z",
-        "likes": 3928,
-        "retweets": 211,
-        "replies": 261
-      },
-      {
-        "source": "x",
-        "type": "tweet",
-        "author": "trq212",
-        "author_name": "Thariq",
-        "title": "Ultraplan uses roughly the same number of tokens (and subscription rate limits) as plan mode.\n\nSee the docs for more: https://t.co/42xCfg7ec",
-        "url": "https://x.com/trq212/status/2042671371684319723",
-        "date": "2026-04-10T18:29:40.000Z",
-        "likes": 191,
-        "retweets": 4,
-        "replies": 8
-      },
-      {
-        "source": "x",
-        "type": "tweet",
-        "author": "trq212",
-        "author_name": "Thariq",
-        "title": "A few questions on plan vs ultraplan. \n\nI think the insight here is that implementation can sometimes require a local environment/interactiv",
-        "url": "https://x.com/trq212/status/2042673325139427724",
-        "date": "2026-04-10T18:37:26.000Z",
-        "likes": 156,
-        "retweets": 6,
-        "replies": 22
-      },
-      {
-        "source": "x",
-        "type": "tweet",
-        "author": "trq212",
-        "author_name": "Thariq",
-        "title": "@steipete 🙏🫡",
-        "url": "https://x.com/trq212/status/2042649550926811589",
-        "date": "2026-04-10T17:02:58.000Z",
-        "likes": 147,
-        "retweets": 2,
-        "replies": 11
-      },
-      {
-        "source": "x",
-        "type": "tweet",
-        "author": "trq212",
-        "author_name": "Thariq",
         "title": "@thdxr no but let me know if you have any questions about ultraplan 👨‍💼",
         "url": "https://x.com/trq212/status/2042688360918192358",
         "date": "2026-04-10T19:37:11.000Z",
-        "likes": 106,
-        "retweets": 0,
-        "replies": 6
-      },
-      {
-        "source": "x",
-        "type": "tweet",
-        "author": "trq212",
-        "author_name": "Thariq",
-        "title": "@apeatling @steipete I know, it's a very difficult problem but need to do better\n\nwe do get a lot of abuse and freeing that capacity up for ",
-        "url": "https://x.com/trq212/status/2042629084535226818",
-        "date": "2026-04-10T15:41:38.000Z",
-        "likes": 73,
+        "likes": 288,
         "retweets": 0,
         "replies": 10
       },
@@ -449,84 +371,108 @@
         "type": "tweet",
         "author": "trq212",
         "author_name": "Thariq",
-        "title": "@LLMJunky @steipete @Chipagosfinest @Duffaluffaguss yeah just send me a DM with emails",
-        "url": "https://x.com/trq212/status/2042655231419490354",
-        "date": "2026-04-10T17:25:32.000Z",
-        "likes": 17,
-        "retweets": 0,
-        "replies": 6
-      },
-      {
-        "source": "x",
-        "type": "tweet",
-        "author": "engineering_bae",
-        "author_name": "Taylor Poindexter",
-        "title": "If you use Claude Code, I highly recommend running /insights.\n\nI've been having so much fun digging into it's analysis of how I can make my ",
-        "url": "https://x.com/engineering_bae/status/2042687351978356916",
-        "date": "2026-04-10T19:33:10.000Z",
-        "likes": 14,
-        "retweets": 0,
-        "replies": 3
-      },
-      {
-        "source": "x",
-        "type": "tweet",
-        "author": "adisingh",
-        "author_name": "Adi Singh",
-        "title": "Plugins are the product layer for skills + MCP.\n\nSkills define behavior.\nMCP connects context and tools.\nPlugins turn both into something re",
-        "url": "https://x.com/adisingh/status/2042693136070156515",
-        "date": "2026-04-10T19:56:09.000Z",
-        "likes": 13,
-        "retweets": 0,
-        "replies": 1
-      },
-      {
-        "source": "x",
-        "type": "tweet",
-        "author": "aakashgupta",
-        "author_name": "Aakash Gupta",
-        "title": "The reason most teams get mediocre outputs from Claude Code has nothing to do with the model. It has everything to do with how much room the",
-        "url": "https://x.com/aakashgupta/status/2042702361832153384",
-        "date": "2026-04-10T20:32:49.000Z",
-        "likes": 8,
+        "title": "@Hesamation boris responded to this in depth in the issue- it's mostly just that we stopped showing thinking summaries for latency (you can ",
+        "url": "https://x.com/trq212/status/2043018747615887471",
+        "date": "2026-04-11T17:30:01.000Z",
+        "likes": 261,
         "retweets": 1,
-        "replies": 1
-      },
-      {
-        "source": "x",
-        "type": "tweet",
-        "author": "AiRohet56267",
-        "author_name": "AiRohet",
-        "title": "🚨 Still Prompting Claude Code the Wrong Way?\nThis simple system will 10x your results instantly.\nBuild faster, write smarter &amp; fix bugs",
-        "url": "https://x.com/AiRohet56267/status/2042689470559125714",
-        "date": "2026-04-10T19:41:35.000Z",
-        "likes": 7,
-        "retweets": 7,
-        "replies": 3
-      },
-      {
-        "source": "x",
-        "type": "tweet",
-        "author": "ridegoodwaves",
-        "author_name": "Amit Bhatia",
-        "title": "been using compound engineering by @kieranklaassen and @trevin since the early days. \nbuilt an entire coach matching platform with it\n\nmy wo",
-        "url": "https://x.com/ridegoodwaves/status/2042682666336817533",
-        "date": "2026-04-10T19:14:33.000Z",
-        "likes": 6,
-        "retweets": 2,
-        "replies": 1
+        "replies": 39
       },
       {
         "source": "x",
         "type": "tweet",
         "author": "trq212",
         "author_name": "Thariq",
-        "title": "@TechNTech42 @steipete yeah",
-        "url": "https://x.com/trq212/status/2042655125597229467",
-        "date": "2026-04-10T17:25:07.000Z",
-        "likes": 2,
+        "title": "@Hesamation we don't degrade our models to better serve demand, have said this many times before",
+        "url": "https://x.com/trq212/status/2043023892579766290",
+        "date": "2026-04-11T17:50:28.000Z",
+        "likes": 51,
+        "retweets": 3,
+        "replies": 12
+      },
+      {
+        "source": "x",
+        "type": "tweet",
+        "author": "trq212",
+        "author_name": "Thariq",
+        "title": "@Hesamation all of these are weird measures that are hard to control for, e.g. the model can also read files via bash and also the nature of",
+        "url": "https://x.com/trq212/status/2043020558414286969",
+        "date": "2026-04-11T17:37:13.000Z",
+        "likes": 25,
         "retweets": 0,
-        "replies": 1
+        "replies": 11
+      },
+      {
+        "source": "x",
+        "type": "tweet",
+        "author": "trq212",
+        "author_name": "Thariq",
+        "title": "@Hesamation always looking into bugs but have not found anything\n\nlike you said reports are very qualitative",
+        "url": "https://x.com/trq212/status/2043029154917159343",
+        "date": "2026-04-11T18:11:22.000Z",
+        "likes": 23,
+        "retweets": 0,
+        "replies": 13
+      },
+      {
+        "source": "x",
+        "type": "tweet",
+        "author": "NickSpisak_",
+        "author_name": "Nick Spisak",
+        "title": "claude code just shipped /ultraplan. the speed isn't the interesting part.\n\nin under 5 minutes you'll learn:\n\n1. how 4 opus agents plan your",
+        "url": "https://x.com/NickSpisak_/status/2043060265823146202",
+        "date": "2026-04-11T20:15:00.000Z",
+        "likes": 16,
+        "retweets": 2,
+        "replies": 2
+      },
+      {
+        "source": "x",
+        "type": "tweet",
+        "author": "trq212",
+        "author_name": "Thariq",
+        "title": "@suhaboncukcu @Hesamation yeah agree, have to improve how people can report",
+        "url": "https://x.com/trq212/status/2043037607316328935",
+        "date": "2026-04-11T18:44:58.000Z",
+        "likes": 10,
+        "retweets": 0,
+        "replies": 3
+      },
+      {
+        "source": "x",
+        "type": "tweet",
+        "author": "trq212",
+        "author_name": "Thariq",
+        "title": "@third_leap @suhaboncukcu @Hesamation 🙏",
+        "url": "https://x.com/trq212/status/2043039563820699865",
+        "date": "2026-04-11T18:52:44.000Z",
+        "likes": 4,
+        "retweets": 0,
+        "replies": 0
+      },
+      {
+        "source": "x",
+        "type": "tweet",
+        "author": "bcherny",
+        "author_name": "Boris Cherny",
+        "title": "RT @noahzweben: Claude now supports dynamic looping. If you run /loop without passing an interval, Claude will dynamically schedule the nex…",
+        "url": "https://x.com/bcherny/status/2042979392121639249",
+        "date": "2026-04-11T14:53:38.000Z",
+        "likes": 0,
+        "retweets": 142,
+        "replies": 0
+      },
+      {
+        "source": "x",
+        "type": "tweet",
+        "author": "bcherny",
+        "author_name": "Boris Cherny",
+        "title": "RT @claudeai: Claude for Word is now in beta.\n\nDraft, edit, and revise documents directly from the sidebar. Claude preserves your formattin…",
+        "url": "https://x.com/bcherny/status/2042979304871780738",
+        "date": "2026-04-11T14:53:17.000Z",
+        "likes": 0,
+        "retweets": 2196,
+        "replies": 0
       },
       {
         "source": "x",
@@ -537,20 +483,8 @@
         "url": "https://x.com/alexalbert__/status/2042705404992589927",
         "date": "2026-04-10T20:44:54.000Z",
         "likes": 0,
-        "retweets": 658,
+        "retweets": 2196,
         "replies": 0
-      },
-      {
-        "source": "x",
-        "type": "tweet",
-        "author": "trq212",
-        "author_name": "Thariq",
-        "title": "@elwin1116 @steipete yeah we have an appeals form",
-        "url": "https://x.com/trq212/status/2042669682138976490",
-        "date": "2026-04-10T18:22:57.000Z",
-        "likes": 0,
-        "retweets": 0,
-        "replies": 1
       }
     ]
   }
