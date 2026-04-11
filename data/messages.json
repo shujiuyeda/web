@@ -1,20 +1,60 @@
 {
-  "date": "2026-04-10",
+  "date": "2026-04-11",
   "chatwork": {
     "unread": 0,
     "mention": 0,
     "items": [],
     "tasks": [
-      { "body": "広告回し始め→相談会に来ない件", "room": "MQ全員：業務連絡用", "url": "https://www.chatwork.com/#!rid56247" },
-      { "body": "ウェビナー特典の音声が聴けない問い合わせ", "room": "MQ全員：業務連絡用", "url": "https://www.chatwork.com/#!rid56247" },
-      { "body": "ウェビナー申込リンクが視聴予約ページになる件", "room": "MQ全員：業務連絡用", "url": "https://www.chatwork.com/#!rid56247" },
-      { "body": "やのうさんプロジェクト確認", "room": "やのうさんプロジェクト", "url": "https://www.chatwork.com/#!rid368212529" },
-      { "body": "nanobananaでデザイン作成の件", "room": "AIを革新的活用しようチャット", "url": "https://www.chatwork.com/#!rid382413308" },
-      { "body": "Claude Code活用のやり方共有", "room": "ClaudeCode活用", "url": "https://www.chatwork.com/#!rid422208145" },
-      { "body": "PC右上に通知表示する設定", "room": "ClaudeCode活用", "url": "https://www.chatwork.com/#!rid422208145" },
-      { "body": "ライティングスキル（Claude Code）作成依頼", "room": "ClaudeCode活用", "url": "https://www.chatwork.com/#!rid422208145" },
-      { "body": "音声入力ツール voiceos.com の共有", "room": "AIを革新的活用しようチャット", "url": "https://www.chatwork.com/#!rid382413308" },
-      { "body": "タスク変換の提案", "room": "The Vibration", "url": "https://www.chatwork.com/#!rid418681940" }
+      {
+        "body": "広告まわしはじめてるのだけど  よこちゃんの 相談会に 全然来ないらいしです  まえは 広告回してたときは きてたらしい",
+        "room": "MQ全員：業務連絡用",
+        "url": "https://www.chatwork.com/#!rid56247-469765934"
+      },
+      {
+        "body": "「自然に売れる秘訣教えます」のウェビナーについて、 参加後に届くメール内容にある、 特典の音声が聴けないという問い合わせ",
+        "room": "MQ全員：業務連絡用",
+        "url": "https://www.chatwork.com/#!rid56247-469699669"
+      },
+      {
+        "body": "こちら、しゅうしゅうに確認でよろしいでしょうか？  ウェビナーお申込の方から、 「お送りいただいたリンクが、視聴予約のペ",
+        "room": "MQ全員：業務連絡用",
+        "url": "https://www.chatwork.com/#!rid56247-469630194"
+      },
+      {
+        "body": "[qt][qtmeta aid=5894716 time=1771740576][To:1488839]しゅうしゅうさん",
+        "room": "【au010社内】 やのうさんプロジェクト",
+        "url": "https://www.chatwork.com/#!rid368212529-469248783"
+      },
+      {
+        "body": "[qt][qtmeta aid=4044986 time=1771366200]nanobananaでデザイン作られる方",
+        "room": "AIを革新的活用しようチャット",
+        "url": "https://www.chatwork.com/#!rid382413308-469154142"
+      },
+      {
+        "body": "[qt][qtmeta aid=4044986 time=1771303423]興味ある方は、 こちらが僕がやったやり方",
+        "room": "ClaudeCode活用",
+        "url": "https://www.chatwork.com/#!rid422208145-468496477"
+      },
+      {
+        "body": "[qt][qtmeta aid=4044986 time=1771293170][qt][qtmeta aid=1488",
+        "room": "ClaudeCode活用",
+        "url": "https://www.chatwork.com/#!rid422208145-468428601"
+      },
+      {
+        "body": "オーサーズ  けんさん たくみさん やのうさん  の ライティングスキル（claudeocode）つくっててほしい  そ",
+        "room": "ClaudeCode活用",
+        "url": "https://www.chatwork.com/#!rid422208145-468026870"
+      },
+      {
+        "body": "https://www.voiceos.com/  まだ クロードコードふくめ ふつうの作業も パソコンで音声入力してな",
+        "room": "AIを革新的活用しようチャット",
+        "url": "https://www.chatwork.com/#!rid382413308-467848075"
+      },
+      {
+        "body": "[qt][qtmeta aid=1488839 time=1770693405][qt][qtmeta aid=4044",
+        "room": "[pl26a] The Vibration",
+        "url": "https://www.chatwork.com/#!rid418681940-467454542"
+      }
     ]
   },
   "gmail": {

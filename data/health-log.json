@@ -968,5 +968,23 @@
     "steps": null,
     "rhr": null,
     "hrv": 28.4
+  },
+  "2026-04-11": {
+    "water": {
+      "pure": 0,
+      "total": 0
+    },
+    "bowel": null,
+    "stretch": {
+      "upper": false,
+      "lower": false,
+      "hip": false,
+      "spine": false
+    },
+    "steps": 5658,
+    "rhr": 66,
+    "hrv": 29.4,
+    "energy": null,
+    "memo": ""
   }
 }
