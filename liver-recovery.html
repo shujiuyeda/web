@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <meta name="theme-color" content="#7B2D26">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="肝臓リカバリー">
+  <title>肝臓リカバリー</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --liver-dark: #7B2D26;
+      --liver-mid: #A0453E;
+      --liver-light: #D4796F;
+      --liver-pale: #FDE8E4;
+      --bg: #FFF8F6;
+      --card: #FFFFFF;
+      --text: #1A1A2E;
+      --text-muted: #6C757D;
+      --border: #F0D0CC;
+      --accent: #D4796F;
+      --success: #28A745;
+      --warning: #E5A020;
+      --danger: #DC3545;
+      --safe-bottom: env(safe-area-inset-bottom, 0px);
+    }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Hiragino Kaku Gothic ProN', sans-serif;
+      background: var(--bg); color: var(--text);
+      min-height: 100vh; overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+    .header {
+      position: fixed; top: 0; left: 0; right: 0;
+      background: var(--liver-dark); color: white;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 12px 16px; padding-top: calc(12px + env(safe-area-inset-top, 0px));
+      z-index: 100;
+    }
+    .header h1 { font-size: 16px; font-weight: 700; }
+    .header-sub { font-size: 11px; opacity: 0.8; }
+    .header-right { text-align: right; }
+    .countdown { font-size: 20px; font-weight: 800; }
+    .countdown-label { font-size: 10px; opacity: 0.7; }
+    .main {
+      padding-top: 80px; padding-bottom: calc(20px + var(--safe-bottom));
+      max-width: 480px; margin: 0 auto; padding-left: 12px; padding-right: 12px;
+    }
+    .card {
+      background: var(--card); border-radius: 14px;
+      padding: 16px; margin-bottom: 12px;
+      box-shadow: 0 1px 4px rgba(123,45,38,0.08);
+    }
+    .card-title {
+      font-size: 14px; font-weight: 700; color: var(--liver-dark);
+      margin-bottom: 12px; display: flex; align-items: center; gap: 6px;
+    }
+    .progress-bar-bg {
+      height: 8px; background: var(--liver-pale); border-radius: 4px;
+      overflow: hidden; margin: 8px 0;
+    }
+    .progress-bar-fill {
+      height: 100%; background: linear-gradient(90deg, var(--liver-light), var(--success));
+      border-radius: 4px; transition: width 0.5s;
+    }
+    .stat-row {
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 4px 0; font-size: 13px;
+    }
+    .stat-label { color: var(--text-muted); }
+    .stat-value { font-weight: 700; }
+    .target { color: var(--success); }
+    .over { color: var(--danger); }
+    .checklist { list-style: none; }
+    .checklist li {
+      display: flex; align-items: center; gap: 10px;
+      padding: 10px 0; border-bottom: 1px solid #f5e8e6;
+      font-size: 14px; cursor: pointer;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .checklist li:last-child { border-bottom: none; }
+    .checklist li.done { color: var(--text-muted); text-decoration: line-through; }
+    .check-box {
+      width: 22px; height: 22px; border-radius: 6px;
+      border: 2px solid var(--liver-light); flex-shrink: 0;
+      display: flex; align-items: center; justify-content: center;
+      transition: all 0.15s;
+    }
+    .check-box.checked {
+      background: var(--success); border-color: var(--success);
+    }
+    .check-box.checked::after { content: '✓'; color: white; font-size: 14px; font-weight: 700; }
+    .section-toggle {
+      display: flex; justify-content: space-between; align-items: center;
+      cursor: pointer; -webkit-tap-highlight-color: transparent;
+    }
+    .section-toggle .arrow { transition: transform 0.2s; font-size: 12px; color: var(--text-muted); }
+    .section-toggle .arrow.open { transform: rotate(180deg); }
+    .collapsible { overflow: hidden; transition: max-height 0.3s; max-height: 0; }
+    .collapsible.open { max-height: 2000px; }
+    .food-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; margin-top: 10px; }
+    .food-item {
+      background: var(--liver-pale); border-radius: 8px;
+      padding: 8px 10px; font-size: 12px;
+    }
+    .food-item .name { font-weight: 700; }
+    .food-item .note { color: var(--text-muted); font-size: 11px; }
+    .ng-item {
+      background: #FEE; border-radius: 8px;
+      padding: 8px 10px; font-size: 12px;
+    }
+    .suppl-item {
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 8px 0; border-bottom: 1px solid #f5e8e6; font-size: 13px;
+    }
+    .suppl-item:last-child { border-bottom: none; }
+    .suppl-time { font-size: 11px; color: var(--text-muted); min-width: 30px; }
+    .suppl-name { flex: 1; margin-left: 8px; }
+    .suppl-why { font-size: 11px; color: var(--liver-mid); }
+    .milestone { display: flex; gap: 6px; margin-top: 10px; }
+    .milestone-item {
+      flex: 1; text-align: center; background: var(--liver-pale);
+      border-radius: 10px; padding: 10px 4px; font-size: 11px;
+    }
+    .milestone-item .month { font-weight: 700; font-size: 13px; color: var(--liver-dark); }
+    .milestone-item .kg { font-size: 16px; font-weight: 800; margin: 4px 0; }
+    .milestone-item.current { background: var(--liver-dark); color: white; }
+    .milestone-item.current .month { color: white; }
+    .reset-btn {
+      display: block; width: 100%; padding: 12px;
+      background: var(--liver-pale); color: var(--liver-dark);
+      border: none; border-radius: 10px; font-size: 14px; font-weight: 600;
+      cursor: pointer; margin-top: 8px;
+    }
+    .tsubo-guide {
+      display: flex; gap: 12px; margin-top: 10px; align-items: flex-start;
+    }
+    .tsubo-card {
+      flex: 1; background: var(--liver-pale); border-radius: 10px; padding: 12px;
+    }
+    .tsubo-card .name { font-weight: 700; font-size: 14px; color: var(--liver-dark); }
+    .tsubo-card .time { font-size: 11px; color: var(--text-muted); margin-bottom: 4px; }
+    .tsubo-card .desc { font-size: 12px; line-height: 1.5; }
+  </style>
+</head>
+<body>
+
+<div class="header">
+  <div>
+    <h1>🫀 肝臓リカバリー</h1>
+    <div class="header-sub">8月再検査 ALT 30以下</div>
+  </div>
+  <div class="header-right">
+    <div class="countdown" id="countdown">—</div>
+    <div class="countdown-label">日後に再検査</div>
+  </div>
+</div>
+
+<div class="main">
+
+  <!-- 進捗カード -->
+  <div class="card" id="progress-card">
+    <div class="card-title">📊 進捗</div>
+    <div class="stat-row">
+      <span class="stat-label">現在の体重</span>
+      <span class="stat-value" id="current-weight">—</span>
+    </div>
+    <div class="stat-row">
+      <span class="stat-label">目標（5%減）</span>
+      <span class="stat-value target" id="target-weight">83.0kg</span>
+    </div>
+    <div class="progress-bar-bg">
+      <div class="progress-bar-fill" id="weight-progress" style="width:0%"></div>
+    </div>
+    <div class="stat-row">
+      <span class="stat-label">あと</span>
+      <span class="stat-value" id="remaining-kg">—</span>
+    </div>
+    <div class="milestone">
+      <div class="milestone-item" id="ms-apr"><div class="month">4月</div><div class="kg">87</div>開始</div>
+      <div class="milestone-item" id="ms-may"><div class="month">5月</div><div class="kg">86</div></div>
+      <div class="milestone-item" id="ms-jun"><div class="month">6月</div><div class="kg">85</div></div>
+      <div class="milestone-item" id="ms-jul"><div class="month">7月</div><div class="kg">84</div></div>
+      <div class="milestone-item" id="ms-aug"><div class="month">8月</div><div class="kg">83</div>検査</div>
+    </div>
+  </div>
+
+  <!-- 毎日チェックリスト -->
+  <div class="card">
+    <div class="card-title">✅ 今日のチェックリスト <span id="check-count" style="margin-left:auto;font-size:12px;color:var(--text-muted)">0/0</span></div>
+    <ul class="checklist" id="daily-checklist"></ul>
+    <button class="reset-btn" id="reset-btn">チェックをリセット</button>
+  </div>
+
+  <!-- サプリ -->
+  <div class="card">
+    <div class="section-toggle" onclick="toggleSection('suppl')">
+      <div class="card-title" style="margin-bottom:0">💊 今日のサプリ</div>
+      <span class="arrow" id="suppl-arrow">▼</span>
+    </div>
+    <div class="collapsible" id="suppl-section">
+      <div style="margin-top:12px">
+        <div class="suppl-item"><span class="suppl-time">朝</span><span class="suppl-name">ユリス</span><span class="suppl-why">処方薬（尿酸）</span></div>
+        <div class="suppl-item"><span class="suppl-time">朝</span><span class="suppl-name">ビタミンD3+K2</span><span class="suppl-why">NAFLD対策</span></div>
+        <div class="suppl-item"><span class="suppl-time">夜</span><span class="suppl-name">ロスバスタチン</span><span class="suppl-why">処方薬（LDL）</span></div>
+        <div class="suppl-item"><span class="suppl-time">夜</span><span class="suppl-name">亜鉛</span><span class="suppl-why">肝臓の解毒酵素</span></div>
+        <div class="suppl-item"><span class="suppl-time">夜</span><span class="suppl-name">オメガ3</span><span class="suppl-why">肝脂肪を減少</span></div>
+        <div class="suppl-item"><span class="suppl-time">夜</span><span class="suppl-name">マグネシウム</span><span class="suppl-why">インスリン感受性+睡眠</span></div>
+        <div class="suppl-item"><span class="suppl-time">夕</span><span class="suppl-name">サイリウム+イヌリン</span><span class="suppl-why">繊維不足日のみ</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 食べるもの -->
+  <div class="card">
+    <div class="section-toggle" onclick="toggleSection('food')">
+      <div class="card-title" style="margin-bottom:0">🥦 食べるもの・避けるもの</div>
+      <span class="arrow" id="food-arrow">▼</span>
+    </div>
+    <div class="collapsible" id="food-section">
+      <div style="margin-top:12px;font-size:13px;font-weight:700;color:var(--success)">積極的に食べる</div>
+      <div class="food-grid">
+        <div class="food-item"><div class="name">青魚</div><div class="note">サバ・イワシ 週3回</div></div>
+        <div class="food-item"><div class="name">ブロッコリー</div><div class="note">毎日100g 解毒酵素↑</div></div>
+        <div class="food-item"><div class="name">豆腐・納豆</div><div class="note">半丁/日 + 1パック/日</div></div>
+        <div class="food-item"><div class="name">しじみ</div><div class="note">味噌汁で週3回</div></div>
+        <div class="food-item"><div class="name">鶏むね・ささみ</div><div class="note">低脂質タンパク</div></div>
+        <div class="food-item"><div class="name">にんにく</div><div class="note">1-2片/日 解毒↑</div></div>
+        <div class="food-item"><div class="name">クルミ</div><div class="note">25g/日 オメガ3</div></div>
+        <div class="food-item"><div class="name">オリーブオイル</div><div class="note">加熱用油はこれ</div></div>
+      </div>
+      <div style="margin-top:14px;font-size:13px;font-weight:700;color:var(--danger)">避けるもの</div>
+      <div class="food-grid">
+        <div class="ng-item"><div class="name">甘い飲み物</div><div class="note">お酒より危険</div></div>
+        <div class="ng-item"><div class="name">揚げ物の頻食</div><div class="note">週1回以下に</div></div>
+        <div class="ng-item"><div class="name">加工食品</div><div class="note">カップ麺・菓子パン</div></div>
+        <div class="ng-item"><div class="name">大盛り・早食い</div><div class="note">血糖値急上昇</div></div>
+        <div class="ng-item"><div class="name">夜食</div><div class="note">寝る2h前まで</div></div>
+        <div class="ng-item"><div class="name">急激なダイエット</div><div class="note">月2kg以下で</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ツボ -->
+  <div class="card">
+    <div class="section-toggle" onclick="toggleSection('tsubo')">
+      <div class="card-title" style="margin-bottom:0">🫳 ツボガイド</div>
+      <span class="arrow" id="tsubo-arrow">▼</span>
+    </div>
+    <div class="collapsible" id="tsubo-section">
+      <div class="tsubo-guide">
+        <div class="tsubo-card">
+          <div class="time">朝</div>
+          <div class="name">太衝（たいしょう）</div>
+          <div class="desc">足の甲、親指と人差し指の骨の間のくぼみ。3-5秒×5回、両足。肝の気の巡りを改善。</div>
+        </div>
+        <div class="tsubo-card">
+          <div class="time">夜</div>
+          <div class="name">期門（きもん）</div>
+          <div class="desc">右の乳頭の真下、肋骨の下あたり。息を吐きながら5秒×5回。肝臓の真上のツボ。</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 危険サイン -->
+  <div class="card">
+    <div class="section-toggle" onclick="toggleSection('danger')">
+      <div class="card-title" style="margin-bottom:0">⚠️ 危険サイン（すぐ受診）</div>
+      <span class="arrow" id="danger-arrow">▼</span>
+    </div>
+    <div class="collapsible" id="danger-section">
+      <ul style="margin-top:10px;padding-left:20px;font-size:13px;line-height:2">
+        <li>皮膚や白目が黄色くなる（黄疸）</li>
+        <li>右上腹部の強い痛み</li>
+        <li>全身のかゆみが止まらない</li>
+        <li>足のむくみが取れない</li>
+        <li>尿が濃い茶色になる</li>
+        <li>意識がぼんやりする</li>
+      </ul>
+    </div>
+  </div>
+
+</div>
+
+<script>
+const DAILY_ITEMS = [
+  { id: 'water_morning', label: '起床後コップ1杯の水', slot: 'morning' },
+  { id: 'tsubo_morning', label: '太衝のツボを押す（両足）', slot: 'morning' },
+  { id: 'record_meals', label: '食事を全部記録する', slot: 'all_day' },
+  { id: 'coffee3', label: 'ブラックコーヒー3杯', slot: 'all_day' },
+  { id: 'no_sweet_drinks', label: '甘い飲み物を飲まない', slot: 'all_day' },
+  { id: 'water_2l', label: '水2.0L飲む', slot: 'all_day' },
+  { id: 'walk_30', label: '30分以上歩く', slot: 'all_day' },
+  { id: 'veg_first', label: '野菜から先に食べる', slot: 'all_day' },
+  { id: 'chew_well', label: 'よく噛んで腹八分目', slot: 'all_day' },
+  { id: 'suppl_morning', label: '朝サプリ（ユリス+D3+K2）', slot: 'morning' },
+  { id: 'suppl_evening', label: '夜サプリ（ロスバ+亜鉛+Ω3+Mg）', slot: 'evening' },
+  { id: 'no_late_meal', label: '就寝2時間前に食事を終える', slot: 'evening' },
+  { id: 'sleep_time', label: '決めた時刻に寝る', slot: 'evening' },
+  { id: 'sleep_6h', label: '6時間以上寝る', slot: 'evening' },
+  { id: 'tsubo_evening', label: '期門のツボを押す', slot: 'evening' },
+];
+
+const TODAY = new Date().toISOString().slice(0, 10);
+const STORAGE_KEY = 'liver_checks_' + TODAY;
+const EXAM_DATE = new Date('2026-08-13');
+const START_WEIGHT = 87.9;
+const TARGET_WEIGHT = 83.0;
+
+function getChecks() {
+  try { return JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}'); } catch { return {}; }
+}
+function saveChecks(checks) { localStorage.setItem(STORAGE_KEY, JSON.stringify(checks)); }
+
+function renderChecklist() {
+  const ul = document.getElementById('daily-checklist');
+  const checks = getChecks();
+  ul.innerHTML = '';
+  DAILY_ITEMS.forEach(item => {
+    const li = document.createElement('li');
+    li.className = checks[item.id] ? 'done' : '';
+    li.innerHTML = `<div class="check-box ${checks[item.id] ? 'checked' : ''}"></div><span>${item.label}</span>`;
+    li.onclick = () => {
+      const c = getChecks();
+      c[item.id] = !c[item.id];
+      saveChecks(c);
+      renderChecklist();
+    };
+    ul.appendChild(li);
+  });
+  const doneCount = Object.values(checks).filter(Boolean).length;
+  document.getElementById('check-count').textContent = `${doneCount}/${DAILY_ITEMS.length}`;
+}
+
+function renderCountdown() {
+  const now = new Date();
+  const diff = Math.ceil((EXAM_DATE - now) / (1000 * 60 * 60 * 24));
+  document.getElementById('countdown').textContent = diff > 0 ? diff : '0';
+}
+
+async function loadWeight() {
+  try {
+    const res = await fetch('data/weights.json?t=' + Date.now());
+    const data = await res.json();
+    const weights = data.weights || {};
+    const dates = Object.keys(weights).sort();
+    const latest = dates[dates.length - 1];
+    const kg = weights[latest];
+    document.getElementById('current-weight').textContent = kg.toFixed(1) + 'kg';
+    const remaining = kg - TARGET_WEIGHT;
+    document.getElementById('remaining-kg').textContent = remaining > 0 ? `-${remaining.toFixed(1)}kg` : '達成!';
+    document.getElementById('remaining-kg').className = 'stat-value ' + (remaining > 0 ? 'over' : 'target');
+    const totalToLose = START_WEIGHT - TARGET_WEIGHT;
+    const lost = START_WEIGHT - kg;
+    const pct = Math.max(0, Math.min(100, (lost / totalToLose) * 100));
+    document.getElementById('weight-progress').style.width = pct + '%';
+    // Highlight current milestone
+    const month = new Date().getMonth() + 1;
+    const msMap = { 4: 'ms-apr', 5: 'ms-may', 6: 'ms-jun', 7: 'ms-jul', 8: 'ms-aug' };
+    if (msMap[month]) document.getElementById(msMap[month]).classList.add('current');
+  } catch (e) {
+    document.getElementById('current-weight').textContent = '—';
+  }
+}
+
+function toggleSection(id) {
+  const section = document.getElementById(id + '-section');
+  const arrow = document.getElementById(id + '-arrow');
+  section.classList.toggle('open');
+  arrow.classList.toggle('open');
+}
+
+document.getElementById('reset-btn').onclick = () => {
+  if (confirm('今日のチェックをリセットしますか？')) {
+    localStorage.removeItem(STORAGE_KEY);
+    renderChecklist();
+  }
+};
+
+renderChecklist();
+renderCountdown();
+loadWeight();
+</script>
+</body>
+</html>
