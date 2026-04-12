@@ -128,6 +128,15 @@
     .milestone-item .kg { font-size: 16px; font-weight: 800; margin: 4px 0; }
     .milestone-item.current { background: var(--liver-dark); color: white; }
     .milestone-item.current .month { color: white; }
+    @keyframes pulse { 0%,100% { opacity:1; } 50% { opacity:0.4; } }
+    .meal-entry {
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 8px 0; border-bottom: 1px solid #f5e8e6; font-size: 13px;
+    }
+    .meal-entry:last-child { border-bottom: none; }
+    .meal-entry .time { color: var(--text-muted); font-size: 11px; min-width: 40px; }
+    .meal-entry .name { flex: 1; margin: 0 8px; }
+    .meal-entry .kcal { font-weight: 700; }
     .reset-btn {
       display: block; width: 100%; padding: 12px;
       background: var(--liver-pale); color: var(--liver-dark);
@@ -159,6 +168,37 @@
 </div>
 
 <div class="main">
+
+  <!-- 食事記録 -->
+  <div class="card">
+    <div class="card-title">📸 食事記録 <span id="meal-total" style="margin-left:auto;font-size:12px;color:var(--text-muted)"></span></div>
+    <div id="today-meals" style="margin-bottom:12px"></div>
+    <label style="display:flex;align-items:center;justify-content:center;gap:8px;padding:14px;background:var(--liver-pale);border-radius:12px;cursor:pointer;font-size:14px;font-weight:600;color:var(--liver-dark);-webkit-tap-highlight-color:transparent">
+      <span style="font-size:22px">📷</span> 写真を撮って記録する
+      <input type="file" accept="image/*" capture="environment" id="meal-photo" style="display:none">
+    </label>
+    <div id="meal-analyzing" style="display:none;text-align:center;padding:20px;font-size:13px;color:var(--text-muted)">
+      <div style="font-size:24px;margin-bottom:8px;animation:pulse 1.2s infinite">🔍</div>
+      分析中...
+    </div>
+    <div id="meal-result" style="display:none;margin-top:12px">
+      <div style="background:var(--liver-pale);border-radius:10px;padding:14px">
+        <div style="font-weight:700;font-size:15px;margin-bottom:8px" id="result-name"></div>
+        <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:6px;text-align:center;font-size:12px">
+          <div><div style="font-weight:700;font-size:16px" id="result-kcal"></div>kcal</div>
+          <div><div style="font-weight:700;font-size:16px;color:#E57373" id="result-p"></div>P</div>
+          <div><div style="font-weight:700;font-size:16px;color:#FFB74D" id="result-f"></div>F</div>
+          <div><div style="font-weight:700;font-size:16px;color:#81C784" id="result-c"></div>C</div>
+        </div>
+        <div style="margin-top:8px;font-size:11px;color:var(--text-muted)" id="result-extra"></div>
+      </div>
+      <div style="display:flex;gap:8px;margin-top:10px">
+        <button onclick="saveMeal()" style="flex:1;padding:12px;background:var(--success);color:white;border:none;border-radius:10px;font-size:14px;font-weight:600;cursor:pointer">✓ 記録する</button>
+        <button onclick="cancelMeal()" style="padding:12px 16px;background:#eee;color:var(--text);border:none;border-radius:10px;font-size:14px;cursor:pointer">✗</button>
+      </div>
+    </div>
+    <div id="meal-error" style="display:none;margin-top:10px;padding:10px;background:#FEE;border-radius:8px;font-size:12px;color:var(--danger)"></div>
+  </div>
 
   <!-- 進捗カード -->
   <div class="card" id="progress-card">
@@ -385,6 +425,182 @@ document.getElementById('reset-btn').onclick = () => {
 renderChecklist();
 renderCountdown();
 loadWeight();
+
+// ===== 食事記録 =====
+const GITHUB_TOKEN_KEY = 'kanzo_github_token';
+const OPENAI_KEY_KEY = 'kanzo_openai_key';
+const GITHUB_REPO = 'shujiuyeda/web';
+let pendingMeal = null;
+
+function getApiKey(key, label) {
+  let v = localStorage.getItem(key);
+  if (!v) {
+    v = prompt(label + 'を入力してください（初回のみ・localStorageに保存）');
+    if (v) localStorage.setItem(key, v.trim());
+  }
+  return v;
+}
+
+document.getElementById('meal-photo').addEventListener('change', async (e) => {
+  const file = e.target.files[0];
+  if (!file) return;
+  const openaiKey = getApiKey(OPENAI_KEY_KEY, 'OpenAI APIキー');
+  if (!openaiKey) return;
+
+  document.getElementById('meal-analyzing').style.display = 'block';
+  document.getElementById('meal-result').style.display = 'none';
+  document.getElementById('meal-error').style.display = 'none';
+
+  try {
+    const base64 = await fileToBase64(file);
+    const now = new Date();
+    const timeStr = `${String(now.getHours()).padStart(2,'0')}:${String(now.getMinutes()).padStart(2,'0')}`;
+
+    const res = await fetch('https://api.openai.com/v1/chat/completions', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${openaiKey}` },
+      body: JSON.stringify({
+        model: 'gpt-4o',
+        messages: [{
+          role: 'user',
+          content: [
+            { type: 'text', text: `この食事の写真を分析してください。以下のJSON形式で回答してください。他のテキストは不要です。
+{"name":"食事名（日本語）","kcal":0,"p":0,"f":0,"c":0,"fiber":0,"salt":0,"plants":["野菜名"]}
+- kcal: カロリー(kcal)
+- p: タンパク質(g), f: 脂質(g), c: 炭水化物(g)
+- fiber: 食物繊維(g), salt: 食塩相当量(g)
+- plants: 含まれる植物食品名のリスト（野菜/果物/穀物/豆類/きのこ/海藻/ナッツ）
+複数の料理がある場合は合計してください。` },
+            { type: 'image_url', image_url: { url: base64 } }
+          ]
+        }],
+        max_tokens: 500
+      })
+    });
+
+    const data = await res.json();
+    if (data.error) throw new Error(data.error.message);
+
+    const content = data.choices[0].message.content;
+    const jsonMatch = content.match(/\{[\s\S]*\}/);
+    if (!jsonMatch) throw new Error('分析結果を解析できませんでした');
+
+    const meal = JSON.parse(jsonMatch[0]);
+    meal.time = timeStr;
+    pendingMeal = meal;
+
+    document.getElementById('result-name').textContent = meal.name;
+    document.getElementById('result-kcal').textContent = meal.kcal;
+    document.getElementById('result-p').textContent = meal.p + 'g';
+    document.getElementById('result-f').textContent = meal.f + 'g';
+    document.getElementById('result-c').textContent = meal.c + 'g';
+    document.getElementById('result-extra').textContent =
+      `繊維${meal.fiber || 0}g / 塩分${meal.salt || 0}g / 植物${(meal.plants || []).length}種`;
+    document.getElementById('meal-result').style.display = 'block';
+  } catch (err) {
+    document.getElementById('meal-error').textContent = 'エラー: ' + err.message;
+    document.getElementById('meal-error').style.display = 'block';
+  } finally {
+    document.getElementById('meal-analyzing').style.display = 'none';
+    e.target.value = '';
+  }
+});
+
+function fileToBase64(file) {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = () => resolve(reader.result);
+    reader.onerror = reject;
+    reader.readAsDataURL(file);
+  });
+}
+
+async function saveMeal() {
+  if (!pendingMeal) return;
+  const ghToken = getApiKey(GITHUB_TOKEN_KEY, 'GitHub Personal Access Token');
+  if (!ghToken) return;
+
+  const meal = { ...pendingMeal };
+  // Ensure all fields
+  meal.mg = meal.mg || 0;
+  meal.satFat = meal.satFat || 0;
+  meal.goodFat = meal.goodFat || 0;
+  meal.ca = meal.ca || 0;
+  meal.k = meal.k || 0;
+  if (!meal.plants) meal.plants = [];
+
+  const fileName = `data/meals-${TODAY}.json`;
+  let existing = { date: TODAY, meals: [] };
+
+  try {
+    // Get existing file
+    const getRes = await fetch(`https://api.github.com/repos/${GITHUB_REPO}/contents/${fileName}`, {
+      headers: { 'Authorization': `token ${ghToken}` }
+    });
+    if (getRes.ok) {
+      const fileData = await getRes.json();
+      existing = JSON.parse(atob(fileData.content));
+      existing._sha = fileData.sha;
+    }
+  } catch {}
+
+  existing.meals.push(meal);
+  const sha = existing._sha;
+  delete existing._sha;
+
+  const body = {
+    message: `meal: ${TODAY} ${meal.time} ${meal.name}`,
+    content: btoa(unescape(encodeURIComponent(JSON.stringify(existing, null, 2)))),
+  };
+  if (sha) body.sha = sha;
+
+  const putRes = await fetch(`https://api.github.com/repos/${GITHUB_REPO}/contents/${fileName}`, {
+    method: 'PUT',
+    headers: { 'Authorization': `token ${ghToken}`, 'Content-Type': 'application/json' },
+    body: JSON.stringify(body)
+  });
+
+  if (putRes.ok) {
+    pendingMeal = null;
+    document.getElementById('meal-result').style.display = 'none';
+    loadTodayMeals();
+  } else {
+    const err = await putRes.json();
+    alert('保存失敗: ' + (err.message || '不明なエラー'));
+  }
+}
+
+function cancelMeal() {
+  pendingMeal = null;
+  document.getElementById('meal-result').style.display = 'none';
+}
+
+async function loadTodayMeals() {
+  const container = document.getElementById('today-meals');
+  const totalEl = document.getElementById('meal-total');
+  try {
+    const res = await fetch(`https://raw.githubusercontent.com/${GITHUB_REPO}/main/data/meals-${TODAY}.json?t=${Date.now()}`);
+    if (!res.ok) { container.innerHTML = ''; totalEl.textContent = ''; return; }
+    const data = await res.json();
+    const meals = data.meals || [];
+    if (meals.length === 0) { container.innerHTML = ''; totalEl.textContent = ''; return; }
+
+    const totalKcal = meals.reduce((s, m) => s + (m.kcal || 0), 0);
+    const totalP = meals.reduce((s, m) => s + (m.p || 0), 0);
+    const totalF = meals.reduce((s, m) => s + (m.f || 0), 0);
+    const totalC = meals.reduce((s, m) => s + (m.c || 0), 0);
+    totalEl.textContent = `${totalKcal}kcal / P${totalP}g F${totalF}g C${totalC}g`;
+
+    container.innerHTML = meals.map(m =>
+      `<div class="meal-entry"><span class="time">${m.time}</span><span class="name">${m.name}</span><span class="kcal">${m.kcal}kcal</span></div>`
+    ).join('');
+  } catch {
+    container.innerHTML = '';
+    totalEl.textContent = '';
+  }
+}
+
+loadTodayMeals();
 </script>
 </body>
 </html>
