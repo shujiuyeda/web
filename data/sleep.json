@@ -4630,5 +4630,31 @@
       "deep": "37m",
       "rem": "1h45m"
     }
+  },
+  "2026-04-12": {
+    "hours": 4.8,
+    "stages": {
+      "core": 3.08,
+      "deep": 0.52,
+      "rem": 1.2
+    },
+    "stageHints": {
+      "core": "3h05m",
+      "deep": "31m",
+      "rem": "1h12m"
+    }
+  },
+  "2026-04-13": {
+    "hours": 5.81,
+    "stages": {
+      "core": 3.81,
+      "deep": 0.56,
+      "rem": 1.46
+    },
+    "stageHints": {
+      "core": "3h49m",
+      "deep": "34m",
+      "rem": "1h28m"
+    }
   }
 }
