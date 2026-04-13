@@ -465,6 +465,11 @@
               <div style="font-size:11px;color:#A0453E">体重目標</div>
               <div style="font-size:14px;font-weight:700" id="liverWeight">—</div>
             </div>
+            <div style="flex:1;background:#E8F0FE;border-radius:10px;padding:10px;text-align:center">
+              <div style="font-size:11px;color:#3B82F6">VO2Max</div>
+              <div style="font-size:18px;font-weight:800" id="vo2display"><span style="color:#ef4444">26</span>→<span style="color:#28A745">30</span></div>
+              <div style="font-size:10px;color:var(--text-muted)" id="vo2label">低い→平均</div>
+            </div>
           </div>
           <div style="height:6px;background:#FDE8E4;border-radius:3px;overflow:hidden;margin-bottom:8px">
             <div id="liverProgress" style="height:100%;background:linear-gradient(90deg,#D4796F,#28A745);border-radius:3px;width:0%;transition:width 0.5s"></div>
@@ -1175,6 +1180,23 @@
         document.getElementById('liverWeight').innerHTML = `${kg.toFixed(1)}→<span style="color:#28A745">${TARGET}</span>kg`;
         const pct = Math.max(0, Math.min(100, ((START - kg) / (START - TARGET)) * 100));
         document.getElementById('liverProgress').style.width = pct + '%';
+      } catch {}
+
+      // VO2Max - find latest from health-log
+      try {
+        const hlRes = await fetch('data/health-log.json?t=' + Date.now());
+        const hlData = await hlRes.json();
+        const hlDates = Object.keys(hlData).sort().reverse();
+        let latestVo2 = null, vo2Date = null;
+        for (const d of hlDates) {
+          if (hlData[d].vo2max) { latestVo2 = hlData[d].vo2max; vo2Date = d; break; }
+        }
+        if (latestVo2) {
+          const label = latestVo2 >= 40 ? '高い' : latestVo2 >= 34 ? '平均以上' : latestVo2 >= 30 ? '平均' : latestVo2 >= 25 ? '平均以下' : '低い';
+          const color = latestVo2 >= 30 ? '#28A745' : latestVo2 >= 25 ? '#E5A020' : '#ef4444';
+          document.getElementById('vo2display').innerHTML = `<span style="color:${color}">${latestVo2}</span>→<span style="color:#28A745">30</span>`;
+          document.getElementById('vo2label').textContent = `${label}（${vo2Date.slice(5)}計測）`;
+        }
       } catch {}
 
       // kanzo checklist from localStorage
