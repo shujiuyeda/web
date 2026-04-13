@@ -997,5 +997,22 @@
     "rhr": 54,
     "hrv": 20.7,
     "steps": 872
+  },
+  "2026-04-14": {
+    "water": {
+      "pure": 0,
+      "total": 0
+    },
+    "bowel": null,
+    "stretch": {
+      "upper": false,
+      "lower": false,
+      "hip": false,
+      "spine": false
+    },
+    "energy": null,
+    "memo": "",
+    "hrv": 32.3,
+    "steps": 54
   }
 }
