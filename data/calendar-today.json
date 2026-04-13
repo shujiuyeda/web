@@ -1,7 +1,6 @@
 {
-  "generated": "2026-04-12",
+  "generated": "2026-04-13",
   "events": [
-    {"date": "2026-04-12", "time": "17:30", "end": "18:30", "title": "パーソナル", "allDay": false},
     {"date": "2026-04-13", "time": null, "end": null, "title": "ゴルフ", "allDay": true},
     {"date": "2026-04-14", "time": null, "end": null, "title": "休暇", "allDay": true},
     {"date": "2026-04-14", "time": "12:00", "end": "12:15", "title": "さとゆみ締め切り", "allDay": false},
@@ -15,6 +14,7 @@
     {"date": "2026-04-22", "time": "16:15", "end": "17:15", "title": "パーソナル", "allDay": false},
     {"date": "2026-04-22", "time": "18:00", "end": "20:00", "title": "御殿場泊", "allDay": false},
     {"date": "2026-04-23", "time": null, "end": null, "title": "GORA KADAN GOLF", "allDay": true},
-    {"date": "2026-04-24", "time": "11:00", "end": "14:30", "title": "父 東海大", "allDay": false}
+    {"date": "2026-04-24", "time": "11:00", "end": "14:30", "title": "父 東海大", "allDay": false},
+    {"date": "2026-04-26", "time": "17:30", "end": "18:30", "title": "パーソナル", "allDay": false}
   ]
 }
