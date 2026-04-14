@@ -1012,8 +1012,11 @@
     },
     "energy": null,
     "memo": "",
-    "hrv": 27.2,
-    "steps": 1484,
-    "rhr": 62
+    "hrv": 25.4,
+    "steps": 1542,
+    "rhr": 61,
+    "stride": 74.5,
+    "walkSpeed": 5.1,
+    "walkDistance": 0.89
   }
 }
