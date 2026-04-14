@@ -1,5 +1,5 @@
 {
-  "date": "2026-04-14",
+  "date": "2026-04-15",
   "tasks": [
     {"id": "dt1", "label": "大鳥神社のお札にお参りをする", "slot": "morning", "priority": 10, "minutes": 5, "done": false, "tag": null, "type": "habit"},
     {"id": "dt2", "label": "今日の体の調子をスキャンする", "slot": "morning", "priority": 10, "minutes": 10, "done": false, "tag": null, "type": "habit"},
@@ -19,13 +19,12 @@
     {"id": "dt16", "label": "台所の洗い物をやる", "slot": "daytime", "priority": 20, "minutes": 20, "done": false, "tag": null, "type": "habit"},
     {"id": "dt17", "label": "昼食後の散歩15分", "slot": "daytime", "priority": 20, "minutes": 30, "done": false, "tag": null, "type": "habit"},
     {"id": "dt18", "label": "日記を書く", "slot": "daytime", "priority": 20, "minutes": 30, "done": false, "tag": null, "type": "habit"},
-    {"id": "dt19", "label": "12:00 さとゆみ締め切り", "slot": "daytime", "priority": 7, "minutes": 15, "done": false, "tag": "urgent", "type": "task-self"},
-    {"id": "dt20", "label": "20:00 Claude Code１か月振り返り会", "slot": "evening", "priority": 62, "minutes": 60, "done": false, "tag": null, "type": "task-self"},
-    {"id": "dt21", "label": "就寝2時間前に食事を終える", "slot": "evening", "priority": 65, "minutes": 0, "done": false, "tag": null, "type": "habit"},
-    {"id": "dt22", "label": "決めた時刻に寝る", "slot": "evening", "priority": 65, "minutes": 0, "done": false, "tag": null, "type": "habit"},
-    {"id": "dt23", "label": "呼吸法（3-6-9呼吸 / 4-7-8呼吸）", "slot": "evening", "priority": 70, "minutes": 10, "done": false, "tag": null, "type": "habit"},
-    {"id": "dt24", "label": "夕食後の散歩15分", "slot": "evening", "priority": 70, "minutes": 30, "done": false, "tag": null, "type": "habit"},
-    {"id": "dt25", "label": "お風呂に入る", "slot": "evening", "priority": 70, "minutes": 30, "done": false, "tag": null, "type": "habit"},
-    {"id": "dt26", "label": "期門のツボを押す", "slot": "evening", "priority": 70, "minutes": 2, "done": false, "tag": null, "type": "habit"}
+    {"id": "dt19", "label": "15:20 パーソナル準備 → 15:40 家を出る → 16:15 パーソナル開始", "slot": "daytime", "priority": 15, "minutes": 90, "done": false, "tag": null, "type": "task-self"},
+    {"id": "dt20", "label": "就寝2時間前に食事を終える", "slot": "evening", "priority": 65, "minutes": 0, "done": false, "tag": null, "type": "habit"},
+    {"id": "dt21", "label": "決めた時刻に寝る", "slot": "evening", "priority": 65, "minutes": 0, "done": false, "tag": null, "type": "habit"},
+    {"id": "dt22", "label": "呼吸法（3-6-9呼吸 / 4-7-8呼吸）", "slot": "evening", "priority": 70, "minutes": 10, "done": false, "tag": null, "type": "habit"},
+    {"id": "dt23", "label": "夕食後の散歩15分", "slot": "evening", "priority": 70, "minutes": 30, "done": false, "tag": null, "type": "habit"},
+    {"id": "dt24", "label": "お風呂に入る", "slot": "evening", "priority": 70, "minutes": 30, "done": false, "tag": null, "type": "habit"},
+    {"id": "dt25", "label": "期門のツボを押す", "slot": "evening", "priority": 70, "minutes": 2, "done": false, "tag": null, "type": "habit"}
   ]
 }
