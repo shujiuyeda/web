@@ -1012,7 +1012,8 @@
     },
     "energy": null,
     "memo": "",
-    "hrv": 32.3,
-    "steps": 54
+    "hrv": 27.2,
+    "steps": 1484,
+    "rhr": 62
   }
 }

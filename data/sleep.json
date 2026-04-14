@@ -4656,5 +4656,18 @@
       "deep": "34m",
       "rem": "1h28m"
     }
+  },
+  "2026-04-14": {
+    "hours": 5.89,
+    "stages": {
+      "core": 3.63,
+      "deep": 0.91,
+      "rem": 1.38
+    },
+    "stageHints": {
+      "core": "3h37m",
+      "deep": "0h54m",
+      "rem": "1h22m"
+    }
   }
 }
