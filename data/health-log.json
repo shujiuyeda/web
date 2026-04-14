@@ -1018,5 +1018,23 @@
     "stride": 74.5,
     "walkSpeed": 5.1,
     "walkDistance": 0.89
+  },
+  "2026-04-15": {
+    "water": {
+      "pure": 0,
+      "total": 0
+    },
+    "bowel": null,
+    "stretch": {
+      "upper": false,
+      "lower": false,
+      "hip": false,
+      "spine": false
+    },
+    "energy": null,
+    "memo": "",
+    "rhr": 64,
+    "hrv": 29.2,
+    "steps": 111
   }
 }
