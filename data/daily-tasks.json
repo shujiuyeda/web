@@ -1,5 +1,5 @@
 {
-  "date": "2026-04-15",
+  "date": "2026-04-16",
   "tasks": [
     {"id": "dt1", "label": "大鳥神社のお札にお参りをする", "slot": "morning", "priority": 10, "minutes": 5, "done": false, "tag": null, "type": "habit"},
     {"id": "dt2", "label": "今日の体の調子をスキャンする", "slot": "morning", "priority": 10, "minutes": 10, "done": false, "tag": null, "type": "habit"},
@@ -19,7 +19,7 @@
     {"id": "dt16", "label": "台所の洗い物をやる", "slot": "daytime", "priority": 20, "minutes": 20, "done": false, "tag": null, "type": "habit"},
     {"id": "dt17", "label": "昼食後の散歩15分", "slot": "daytime", "priority": 20, "minutes": 30, "done": false, "tag": null, "type": "habit"},
     {"id": "dt18", "label": "日記を書く", "slot": "daytime", "priority": 20, "minutes": 30, "done": false, "tag": null, "type": "habit"},
-    {"id": "dt19", "label": "15:20 パーソナル準備 → 15:40 家を出る → 16:15 パーソナル開始", "slot": "daytime", "priority": 15, "minutes": 90, "done": false, "tag": null, "type": "task-self"},
+    {"id": "dt19", "label": "17:00 なっちゃん髪を切る", "slot": "daytime", "priority": 15, "minutes": 60, "done": false, "tag": null, "type": "task-self"},
     {"id": "dt20", "label": "就寝2時間前に食事を終える", "slot": "evening", "priority": 65, "minutes": 0, "done": false, "tag": null, "type": "habit"},
     {"id": "dt21", "label": "決めた時刻に寝る", "slot": "evening", "priority": 65, "minutes": 0, "done": false, "tag": null, "type": "habit"},
     {"id": "dt22", "label": "呼吸法（3-6-9呼吸 / 4-7-8呼吸）", "slot": "evening", "priority": 70, "minutes": 10, "done": false, "tag": null, "type": "habit"},
