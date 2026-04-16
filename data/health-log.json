@@ -1035,6 +1035,9 @@
     "memo": "",
     "rhr": 64,
     "hrv": 29.2,
-    "steps": 111
+    "steps": 6186,
+    "stride": 62.2,
+    "walkSpeed": 4.1,
+    "walkDistance": 4.43
   }
 }
