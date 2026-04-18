@@ -1,1 +1,14 @@
-{"date":"2026-04-18","sales":{"yesterday":0,"lastDate":"2026-04-13","lastAmount":33000,"mtd":621485},"newsletter":{"newToday":null,"total":null},"cashOnHand":72.31}
+{
+  "date": "2026-04-19",
+  "sales": {
+    "yesterday": 0,
+    "lastDate": "2026-04-13",
+    "lastAmount": 33000,
+    "mtd": 621485
+  },
+  "newsletter": {
+    "newToday": null,
+    "total": null
+  },
+  "cashOnHand": 72.31
+}
