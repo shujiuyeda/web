@@ -250,7 +250,7 @@
     "bowel": {
       "status": "hard",
       "time": "10:30",
-      "note": "\u5c11\u91cf\u3001\u3084\u3084\u786c\u3081\u30fb\u30b9\u30e0\u30fc\u30ba\u3067\u306f\u306a\u3044\u304c\u652f\u969c\u306a\u3057"
+      "note": "少量、やや硬め・スムーズではないが支障なし"
     },
     "mood": null,
     "energy": null,
@@ -277,13 +277,13 @@
     "bowel": {
       "status": "hard",
       "time": "10:48",
-      "note": "\u5c11\u91cf\u30fb\u3084\u3084\u56fa\u3081\u3002\u671d\u4e00\u306f\u56fa\u3081\u50be\u5411"
+      "note": "少量・やや固め。朝一は固め傾向"
     },
     "mood": null,
     "energy": 2.3,
     "weather": "sunny",
-    "sleep_feel": "\u5bdd\u4e0d\u8db3\uff082\u6642\u5c31\u5bdd\u30014\u6642\u524d\u30c8\u30a4\u30ec\u8d77\u304d\uff09",
-    "body_note": "\u30d1\u30fc\u30bd\u30ca\u30eb\u7fcc\u65e5: \u304a\u5c3b\u30fb\u53f3\u80a9\u5f8c\u308d\u30fb\u8170\u5f35\u308a\u3002\u53f3\u80a9\u7d99\u7d9a",
+    "sleep_feel": "寝不足（2時就寝、4時前トイレ起き）",
+    "body_note": "パーソナル翌日: お尻・右肩後ろ・腰張り。右肩継続",
     "steps": 3953,
     "rhr": 56,
     "hrv": 33.2,
@@ -308,7 +308,7 @@
     "bowel": {
       "status": "hard",
       "time": "13:30",
-      "note": "2\u56de\uff08\u671d\u30fb\u5348\u5f8c\uff09\u3002\u3069\u3061\u3089\u3082\u3061\u3087\u3044\u56fa\u3081\u30fb\u5c11\u91cf"
+      "note": "2回（朝・午後）。どちらもちょい固め・少量"
     },
     "mood": null,
     "energy": null,
@@ -323,13 +323,13 @@
     "bowel": {
       "status": "hard",
       "time": "09:50",
-      "note": "2\u56de\u30021\u56de\u76ee: \u5c11\u91cf\u30fb\u786c\u3081\u30022\u56de\u76ee: \u3084\u3084\u67d4\u3089\u304b\u3044\u304c\u786c\u3081\u50be\u5411\u3002\u671d\u98df\u306a\u3057\u30671\u56de\u76ee\u306f\u30d0\u30fc\u30ea\u30fc\u30de\u30c3\u30af\u30b9\u52b9\u679c\u304b"
+      "note": "2回。1回目: 少量・硬め。2回目: やや柔らかいが硬め傾向。朝食なしで1回目はバーリーマックス効果か"
     },
     "mood": null,
     "energy": 3.1,
     "weather": "rainy",
-    "sleep_feel": "\u91cf\u4e0d\u8db3\uff082\u6642\u904e\u304e\u5c31\u5bdd\u21926\u6642\u534a\u8d77\u5e8a\u3001\u7d044\u6642\u9593\uff09\u3001\u9014\u4e2d\u8d77\u304d\u306a\u3057",
-    "body_note": "\u8d77\u5e8a\u76f4\u5f8c\u30b9\u30c8\u30ec\u30c3\u30c1\u5b9f\u65bd\u3001\u75db\u307f\u306a\u3057",
+    "sleep_feel": "量不足（2時過ぎ就寝→6時半起床、約4時間）、途中起きなし",
+    "body_note": "起床直後ストレッチ実施、痛みなし",
     "steps": 1602,
     "rhr": 56,
     "hrv": 69.2,
@@ -346,13 +346,13 @@
     "bowel": {
       "status": "loose",
       "time": "09:07",
-      "note": "\u671d\uff1a\u786c\u3081\u304c\u5c11\u91cf\u2192\u67d4\u3089\u304b\u3081\u00d72\u56de\u3001\u91cf\u5168\u4f53\u5c11\u306a\u3081\u3002\u5c11\u98df\u3067\u3082\u51fa\u305f\u3002"
+      "note": "朝：硬めが少量→柔らかめ×2回、量全体少なめ。少食でも出た。"
     },
     "mood": null,
     "energy": 3.5,
     "weather": "cloudy",
-    "sleep_feel": "\u9014\u4e2d\u899a\u91921\u56de\uff0802:12-04:34\u3001\u7d042.4\u6642\u9593\uff09\u3001\u5165\u7720\u306f\u826f\u597d",
-    "body_note": "\u8170\u306e\u5f35\u308a\u3042\u308a\uff08\u671d\u30b9\u30c8\u30ec\u30c3\u30c1\u3067\u56de\u5fa9\uff09\u3001\u53f3\u80a9\u306b\u8b0e\u306e\u9055\u548c\u611f\uff08\u30b3\u30ea\u30fb\u7b4b\u8089\u75db\u3068\u306f\u7570\u306a\u308b\uff09\u3001\u8db3\u88cf\u306e\u5f35\u308a\u30fb\u8db3\u9996\u306e\u786c\u3055\u304c\u6c17\u306b\u306a\u308b",
+    "sleep_feel": "途中覚醒1回（02:12-04:34、約2.4時間）、入眠は良好",
+    "body_note": "腰の張りあり（朝ストレッチで回復）、右肩に謎の違和感（コリ・筋肉痛とは異なる）、足裏の張り・足首の硬さが気になる",
     "steps": 2656,
     "rhr": 58,
     "hrv": 30.3,
@@ -374,13 +374,13 @@
     "bowel": {
       "status": "hard",
       "time": null,
-      "note": "\u786c\u3081\u30011\u56de"
+      "note": "硬め、1回"
     },
     "mood": 5,
     "energy": 4.5,
     "weather": "sunny",
-    "sleep_feel": "\u3088\u304f\u7720\u308c\u305f\uff08\u4e3b\u89b3\u6700\u9ad8\uff09",
-    "body_note": "\u8170\uff08\u80cc\u4e2d\u4e0b\u90e8\uff09\u306e\u5f35\u308a\u2192\u671d\u30b9\u30c8\u30ec\u30c3\u30c1\u5f8c\u306b\u7de9\u3093\u3060\u3002\u53f3\u80a9\u306f\u666e\u6bb5\u610f\u8b58\u306a\u3057\u30fb\u7b4b\u30c8\u30ec\u6642\u306b\u51fa\u308b\u3002",
+    "sleep_feel": "よく眠れた（主観最高）",
+    "body_note": "腰（背中下部）の張り→朝ストレッチ後に緩んだ。右肩は普段意識なし・筋トレ時に出る。",
     "steps": 2317,
     "rhr": 61,
     "hrv": 24.5,
@@ -397,13 +397,13 @@
     "bowel": {
       "status": "good",
       "time": null,
-      "note": "\u6628\u591c\u3042\u308a\u3002\u91cf\u591a\u3081\u30fb\u7d30\u3081\u3002"
+      "note": "昨夜あり。量多め・細め。"
     },
     "mood": null,
     "energy": null,
     "weather": "cloudy",
-    "sleep_feel": "\u9014\u4e2d\u899a\u9192\uff082\u6642\u904e\u304e2\u6642\u9593\uff09",
-    "body_note": "\u8170\u3044\u3064\u3082\u306e\u3002\u30b9\u30c8\u30ec\u30c3\u30c1\u3067\u548c\u3089\u3044\u3060\u3002\u30a8\u30cd\u30eb\u30ae\u30fc2.8",
+    "sleep_feel": "途中覚醒（2時過ぎ2時間）",
+    "body_note": "腰いつもの。ストレッチで和らいだ。エネルギー2.8",
     "steps": 7798,
     "rhr": 59,
     "hrv": 23.6,
@@ -425,13 +425,13 @@
     "bowel": {
       "status": "hard",
       "count": 2,
-      "note": "2\u56de\u30021\u56de\u76ee\uff1a\u56fa\u3081\u30fb\u5c11\u91cf\u30012\u56de\u76ee\uff1a\u666e\u901a\u30fb\u5c11\u91cf"
+      "note": "2回。1回目：固め・少量、2回目：普通・少量"
     },
     "mood": null,
     "energy": 3.2,
     "weather": "sunny",
-    "sleep_feel": "\u9014\u4e2d\u6570\u56de\u899a\u9192\uff08\u3059\u3050\u623b\u308c\u305f\uff09",
-    "body_note": "\u53f3\u80a9\u4e0b\u306b\u30c9\u30e8\u30f3\u611f\u3002\u8170\u306e\u5f35\u308a\u5c11\u306a\u3081\u3002\u307b\u308f\u30fc\u3093\uff08\u30ef\u30a4\u30f37\u676f\u7fcc\u65e5\uff09",
+    "sleep_feel": "途中数回覚醒（すぐ戻れた）",
+    "body_note": "右肩下にドヨン感。腰の張り少なめ。ほわーん（ワイン7杯翌日）",
     "steps": 7914,
     "rhr": 58,
     "hrv": 26.9,
@@ -448,7 +448,7 @@
     "waterBonus": null,
     "bowel": {
       "status": "none",
-      "note": "\u671d\u6642\u70b9\u3067\u307e\u3060"
+      "note": "朝時点でまだ"
     },
     "steps": 6116,
     "rhr": 54,
@@ -465,13 +465,13 @@
     "bowel": {
       "status": "hard",
       "time": "10:23",
-      "note": "\u30b3\u30ed\u30b3\u30ed\u3001\u91cf\u5c11\u306a\u3081"
+      "note": "コロコロ、量少なめ"
     },
     "mood": null,
     "energy": 3.4,
     "weather": "rain",
-    "sleep_feel": "\u9014\u4e2d\u3067\u4e00\u65e6\u8d77\u304d\u305f\u304c\u6642\u9593\u7684\u306b\u3088\u304f\u7720\u308c\u305f",
-    "body_note": "\u671d\u306e\u8170\u304c\u3064\u3089\u3044\uff08\u524d\u304b\u304c\u307f\u3067\u7269\u3092\u62fe\u3046\u6642\uff09",
+    "sleep_feel": "途中で一旦起きたが時間的によく眠れた",
+    "body_note": "朝の腰がつらい（前かがみで物を拾う時）",
     "steps": 1659,
     "rhr": 55,
     "hrv": 31.7,
@@ -493,13 +493,13 @@
     "bowel": {
       "status": "hard",
       "time": "12:20",
-      "note": "\u5c11\u91cf"
+      "note": "少量"
     },
     "mood": null,
     "energy": 3.2,
     "weather": "sunny",
-    "sleep_feel": "\u6642\u9593\u306f\u53d6\u308c\u305f\u304c\u591c\u4e2d2h\u899a\u9192\uff0802:23-04:49\uff09\u3067\u5bdd\u4e0d\u8db3\u611f",
-    "body_note": "\u8170\uff08\u76f8\u5909\u308f\u3089\u305a\uff09\u3001\u53f3\u80a9\u6c17\u306b\u306a\u308b\u3002\u9593\u3055\u3093\u884c\u304f\u304b\u691c\u8a0e",
+    "sleep_feel": "時間は取れたが夜中2h覚醒（02:23-04:49）で寝不足感",
+    "body_note": "腰（相変わらず）、右肩気になる。間さん行くか検討",
     "steps": 8616,
     "rhr": 56,
     "hrv": 27.6,
@@ -515,13 +515,13 @@
     "waterBonus": 0.5,
     "bowel": {
       "status": "hard",
-      "note": "\u30b3\u30ed\u30b3\u30ed\u591a\u3081"
+      "note": "コロコロ多め"
     },
     "mood": null,
     "energy": 3.2,
     "weather": "sunny_windy",
-    "sleep_feel": "\u9014\u4e2d\u899a\u9192\u3042\u308b\u304c\u4e00\u5fdc\u5bdd\u305f\u611f\u3042\u308a",
-    "body_note": "\u304a\u5c3b\u5f35\u308a\uff08\u30e9\u30f3\u30b8\u306e\u6210\u679c\uff09\u3001\u8170\u306e\u5f35\u308a\u7d99\u7d9a\u3002\u30b9\u30c8\u30ec\u30c3\u30c1\u5fc5\u8981",
+    "sleep_feel": "途中覚醒あるが一応寝た感あり",
+    "body_note": "お尻張り（ランジの成果）、腰の張り継続。ストレッチ必要",
     "steps": 3166,
     "rhr": 63,
     "hrv": 20.9,
@@ -539,8 +539,8 @@
     "mood": null,
     "energy": 3.2,
     "weather": "cloudy_cold",
-    "sleep_feel": "23\u6642\u5c31\u5bdd\u21924\u6642\u904e\u304e\u899a\u9192\u21922\u6642\u9593\u8d77\u304d\u3066\u5c11\u3057\u5bdd\u305f\u3002\u8db3\u308a\u306a\u3044\u611f\u3058",
-    "body_note": "\u8170\u306e\u5f35\u308a\u7d99\u7d9a",
+    "sleep_feel": "23時就寝→4時過ぎ覚醒→2時間起きて少し寝た。足りない感じ",
+    "body_note": "腰の張り継続",
     "steps": 1564,
     "rhr": 61,
     "hrv": 36.1,
@@ -563,8 +563,8 @@
     "mood": null,
     "energy": 3.2,
     "weather": "sunny_cool",
-    "sleep_feel": "7.2h\u7720\u308c\u305f\u3002\u6df1\u304f\u306f\u5bdd\u308c\u3066\u306a\u3044\u611f\u3058\u3001\u3061\u3087\u3063\u3068\u305a\u3064\u610f\u8b58\u3042\u308a\u3002\u65e5\u3005\u306e\u75b2\u308c\u84c4\u7a4d",
-    "body_note": "\u8170\u306e\u5f35\u308a\u7d99\u7d9a\u3002\u611b\u7530\u3055\u3093\u884c\u304d\u305f\u3044",
+    "sleep_feel": "7.2h眠れた。深くは寝れてない感じ、ちょっとずつ意識あり。日々の疲れ蓄積",
+    "body_note": "腰の張り継続。愛田さん行きたい",
     "steps": 5141,
     "rhr": 63,
     "hrv": 28.4,
@@ -614,11 +614,11 @@
   "2026-03-10": {
     "water": 2,
     "bowel": null,
-    "mood": "\u5c11\u3057\u7720\u3044",
+    "mood": "少し眠い",
     "energy": 2.9,
-    "weather": "\u66c7\u308a",
-    "sleep_feel": "\u9014\u4e2d\u899a\u9192\u306a\u3057\u30015h14m",
-    "body_note": "\u8170\u306e\u5f35\u308a\u3001\u304a\u5c3b\u7b4b\u8089\u75db\uff08\u30d1\u30fc\u30bd\u30ca\u30eb\u306e\u6210\u679c\uff09\u3001\u3075\u304f\u3089\u306f\u304e\u3080\u304f\u307f\uff08\u5869\u5206\u904e\u591a\uff09",
+    "weather": "曇り",
+    "sleep_feel": "途中覚醒なし、5h14m",
+    "body_note": "腰の張り、お尻筋肉痛（パーソナルの成果）、ふくらはぎむくみ（塩分過多）",
     "steps": 77,
     "rhr": 53,
     "hrv": 34.3,
@@ -633,11 +633,11 @@
   "2026-03-11": {
     "water": 2,
     "bowel": null,
-    "mood": "\u4e0d\u8db3",
+    "mood": "不足",
     "energy": 2.9,
-    "weather": "\u6674\u308c",
-    "sleep_feel": "\u6d45\u3044\u3002\u65e9\u671d\u899a\u9192\u21922h\u8d77\u304d\u3066\u2192\u4e8c\u5ea6\u5bdd\u3002\u5408\u8a085h50m",
-    "body_note": "\u8170\u306e\u5f35\u308a\uff08\u3044\u3064\u3082\u306e\uff09\u3001\u304a\u5c3b\u5916\u5074\u301c\u3082\u3082\u5916\u5074\u30fb\u5185\u80a1\u306e\u7b4b\u8089\u75db\uff08\u7b4b\u30c8\u30ec\u6210\u679c\uff09\u3002\u30d1\u30fc\u30bd\u30ca\u30eb\u3067\u306f\u907f\u3051\u308b",
+    "weather": "晴れ",
+    "sleep_feel": "浅い。早朝覚醒→2h起きて→二度寝。合計5h50m",
+    "body_note": "腰の張り（いつもの）、お尻外側〜もも外側・内股の筋肉痛（筋トレ成果）。パーソナルでは避ける",
     "steps": 7561,
     "rhr": 60,
     "hrv": 24.3,
@@ -652,11 +652,11 @@
   "2026-03-12": {
     "water": 0,
     "bowel": null,
-    "mood": "\u307e\u3042\u307e\u3042",
+    "mood": "まあまあ",
     "energy": 4.1,
-    "weather": "\u5feb\u6674",
-    "sleep_feel": "\u3088\u304f\u5bdd\u308c\u305f\u30027h02m\u3002\u8cea\u3082\u826f\u3044",
-    "body_note": "\u8170\u306e\u5f35\u308a\u3001\u53f3\u80a9\uff08\u91cd\u3044\u7269\u3067\u75db\u307f\uff09",
+    "weather": "快晴",
+    "sleep_feel": "よく寝れた。7h02m。質も良い",
+    "body_note": "腰の張り、右肩（重い物で痛み）",
     "steps": 3710,
     "rhr": 66,
     "hrv": 23.4,
@@ -676,11 +676,11 @@
   "2026-03-13": {
     "water": 1.6,
     "bowel": null,
-    "mood": "\u60aa\u304f\u306a\u3044",
+    "mood": "悪くない",
     "energy": 3.3,
-    "weather": "\u66c7\u308a",
-    "sleep_feel": "\u307e\u3042\u307e\u3042\u30026h12m\u3001\u9014\u4e2d\u899a\u9192\u306a\u3057",
-    "body_note": "\u8170\u5909\u308f\u3089\u305a\u30fb\u53f3\u80a9\u75db\u3044\uff08\u7b4b\u30c8\u30ec\u306b\u652f\u969c\uff09\u3002\u82b1\u7c89\u75c7\uff08\u9f3b\u3065\u307e\u308a\u30fb\u76ee\u306e\u304b\u3086\u307f\uff09",
+    "weather": "曇り",
+    "sleep_feel": "まあまあ。6h12m、途中覚醒なし",
+    "body_note": "腰変わらず・右肩痛い（筋トレに支障）。花粉症（鼻づまり・目のかゆみ）",
     "steps": 2516,
     "rhr": 62,
     "hrv": 27.9,
@@ -782,11 +782,11 @@
   "2026-03-27": {
     "water": 0.2,
     "bowel": null,
-    "mood": "\u307c\u30fc\u3063\u3068",
+    "mood": "ぼーっと",
     "energy": 2,
-    "weather": "\u6674\u308c",
-    "sleep_feel": "\u9014\u4e2d2\u56de\u899a\u9192\u3001\u6c57\u3059\u3054\u3044",
-    "body_note": "\u98a8\u90aa\uff08\u5589\u75db\u3044\u30fb36.5\u5ea6\uff09\u3001\u8170\u75db\u3044\u3001\u80a9\u5f35\u3063\u3066\u308b",
+    "weather": "晴れ",
+    "sleep_feel": "途中2回覚醒、汗すごい",
+    "body_note": "風邪（喉痛い・36.5度）、腰痛い、肩張ってる",
     "steps": 2573,
     "rhr": 61,
     "hrv": 25.3,
@@ -913,7 +913,7 @@
     "walkHR": 99
   },
   "2026-04-08": {
-    "water": 1.0,
+    "water": 1,
     "bowel": null,
     "mood": null,
     "energy": null,
@@ -937,14 +937,14 @@
     }
   },
   "2026-04-09": {
-    "water": 0.0,
+    "water": 0,
     "bowel": null,
-    "mood": "\u8d85\u5bdd\u4e0d\u8db3",
+    "mood": "超寝不足",
     "energy": 1.9,
-    "weather": "\u66c7\u308a",
-    "sleep_feel": "2\u6642\u9593\u7761\u7720\u3001\u9014\u4e2d\u3067\u8d77\u304d\u3066\u305d\u306e\u307e\u307e",
-    "body_note": "\u7b4b\u8089\u75db\uff08\u80f8\u30fb\u304a\u5c3b\uff09\u2014 \u30c0\u30f3\u30d9\u30eb\u30d5\u30e9\u30a4\u3068\u30e9\u30f3\u30b8\u306e\u6210\u679c",
-    "waterBonus": 0.0,
+    "weather": "曇り",
+    "sleep_feel": "2時間睡眠、途中で起きてそのまま",
+    "body_note": "筋肉痛（胸・お尻）— ダンベルフライとランジの成果",
+    "waterBonus": 0,
     "stretch": null,
     "steps": 6348,
     "rhr": 70,
@@ -956,14 +956,14 @@
     "walkHR": null
   },
   "2026-04-10": {
-    "water": 0.0,
+    "water": 0,
     "bowel": null,
-    "mood": "\u60aa\u304f\u306a\u3044\u3001\u3061\u3087\u3063\u3068\u7761\u7720\u4e0d\u8db3",
+    "mood": "悪くない、ちょっと睡眠不足",
     "energy": 3.5,
-    "weather": "\u66c7\u308a",
-    "sleep_feel": "6h21m\u3001\u9014\u4e2d\u899a\u9192\u306a\u3057\u3002\u6628\u65e5\u306e2h\u304b\u3089\u5927\u5e45\u56de\u5fa9",
-    "body_note": "\u7b4b\u8089\u75db\u7d99\u7d9a\uff08\u80f8\u30fb\u304a\u5c3b\uff09\u2014 \u30c0\u30f3\u30d9\u30eb\u30d5\u30e9\u30a4\u3068\u30e9\u30f3\u30b8\u306e\u6210\u679c",
-    "waterBonus": 0.0,
+    "weather": "曇り",
+    "sleep_feel": "6h21m、途中覚醒なし。昨日の2hから大幅回復",
+    "body_note": "筋肉痛継続（胸・お尻）— ダンベルフライとランジの成果",
+    "waterBonus": 0,
     "stretch": null,
     "steps": null,
     "rhr": null,
@@ -1062,5 +1062,17 @@
     "walkDistance": 7.08,
     "vo2max": 26.1,
     "walkHR": 91
+  },
+  "2026-04-17": {
+    "rhr": 62,
+    "hrv": 29.5,
+    "steps": 6316,
+    "walkDistance": 4.35
+  },
+  "2026-04-18": {
+    "rhr": 57,
+    "hrv": 25.2,
+    "steps": 90,
+    "walkDistance": 0.06
   }
 }

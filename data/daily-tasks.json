@@ -1,5 +1,5 @@
 {
-  "date": "2026-04-17",
+  "date": "2026-04-18",
   "tasks": [
     {"id": "dt1", "label": "大鳥神社のお札にお参りをする", "slot": "morning", "priority": 10, "minutes": 5, "done": false, "tag": null, "type": "habit"},
     {"id": "dt2", "label": "今日の体の調子をスキャンする", "slot": "morning", "priority": 10, "minutes": 10, "done": false, "tag": null, "type": "habit"},
@@ -24,6 +24,15 @@
     {"id": "dt21", "label": "呼吸法（3-6-9呼吸 / 4-7-8呼吸）", "slot": "evening", "priority": 70, "minutes": 10, "done": false, "tag": null, "type": "habit"},
     {"id": "dt22", "label": "夕食後の散歩15分", "slot": "evening", "priority": 70, "minutes": 30, "done": false, "tag": null, "type": "habit"},
     {"id": "dt23", "label": "お風呂に入る", "slot": "evening", "priority": 70, "minutes": 30, "done": false, "tag": null, "type": "habit"},
-    {"id": "dt24", "label": "期門のツボを押す", "slot": "evening", "priority": 70, "minutes": 2, "done": false, "tag": null, "type": "habit"}
+    {"id": "dt24", "label": "期門のツボを押す", "slot": "evening", "priority": 70, "minutes": 2, "done": false, "tag": null, "type": "habit"},
+    {"id": "dt25", "label": "4月14日のミーティング動画を編集してシェア", "slot": "daytime", "priority": 15, "minutes": 60, "done": false, "tag": "important", "type": "task-mihiro"},
+    {"id": "dt26", "label": "ミーティング動画の内容を文字起こし", "slot": "daytime", "priority": 15, "minutes": 30, "done": false, "tag": "important", "type": "task-mihiro"},
+    {"id": "dt27", "label": "ミーティング議事録を作る", "slot": "daytime", "priority": 15, "minutes": 30, "done": false, "tag": "important", "type": "task-mihiro"},
+    {"id": "dt28", "label": "僕のタスクリストを作る", "slot": "daytime", "priority": 15, "minutes": 30, "done": false, "tag": "important", "type": "task-self"},
+    {"id": "dt29", "label": "源泉返還入金後→iFull①残高45万を一括返済", "slot": "daytime", "priority": 17, "minutes": 15, "done": false, "tag": "cash", "type": "task-self"},
+    {"id": "dt30", "label": "アイフル②返済額を54,600円/月に引き上げ", "slot": "daytime", "priority": 17, "minutes": 15, "done": false, "tag": "cash", "type": "task-self"},
+    {"id": "dt31", "label": "冷凍ブロッコリーとオリーブオイルを買う", "slot": "daytime", "priority": 18, "minutes": 30, "done": false, "tag": null, "type": "task-self"},
+    {"id": "dt32", "label": "しじみを買う（味噌汁用）", "slot": "daytime", "priority": 18, "minutes": 15, "done": false, "tag": null, "type": "task-self"},
+    {"id": "dt33", "label": "8月の人間ドック再検査を予約する", "slot": "daytime", "priority": 18, "minutes": 10, "done": false, "tag": "important", "type": "task-self"}
   ]
 }
