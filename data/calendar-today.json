@@ -1,9 +1,9 @@
 {
-  "generated": "2026-04-19",
+  "generated": "2026-04-20",
   "events": [
-    { "date": "2026-04-19", "time": "17:30", "end": "18:30", "title": "パーソナル", "allDay": false },
     { "date": "2026-04-20", "time": null, "end": null, "title": "休暇", "allDay": true },
     { "date": "2026-04-20", "time": "14:00", "end": "16:00", "title": "町田", "allDay": false },
+    { "date": "2026-04-20", "time": "17:00", "end": "19:00", "title": "Vercel勉強会", "allDay": false },
     { "date": "2026-04-21", "time": "09:00", "end": "10:15", "title": "しむらさんに行って薬をもらう", "allDay": false },
     { "date": "2026-04-21", "time": "13:00", "end": "16:30", "title": "佐藤友美さん講座", "allDay": false },
     { "date": "2026-04-22", "time": null, "end": null, "title": "資源ゴミ", "allDay": true },
