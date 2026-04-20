@@ -1,137 +1,4 @@
 {
-  "2026-04-13": {
-    "generated": "2026-04-13T10:06:51",
-    "overall": {
-      "headline": "直近7日の睡眠は平均5.6h(2h〜8.1hの激しいムラ)。体重86.45kg/体脂肪30.4%は好調。食事・サプリ・排便・水分の記録が7日間ほぼゼロで腸スコア4/100",
-      "score": 22,
-      "topAction": "記録の再開が最優先。まず今日1食だけ「○○食べた」と報告+水をコップ5杯(1L)飲もう"
-    },
-    "meals": {
-      "insight": "4/7-4/13の7日間、食事記録ゼロ(4/7はファイルあるが中身なし)。最終記録は3/14以前。体重86.45kgの下降トレンドは維持しているが、P(たんぱく質)・繊維の摂取量が把握できず筋分解リスクの評価が不可能。",
-      "tips": [
-        "30日以上の食事記録空白。体重は好調だが「何で減っているか」が不明。1食だけ報告するだけでOK",
-        "P60g/日の最低ラインを意識。プロテイン1杯(P20g)+卵2個(P12g)+鶏肉100g(P22g)で達成",
-        "繊維は納豆1パック(3.3g)+味噌汁(1.5g)+サラダ(3g)で約8g。3食で21g目標に近づける"
-      ],
-      "correlation": "食事記録なしのため、体重86.45kgの減少が健全(脂肪減)か不健全(筋分解)か判別不能。記録再開でこの好トレンドの質を確認したい"
-    },
-    "sleep": {
-      "insight": "7日間で睡眠データあるのは4日分: 4/7(8.12h), 4/9(1.97h), 4/10(6.33h), 4/11(5.95h)。平均5.59h。4/9の1.97hが極端に短く(途中覚醒2.8h)、4/7の8.12hからの落差が激しい。4/11のdeep10.3%は理想域(10-20%)に入り回復傾向。",
-      "tips": [
-        "4/9の1.97h→4/10の6.33hで回復。この回復パターンを「前日2h→翌日6h」ではなく「毎日6h+」に安定させたい",
-        "就寝時刻: 4/9は00:35、4/10は23:40。23:00以前の就寝習慣で睡眠時間を底上げ",
-        "4/11のdeep10.3%は改善の兆し。b1マグネシウム就寝前服用でこの傾向を維持・強化"
-      ],
-      "weekTrend": "4/7:8.12h(deep5.3%) → 4/8:なし → 4/9:1.97h(deep0%) → 4/10:6.33h(deep7.7%) → 4/11:5.95h(deep10.3%) → 4/12-13:データなし",
-      "correlation": "4/9のRHR70(通常58-62)は1.97h睡眠の影響が明確。4/10のRHR回復なし(データなし)だが、deep比率が5.3%→7.7%→10.3%と日を追うごとに改善しており、身体が睡眠の質を取り戻しつつある",
-      "stageHints": {
-        "deep": null,
-        "rem": "4/11 REM29.4%(理想20-25%超過)。睡眠不足からのREM rebound継続中。23:00就寝で総睡眠7h確保すればREM比率は正常化する",
-        "core": "4/11 core60.3%(理想45-55%超過)。deep不足分がcoreに流れている。散歩+b1マグネシウムでdeepシフトを",
-        "awake": null
-      }
-    },
-    "supplements": {
-      "insight": "4/7-4/13の7日間、サプリ記録ゼロ(4/7はファイルあるが全ID false)。処方薬(m1ユリス, e1ロスバスタチン)の服用状況も不明。b1マグネシウムも30日以上未記録。",
-      "tips": [
-        "処方薬(m1ユリス朝, e1ロスバスタチン夜)は必須。飲んだら「サプリ飲んだ」と報告を",
-        "b1マグネシウム30日以上未記録。4/11のdeep10.3%をさらに伸ばすにはb1就寝前服用が鍵",
-        "m5ビオスリー+m4エビオスの腸内プロバイオティクスも再開。腸スコア改善の即効性あり"
-      ]
-    },
-    "weight": {
-      "insight": "7日間の体重推移: 86.1(4/7)→86.05(4/9)→86.35(4/10)→87.1(4/11)→86.45(4/12)。4/11に87.1kgへ急上昇後、4/12に86.45kgへ戻した。体脂肪率は4/11の30.4%が最良記録(2月以降)。",
-      "tips": [
-        "86kg台前半で推移しており好トレンド。4/11の87.1kgは一時的な変動(水分・食事タイミング)",
-        "体脂肪30.4%(4/11)は2月以降の最良値。筋トレ効果が出ている可能性",
-        "85kg台定着まであと0.5kg。食事記録を再開してP60g/日を確認し、筋量維持しながら減量を"
-      ],
-      "projection": "86.0-86.5kgのレンジで推移中。体脂肪30.4%は改善傾向。食事管理なしでもこのペースなら2週間で85kg台定着の可能性あるが、筋分解リスクの監視には記録が必要",
-      "correlation": "体脂肪30.4%への改善は4/8-9の筋トレ(ダンベルフライ・ランジ)効果の可能性。筋肉痛が4/10まで続いており、筋合成が進んでいる兆候"
-    },
-    "gut": {
-      "score": 4,
-      "factors": {
-        "fiber": {
-          "avg": 0,
-          "target": 21,
-          "pts": 0
-        },
-        "diversity": {
-          "plantCount": 0,
-          "pts": 0
-        },
-        "fermented": {
-          "daysHit": 0,
-          "items": [],
-          "pts": 0
-        },
-        "polyphenol": {
-          "daysHit": 0,
-          "items": [],
-          "pts": 0
-        },
-        "regularity": {
-          "score": 0,
-          "pts": 0
-        },
-        "probiotics": {
-          "rate": 0,
-          "pts": 0
-        },
-        "prebiotics": {
-          "rate": 0,
-          "type": null,
-          "pts": 0
-        },
-        "bowel": {
-          "freqDays": 0,
-          "status": "unknown",
-          "regScore": 0,
-          "pts": 0
-        },
-        "water": {
-          "avgL": 0.25,
-          "target": 2.0,
-          "pts": 0.8
-        },
-        "sleep": {
-          "avgHrs": 5.59,
-          "pts": 2
-        },
-        "steps": {
-          "avgSteps": 4402,
-          "pts": 1
-        }
-      },
-      "insight": "腸スコア4/100。食事・サプリ・排便の全記録が欠損しており、実態把握が不可能。水分も平均0.25L/日と極端に少ない(記録漏れの可能性大)。歩数平均4,402歩は最低限の活動量。",
-      "tips": [
-        "腸スコア改善の第一歩: 水分2L/日の確保。コップ10杯を目安に、2時間おきに1杯",
-        "排便の記録再開。「出た」の一言だけでOK。頻度と質の把握が腸内環境改善の出発点",
-        "発酵食品(納豆・味噌汁)を毎日1品。プロバイオティクスサプリ(m5+m4)と合わせて腸内フローラ改善"
-      ],
-      "correlation": "水分0.25L/日(記録上)が排便記録ゼロと関連する可能性。水分不足→便秘→腸内環境悪化の悪循環が懸念される"
-    },
-    "crossDomain": [
-      {
-        "title": "記録の空白が全スコアを押し下げている",
-        "body": "食事・サプリ・水分・排便の記録が7日間ほぼゼロ。体重(86.45kg)と睡眠(一部)だけが自動計測で残っている。1日1食の報告+「水飲んだ」「サプリ飲んだ」の声かけだけで全カテゴリのスコアが改善する",
-        "relatedTabs": [
-          "meals",
-          "supplements",
-          "gut"
-        ]
-      },
-      {
-        "title": "睡眠ムラ(2h-8h)と体重変動(86.0-87.1kg)の連動",
-        "body": "4/9の1.97h睡眠→4/11に87.1kgへ急上昇。睡眠不足は食欲ホルモン(グレリン)を増やし過食リスクを上げる。23:00就寝→6h+睡眠で体重の安定化を",
-        "relatedTabs": [
-          "sleep",
-          "weight"
-        ]
-      }
-    ]
-  },
   "2026-04-14": {
     "generated": "2026-04-14T07:51:55",
     "overall": {
@@ -185,57 +52,17 @@
     "gut": {
       "score": 2,
       "factors": {
-        "fiber": {
-          "avg": 0,
-          "target": 21,
-          "pts": 0
-        },
-        "diversity": {
-          "plantCount": 0,
-          "pts": 0
-        },
-        "fermented": {
-          "daysHit": 0,
-          "items": [],
-          "pts": 0
-        },
-        "polyphenol": {
-          "daysHit": 0,
-          "items": [],
-          "pts": 0
-        },
-        "regularity": {
-          "score": 0,
-          "pts": 0
-        },
-        "probiotics": {
-          "rate": 0,
-          "pts": 0
-        },
-        "prebiotics": {
-          "rate": 0,
-          "type": null,
-          "pts": 0
-        },
-        "bowel": {
-          "freqDays": 0,
-          "status": "unknown",
-          "regScore": 0,
-          "pts": 0
-        },
-        "water": {
-          "avgL": 0.2,
-          "target": 2.0,
-          "pts": 1
-        },
-        "sleep": {
-          "avgHrs": 4.97,
-          "pts": 1
-        },
-        "steps": {
-          "avgSteps": 3898,
-          "pts": 0
-        }
+        "fiber": { "avg": 0, "target": 21, "pts": 0 },
+        "diversity": { "plantCount": 0, "pts": 0 },
+        "fermented": { "daysHit": 0, "items": [], "pts": 0 },
+        "polyphenol": { "daysHit": 0, "items": [], "pts": 0 },
+        "regularity": { "score": 0, "pts": 0 },
+        "probiotics": { "rate": 0, "pts": 0 },
+        "prebiotics": { "rate": 0, "type": null, "pts": 0 },
+        "bowel": { "freqDays": 0, "status": "unknown", "regScore": 0, "pts": 0 },
+        "water": { "avgL": 0.2, "target": 2.0, "pts": 1 },
+        "sleep": { "avgHrs": 4.97, "pts": 1 },
+        "steps": { "avgSteps": 3898, "pts": 0 }
       },
       "insight": "腸スコア2/100。食事・サプリ・排便の記録が7日間ゼロのため、食事・栄養(55点満点)とサプリ(15点)と排泄(15点)が全て0点。スコアが出ているのは水分(1点)と睡眠(1点)のみ。",
       "tips": [
@@ -249,18 +76,12 @@
       {
         "title": "睡眠不足→活動量低下→さらに睡眠悪化の負のループ",
         "body": "4/13の歩数872歩→同日deep9.6%(下限割れ)。散歩30分(約3,000歩)でdeepが改善する傾向が過去データに見られる。まず歩くことで睡眠→活動→睡眠の正のループに転換したい",
-        "relatedTabs": [
-          "sleep",
-          "weight"
-        ]
+        "relatedTabs": ["sleep", "weight"]
       },
       {
         "title": "記録空白40日超: 数値が見えないと改善もできない",
         "body": "食事・サプリ・水分・排便の記録が40日以上途絶えている。体重だけは好調だが「何で減っているか」が不明。1日1回の食事報告だけで、腸スコア・栄養バランス・相関分析が復活する",
-        "relatedTabs": [
-          "meals",
-          "supplements"
-        ]
+        "relatedTabs": ["meals", "supplements"]
       }
     ]
   },
@@ -317,57 +138,17 @@
     "gut": {
       "score": 3,
       "factors": {
-        "fiber": {
-          "avg": 0,
-          "target": 21,
-          "pts": 0
-        },
-        "diversity": {
-          "plantCount": 0,
-          "pts": 0
-        },
-        "fermented": {
-          "daysHit": 0,
-          "items": [],
-          "pts": 0
-        },
-        "polyphenol": {
-          "daysHit": 0,
-          "items": [],
-          "pts": 0
-        },
-        "regularity": {
-          "score": 0,
-          "pts": 0
-        },
-        "probiotics": {
-          "rate": 0,
-          "pts": 0
-        },
-        "prebiotics": {
-          "rate": 0,
-          "type": "unknown",
-          "pts": 0
-        },
-        "bowel": {
-          "freqDays": 0,
-          "status": "unknown",
-          "regScore": 0,
-          "pts": 0
-        },
-        "water": {
-          "avgL": 0.0,
-          "target": 2.0,
-          "pts": 0.0
-        },
-        "sleep": {
-          "avgHrs": 5.12,
-          "pts": 2
-        },
-        "steps": {
-          "avgSteps": 4196,
-          "pts": 1
-        }
+        "fiber": { "avg": 0, "target": 21, "pts": 0 },
+        "diversity": { "plantCount": 0, "pts": 0 },
+        "fermented": { "daysHit": 0, "items": [], "pts": 0 },
+        "polyphenol": { "daysHit": 0, "items": [], "pts": 0 },
+        "regularity": { "score": 0, "pts": 0 },
+        "probiotics": { "rate": 0, "pts": 0 },
+        "prebiotics": { "rate": 0, "type": "unknown", "pts": 0 },
+        "bowel": { "freqDays": 0, "status": "unknown", "regScore": 0, "pts": 0 },
+        "water": { "avgL": 0.0, "target": 2.0, "pts": 0.0 },
+        "sleep": { "avgHrs": 5.12, "pts": 2 },
+        "steps": { "avgSteps": 4196, "pts": 1 }
       },
       "insight": "腸内環境スコア3/100。食事・サプリ・排便・水分の記録がほぼゼロで、評価できているのは睡眠(2pt)と歩数(1pt)のみ。",
       "tips": [
@@ -381,26 +162,17 @@
       {
         "title": "記録の空白が全てのボトルネック",
         "body": "食事・サプリ・水分・排便が1ヶ月超未記録。体重86.1kgの減少が健康的かどうか判断できない。今日1食だけ記録するところから。",
-        "relatedTabs": [
-          "meals",
-          "supplements"
-        ]
+        "relatedTabs": ["meals", "supplements"]
       },
       {
         "title": "睡眠5h台定着→6h台へのステップアップ",
         "body": "4/10-14は5.8-6.3hで安定。4/14のdeep15.4%は良好。22:30就寝+b1マグネシウムで6.5h定着を目指す。4/9のような1.97h夜を二度と作らないこと。",
-        "relatedTabs": [
-          "sleep",
-          "supplements"
-        ]
+        "relatedTabs": ["sleep", "supplements"]
       },
       {
         "title": "自律神経と体重の連動パターン",
         "body": "4/13:体重85.9kg(最低)・RHR54bpm(最低)・HRV20.7ms。体重減少とRHR低下が同日に発生。睡眠改善→自律神経安定→代謝改善の好循環の兆し。",
-        "relatedTabs": [
-          "sleep",
-          "weight"
-        ]
+        "relatedTabs": ["sleep", "weight"]
       }
     ]
   },
@@ -457,57 +229,17 @@
     "gut": {
       "score": 3,
       "factors": {
-        "fiber": {
-          "avg": 0,
-          "target": 21,
-          "pts": 0
-        },
-        "diversity": {
-          "plantCount": 0,
-          "pts": 0
-        },
-        "fermented": {
-          "daysHit": 0,
-          "items": [],
-          "pts": 0
-        },
-        "polyphenol": {
-          "daysHit": 0,
-          "items": [],
-          "pts": 0
-        },
-        "regularity": {
-          "score": 0,
-          "pts": 0
-        },
-        "probiotics": {
-          "rate": 0,
-          "pts": 0
-        },
-        "prebiotics": {
-          "rate": 0,
-          "type": "サイリウム",
-          "pts": 0
-        },
-        "bowel": {
-          "freqDays": 0,
-          "status": "unknown",
-          "regScore": 0,
-          "pts": 0
-        },
-        "water": {
-          "avgL": 0.0,
-          "target": 2.0,
-          "pts": 0
-        },
-        "sleep": {
-          "avgHrs": 5.7,
-          "pts": 2
-        },
-        "steps": {
-          "avgSteps": 4461,
-          "pts": 1
-        }
+        "fiber": { "avg": 0, "target": 21, "pts": 0 },
+        "diversity": { "plantCount": 0, "pts": 0 },
+        "fermented": { "daysHit": 0, "items": [], "pts": 0 },
+        "polyphenol": { "daysHit": 0, "items": [], "pts": 0 },
+        "regularity": { "score": 0, "pts": 0 },
+        "probiotics": { "rate": 0, "pts": 0 },
+        "prebiotics": { "rate": 0, "type": "サイリウム", "pts": 0 },
+        "bowel": { "freqDays": 0, "status": "unknown", "regScore": 0, "pts": 0 },
+        "water": { "avgL": 0.0, "target": 2.0, "pts": 0 },
+        "sleep": { "avgHrs": 5.7, "pts": 2 },
+        "steps": { "avgSteps": 4461, "pts": 1 }
       },
       "insight": "腸内環境スコア3/100。食事・サプリ・排便・水分の記録がすべて欠如しており、評価不能に近い",
       "tips": [
@@ -521,18 +253,12 @@
       {
         "title": "記録の空白が全体を蝕んでいる",
         "body": "食事・水分・サプリの記録が7日間ゼロ。睡眠不足(平均5.7h)と合わせて、体のシグナルが見えない状態。まずは記録を1つ再開することが最優先。",
-        "relatedTabs": [
-          "meals",
-          "supplements"
-        ]
+        "relatedTabs": ["meals", "supplements"]
       },
       {
         "title": "歩数のムラと睡眠の質",
         "body": "歩数は2,161〜7,444歩と日によって大きな差。7,444歩の翌日(4/12)は深い睡眠0.52hと悪くないが、1,573歩の翌日(4/15)は深い睡眠0.36h(6.6%)まで低下。散歩は睡眠の質に直結。",
-        "relatedTabs": [
-          "sleep",
-          "weight"
-        ]
+        "relatedTabs": ["sleep", "weight"]
       }
     ]
   },
@@ -593,57 +319,17 @@
     "gut": {
       "score": 3,
       "factors": {
-        "fiber": {
-          "avg": 0,
-          "target": 21,
-          "pts": 0
-        },
-        "diversity": {
-          "plantCount": 0,
-          "pts": 0
-        },
-        "fermented": {
-          "daysHit": 0,
-          "items": [],
-          "pts": 0
-        },
-        "polyphenol": {
-          "daysHit": 0,
-          "items": [],
-          "pts": 0
-        },
-        "regularity": {
-          "score": 0,
-          "pts": 0
-        },
-        "probiotics": {
-          "rate": 0,
-          "pts": 0
-        },
-        "prebiotics": {
-          "rate": 0,
-          "type": "サイリウム",
-          "pts": 0
-        },
-        "bowel": {
-          "freqDays": 0,
-          "status": "unknown",
-          "regScore": 0,
-          "pts": 0
-        },
-        "water": {
-          "avgL": 0,
-          "target": 2.0,
-          "pts": 0
-        },
-        "sleep": {
-          "avgHrs": 5.8,
-          "pts": 2
-        },
-        "steps": {
-          "avgSteps": 5245,
-          "pts": 1
-        }
+        "fiber": { "avg": 0, "target": 21, "pts": 0 },
+        "diversity": { "plantCount": 0, "pts": 0 },
+        "fermented": { "daysHit": 0, "items": [], "pts": 0 },
+        "polyphenol": { "daysHit": 0, "items": [], "pts": 0 },
+        "regularity": { "score": 0, "pts": 0 },
+        "probiotics": { "rate": 0, "pts": 0 },
+        "prebiotics": { "rate": 0, "type": "サイリウム", "pts": 0 },
+        "bowel": { "freqDays": 0, "status": "unknown", "regScore": 0, "pts": 0 },
+        "water": { "avgL": 0, "target": 2.0, "pts": 0 },
+        "sleep": { "avgHrs": 5.8, "pts": 2 },
+        "steps": { "avgSteps": 5245, "pts": 1 }
       },
       "insight": "腸内環境スコア3/100。食事・水分・サプリ・排便の記録がなく大半が0点",
       "tips": [
@@ -657,26 +343,17 @@
       {
         "title": "記録の空白が全体スコアを押し下げている",
         "body": "睡眠(6日分)と体重(6日分)は記録あり。しかし食事・水分・サプリ・排便が0日。記録再開だけでスコアは大幅改善する。まず「食べたもの報告」から始めよう",
-        "relatedTabs": [
-          "meals",
-          "supplements"
-        ]
+        "relatedTabs": ["meals", "supplements"]
       },
       {
         "title": "4/16は好調日: 睡眠6.9h + 10,655歩",
         "body": "歩数と睡眠の好循環が見える。散歩の習慣化が睡眠改善の鍵。4/13(872歩)→4/14(1,542歩)の低活動日は睡眠の質にも影響する可能性",
-        "relatedTabs": [
-          "sleep",
-          "weight"
-        ]
+        "relatedTabs": ["sleep", "weight"]
       },
       {
         "title": "体重85.8kg到達 -- 食事記録で安全な減量を確認したい",
         "body": "87.1→85.8kgの1.3kg減少は良い傾向だが、食事記録なしでは筋肉量維持の確認ができない。たんぱく質P60g/日と1,400kcal最低ラインの確保を",
-        "relatedTabs": [
-          "weight",
-          "meals"
-        ]
+        "relatedTabs": ["weight", "meals"]
       }
     ]
   },
@@ -737,57 +414,17 @@
     "gut": {
       "score": 3,
       "factors": {
-        "fiber": {
-          "avg": 0,
-          "target": 21,
-          "pts": 0
-        },
-        "diversity": {
-          "plantCount": 0,
-          "pts": 0
-        },
-        "fermented": {
-          "daysHit": 0,
-          "items": [],
-          "pts": 0
-        },
-        "polyphenol": {
-          "daysHit": 0,
-          "items": [],
-          "pts": 0
-        },
-        "regularity": {
-          "score": 0,
-          "pts": 0
-        },
-        "probiotics": {
-          "rate": 0,
-          "pts": 0
-        },
-        "prebiotics": {
-          "rate": 0,
-          "type": "サイリウム",
-          "pts": 0
-        },
-        "bowel": {
-          "freqDays": 0,
-          "status": "unknown",
-          "regScore": 0,
-          "pts": 0
-        },
-        "water": {
-          "avgL": 0,
-          "target": 2.0,
-          "pts": 0
-        },
-        "sleep": {
-          "avgHrs": 5.87,
-          "pts": 2
-        },
-        "steps": {
-          "avgSteps": 4603,
-          "pts": 1
-        }
+        "fiber": { "avg": 0, "target": 21, "pts": 0 },
+        "diversity": { "plantCount": 0, "pts": 0 },
+        "fermented": { "daysHit": 0, "items": [], "pts": 0 },
+        "polyphenol": { "daysHit": 0, "items": [], "pts": 0 },
+        "regularity": { "score": 0, "pts": 0 },
+        "probiotics": { "rate": 0, "pts": 0 },
+        "prebiotics": { "rate": 0, "type": "サイリウム", "pts": 0 },
+        "bowel": { "freqDays": 0, "status": "unknown", "regScore": 0, "pts": 0 },
+        "water": { "avgL": 0, "target": 2.0, "pts": 0 },
+        "sleep": { "avgHrs": 5.87, "pts": 2 },
+        "steps": { "avgSteps": 4603, "pts": 1 }
       },
       "insight": "腸内環境スコア3/100。食事・サプリ・水分・排便の記録が7日間すべて欠如。評価できているのは睡眠(2pt・平均5.87h)と歩数(1pt・平均4,603歩)のみ",
       "tips": [
@@ -801,26 +438,17 @@
       {
         "title": "7.34h睡眠→rebound連鎖に要注意",
         "body": "4/17:4.93h(中途覚醒2.6h)→4/18:7.34h(今週最長)の典型的reboundパターン。過去データでは7h+翌日は-1.5h程度減少の傾向。今夜23:00前就寝+6h台で安定化を狙う",
-        "relatedTabs": [
-          "sleep",
-          "supplements"
-        ]
+        "relatedTabs": ["sleep", "supplements"]
       },
       {
         "title": "昨日10,655歩→今日90歩の極端な活動量差",
         "body": "4/16=10,655歩の好調日→4/17=6,316歩→4/18=90歩(朝時点)。昨日までの疲れで休息モードになっている可能性。午後は散歩30分だけでも入れてdeep比率9.0%→10%超を狙う",
-        "relatedTabs": [
-          "sleep",
-          "weight"
-        ]
+        "relatedTabs": ["sleep", "weight"]
       },
       {
         "title": "体重+0.6kg増は一時変動の可能性大",
         "body": "85.8kgで4日安定→86.55kg(+0.75kg)。ただし体脂肪31.1%は横ばいで、純粋な脂肪増ではなさそう。昨日の活動後の水分貯留・塩分が主因と推定。食事記録再開で真因が見える",
-        "relatedTabs": [
-          "weight",
-          "meals"
-        ]
+        "relatedTabs": ["weight", "meals"]
       }
     ]
   },
@@ -878,57 +506,17 @@
     "gut": {
       "score": 4,
       "factors": {
-        "fiber": {
-          "avg": 0,
-          "target": 21,
-          "pts": 0
-        },
-        "diversity": {
-          "plantCount": 0,
-          "pts": 0
-        },
-        "fermented": {
-          "daysHit": 0,
-          "items": [],
-          "pts": 0
-        },
-        "polyphenol": {
-          "daysHit": 0,
-          "items": [],
-          "pts": 0
-        },
-        "regularity": {
-          "score": 0,
-          "pts": 0
-        },
-        "probiotics": {
-          "rate": 0,
-          "pts": 0
-        },
-        "prebiotics": {
-          "rate": 0,
-          "type": "サイリウム",
-          "pts": 0
-        },
-        "bowel": {
-          "freqDays": 0,
-          "status": "unknown",
-          "regScore": 0,
-          "pts": 0
-        },
-        "water": {
-          "avgL": 0.0,
-          "target": 2.0,
-          "pts": 0
-        },
-        "sleep": {
-          "avgHrs": 6.06,
-          "pts": 4
-        },
-        "steps": {
-          "avgSteps": 3683,
-          "pts": 0
-        }
+        "fiber": { "avg": 0, "target": 21, "pts": 0 },
+        "diversity": { "plantCount": 0, "pts": 0 },
+        "fermented": { "daysHit": 0, "items": [], "pts": 0 },
+        "polyphenol": { "daysHit": 0, "items": [], "pts": 0 },
+        "regularity": { "score": 0, "pts": 0 },
+        "probiotics": { "rate": 0, "pts": 0 },
+        "prebiotics": { "rate": 0, "type": "サイリウム", "pts": 0 },
+        "bowel": { "freqDays": 0, "status": "unknown", "regScore": 0, "pts": 0 },
+        "water": { "avgL": 0.0, "target": 2.0, "pts": 0 },
+        "sleep": { "avgHrs": 6.06, "pts": 4 },
+        "steps": { "avgSteps": 3683, "pts": 0 }
       },
       "insight": "腸内環境スコア4/100。食事・サプリ・水分・排便の記録が7日間すべて欠如。評価できているのは睡眠(4pt・平均6.06hで週比改善)のみ。歩数平均3,683歩は<4,000歩で0点",
       "tips": [
@@ -942,27 +530,112 @@
       {
         "title": "体脂肪30.7%(4月最低値)の成功要因を可視化したい",
         "body": "体脂肪率は2月以降の最良値に更新。体重85.9kgも維持。成功している一方で食事・サプリ記録ゼロで再現条件が不明。今日1食だけ報告すれば30%割れへのロードマップが作れる",
-        "relatedTabs": [
-          "weight",
-          "meals",
-          "gut"
-        ]
+        "relatedTabs": ["weight", "meals", "gut"]
       },
       {
         "title": "昨日7.34h→今日6.1hのソフトランディング成功",
         "body": "rebound連鎖を懸念したが、今日6.1hで睡眠時間が適切に収束。awake5.7%と中途覚醒も少なく質的にも回復。ただしdeep8.9%・REM28.0%で比率バランスは未改善。b1マグネシウム服用が鍵",
-        "relatedTabs": [
-          "sleep",
-          "supplements"
-        ]
+        "relatedTabs": ["sleep", "supplements"]
       },
       {
         "title": "朝時点118歩は活動量不足。午後の散歩でdeep改善を",
         "body": "2日連続で極端な低活動(4/18=90歩→4/19朝=118歩)。7日平均3,683歩も基準<4,000歩割れ。散歩30分でdeep比率8.9%→10%超え、歩数も1,000歩以上+できる。腸蠕動にも有効",
-        "relatedTabs": [
-          "sleep",
-          "gut"
-        ]
+        "relatedTabs": ["sleep", "gut"]
+      }
+    ]
+  },
+  "2026-04-20": {
+    "generated": "2026-04-20T20:16:00",
+    "overall": {
+      "headline": "睡眠7.1h(rebound注意域)・deep8.9%で下限割れ継続。体重86.9kg(+1.0kg)・体脂肪31.3%で一時後退。食事・サプリ・水分記録は15日間ゼロ",
+      "score": 30,
+      "topAction": "今夜は7.1hからの-1.5hリバウンドを避けるため23:00前就寝を死守。明日こそ食事1食だけでも記録を再開しよう"
+    },
+    "meals": {
+      "insight": "4/14〜4/20の7日間、食事記録ゼロ。最終記録は3/14以前で通算5週間超未記録。昨日85.9kg→今日86.9kg(+1.0kg)だが、何を食べた結果かが見えない",
+      "tips": [
+        "5週間超の記録空白。明日1食だけ「○○食べた」と報告するだけで腸スコアが+10点以上改善する",
+        "P60g/日の最低ライン: プロテイン1杯(P20g)+卵2個(P12g)+鶏肉100g(P22g)で達成",
+        "繊維21g目標: 納豆(3.3g)+味噌汁わかめ豆腐(1.5g)+大麦ごはん(3g)+サラダ(3g)で2食到達圏内"
+      ],
+      "correlation": "体重+1.0kgの急増だが、食事記録なしで水分増・塩分・食事量のどれが主因か判別不能。昨日歩数118歩→今日41歩の極端な低活動と重なり代謝低下の可能性も"
+    },
+    "sleep": {
+      "insight": "7日平均6.24h(先週5.87hより改善)。今日4/20は7.10h(deep0.63h/8.9%・rem1.77h/24.9%・core4.69h/66.1%・awake1.89h/26.6%)。bedStart23:27で早めの就寝は良好だがawake比率26.6%と中途覚醒多め",
+      "tips": [
+        "awake1.89h(26.6%)は先週同程度。00:16-01:35の約80分覚醒が大きい。就寝前のスマホ・カフェインを見直し",
+        "deep8.9%(理想10-20%下限割れ)は5日連続。歩数平均3,564歩と少なめが主因。午後散歩30分でdeep底上げを",
+        "7.1hの翌日は過去データで-1.5h程度リバウンド傾向。明日は就寝リズムを崩さず23:30までに"
+      ],
+      "weekTrend": "4/14:5.89h → 4/15:5.44h → 4/16:6.89h → 4/17:4.93h → 4/18:7.34h → 4/19:6.10h → 4/20:7.10h",
+      "correlation": "RHR推移: 4/17:62→4/18:57→4/19:62→4/20:61。HRV37.3は7日間最高値で自律神経は回復基調。ただし歩数41歩の極端な低活動と睡眠awake1.89hの組み合わせは活動量不足が質を落とす典型パターン",
+      "stageHints": {
+        "deep": "deep8.9%(理想10-20%下限割れ)5日連続。今日歩数41歩が主因。明日は散歩30分でdeep10%超を",
+        "rem": null,
+        "core": "core66.1%(理想45-55%超過)。deep不足がcoreに流れる構造。b1マグネシウム+散歩でdeepシフトを",
+        "awake": "awake1.89h(26.6%)。00:16-01:35の約80分覚醒が大きい。就寝前のスマホ/カフェインを見直し"
+      },
+      "reboundAlert": {
+        "risk": "high",
+        "message": "7.1h超の翌日は過去-1.5h程度減少のパターン。明日は23:30までに就寝を死守"
+      }
+    },
+    "supplements": {
+      "insight": "4/14〜4/20のサプリ記録0件。処方薬(m1ユリス朝・e1ロスバスタチン夜)の服用状況が3週間以上不明で最もリスク大。b1マグネシウムも推定6週間超未服用でdeep下限割れ継続中",
+      "tips": [
+        "処方薬m1ユリス(朝)・e1ロスバスタチン(夜)は尿酸値・脂質コントロールに必須。飲んだら「サプリ飲んだ」の一言報告を",
+        "b1マグネシウム6週間超未服用。5日連続deep8.9%割れの状況でb1就寝前服用の効果期待値は大",
+        "m5ビオスリー+m4エビオスで腸内環境の即効改善。gut score 4→15点以上への底上げが見込める"
+      ]
+    },
+    "weight": {
+      "insight": "7日推移: 4/14=86.1→4/15=85.8→4/16=85.8→4/17=85.95→4/18=86.55→4/19=85.9→4/20=86.9kg。今日+1.0kgの急増で1週間の最高値。体脂肪31.3%は昨日30.7%から+0.6ptで一時後退",
+      "tips": [
+        "+1.0kgは塩分・水分貯留・食事量増の可能性。体脂肪も+0.6ptで連動しているので注視",
+        "85.8kg→86.9kgの1週間レンジ1.1kgは通常の日内変動範囲。1日だけで判断しない",
+        "昨日体脂肪30.7%の好調から一時後退。明日以降の推移で実態を判断—食事記録再開が決定的"
+      ],
+      "projection": "7日平均86.27kg。85kg台定着にはあと一歩だが今日の+1.0kgで後退。水分・食事記録再開で内訳を可視化しないと減量ペースが不明",
+      "correlation": "昨日118歩→今日41歩の極端な低活動+睡眠時間7.1hの長寝の組み合わせで基礎代謝消費量が低下。体重+1.0kgの一因の可能性。明日は散歩で代謝を戻したい"
+    },
+    "gut": {
+      "score": 4,
+      "factors": {
+        "fiber": { "avg": 0, "target": 21, "pts": 0 },
+        "diversity": { "plantCount": 0, "pts": 0 },
+        "fermented": { "daysHit": 0, "items": [], "pts": 0 },
+        "polyphenol": { "daysHit": 0, "items": [], "pts": 0 },
+        "regularity": { "score": 0, "pts": 0 },
+        "probiotics": { "rate": 0, "pts": 0 },
+        "prebiotics": { "rate": 0, "type": "サイリウム", "pts": 0 },
+        "bowel": { "freqDays": 0, "status": "unknown", "regScore": 0, "pts": 0 },
+        "water": { "avgL": 0.0, "target": 2.0, "pts": 0 },
+        "sleep": { "avgHrs": 6.24, "pts": 4 },
+        "steps": { "avgSteps": 3564, "pts": 0 }
+      },
+      "insight": "腸内環境スコア4/100。食事・サプリ・水分・排便の記録が7日間ゼロ継続。評価できているのは睡眠(4pt・平均6.24hで先週5.87hより改善)のみ。歩数平均3,564歩は<4,000歩で0点",
+      "tips": [
+        "記録再開が最短改善ルート。納豆+味噌汁1回で繊維+発酵食品+植物多様性が同時加点(+10点以上)",
+        "水分0L/日継続中15日間。実際は飲んでいるはず—コップ1杯「水飲んだ」の一言で+1点",
+        "歩数平均3,564歩(基準<4,000)で0点継続。散歩30分で6,000歩到達→+2点。腸蠕動にも直結"
+      ],
+      "correlation": "gut score 4点は記録空白15日連続が主因。昨日体脂肪30.7%→今日31.3%で実態は変動している可能性あり。数字を取り戻さないと改善の方向が見えない"
+    },
+    "crossDomain": [
+      {
+        "title": "2日連続の極端な低活動→睡眠awake26.6%→代謝低下→+1.0kg",
+        "body": "4/19=118歩→4/20=41歩の極端な低活動。今日の睡眠awake1.89h(26.6%)と体重+1.0kg増の組み合わせは「動かない→眠りが浅い→代謝下がる→体重増」の典型パターン。明日は午前中に散歩30分でこのループを断ち切りたい",
+        "relatedTabs": ["sleep", "weight"]
+      },
+      {
+        "title": "今日7.1h睡眠→明日リバウンドリスク",
+        "body": "先週4/18=7.34h→4/19=6.10hの典型的ソフトランディングを経験済み。今日7.1hからも同様のリバウンドリスクあり。明日23:30までに就寝し6h以上を確保すれば連鎖回避できる",
+        "relatedTabs": ["sleep", "supplements"]
+      },
+      {
+        "title": "記録空白15日継続: 数値が見えないと成功も失敗も判断できない",
+        "body": "食事・サプリ・水分・排便が2週間以上ゼロ。昨日体脂肪30.7%(4月最低)→今日31.3%と動いているが、原因が見えない。明日1食だけでも「○○食べた」の一言報告から再開を",
+        "relatedTabs": ["meals", "supplements", "gut"]
       }
     ]
   }
