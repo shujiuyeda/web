@@ -1085,5 +1085,11 @@
     "hrv": 37.3,
     "steps": 41,
     "walkDistance": 0.03
+  },
+  "2026-04-21": {
+    "rhr": 62,
+    "hrv": 29.7,
+    "steps": 30,
+    "walkDistance": 0.02
   }
 }

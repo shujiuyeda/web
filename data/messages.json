@@ -1,5 +1,5 @@
 {
-  "date": "2026-04-20",
+  "date": "2026-04-21",
   "chatwork": {
     "unread": 0,
     "mention": 0,
@@ -8,7 +8,7 @@
       { "room": "MQ全員：業務連絡用", "body": "広告まわしはじめてるのだけど よこちゃんの相談会に全然来ないらいしです", "url": "https://www.chatwork.com/#!rid56247-469765934" },
       { "room": "MQ全員：業務連絡用", "body": "「自然に売れる秘訣教えます」のウェビナーについて、参加後に届くメール内容にある、特典の音声が聴けないという問い合わせ", "url": "https://www.chatwork.com/#!rid56247-469699669" },
       { "room": "MQ全員：業務連絡用", "body": "こちら、しゅうしゅうに確認でよろしいでしょうか？ウェビナーお申込の方から、「お送りいただいたリンクが、視聴予約のペ", "url": "https://www.chatwork.com/#!rid56247-469630194" },
-      { "room": "【au010社内】 八納さんプロジェクト", "body": "[qt][qtmeta aid=5894716 time=1771740576][To:1488839]しゅうしゅうさん", "url": "https://www.chatwork.com/#!rid368212529-469248783" },
+      { "room": "【au010社内】 八納さんプロジェクト", "body": "[To:1488839]しゅうしゅうさん", "url": "https://www.chatwork.com/#!rid368212529-469248783" },
       { "room": "AIを革新的活用しようチャット", "body": "nanobananaでデザイン作られる方", "url": "https://www.chatwork.com/#!rid382413308-469154142" },
       { "room": "ClaudeCode活用", "body": "興味ある方は、こちらが僕がやったやり方", "url": "https://www.chatwork.com/#!rid422208145-468496477" },
       { "room": "ClaudeCode活用", "body": "[qt][qtmeta aid=4044986 time=1771293170]", "url": "https://www.chatwork.com/#!rid422208145-468428601" },
@@ -18,17 +18,7 @@
     ]
   },
   "gmail": {
-    "unread": 9,
-    "items": [
-      { "from": "マツダミヒロ", "title": "夫婦ケンカをしない秘訣", "url": "https://mail.google.com/mail/u/0/#all/19d94effdc1c2d66" },
-      { "from": "新百姓", "title": "『新百姓』3号「音を楽しむ」完成、先行販売のご案内", "url": "https://mail.google.com/mail/u/0/#all/19d8f88612d74e9d" },
-      { "from": "Zapier Alerts", "title": "[ALERT] Possible error on your オーウェビナー→Mailchimp(お金と相思相愛) Zap", "url": "https://mail.google.com/mail/u/0/#all/19d8d5cd3b27b657" },
-      { "from": "OKI CIRCULAR DESIGN MUSEUM", "title": "Instagram Feed www.wawawa.today/cdl_okiのレポート", "url": "https://mail.google.com/mail/u/0/#all/19d880f8a1759a4d" },
-      { "from": "GDO", "title": "【GDO】JGAクラブ会員 登録手続き完了のご案内", "url": "https://mail.google.com/mail/u/0/#all/19d7d03407f599c0" },
-      { "from": "三井のカーシェアーズ", "title": "クルマのご予約の変更を受付けました", "url": "https://mail.google.com/mail/u/0/#all/19d798570ef5e73b" },
-      { "from": "三井のカーシェアーズ", "title": "クルマのご予約の変更を受付けました", "url": "https://mail.google.com/mail/u/0/#all/19d77d35af1b89d5" },
-      { "from": "三井のカーシェアーズ", "title": "クルマのご予約の変更を受付けました", "url": "https://mail.google.com/mail/u/0/#all/19d77d2b84bfb311" },
-      { "from": "三井のカーシェアーズ", "title": "クルマのご予約の変更を受付けました", "url": "https://mail.google.com/mail/u/0/#all/19d77a6e8a433ea5" }
-    ]
+    "unread": 0,
+    "items": []
   }
 }
