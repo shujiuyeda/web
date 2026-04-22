@@ -1,12 +1,12 @@
 {
-  "generated": "2026-04-21T21:03:05.653Z",
+  "generated": "2026-04-22T21:03:04.627Z",
   "period_hours": 28,
   "summary": {
-    "github": 19,
+    "github": 21,
     "reddit": 0,
     "hackernews": 15,
     "x": 0,
-    "total": 34
+    "total": 36
   },
   "items": {
     "github": [
@@ -14,48 +14,18 @@
         "source": "github",
         "type": "release",
         "repo": "anthropics/claude-code",
-        "title": "v2.1.116",
-        "url": "https://github.com/anthropics/claude-code/releases/tag/v2.1.116",
-        "date": "2026-04-20T22:18:28Z",
-        "body": "## What's changed\n\n- `/resume` on large sessions is significantly faster (up to 67% on 40MB+ sessions) and handles sessions with many dead-fork entries more efficiently\n- Faster MCP startup when multiple stdio servers are configured; `resources/templates/list` is now deferred to first `@`-mention\n- Smoother fullscreen scrolling in VS Code, Cursor, and Windsurf terminals — `/terminal-setup` now configures the editor's scroll sensitivity\n- Thinking spinner now shows progress inline (\"still thinkin"
+        "title": "v2.1.117",
+        "url": "https://github.com/anthropics/claude-code/releases/tag/v2.1.117",
+        "date": "2026-04-22T00:04:40Z",
+        "body": "## What's changed\n\n- Forked subagents can now be enabled on external builds by setting `CLAUDE_CODE_FORK_SUBAGENT=1`\n- Agent frontmatter `mcpServers` are now loaded for main-thread agent sessions via `--agent`\n- Improved `/model`: selections now persist across restarts even when the project pins a different model, and the startup header shows when the active model comes from a project or managed-settings pin\n- The `/resume` command now offers to summarize stale, large sessions before re-reading "
       },
       {
         "source": "github",
         "type": "issue",
         "repo": "anthropics/claude-code",
-        "title": "[BUG] Branch name no longer appearing in Claude code in Windows Desktop app",
-        "url": "https://github.com/anthropics/claude-code/issues/51730",
-        "date": "2026-04-21T21:00:33Z",
-        "reactions": 0,
-        "comments": 0
-      },
-      {
-        "source": "github",
-        "type": "issue",
-        "repo": "anthropics/claude-code",
-        "title": "[BUG] API Error: Stream idle timeout - partial response received",
-        "url": "https://github.com/anthropics/claude-code/issues/51729",
-        "date": "2026-04-21T20:59:32Z",
-        "reactions": 0,
-        "comments": 0
-      },
-      {
-        "source": "github",
-        "type": "issue",
-        "repo": "anthropics/claude-code",
-        "title": "Claude repeatedly violates its own persistent instructions (CLAUDE.md / memory)",
-        "url": "https://github.com/anthropics/claude-code/issues/51728",
-        "date": "2026-04-21T20:56:08Z",
-        "reactions": 1,
-        "comments": 0
-      },
-      {
-        "source": "github",
-        "type": "issue",
-        "repo": "anthropics/claude-code",
-        "title": "[Bug] Claude Code desktop app crashes on startup in Code mode with exit code 1",
-        "url": "https://github.com/anthropics/claude-code/issues/51727",
-        "date": "2026-04-21T20:56:07Z",
+        "title": "[BUG] Cowork fails - VM cannot reach Claude API, Default Switch is Internal type with no external uplink (Windows 11 Pro, v1.3883.0)",
+        "url": "https://github.com/anthropics/claude-code/issues/52128",
+        "date": "2026-04-22T20:58:59Z",
         "reactions": 0,
         "comments": 1
       },
@@ -63,9 +33,9 @@
         "source": "github",
         "type": "issue",
         "repo": "anthropics/claude-code",
-        "title": "[Feature Request] Google Chat integration connector for Claude Code",
-        "url": "https://github.com/anthropics/claude-code/issues/51726",
-        "date": "2026-04-21T20:50:53Z",
+        "title": "[BUG] Claude Code crashes with \"exited with code 1\" on multi-user macOS due to shared /tmp/claude-settings-<hash>.json",
+        "url": "https://github.com/anthropics/claude-code/issues/52127",
+        "date": "2026-04-22T20:55:30Z",
         "reactions": 0,
         "comments": 0
       },
@@ -73,19 +43,9 @@
         "source": "github",
         "type": "issue",
         "repo": "anthropics/claude-code",
-        "title": "[BUG] Voice dictation (Aqua Voice) input is rejected in Claude Code terminal",
-        "url": "https://github.com/anthropics/claude-code/issues/51725",
-        "date": "2026-04-21T20:49:54Z",
-        "reactions": 0,
-        "comments": 1
-      },
-      {
-        "source": "github",
-        "type": "issue",
-        "repo": "anthropics/claude-code",
-        "title": "[Bug] Response streaming duplicates and drops content",
-        "url": "https://github.com/anthropics/claude-code/issues/51724",
-        "date": "2026-04-21T20:48:49Z",
+        "title": "Paste drops newlines when running inside tmux (content joins in input box)",
+        "url": "https://github.com/anthropics/claude-code/issues/52126",
+        "date": "2026-04-22T20:49:34Z",
         "reactions": 0,
         "comments": 0
       },
@@ -93,9 +53,59 @@
         "source": "github",
         "type": "issue",
         "repo": "anthropics/claude-code",
-        "title": "[Feature Request] Add timeout warnings for interactive plan execution requiring user input",
-        "url": "https://github.com/anthropics/claude-code/issues/51723",
-        "date": "2026-04-21T20:48:38Z",
+        "title": "Include terminal width in statusLine JSON payload",
+        "url": "https://github.com/anthropics/claude-code/issues/52125",
+        "date": "2026-04-22T20:47:53Z",
+        "reactions": 0,
+        "comments": 0
+      },
+      {
+        "source": "github",
+        "type": "issue",
+        "repo": "anthropics/claude-code",
+        "title": "Deny rules with root-level /** patterns silently match nothing",
+        "url": "https://github.com/anthropics/claude-code/issues/52123",
+        "date": "2026-04-22T20:36:59Z",
+        "reactions": 0,
+        "comments": 2
+      },
+      {
+        "source": "github",
+        "type": "issue",
+        "repo": "anthropics/claude-code",
+        "title": "[BUG] Claude Code on desktop via SSH hangs",
+        "url": "https://github.com/anthropics/claude-code/issues/52122",
+        "date": "2026-04-22T20:33:49Z",
+        "reactions": 0,
+        "comments": 0
+      },
+      {
+        "source": "github",
+        "type": "issue",
+        "repo": "anthropics/claude-code",
+        "title": "Grep and Glob tools missing entirely from registry under ENABLE_TOOL_SEARCH=true",
+        "url": "https://github.com/anthropics/claude-code/issues/52121",
+        "date": "2026-04-22T20:33:22Z",
+        "reactions": 0,
+        "comments": 0
+      },
+      {
+        "source": "github",
+        "type": "issue",
+        "repo": "anthropics/claude-code",
+        "title": "Persistent list of spawned tasks instead of chip-only UI",
+        "url": "https://github.com/anthropics/claude-code/issues/52119",
+        "date": "2026-04-22T20:30:37Z",
+        "reactions": 0,
+        "comments": 0
+      },
+      {
+        "source": "github",
+        "type": "issue",
+        "repo": "anthropics/claude-code",
+        "title": "[BUG] Bash tool fails with /proc/self/fd/3: Permission denied after a few calls in 2.1.116 and 2.1.117",
+        "url": "https://github.com/anthropics/claude-code/issues/52118",
+        "date": "2026-04-22T20:29:56Z",
         "reactions": 0,
         "comments": 1
       },
@@ -103,19 +113,9 @@
         "source": "github",
         "type": "issue",
         "repo": "anthropics/claude-code",
-        "title": "[Bug] Sidebar session grouping uses git root instead of session subdirectory",
-        "url": "https://github.com/anthropics/claude-code/issues/51722",
-        "date": "2026-04-21T20:45:15Z",
-        "reactions": 0,
-        "comments": 1
-      },
-      {
-        "source": "github",
-        "type": "issue",
-        "repo": "anthropics/claude-code",
-        "title": "HTTP MCP servers returning 405 on GET health check fail to load tools at session startup",
-        "url": "https://github.com/anthropics/claude-code/issues/51721",
-        "date": "2026-04-21T20:43:20Z",
+        "title": "[BUG] AVX detection issue on c7i.xlarge instance preventing execution",
+        "url": "https://github.com/anthropics/claude-code/issues/52117",
+        "date": "2026-04-22T20:28:04Z",
         "reactions": 0,
         "comments": 1
       },
@@ -124,64 +124,80 @@
         "type": "commit",
         "repo": "hesreallyhim/awesome-claude-code",
         "title": "chore: update repo ticker data and SVGs [skip ci]",
-        "url": "https://github.com/hesreallyhim/awesome-claude-code/commit/3e5ed9cb684776bbc8f5daa0e866b3a72cf4b678",
-        "date": "2026-04-21T18:34:34Z"
+        "url": "https://github.com/hesreallyhim/awesome-claude-code/commit/e2f83c05aeb39cc5233bcc2294788977a21c4bfb",
+        "date": "2026-04-22T18:34:15Z"
       },
       {
         "source": "github",
         "type": "commit",
         "repo": "hesreallyhim/awesome-claude-code",
         "title": "chore: update repo ticker data and SVGs [skip ci]",
-        "url": "https://github.com/hesreallyhim/awesome-claude-code/commit/0c72b9292848e385c0b4399013fa017de1ef8ebb",
-        "date": "2026-04-21T15:37:47Z"
+        "url": "https://github.com/hesreallyhim/awesome-claude-code/commit/9dc24be5fff406236f01049f074e4e26802bb478",
+        "date": "2026-04-22T15:36:36Z"
       },
       {
         "source": "github",
         "type": "commit",
         "repo": "hesreallyhim/awesome-claude-code",
         "title": "chore: update repo ticker data and SVGs [skip ci]",
-        "url": "https://github.com/hesreallyhim/awesome-claude-code/commit/d5eb158c43b8136c8a9045e6ab4ad004cf0bfb1b",
-        "date": "2026-04-21T12:36:41Z"
+        "url": "https://github.com/hesreallyhim/awesome-claude-code/commit/713e445a2c0e91a838ac34cdf76e5c666a46a130",
+        "date": "2026-04-22T12:35:22Z"
       },
       {
         "source": "github",
         "type": "commit",
         "repo": "hesreallyhim/awesome-claude-code",
         "title": "chore: update repo ticker data and SVGs [skip ci]",
-        "url": "https://github.com/hesreallyhim/awesome-claude-code/commit/91decb9e6cb9442fa82cd162685e2d4129750c1c",
-        "date": "2026-04-21T09:40:41Z"
+        "url": "https://github.com/hesreallyhim/awesome-claude-code/commit/07bceb5e973365a9e8d4626a6337ab8b5dd546e2",
+        "date": "2026-04-22T09:41:47Z"
       },
       {
         "source": "github",
         "type": "commit",
         "repo": "hesreallyhim/awesome-claude-code",
         "title": "chore: update repo ticker data and SVGs [skip ci]",
-        "url": "https://github.com/hesreallyhim/awesome-claude-code/commit/03d38fbd790a3a5a26bbcec98a64e1d2816890e0",
-        "date": "2026-04-21T06:51:17Z"
+        "url": "https://github.com/hesreallyhim/awesome-claude-code/commit/76e425fa013db0a11d72a0e296615d45a8c3d2d7",
+        "date": "2026-04-22T06:51:54Z"
       },
       {
         "source": "github",
         "type": "commit",
         "repo": "affaan-m/everything-claude-code",
-        "title": "Merge pull request #1532 from livlign/docs/add-hero-image",
-        "url": "https://github.com/affaan-m/everything-claude-code/commit/d87304573c7373669319b88d1a3124e700d0dc58",
-        "date": "2026-04-21T18:49:55Z"
+        "title": "docs: fix plugin quick start for continuous learning v2 (#1546)",
+        "url": "https://github.com/affaan-m/everything-claude-code/commit/4e66b2882da9afb9747468b08a253ca2f09c85f3",
+        "date": "2026-04-21T22:41:36Z"
       },
       {
         "source": "github",
         "type": "commit",
         "repo": "affaan-m/everything-claude-code",
-        "title": "docs: remove stars/forks stats from hero, shrink file size",
-        "url": "https://github.com/affaan-m/everything-claude-code/commit/86511491a6f1c72124073dee3136ece537cf6417",
-        "date": "2026-04-21T18:47:47Z"
+        "title": "fix(observe): skip Windows AppInstallerPythonRedirector.exe in resolve_python_cmd (#1511)",
+        "url": "https://github.com/affaan-m/everything-claude-code/commit/e63241c6993eb78eea1c635e174e159e052293dd",
+        "date": "2026-04-21T22:39:06Z"
       },
       {
         "source": "github",
         "type": "commit",
         "repo": "affaan-m/everything-claude-code",
-        "title": "docs: add hero image to README",
-        "url": "https://github.com/affaan-m/everything-claude-code/commit/7b53efc7092ecb3385c948f4fc38d3308fb212a0",
-        "date": "2026-04-21T17:57:49Z"
+        "title": "fix(continuous-learning-v2): accept claude-desktop as valid entrypoint (#1522)",
+        "url": "https://github.com/affaan-m/everything-claude-code/commit/81bde5c3cd1c282fbd6009230c88c94c7057c6e1",
+        "date": "2026-04-21T22:37:23Z"
+      },
+      {
+        "source": "github",
+        "type": "commit",
+        "repo": "affaan-m/everything-claude-code",
+        "title": "docs: fix bottom overflow in hero PNG, tighten stats labels (#1535)",
+        "url": "https://github.com/affaan-m/everything-claude-code/commit/602894efdd87cf7562bc6cdba9f51409a4fc1e4d",
+        "date": "2026-04-21T22:36:59Z"
+      },
+      {
+        "source": "github",
+        "type": "commit",
+        "repo": "affaan-m/everything-claude-code",
+        "title": "fix(hooks): avoid Claude Code v2.1.116 argv-dup bug in settings.local.json (#1524)",
+        "url": "https://github.com/affaan-m/everything-claude-code/commit/df9a478ea1dba0d7bae20862784e31a29f0cbf6b",
+        "date": "2026-04-21T22:35:33Z"
       }
     ],
     "reddit": [],
@@ -189,61 +205,101 @@
       {
         "source": "hackernews",
         "type": "story",
-        "title": "Show HN: I made a quiz to help people learn Claude Code features (with macOS UI)",
-        "url": "https://slashquiz.org/",
-        "hn_url": "https://news.ycombinator.com/item?id=47849166",
-        "date": "2026-04-21T14:16:25Z",
-        "points": 3,
+        "title": "Claude Code to be removed from Anthropic's Pro plan?",
+        "url": "https://bsky.app/profile/edzitron.com/post/3mjzxwfx3qs2a",
+        "hn_url": "https://news.ycombinator.com/item?id=47854477",
+        "date": "2026-04-21T21:03:04Z",
+        "points": 653,
+        "comments": 610
+      },
+      {
+        "source": "hackernews",
+        "type": "story",
+        "title": "Claude Code to be removed from Pro Tier?",
+        "url": "https://bsky.app/profile/edzitron.com/post/3mjzxwfx3qs2a",
+        "hn_url": "https://news.ycombinator.com/item?id=47855565",
+        "date": "2026-04-21T22:36:24Z",
+        "points": 265,
+        "comments": 2
+      },
+      {
+        "source": "hackernews",
+        "type": "story",
+        "title": "Claude Code Removed from $20-a-Month \"Pro\" Subscription for New Users",
+        "url": "https://www.wheresyoured.at/news-anthropic-removes-pro-cc/",
+        "hn_url": "https://news.ycombinator.com/item?id=47855832",
+        "date": "2026-04-21T22:56:09Z",
+        "points": 75,
+        "comments": 37
+      },
+      {
+        "source": "hackernews",
+        "type": "story",
+        "title": "Claude Code is no longer a part of the Pro plan",
+        "url": "https://news.ycombinator.com/item?id=47856073",
+        "hn_url": "https://news.ycombinator.com/item?id=47856073",
+        "date": "2026-04-21T23:14:09Z",
+        "points": 16,
         "comments": 3
       },
       {
         "source": "hackernews",
         "type": "story",
-        "title": "Claude Code has full shell access. Your CASB doesn't see it",
-        "url": "https://www.getunbound.ai/blog/governing-claude-across-surfaces",
-        "hn_url": "https://news.ycombinator.com/item?id=47852389",
-        "date": "2026-04-21T18:16:02Z",
-        "points": 3,
-        "comments": 0
+        "title": "Ask HN: Why Opus4.6 was silently removed from Claude Code?",
+        "url": "https://news.ycombinator.com/item?id=47861009",
+        "hn_url": "https://news.ycombinator.com/item?id=47861009",
+        "date": "2026-04-22T09:09:27Z",
+        "points": 14,
+        "comments": 19
       },
       {
         "source": "hackernews",
         "type": "story",
-        "title": "A Harness for Claude Code",
-        "url": "https://euleptos.com",
-        "hn_url": "https://news.ycombinator.com/item?id=47850284",
-        "date": "2026-04-21T15:33:30Z",
-        "points": 3,
-        "comments": 0
+        "title": "Show HN: Almanac MCP, turn Claude Code into a Deep Research agent",
+        "url": "https://www.openalmanac.org/",
+        "hn_url": "https://news.ycombinator.com/item?id=47855284",
+        "date": "2026-04-21T22:12:41Z",
+        "points": 13,
+        "comments": 1
       },
       {
         "source": "hackernews",
         "type": "story",
-        "title": "Designing web interfaces with Claude Code",
-        "url": "https://segbedji.com/designing-interfaces-with-claude-code/",
-        "hn_url": "https://news.ycombinator.com/item?id=47850233",
-        "date": "2026-04-21T15:30:07Z",
-        "points": 3,
-        "comments": 0
+        "title": "Show HN: Gemini Plugin for Claude Code",
+        "url": "https://github.com/m-ghalib/gemini-plugin-cc",
+        "hn_url": "https://news.ycombinator.com/item?id=47859099",
+        "date": "2026-04-22T04:41:09Z",
+        "points": 10,
+        "comments": 3
       },
       {
         "source": "hackernews",
         "type": "story",
-        "title": "Show HN: Auto-generated titles and colors for parallel Claude Code sessions",
-        "url": "https://github.com/jbarbier/which-claude-code",
-        "hn_url": "https://news.ycombinator.com/item?id=47842118",
-        "date": "2026-04-20T22:53:30Z",
-        "points": 3,
-        "comments": 0
+        "title": "Ask HN: Claude Code Alternative",
+        "url": "https://news.ycombinator.com/item?id=47854570",
+        "hn_url": "https://news.ycombinator.com/item?id=47854570",
+        "date": "2026-04-21T21:13:04Z",
+        "points": 9,
+        "comments": 5
       },
       {
         "source": "hackernews",
         "type": "story",
-        "title": "Mason – A multi agent system in a container using Claude Code",
-        "url": "https://github.com/Mason-Teams/mason-teams",
-        "hn_url": "https://news.ycombinator.com/item?id=47844806",
-        "date": "2026-04-21T05:16:35Z",
-        "points": 2,
+        "title": "Anthropic tests how devs react to yanking Claude Code from Pro plan",
+        "url": "https://www.theregister.com/2026/04/22/anthropic_removes_claude_code_pro/",
+        "hn_url": "https://news.ycombinator.com/item?id=47857130",
+        "date": "2026-04-22T00:44:39Z",
+        "points": 5,
+        "comments": 2
+      },
+      {
+        "source": "hackernews",
+        "type": "story",
+        "title": "Show HN: Open Chronicle – Local Screen Memory for Claude Code and Codex CLI",
+        "url": "https://github.com/Screenata/open-chronicle",
+        "hn_url": "https://news.ycombinator.com/item?id=47858398",
+        "date": "2026-04-22T03:06:15Z",
+        "points": 5,
         "comments": 1
       },
       {
@@ -251,89 +307,49 @@
         "type": "story",
         "title": "Claude Code is not making your product better",
         "url": "https://ethanding.substack.com/p/claude-code-is-not-making-your-product",
-        "hn_url": "https://news.ycombinator.com/item?id=47852580",
-        "date": "2026-04-21T18:30:21Z",
-        "points": 2,
+        "hn_url": "https://news.ycombinator.com/item?id=47867326",
+        "date": "2026-04-22T18:23:25Z",
+        "points": 5,
         "comments": 0
       },
       {
         "source": "hackernews",
         "type": "story",
-        "title": "Show HN: App Promo Video with Claude Design and Claude Code",
-        "url": "https://www.youtube.com/watch?v=1IIawdmgxTU",
-        "hn_url": "https://news.ycombinator.com/item?id=47850679",
-        "date": "2026-04-21T16:02:38Z",
-        "points": 2,
-        "comments": 0
-      },
-      {
-        "source": "hackernews",
-        "type": "story",
-        "title": "Claude Code + Jupyter Notebooks Finally Work Well",
-        "url": "https://www.reviewnb.com/claude-code-with-jupyter-notebooks",
-        "hn_url": "https://news.ycombinator.com/item?id=47850641",
-        "date": "2026-04-21T16:00:15Z",
-        "points": 2,
-        "comments": 0
-      },
-      {
-        "source": "hackernews",
-        "type": "story",
-        "title": "Vibe Guard – three Claude Code skills that audit AI code before push",
-        "url": "https://github.com/codecoincognition/vibe-guard-skills",
-        "hn_url": "https://news.ycombinator.com/item?id=47849818",
-        "date": "2026-04-21T15:02:37Z",
-        "points": 2,
-        "comments": 0
-      },
-      {
-        "source": "hackernews",
-        "type": "story",
-        "title": "Show HN: Designer creates first app, with Claude Code",
-        "url": "https://bendansby.com/cest/",
-        "hn_url": "https://news.ycombinator.com/item?id=47849738",
-        "date": "2026-04-21T14:58:06Z",
-        "points": 2,
-        "comments": 0
-      },
-      {
-        "source": "hackernews",
-        "type": "story",
-        "title": "Write a prompt once, sync it to Cursor, Claude Code and VS Code automatically",
-        "url": "https://news.ycombinator.com/item?id=47849308",
-        "hn_url": "https://news.ycombinator.com/item?id=47849308",
-        "date": "2026-04-21T14:26:20Z",
-        "points": 2,
-        "comments": 0
-      },
-      {
-        "source": "hackernews",
-        "type": "story",
-        "title": "Claude Evolve: ShinkaEvolve code evolution on only Claude Code",
-        "url": "https://github.com/samuelzxu/claude-evolve",
-        "hn_url": "https://news.ycombinator.com/item?id=47847015",
-        "date": "2026-04-21T10:42:53Z",
-        "points": 1,
+        "title": "Yaw Mode: opinionated config for Claude Code",
+        "url": "https://yaw.sh/blog/claude-code-yaw-mode/",
+        "hn_url": "https://news.ycombinator.com/item?id=47864644",
+        "date": "2026-04-22T15:02:52Z",
+        "points": 3,
         "comments": 1
       },
       {
         "source": "hackernews",
         "type": "story",
-        "title": "How to Use Git Worktrees with Claude Code",
-        "url": "https://old.reddit.com/r/ClaudeAI/comments/1sqxpkv/how_to_use_git_worktrees_with_claude_code/",
-        "hn_url": "https://news.ycombinator.com/item?id=47839070",
-        "date": "2026-04-20T19:07:33Z",
-        "points": 1,
+        "title": "Is Claude Code going to cost $100/month? Probably not—it’s all very confusing",
+        "url": "https://simonwillison.net/2026/Apr/22/claude-code-confusion/",
+        "hn_url": "https://news.ycombinator.com/item?id=47858272",
+        "date": "2026-04-22T02:52:56Z",
+        "points": 3,
         "comments": 1
       },
       {
         "source": "hackernews",
         "type": "story",
-        "title": "Show HN: Real-time visualization of Claude Code agent orchestration",
-        "url": "https://github.com/patoles/agent-flow",
-        "hn_url": "https://news.ycombinator.com/item?id=47843677",
-        "date": "2026-04-21T02:05:34Z",
-        "points": 1,
+        "title": "Claude Code /ultrareview",
+        "url": "https://code.claude.com/docs/en/ultrareview",
+        "hn_url": "https://news.ycombinator.com/item?id=47867849",
+        "date": "2026-04-22T19:04:27Z",
+        "points": 3,
+        "comments": 0
+      },
+      {
+        "source": "hackernews",
+        "type": "story",
+        "title": "Show HN: Infinite Lofi Radio Station Composed Live by Claude Code",
+        "url": "https://beats.softwaresoftware.dev",
+        "hn_url": "https://news.ycombinator.com/item?id=47862557",
+        "date": "2026-04-22T12:22:09Z",
+        "points": 3,
         "comments": 0
       }
     ],
