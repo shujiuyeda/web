@@ -1,5 +1,5 @@
 {
-  "date": "2026-04-22",
+  "date": "2026-04-23",
   "chatwork": {
     "unread": 0,
     "mention": 0,
@@ -18,9 +18,7 @@
     ]
   },
   "gmail": {
-    "unread": 10,
-    "items": [
-      { "from": "OKI CIRCULAR DESIGN MUSEUM", "title": "Instagram Feed www.wawawa.today/cdl_okiのレポート（自動通知）", "url": "https://mail.google.com/mail/u/0/#all/19dad27df1431cc8" }
-    ]
+    "unread": 0,
+    "items": []
   }
 }
