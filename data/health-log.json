@@ -1103,5 +1103,17 @@
     "hrv": 28.1,
     "steps": null,
     "walkDistance": null
+  },
+  "2026-04-24": {
+    "rhr": 63,
+    "hrv": null,
+    "steps": null,
+    "walkDistance": null
+  },
+  "2026-04-25": {
+    "rhr": 63,
+    "hrv": 21.1,
+    "steps": null,
+    "walkDistance": null
   }
 }
