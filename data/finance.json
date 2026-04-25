@@ -1,6 +1,12 @@
 {
-  "updated": "2026-02-27T15:30:00",
-  "cashOnHand": 72.31,
+  "updated": "2026-04-25T12:45:00",
+  "cashOnHand": 120.76,
+  "cashBreakdown": {
+    "三井住友": 65.40,
+    "楽天": 45.83,
+    "PayPal": 9.53,
+    "asOf": "2026-04-09〜2026-04-24（freee API）"
+  },
   "safetyLine": 80,
   "parentLoan": { "amount": 100, "expectedDate": "2026-02-25", "received": true },
   "payments": [
@@ -111,15 +117,17 @@
     "monthlyPayment": 21.2,
     "monthlyInterest": 11.6,
     "accounts": [
-      { "name": "アメックス", "balance": 271.5, "rate": 14.9 },
-      { "name": "楽天カード", "balance": 236.9, "rate": 15.0 },
-      { "name": "アイフル①", "balance": 147.4, "rate": 15.0 },
-      { "name": "三井住友VISA", "balance": 144.3, "rate": 15.0 },
-      { "name": "TOKYU", "balance": 125.9, "rate": 18.0 },
-      { "name": "アイフル②", "balance": 42.58, "rate": 18.0 },
+      { "name": "アメックス", "balance": 371.62, "rate": 14.9, "asOf": "2026-04-16", "note": "前回271.5→371.62 (+100万増)" },
+      { "name": "楽天カード", "balance": 229.84, "rate": 15.0, "asOf": "2026-04-19" },
+      { "name": "アイフル①", "balance": 147.4, "rate": 15.0, "note": "freee未連携、前回値" },
+      { "name": "三井住友VISA", "balance": 140.22, "rate": 15.0, "asOf": "2026-04-19" },
+      { "name": "TOKYU", "balance": 118.88, "rate": 18.0, "asOf": "2026-04-19" },
+      { "name": "アイフル②", "balance": 42.58, "rate": 18.0, "note": "freee未連携、前回値" },
       { "name": "ペイディ", "balance": 16.3, "rate": 0, "note": "Paidy Plus完済済み(2/27)" }
     ],
-    "nextMilestone": "アイフル②完済が最優先"
+    "nextMilestone": "アイフル②完済が最優先",
+    "cardSubtotal": 860.55,
+    "cardSubtotalNote": "アメックス+楽天+三井住友VISA+TOKYU 合計（4/19付近 freee API）"
   },
   "targetMonthly": 125,
   "targetAnnual": 1500,
