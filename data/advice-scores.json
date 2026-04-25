@@ -550,14 +550,12 @@
     "kcal": 0
   },
   "2026-04-25": {
-    "overall": 32,
-    "gut": 4,
+    "overall": 63,
     "sleep": 6.42,
     "weight": 87.55,
     "bodyFat": 31.2,
-    "steps": null,
-    "water": 0,
-    "fiber": 0,
-    "kcal": 0
+    "rhr": 63,
+    "hrv": 21.1,
+    "steps": null
   }
 }
