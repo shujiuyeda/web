@@ -191,6 +191,76 @@
       color: #991b1b;
     }
 
+    /* ── Day Plan (MAX performance) ── */
+    .day-mode {
+      padding: 14px 16px;
+      border-radius: 14px;
+      margin-bottom: 10px;
+      text-align: center;
+    }
+    .day-mode.green  { background: linear-gradient(135deg, #d1fae5, #a7f3d0); border: 2px solid #10b981; }
+    .day-mode.yellow { background: linear-gradient(135deg, #fef3c7, #fde68a); border: 2px solid #f59e0b; }
+    .day-mode.red    { background: linear-gradient(135deg, #fee2e2, #fecaca); border: 2px solid #ef4444; }
+    .day-mode-badge { font-size: 18px; font-weight: 800; margin-bottom: 4px; }
+    .day-mode-reason { font-size: 12px; color: var(--text-muted); font-weight: 600; }
+
+    .day-blocks {
+      display: grid;
+      gap: 6px;
+      margin-bottom: 12px;
+    }
+    .day-block {
+      display: flex;
+      gap: 10px;
+      padding: 9px 12px;
+      background: #f8fafc;
+      border-radius: 10px;
+      border-left: 3px solid var(--blue);
+      font-size: 12px;
+      align-items: center;
+    }
+    .day-block.green  { border-left-color: var(--green); background: linear-gradient(90deg, #f0fdf4, #f8fafc); }
+    .day-block.yellow { border-left-color: var(--orange); background: linear-gradient(90deg, #fffbeb, #f8fafc); }
+    .day-block.red    { border-left-color: var(--red); background: linear-gradient(90deg, #fef2f2, #f8fafc); }
+    .dbk-time {
+      font-weight: 700;
+      flex-shrink: 0;
+      min-width: 56px;
+    }
+    .dbk-action {
+      color: var(--text);
+      line-height: 1.5;
+    }
+
+    /* Deep sleep progress bar */
+    .deep-bar-wrap {
+      margin-top: 8px;
+      padding: 10px 12px;
+      background: linear-gradient(135deg, #ede9fe, #ddd6fe);
+      border-radius: 10px;
+      border: 1px solid #c4b5fd;
+    }
+    .deep-bar-label {
+      font-size: 11px;
+      color: #6d28d9;
+      font-weight: 700;
+      margin-bottom: 4px;
+      display: flex;
+      justify-content: space-between;
+    }
+    .deep-bar-track {
+      height: 8px;
+      background: #ede9fe;
+      border-radius: 4px;
+      overflow: hidden;
+    }
+    .deep-bar-fill {
+      height: 100%;
+      background: linear-gradient(90deg, #8b5cf6, #6d28d9);
+      border-radius: 4px;
+      transition: width 0.5s;
+    }
+
     /* ── Health ── */
     .health-grid {
       display: grid;
@@ -450,8 +520,11 @@
         <div class="card">
           <div class="card-title"><div class="card-icon icon-health">💪</div> コンディション</div>
           <div class="condition-row" id="conditionRow"></div>
+          <div id="dayMode"></div>
+          <div class="day-blocks" id="dayBlocks"></div>
           <div class="action-guide" id="actionGuide"></div>
           <div class="health-grid" id="healthGrid"></div>
+          <div id="deepBar"></div>
           <div id="healthTargets" class="health-targets"></div>
         </div>
         <div class="card" style="border-left:3px solid #D4796F">
@@ -819,6 +892,103 @@
           guide.className = 'action-guide caution';
           guide.innerHTML = 'いつも通りのペースでOK。午後に疲れたら無理しないこと。';
         }
+      }
+
+      // ── 1日の過ごし方ガイド（MAX performance mode） ──
+      const todayDate = now.toISOString().slice(0, 10);
+      const ydayDate = new Date(now - 86400000).toISOString().slice(0, 10);
+      const slToday = sleep && typeof sleep === 'object' ? (sleep[todayDate] || sleep[ydayDate]) : null;
+      const sleepHours = slToday?.total ?? null;
+      const deepHours = slToday?.deep ?? null;
+      const deepMin = deepHours != null ? Math.round(deepHours * 60) : null;
+
+      // Mode判定: HRV変化率 + 睡眠時間 + Deep睡眠
+      let mode = 'yellow';
+      const reasons = [];
+      const hrvDelta = (todayHrv != null && hrvAvg) ? ((todayHrv - hrvAvg) / hrvAvg) * 100 : null;
+      const rhrDelta = (todayRhr != null && rhrAvg) ? (todayRhr - rhrAvg) : null;
+
+      let greenSignals = 0, redSignals = 0;
+      if (hrvDelta != null && hrvDelta >= 10) greenSignals++;
+      if (hrvDelta != null && hrvDelta <= -10) redSignals++;
+      if (sleepHours != null && sleepHours >= 7) greenSignals++;
+      if (sleepHours != null && sleepHours < 5.5) redSignals++;
+      if (deepMin != null && deepMin >= 60) greenSignals++;
+      if (deepMin != null && deepMin < 30) redSignals++;
+      if (rhrDelta != null && rhrDelta <= -2) greenSignals++;
+      if (rhrDelta != null && rhrDelta >= 5) redSignals++;
+
+      if (greenSignals >= 2 && redSignals === 0) mode = 'green';
+      else if (redSignals >= 2) mode = 'red';
+      else if (redSignals >= 1) mode = 'yellow';
+
+      // Build reason string from actual data
+      if (hrvDelta != null) reasons.push(`HRV ${hrvDelta >= 0 ? '+' : ''}${hrvDelta.toFixed(0)}%`);
+      if (sleepHours != null) reasons.push(`睡眠 ${sleepHours.toFixed(1)}h`);
+      if (deepMin != null) reasons.push(`Deep ${deepMin}min`);
+
+      const modeBadges = {
+        green:  { emoji: '🟢', label: 'GREEN モード（攻め）' },
+        yellow: { emoji: '🟡', label: 'YELLOW モード（通常）' },
+        red:    { emoji: '🔴', label: 'RED モード（守り）' }
+      };
+
+      const modeEl = document.getElementById('dayMode');
+      const m = modeBadges[mode];
+      modeEl.innerHTML = `<div class="day-mode ${mode}">
+        <div class="day-mode-badge">${m.emoji} ${m.label}</div>
+        <div class="day-mode-reason">${reasons.join(' / ') || 'データ取得中'}</div>
+      </div>`;
+
+      const ACTIONS = {
+        green: [
+          { time: '🌅 朝',   action: '日光浴び5分 → 朝散歩30分 → 朝食をちゃんと' },
+          { time: '💼 午前', action: '🔥 重要な仕事を午前に集中投下。難しい判断もOK' },
+          { time: '🍽 昼',   action: '12:30に昼食 → 食後散歩15分（血糖値スパイク防止）' },
+          { time: '⚡ 午後', action: 'ミーティング・コラボ作業OK / カフェイン2杯OK' },
+          { time: '🛁 夕',   action: '筋トレOK / 17時に入浴で副交感神経ON' },
+          { time: '😴 夜',   action: '20時以降スマホ控える / 21時就寝目標' }
+        ],
+        yellow: [
+          { time: '🌅 朝',   action: '朝散歩20分 → 通常の作業ペース' },
+          { time: '💼 午前', action: '通常の仕事 / 重要決断は午前中に済ませる' },
+          { time: '🍽 昼',   action: '昼食 → 散歩15分' },
+          { time: '⚡ 午後', action: '通常運転 / 疲れ感じたら無理せず休憩' },
+          { time: '🛁 夕',   action: '入浴 / 軽いストレッチ' },
+          { time: '😴 夜',   action: 'カフェイン14時まで / 21時就寝' }
+        ],
+        red: [
+          { time: '🌅 朝',   action: '散歩は10分でも / 白湯ゆっくり / 朝食軽め' },
+          { time: '💼 午前', action: 'メール返信・ルーチンのみ。重い決断は明日に回す' },
+          { time: '🍽 昼',   action: 'ゆっくり食べる / 食後20分横になる' },
+          { time: '⚡ 午後', action: '低負荷 / サウナで回復 / お昼寝20分許可' },
+          { time: '🛁 夕',   action: 'カフェイン控える / 入浴は早めに（19時まで）' },
+          { time: '😴 夜',   action: '20時就寝目標 / 8h睡眠死守' }
+        ]
+      };
+
+      const blocks = document.getElementById('dayBlocks');
+      blocks.innerHTML = ACTIONS[mode].map(b => `
+        <div class="day-block ${mode}">
+          <div class="dbk-time">${b.time}</div>
+          <div class="dbk-action">${b.action}</div>
+        </div>
+      `).join('');
+
+      // Deep睡眠 60分目標バー
+      if (deepMin != null) {
+        const deepEl = document.getElementById('deepBar');
+        const pct = Math.min((deepMin / 60) * 100, 100);
+        const judgement = deepMin >= 60 ? '✅ 達成' : deepMin >= 45 ? '○ ほぼ' : '⚠ 不足';
+        deepEl.innerHTML = `<div class="deep-bar-wrap">
+          <div class="deep-bar-label">
+            <span>💜 Deep睡眠（肝臓修復）</span>
+            <span><strong>${deepMin}min</strong> / 60min目標 ${judgement}</span>
+          </div>
+          <div class="deep-bar-track">
+            <div class="deep-bar-fill" style="width:${pct}%"></div>
+          </div>
+        </div>`;
       }
 
       // Other health metrics
