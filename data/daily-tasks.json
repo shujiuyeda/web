@@ -1,5 +1,5 @@
 {
-  "date": "2026-04-25",
+  "date": "2026-04-27",
   "tasks": [
     {
       "id": "dt1",
@@ -68,16 +68,6 @@
       "priority": 5,
       "minutes": 30,
       "done": false,
-      "tag": null,
-      "type": "task-mihiro"
-    },
-    {
-      "id": "dt8",
-      "label": "サプリ棚卸し — m6 The Daily Power中止（アシュワガンダ肝障害リスク）、w1/b2休止（花粉症外）、m2休止（重複）",
-      "slot": "daytime",
-      "priority": 5,
-      "minutes": 30,
-      "done": true,
       "tag": null,
       "type": "task-mihiro"
     },
@@ -158,26 +148,6 @@
       "priority": 5,
       "minutes": 30,
       "done": false,
-      "tag": null,
-      "type": "task-self"
-    },
-    {
-      "id": "dt17",
-      "label": "3/15講座のアンケートフォームに振り込みのお願い文章を追加",
-      "slot": "daytime",
-      "priority": 5,
-      "minutes": 30,
-      "done": true,
-      "tag": null,
-      "type": "task-self"
-    },
-    {
-      "id": "dt18",
-      "label": "3/15講座のフォームをみんなに送る",
-      "slot": "daytime",
-      "priority": 5,
-      "minutes": 30,
-      "done": true,
       "tag": null,
       "type": "task-self"
     },
