@@ -557,5 +557,14 @@
     "rhr": 63,
     "hrv": 21.1,
     "steps": null
+  },
+  "2026-04-27": {
+    "overall": 53,
+    "sleep": 6.29,
+    "weight": 87.4,
+    "bodyFat": 31.5,
+    "steps": 125,
+    "rhr": 55,
+    "hrv": 30.1
   }
 }

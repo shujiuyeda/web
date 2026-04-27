@@ -1,127 +1,4 @@
 {
-  "2026-04-19": {
-    "generated": "2026-04-25T12:20:37",
-    "overall": {
-      "headline": "睡眠6.10h・deep8.9%は理想域下限ぎり。RHR約60・HRV29.3で良好。歩数118歩は極小だが体重トレンド-0.37kgで好調",
-      "score": 66,
-      "topAction": "体重7日平均86.00kgは前週比-0.37kgで順調。歩数118歩の極小活動だけ午後散歩で持ち直そう"
-    },
-    "sleep": {
-      "insight": "睡眠6.10h(deep0.54h/8.9%・rem1.71h/28.0%・core3.85h/63.1%・awake0.35h/5.7%)。deep比率は理想域10-20%下限ぎり、REM28.0%は理想超過、awake5.7%は良好レベル",
-      "tips": [
-        "deep8.9%は理想10-20%下限ぎり。歩数118歩の極小活動が主因の可能性。午後散歩30分でdeep底上げを",
-        "REM28.0%は理想20-25%超過。前々日4/17の崩壊(4.93h)のreboundが残っている可能性",
-        "awake5.7%は良好レベル。bedStartは確認できないが中途覚醒は少なめで質的には保てた"
-      ],
-      "weekTrend": "4/13:5.81h → 4/14:5.89h → 4/15:5.44h → 4/16:6.89h → 4/17:4.93h → 4/18:7.34h → 4/19:6.10h",
-      "stageHints": {
-        "deep": "deep8.9%は理想10-20%下限ぎり。歩数118歩と極少。午後散歩30分でdeep10%超を狙う",
-        "rem": "REM28.0%は理想20-25%超過。前々日4/17の崩壊(4.93h)のrebound残り",
-        "core": "core63.1%は理想45-55%超過。deep不足分がcoreに流れる構造",
-        "awake": null
-      },
-      "reboundAlert": null
-    },
-    "vitals": {
-      "insight": "RHR当日値なしのため直近7日平均60.3を使用、HRV29.3。HRV29.3は7日平均26.4より高めで自律神経は回復基調",
-      "tips": [
-        "HRV29.3は週平均より高め。睡眠時間が安定し始めたサインで好材料",
-        "RHR約60は良好レンジ(55-60の上限)。4/13=54の底値から微増だが心配ない範囲",
-        "4/17の睡眠崩壊から着実に自律神経が立て直してきている"
-      ],
-      "rhr": 60,
-      "hrv": 29.3
-    },
-    "activity": {
-      "insight": "歩数118歩は極小レベル。前日4/18も90歩で2日連続の超低活動。睡眠の質と代謝の両方に影響しうる水準",
-      "tips": [
-        "118歩はベッド上の最低限のみ。午後30分の散歩で2,500歩以上は確保できる",
-        "2日連続の極端な低活動は、deep睡眠とHRVの低下リスクを高める",
-        "週末で在宅でも、日没前の散歩30分を最優先タスクに"
-      ],
-      "stepsAvg": 118
-    },
-    "weight": {
-      "insight": "体重85.9kg。7日平均86.00kgは前週比-0.37kgで順調な減量トレンド。体脂肪30.7%は4月最低値(2月以降の最良値)",
-      "tips": [
-        "85.9kgは今週平均値に回帰。85.8kg(4/15-16)が底値で、86kg前半の安定推移",
-        "体脂肪30.7%は2月以降の最良値。-0.37kg/週のペース継続なら85kg台定着が視野",
-        "今のペースなら来週85kg台前半まで届く可能性"
-      ],
-      "projection": "7日平均86.00kg、前週比-0.37kg。ペース維持で85kg台定着まで残りわずか",
-      "weekDelta": -0.37
-    },
-    "scoreBreakdown": {
-      "sleep": { "time": 15, "deep": 12, "rem": 8, "awake": 7, "subtotal": 42 },
-      "vitals": { "rhr": 7, "hrv": 6, "subtotal": 13 },
-      "activity": { "steps": 1, "subtotal": 1 },
-      "weight": { "trend": 10, "subtotal": 10 },
-      "total": 66
-    }
-  },
-  "2026-04-20": {
-    "generated": "2026-04-25T12:20:37",
-    "overall": {
-      "headline": "睡眠7.10h・deep8.9%下限ぎり、awake26.6%は要注意。RHR61・HRV37.3で自律神経好調。体重86.9kg(+1.0kg)で一時後退",
-      "score": 73,
-      "topAction": "今夜は7.1h超リバウンドの反動を防ぐため23:30台就寝を死守。歩数41歩の超低活動を午後散歩で動かそう"
-    },
-    "sleep": {
-      "insight": "睡眠7.10h(deep0.63h/8.9%・rem1.77h/24.9%・core4.69h/66.1%・awake1.89h/26.6%)。bedStart23:27の早寝は良好だがawake26.6%と中途覚醒多め",
-      "tips": [
-        "awake1.89h(26.6%)は7日間最多。00:16-01:35の約80分覚醒が大きい。就寝前のスマホ・カフェイン見直し",
-        "deep8.9%は理想域下限ぎり。歩数41歩が主因。午後散歩30分でdeep底上げを",
-        "7.1h睡眠の翌日は過去データで-1.5h程度のリバウンド傾向。今夜は23:30までに就寝"
-      ],
-      "weekTrend": "4/14:5.89h → 4/15:5.44h → 4/16:6.89h → 4/17:4.93h → 4/18:7.34h → 4/19:6.10h → 4/20:7.10h",
-      "stageHints": {
-        "deep": "deep8.9%は理想10-20%下限ぎり2日連続。歩数41歩が主因。明日は散歩30分でdeep10%超を",
-        "rem": null,
-        "core": "core66.1%は理想45-55%超過。deep不足がcoreに流れる構造",
-        "awake": "awake1.89h(26.6%)。00:16-01:35の約80分覚醒が大きい。就寝前のスマホ/カフェインを見直し"
-      },
-      "reboundAlert": {
-        "risk": "high",
-        "message": "7.1h超の翌日は過去-1.5h程度減少のパターン。明日は23:30までに就寝を死守"
-      }
-    },
-    "vitals": {
-      "insight": "RHR61・HRV37.3。HRV37.3は今週最高値で自律神経は明確に回復基調。RHRも安定レンジ",
-      "tips": [
-        "HRV37.3は7日間最高値。睡眠時間延長と自律神経回復が連動している",
-        "RHR61は良好レンジ。心血管系のストレスは低い水準",
-        "ただし歩数41歩の極端な低活動は、明日以降のRHR/HRVに反転リスクあり"
-      ],
-      "rhr": 61,
-      "hrv": 37.3
-    },
-    "activity": {
-      "insight": "歩数41歩は極端な低活動。前日118歩からさらに低下し、ほぼ完全な座り暮らし。代謝・睡眠の質の両方に悪影響",
-      "tips": [
-        "41歩は計測ノイズに近い水準。基礎代謝も低下する",
-        "2日連続の超低活動が体重+1.0kgの一因の可能性",
-        "明日は午前中に散歩30分を最優先タスクに"
-      ],
-      "stepsAvg": 41
-    },
-    "weight": {
-      "insight": "体重86.9kg(前日+1.0kg)。7日平均86.14kgは前週比-0.19kgでまだ減量トレンド内。体脂肪31.3%(+0.6pt)で一時後退",
-      "tips": [
-        "+1.0kgは塩分・水分貯留・食事量増の可能性。1日変動の範囲で慌てる必要はない",
-        "7日平均-0.19kgでトレンドはまだプラス。1日のスパイクで判断しない",
-        "体脂肪+0.6ptも連動しているので、明日以降3日の戻り具合を観察"
-      ],
-      "projection": "7日平均86.14kg、前週比-0.19kg。ペースは鈍化したがまだ減量傾向内",
-      "weekDelta": -0.19
-    },
-    "scoreBreakdown": {
-      "sleep": { "time": 25, "deep": 12, "rem": 10, "awake": 1, "subtotal": 48 },
-      "vitals": { "rhr": 7, "hrv": 8, "subtotal": 15 },
-      "activity": { "steps": 1, "subtotal": 1 },
-      "weight": { "trend": 9, "subtotal": 9 },
-      "total": 73
-    }
-  },
   "2026-04-21": {
     "generated": "2026-04-25T12:20:37",
     "overall": {
@@ -175,10 +52,26 @@
       "weekDelta": -0.04
     },
     "scoreBreakdown": {
-      "sleep": { "time": 7, "deep": 12, "rem": 8, "awake": 4, "subtotal": 31 },
-      "vitals": { "rhr": 7, "hrv": 6, "subtotal": 13 },
-      "activity": { "steps": 1, "subtotal": 1 },
-      "weight": { "trend": 9, "subtotal": 9 },
+      "sleep": {
+        "time": 7,
+        "deep": 12,
+        "rem": 8,
+        "awake": 4,
+        "subtotal": 31
+      },
+      "vitals": {
+        "rhr": 7,
+        "hrv": 6,
+        "subtotal": 13
+      },
+      "activity": {
+        "steps": 1,
+        "subtotal": 1
+      },
+      "weight": {
+        "trend": 9,
+        "subtotal": 9
+      },
       "total": 54
     }
   },
@@ -238,10 +131,26 @@
       "weekDelta": 0.28
     },
     "scoreBreakdown": {
-      "sleep": { "time": 25, "deep": 12, "rem": 8, "awake": 7, "subtotal": 52 },
-      "vitals": { "rhr": 7, "hrv": 6, "subtotal": 13 },
-      "activity": { "steps": 1, "subtotal": 1 },
-      "weight": { "trend": 7, "subtotal": 7 },
+      "sleep": {
+        "time": 25,
+        "deep": 12,
+        "rem": 8,
+        "awake": 7,
+        "subtotal": 52
+      },
+      "vitals": {
+        "rhr": 7,
+        "hrv": 6,
+        "subtotal": 13
+      },
+      "activity": {
+        "steps": 1,
+        "subtotal": 1
+      },
+      "weight": {
+        "trend": 7,
+        "subtotal": 7
+      },
       "total": 73
     }
   },
@@ -298,10 +207,26 @@
       "weekDelta": 0.55
     },
     "scoreBreakdown": {
-      "sleep": { "time": 15, "deep": 7, "rem": 10, "awake": 10, "subtotal": 42 },
-      "vitals": { "rhr": 9, "hrv": 6, "subtotal": 15 },
-      "activity": { "steps": null, "subtotal": null },
-      "weight": { "trend": 4, "subtotal": 4 },
+      "sleep": {
+        "time": 15,
+        "deep": 7,
+        "rem": 10,
+        "awake": 10,
+        "subtotal": 42
+      },
+      "vitals": {
+        "rhr": 9,
+        "hrv": 6,
+        "subtotal": 15
+      },
+      "activity": {
+        "steps": null,
+        "subtotal": null
+      },
+      "weight": {
+        "trend": 4,
+        "subtotal": 4
+      },
       "total": 68
     }
   },
@@ -358,10 +283,26 @@
       "weekDelta": 0.71
     },
     "scoreBreakdown": {
-      "sleep": { "time": null, "deep": null, "rem": null, "awake": null, "subtotal": null },
-      "vitals": { "rhr": 7, "hrv": 6, "subtotal": 13 },
-      "activity": { "steps": null, "subtotal": null },
-      "weight": { "trend": 1, "subtotal": 1 },
+      "sleep": {
+        "time": null,
+        "deep": null,
+        "rem": null,
+        "awake": null,
+        "subtotal": null
+      },
+      "vitals": {
+        "rhr": 7,
+        "hrv": 6,
+        "subtotal": 13
+      },
+      "activity": {
+        "steps": null,
+        "subtotal": null
+      },
+      "weight": {
+        "trend": 1,
+        "subtotal": 1
+      },
       "total": 47
     }
   },
@@ -418,11 +359,103 @@
       "weekDelta": 0.93
     },
     "scoreBreakdown": {
-      "sleep": { "time": 15, "deep": 12, "rem": 8, "awake": 10, "subtotal": 45 },
-      "vitals": { "rhr": 7, "hrv": 4, "subtotal": 11 },
-      "activity": { "steps": null, "subtotal": null },
-      "weight": { "trend": 1, "subtotal": 1 },
+      "sleep": {
+        "time": 15,
+        "deep": 12,
+        "rem": 8,
+        "awake": 10,
+        "subtotal": 45
+      },
+      "vitals": {
+        "rhr": 7,
+        "hrv": 4,
+        "subtotal": 11
+      },
+      "activity": {
+        "steps": null,
+        "subtotal": null
+      },
+      "weight": {
+        "trend": 1,
+        "subtotal": 1
+      },
       "total": 63
+    }
+  },
+  "2026-04-27": {
+    "generated": "2026-04-27T22:56:25",
+    "overall": {
+      "headline": "睡眠6.29h・deep7.3%は理想域下限割れ、REM10.8%は要注意で短め+質バランス崩れ。RHR55・HRV30.1は良好。歩数125歩で超低活動継続、体重87.4kg",
+      "score": 53,
+      "topAction": "歩数125歩は4日連続の超低活動。今日こそ午後散歩30分でdeep睡眠と代謝の両方を立て直そう"
+    },
+    "sleep": {
+      "insight": "睡眠6.29h(deep0.46h/7.3%・rem0.68h/10.8%・core5.15h/81.9%・awake0.39h/6.2%)。bedStart22:41の早寝は良好だがcore81.9%・REM10.8%でステージバランス崩れ。「睡眠中」ラベル2.10hがcoreにマージされた影響あり",
+      "tips": [
+        "deep7.3%は理想10-20%下限割れ。歩数125歩の超低活動が主因。午後散歩30分でdeep底上げを",
+        "REM10.8%は理想20-25%大幅下限割れ。記憶定着・感情処理が不十分の水準。就寝時刻の安定化が鍵",
+        "bedStart22:41で総時間9h47m確保したが、実睡眠6.29h。中途覚醒の長さがcore率を押し上げている可能性"
+      ],
+      "weekTrend": "4/21:5.39h → 4/22:8.20h → 4/23:6.25h → 4/24:データ欠落 → 4/25:6.42h → 4/26:データ欠落 → 4/27:6.29h",
+      "stageHints": {
+        "deep": "deep7.3%は理想10-20%下限割れ。歩数125歩が主因。午後散歩30分でdeep10%超を狙う",
+        "rem": "REM10.8%(41分)は理想20-25%大幅下限割れ。記憶定着・感情処理に影響。就寝時刻の前倒しを",
+        "core": "core81.9%は理想45-55%大幅超過。「睡眠中」ラベル2.10hマージとdeep+REM不足がcoreに集中",
+        "awake": "awake6.2%は許容レンジだが、睡眠時間の割に中途覚醒が散見"
+      },
+      "reboundAlert": null
+    },
+    "vitals": {
+      "insight": "RHR55・HRV30.1は良好レベル。RHR55は7日間で最良値、HRVも30台で自律神経は安定。早寝の効果が出ている",
+      "tips": [
+        "RHR55は7日間最良値。22:41の早寝が心血管系に明確に効いた",
+        "HRV30.1は健康レンジ。前日21.1からの回復は安心材料",
+        "睡眠の質改善(deep+REM)が伴えば、さらに自律神経が整う流れ"
+      ],
+      "rhr": 55,
+      "hrv": 30.1
+    },
+    "activity": {
+      "insight": "歩数125歩は超低活動継続。直近で歩数が記録された4/22(41歩)以来の極端な低活動レベル。代謝サイクルが落ち込み体重戻しが進まない要因",
+      "tips": [
+        "125歩はベッド+室内移動のみの水準。基礎代謝が大幅に低下する",
+        "超低活動と体重87kg台の停滞が完全連動",
+        "今日午後の散歩30分でこの連鎖を断ち切ることが最優先"
+      ],
+      "stepsAvg": 125
+    },
+    "weight": {
+      "insight": "体重87.4kg(前々測定値87.55kgから-0.15kg)。7日平均87.28kgは前週比+1.14kgで明確な増量トレンド。体脂肪31.5%は底値30.4%(4/24)から+1.1ptで一時後退",
+      "tips": [
+        "85.8kg底値から+1.6kgの上昇。87kg台が1週間以上続く明確な停滞局面",
+        "前週比+1.14kgは超低活動が4日連続継続したことが直接の要因",
+        "活動量を戻さないと体重戻しは難しい。散歩30分から始めよう"
+      ],
+      "projection": "7日平均87.28kg、前週比+1.14kg。85kg台定着から1週間以上離脱中で増量トレンド継続",
+      "weekDelta": 1.14
+    },
+    "scoreBreakdown": {
+      "sleep": {
+        "time": 15,
+        "deep": 7,
+        "rem": 5,
+        "awake": 7,
+        "subtotal": 34
+      },
+      "vitals": {
+        "rhr": 9,
+        "hrv": 8,
+        "subtotal": 17
+      },
+      "activity": {
+        "steps": 1,
+        "subtotal": 1
+      },
+      "weight": {
+        "trend": 1,
+        "subtotal": 1
+      },
+      "total": 53
     }
   }
 }
