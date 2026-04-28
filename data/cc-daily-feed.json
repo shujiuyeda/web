@@ -1,148 +1,68 @@
 {
-  "generated": "2026-04-26T21:06:19.583Z",
+  "generated": "2026-04-27T21:03:06.029Z",
   "period_hours": 28,
   "summary": {
-    "github": 14,
+    "github": 5,
     "reddit": 0,
-    "hackernews": 10,
+    "hackernews": 15,
     "x": 0,
-    "total": 24
+    "total": 20
   },
   "items": {
     "github": [
       {
         "source": "github",
-        "type": "issue",
-        "repo": "anthropics/claude-code",
-        "title": "[BUG] MCP per-server timeout not enforced on individual tool calls (stdio hangs indefinitely)",
-        "url": "https://github.com/anthropics/claude-code/issues/53641",
-        "date": "2026-04-26T20:36:46Z",
-        "reactions": 0,
-        "comments": 0
+        "type": "commit",
+        "repo": "hesreallyhim/awesome-claude-code",
+        "title": "feat: ToC (wip)",
+        "url": "https://github.com/hesreallyhim/awesome-claude-code/commit/614f102accbcd48206d63a21df64adc984026b40",
+        "date": "2026-04-27T14:40:18Z"
       },
       {
         "source": "github",
-        "type": "issue",
-        "repo": "anthropics/claude-code",
-        "title": "Bug: Bash tool doesn't decode XML entities in command parameters",
-        "url": "https://github.com/anthropics/claude-code/issues/53640",
-        "date": "2026-04-26T20:25:21Z",
-        "reactions": 0,
-        "comments": 1
-      },
-      {
-        "source": "github",
-        "type": "issue",
-        "repo": "anthropics/claude-code",
-        "title": "Claude Code Desktop silently uses project API keys for billing instead of subscription",
-        "url": "https://github.com/anthropics/claude-code/issues/53638",
-        "date": "2026-04-26T20:10:32Z",
-        "reactions": 0,
-        "comments": 1
-      },
-      {
-        "source": "github",
-        "type": "issue",
-        "repo": "anthropics/claude-code",
-        "title": "[BUG] VirtualFile.refresh() called synchronously on EDT causing IntelliJ freeze",
-        "url": "https://github.com/anthropics/claude-code/issues/53637",
-        "date": "2026-04-26T20:06:29Z",
-        "reactions": 0,
-        "comments": 0
-      },
-      {
-        "source": "github",
-        "type": "issue",
-        "repo": "anthropics/claude-code",
-        "title": "[Bug] French keyword \"drop\" prevents commit execution",
-        "url": "https://github.com/anthropics/claude-code/issues/53636",
-        "date": "2026-04-26T20:03:09Z",
-        "reactions": 0,
-        "comments": 0
-      },
-      {
-        "source": "github",
-        "type": "issue",
-        "repo": "anthropics/claude-code",
-        "title": "[BUG] Remote Control daemon dies with 403 \"no longer a member of the organization\" while idle — Max plan personal Gmail, no client-side action",
-        "url": "https://github.com/anthropics/claude-code/issues/53635",
-        "date": "2026-04-26T19:59:13Z",
-        "reactions": 0,
-        "comments": 1
-      },
-      {
-        "source": "github",
-        "type": "issue",
-        "repo": "anthropics/claude-code",
-        "title": "[BUG] Claude Desktop installation fails with HRESULT 0x80073CFF on Windows 11",
-        "url": "https://github.com/anthropics/claude-code/issues/53634",
-        "date": "2026-04-26T19:58:00Z",
-        "reactions": 0,
-        "comments": 0
-      },
-      {
-        "source": "github",
-        "type": "issue",
-        "repo": "anthropics/claude-code",
-        "title": "I don't have enough information to generate a meaningful GitHub issue title from just a request ID. Please provide the actual bug report details, error messages, or description of the problem you're experiencing with Claude Code.",
-        "url": "https://github.com/anthropics/claude-code/issues/53633",
-        "date": "2026-04-26T19:56:01Z",
-        "reactions": 0,
-        "comments": 1
-      },
-      {
-        "source": "github",
-        "type": "issue",
-        "repo": "anthropics/claude-code",
-        "title": "[BUG] Web client: resuming after stream idle timeout sends empty text block with cache_control, API returns 400",
-        "url": "https://github.com/anthropics/claude-code/issues/53632",
-        "date": "2026-04-26T19:55:37Z",
-        "reactions": 0,
-        "comments": 1
+        "type": "commit",
+        "repo": "hesreallyhim/awesome-claude-code",
+        "title": "Update in progress (#1735)",
+        "url": "https://github.com/hesreallyhim/awesome-claude-code/commit/d45affed2d020226117cb7c6cbeeaf8a1071ed00",
+        "date": "2026-04-27T14:15:31Z"
       },
       {
         "source": "github",
         "type": "commit",
         "repo": "hesreallyhim/awesome-claude-code",
         "title": "chore: update repo ticker data and SVGs [skip ci]",
-        "url": "https://github.com/hesreallyhim/awesome-claude-code/commit/e2ab709a8887fe3202257aa1f303d0c1cbf18059",
-        "date": "2026-04-26T18:24:19Z"
+        "url": "https://github.com/hesreallyhim/awesome-claude-code/commit/94f417a417f382b9155eac1ce67e33f31b032e26",
+        "date": "2026-04-27T12:47:32Z"
       },
       {
         "source": "github",
         "type": "commit",
         "repo": "hesreallyhim/awesome-claude-code",
         "title": "chore: update repo ticker data and SVGs [skip ci]",
-        "url": "https://github.com/hesreallyhim/awesome-claude-code/commit/404ac98ac50c1bbee9c4a5ce9df67f9f8902ea14",
-        "date": "2026-04-26T15:21:43Z"
+        "url": "https://github.com/hesreallyhim/awesome-claude-code/commit/0ccfb00e1dca0dae0a72a3af3c2daaa0e91f33b6",
+        "date": "2026-04-27T09:55:29Z"
       },
       {
         "source": "github",
         "type": "commit",
         "repo": "hesreallyhim/awesome-claude-code",
         "title": "chore: update repo ticker data and SVGs [skip ci]",
-        "url": "https://github.com/hesreallyhim/awesome-claude-code/commit/6a163747c97b84e5d3309433593e41ccc5cb3990",
-        "date": "2026-04-26T12:27:17Z"
-      },
-      {
-        "source": "github",
-        "type": "commit",
-        "repo": "hesreallyhim/awesome-claude-code",
-        "title": "chore: update repo ticker data and SVGs [skip ci]",
-        "url": "https://github.com/hesreallyhim/awesome-claude-code/commit/f0cc8d757a19c61dc3c9d220c79d340b0f71c54f",
-        "date": "2026-04-26T09:27:36Z"
-      },
-      {
-        "source": "github",
-        "type": "commit",
-        "repo": "hesreallyhim/awesome-claude-code",
-        "title": "chore: update repo ticker data and SVGs [skip ci]",
-        "url": "https://github.com/hesreallyhim/awesome-claude-code/commit/9db7540b46046e9909f0e840eb6f16e9f06c66f1",
-        "date": "2026-04-26T06:49:46Z"
+        "url": "https://github.com/hesreallyhim/awesome-claude-code/commit/8ccdcc1a758b5c3f192f356119349223f1362a2e",
+        "date": "2026-04-27T07:09:16Z"
       }
     ],
     "reddit": [],
     "hackernews": [
+      {
+        "source": "hackernews",
+        "type": "story",
+        "title": "EvanFlow – A TDD driven feedback loop for Claude Code",
+        "url": "https://github.com/evanklem/evanflow",
+        "hn_url": "https://news.ycombinator.com/item?id=47916909",
+        "date": "2026-04-27T01:56:39Z",
+        "points": 98,
+        "comments": 54
+      },
       {
         "source": "hackernews",
         "type": "story",
@@ -156,12 +76,52 @@
       {
         "source": "hackernews",
         "type": "story",
-        "title": "Tell HN: Claude Code is unable to respond to this request",
-        "url": "https://news.ycombinator.com/item?id=47910824",
-        "hn_url": "https://news.ycombinator.com/item?id=47910824",
-        "date": "2026-04-26T14:53:11Z",
+        "title": "Claude Code with Jupyter Notebooks via MCP",
+        "url": "https://www.reviewnb.com/claude-code-with-jupyter-notebooks",
+        "hn_url": "https://news.ycombinator.com/item?id=47924705",
+        "date": "2026-04-27T17:38:16Z",
+        "points": 4,
+        "comments": 0
+      },
+      {
+        "source": "hackernews",
+        "type": "story",
+        "title": "Ask HN: Claude Code usage changing (max 20x)",
+        "url": "https://news.ycombinator.com/item?id=47923152",
+        "hn_url": "https://news.ycombinator.com/item?id=47923152",
+        "date": "2026-04-27T15:48:34Z",
         "points": 3,
-        "comments": 3
+        "comments": 2
+      },
+      {
+        "source": "hackernews",
+        "type": "story",
+        "title": "Claude Code Opus-4-7 VS Codex GPT-5-5",
+        "url": "https://news.ycombinator.com/item?id=47919079",
+        "hn_url": "https://news.ycombinator.com/item?id=47919079",
+        "date": "2026-04-27T08:31:05Z",
+        "points": 3,
+        "comments": 1
+      },
+      {
+        "source": "hackernews",
+        "type": "story",
+        "title": "Claude Code plugin for designing modular systems",
+        "url": "https://github.com/vladikk/modularity",
+        "hn_url": "https://news.ycombinator.com/item?id=47918374",
+        "date": "2026-04-27T06:33:32Z",
+        "points": 3,
+        "comments": 1
+      },
+      {
+        "source": "hackernews",
+        "type": "story",
+        "title": "Rapunzel: Tree style tabs for codex, Claude Code and Gemini",
+        "url": "https://github.com/salmanjavaid/rapunzel/tree/main",
+        "hn_url": "https://news.ycombinator.com/item?id=47914533",
+        "date": "2026-04-26T21:10:58Z",
+        "points": 3,
+        "comments": 1
       },
       {
         "source": "hackernews",
@@ -176,6 +136,36 @@
       {
         "source": "hackernews",
         "type": "story",
+        "title": "OpenCode-power-pack – Claude Code skills ported to OpenCode",
+        "url": "https://github.com/waybarrios/opencode-power-pack",
+        "hn_url": "https://news.ycombinator.com/item?id=47912097",
+        "date": "2026-04-26T17:32:44Z",
+        "points": 3,
+        "comments": 0
+      },
+      {
+        "source": "hackernews",
+        "type": "story",
+        "title": "Claude Code Uses GLM 4.7",
+        "url": "https://old.reddit.com/r/LocalLLaMA/comments/1swr135/anthropics_claude_remote_uses_glm47/",
+        "hn_url": "https://news.ycombinator.com/item?id=47918625",
+        "date": "2026-04-27T07:16:46Z",
+        "points": 2,
+        "comments": 4
+      },
+      {
+        "source": "hackernews",
+        "type": "story",
+        "title": "Show HN: Pylon – Sentry Errors to PRs via Claude Code, with Telegram Approval",
+        "url": "https://github.com/pylonto/pylon",
+        "hn_url": "https://news.ycombinator.com/item?id=47924053",
+        "date": "2026-04-27T16:49:35Z",
+        "points": 2,
+        "comments": 0
+      },
+      {
+        "source": "hackernews",
+        "type": "story",
         "title": "Automated systematic literature review with Claude Code",
         "url": "https://www.youtube.com/watch?v=1K_4QqUlSBU",
         "hn_url": "https://news.ycombinator.com/item?id=47913221",
@@ -186,61 +176,31 @@
       {
         "source": "hackernews",
         "type": "story",
-        "title": "OpenCode-power-pack – Claude Code skills ported to OpenCode",
-        "url": "https://github.com/waybarrios/opencode-power-pack",
-        "hn_url": "https://news.ycombinator.com/item?id=47912097",
-        "date": "2026-04-26T17:32:44Z",
-        "points": 2,
-        "comments": 0
+        "title": "How we use Claude Code to modernize a .NET Framework 4.8 monolith",
+        "url": "https://tech.shipstation.com/posts/2026-03-26-ai-modernization/",
+        "hn_url": "https://news.ycombinator.com/item?id=47922983",
+        "date": "2026-04-27T15:34:21Z",
+        "points": 1,
+        "comments": 2
       },
       {
         "source": "hackernews",
         "type": "story",
-        "title": "Claude Code Hooks Reference",
-        "url": "https://code.claude.com/docs/en/hooks",
-        "hn_url": "https://news.ycombinator.com/item?id=47909654",
-        "date": "2026-04-26T12:03:11Z",
-        "points": 2,
-        "comments": 0
-      },
-      {
-        "source": "hackernews",
-        "type": "story",
-        "title": "Show HN: claude-mem-viz, browse what claude code remembers about your projects",
-        "url": "https://github.com/lu-zhengda/claude-mem-viz",
-        "hn_url": "https://news.ycombinator.com/item?id=47904565",
-        "date": "2026-04-25T21:10:35Z",
-        "points": 2,
-        "comments": 0
-      },
-      {
-        "source": "hackernews",
-        "type": "story",
-        "title": "Show HN: Semble – Fast code search for agents with near-transformer accuracy",
-        "url": "https://github.com/MinishLab/semble",
-        "hn_url": "https://news.ycombinator.com/item?id=47910885",
-        "date": "2026-04-26T15:00:27Z",
-        "points": 5,
-        "comments": 0
-      },
-      {
-        "source": "hackernews",
-        "type": "story",
-        "title": "Show HN: I replaced a memory app with two Markdown files and a Git repo",
-        "url": "https://news.ycombinator.com/item?id=47912675",
-        "hn_url": "https://news.ycombinator.com/item?id=47912675",
-        "date": "2026-04-26T18:37:59Z",
-        "points": 2,
+        "title": "Show HN: Doom Inside Claude Code",
+        "url": "https://github.com/erkandogan/doom-in-claude-code",
+        "hn_url": "https://news.ycombinator.com/item?id=47919860",
+        "date": "2026-04-27T10:37:43Z",
+        "points": 1,
         "comments": 1
       },
       {
         "source": "hackernews",
         "type": "story",
-        "title": "Hermes.md in Git commit messages causes requests to route to extra usage billing",
-        "url": "https://github.com/anthropics/claude-code/issues/53262",
-        "hn_url": "https://news.ycombinator.com/item?id=47903621",
-        "date": "2026-04-25T18:51:45Z",
-        "points": 7,
+        "title": "Version Sentinel – Claude Code plugin that blocks outdated dependency installs",
+        "url": "https://github.com/KSEGIT/Version-Sentinel",
+        "hn_url": "https://news.ycombinator.com/item?id=47927105",
+        "date": "2026-04-27T20:47:20Z",
+        "points": 1,
         "comments": 0
       }
     ],

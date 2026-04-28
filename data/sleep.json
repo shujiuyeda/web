@@ -7067,5 +7067,15 @@
     "bedEnd": "2026-04-27T08:28",
     "source": "Apple Watch (HealthAutoExport)",
     "note": "「睡眠中」ラベル2.10hをコアにマージ（unspecified asleep）"
+  },
+  "2026-04-28": {
+    "total": 5.65,
+    "core": 3.58,
+    "deep": 0.54,
+    "rem": 1.53,
+    "awake": 0.38,
+    "bedStart": "2026-04-28T02:27",
+    "bedEnd": "2026-04-28T08:29",
+    "source": "Apple Watch (HealthAutoExport)"
   }
 }
