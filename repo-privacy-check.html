@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>リポジトリの公開設定を確認しよう</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Hiragino Sans', sans-serif;
+    background: #0f172a;
+    color: #e2e8f0;
+    min-height: 100vh;
+    padding: 2rem 1rem;
+  }
+  .container { max-width: 640px; margin: 0 auto; }
+  h1 {
+    font-size: 1.5rem;
+    text-align: center;
+    margin-bottom: 0.5rem;
+  }
+  .subtitle {
+    text-align: center;
+    color: #94a3b8;
+    font-size: 0.9rem;
+    margin-bottom: 2rem;
+  }
+  .step {
+    margin-bottom: 2rem;
+    padding: 1.25rem;
+    background: #1e293b;
+    border-radius: 12px;
+    border-left: 3px solid #60a5fa;
+  }
+  .step-label {
+    font-size: 0.8rem;
+    color: #60a5fa;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+  .step-title {
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin-bottom: 0.75rem;
+  }
+  .step-desc {
+    color: #cbd5e1;
+    font-size: 0.95rem;
+    line-height: 1.7;
+    margin-bottom: 0.75rem;
+  }
+  .step ol, .step ul {
+    padding-left: 1.4rem;
+    color: #cbd5e1;
+    font-size: 0.95rem;
+    line-height: 1.9;
+  }
+  .step li { margin-bottom: 0.25rem; }
+  .step code {
+    background: #334155;
+    padding: 0.15rem 0.45rem;
+    border-radius: 4px;
+    font-size: 0.85rem;
+    font-family: 'SF Mono', 'Fira Code', monospace;
+  }
+  .badge {
+    display: inline-block;
+    padding: 0.1rem 0.55rem;
+    border-radius: 999px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    border: 1px solid;
+  }
+  .badge.public {
+    color: #fbbf24;
+    border-color: #fbbf24;
+    background: rgba(251, 191, 36, 0.1);
+  }
+  .badge.private {
+    color: #34d399;
+    border-color: #34d399;
+    background: rgba(52, 211, 153, 0.1);
+  }
+  .link-btn {
+    display: inline-block;
+    margin-top: 0.5rem;
+    padding: 0.6rem 1rem;
+    background: #60a5fa;
+    color: #0f172a;
+    text-decoration: none;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 0.9rem;
+    transition: background 0.2s;
+  }
+  .link-btn:hover { background: #93c5fd; }
+  .danger {
+    border-left-color: #f87171;
+  }
+  .danger .step-label { color: #f87171; }
+  .alert {
+    margin-top: 0.75rem;
+    padding: 0.75rem 1rem;
+    background: #1a1a2e;
+    border-radius: 8px;
+    font-size: 0.85rem;
+    color: #94a3b8;
+    line-height: 1.6;
+  }
+  .alert strong { color: #e2e8f0; }
+</style>
+</head>
+<body>
+<div class="container">
+  <h1>リポジトリの公開設定を確認しよう</h1>
+  <p class="subtitle">GitHubに上げているプロジェクトがプライベートになっているか確認</p>
+
+  <div class="step">
+    <div class="step-label">Step 1</div>
+    <div class="step-title">自分のリポジトリ一覧を開く</div>
+    <div class="step-desc">GitHubにログインした状態で、下のボタンから自分のリポジトリ一覧を開きます。</div>
+    <a class="link-btn" href="https://github.com/?tab=repositories" target="_blank" rel="noopener">リポジトリ一覧を開く</a>
+  </div>
+
+  <div class="step">
+    <div class="step-label">Step 2</div>
+    <div class="step-title">バッジを確認する</div>
+    <div class="step-desc">各リポジトリ名の右に下のいずれかのバッジが付いています。</div>
+    <ul>
+      <li><span class="badge private">Private</span> &nbsp;→ あなたしか見られない（OK）</li>
+      <li><span class="badge public">Public</span> &nbsp;→ 世界中の誰でも見られる（要確認）</li>
+    </ul>
+    <div class="alert">
+      <strong>絞り込み:</strong> 画面上部の <code>Type</code> で <code>Public</code> を選ぶと、Publicのリポジトリだけ表示できます。
+    </div>
+  </div>
+
+  <div class="step danger">
+    <div class="step-label">Step 3（Publicだった場合）</div>
+    <div class="step-title">Privateに変更する</div>
+    <div class="step-desc">Publicになっていたリポジトリを開いて、以下の手順で変更します。</div>
+    <ol>
+      <li>リポジトリのページで上部の <code>Settings</code> タブを開く</li>
+      <li>一番下までスクロールして <strong>Danger Zone</strong> を探す</li>
+      <li><code>Change repository visibility</code> の右の <code>Change visibility</code> ボタンをクリック</li>
+      <li><code>Make private</code> を選んで、確認のためリポジトリ名を入力</li>
+      <li><code>I understand, change repository visibility</code> をクリックして完了</li>
+    </ol>
+    <div class="alert">
+      <strong>パスワード再入力を求められたら:</strong> GitHubのパスワードを入れてください。
+    </div>
+  </div>
+
+  <div class="step">
+    <div class="step-label">完了</div>
+    <div class="step-title">これで安全です</div>
+    <div class="step-desc">バッジが <span class="badge private">Private</span> に変わっていれば設定完了です。お疲れさまでした！</div>
+  </div>
+</div>
+</body>
+</html>
