@@ -1,24 +1,35 @@
 {
-  "date": "2026-04-28",
+  "date": "2026-05-04",
   "chatwork": {
     "unread": 0,
     "mention": 0,
     "items": [],
     "tasks": [
-      { "room": "ClaudeCode活用", "body": "[toall] Agent Skillsで", "url": "https://www.chatwork.com/#!rid422208145-469989782" },
-      { "room": "MQ全員：業務連絡用", "body": "「自然に売れる秘訣教えます」のウェビナーについて、参加後に届くメール内容にある、特典の音声が聴けないという問い合わせ", "url": "https://www.chatwork.com/#!rid56247-469699669" },
-      { "room": "MQ全員：業務連絡用", "body": "こちら、しゅうしゅうに確認でよろしいでしょうか？ウェビナーお申込の方から、「お送りいただいたリンクが、視聴予約のペ", "url": "https://www.chatwork.com/#!rid56247-469630194" },
-      { "room": "【au010社内】 八納さんプロジェクト", "body": "[To:1488839]しゅうしゅうさん", "url": "https://www.chatwork.com/#!rid368212529-469248783" },
-      { "room": "AIを革新的活用しようチャット", "body": "nanobananaでデザイン作られる方", "url": "https://www.chatwork.com/#!rid382413308-469154142" },
-      { "room": "ClaudeCode活用", "body": "興味ある方は、こちらが僕がやったやり方", "url": "https://www.chatwork.com/#!rid422208145-468496477" },
-      { "room": "ClaudeCode活用", "body": "[qt][qtmeta aid=4044986 time=1771293170]", "url": "https://www.chatwork.com/#!rid422208145-468428601" },
-      { "room": "ClaudeCode活用", "body": "オーサーズ けんさん たくみさん やのうさん のライティングスキル（claudeocode）つくっててほしい", "url": "https://www.chatwork.com/#!rid422208145-468026870" },
-      { "room": "AIを革新的活用しようチャット", "body": "https://www.voiceos.com/ まだクロードコードふくめふつうの作業もパソコンで音声入力してな", "url": "https://www.chatwork.com/#!rid382413308-467848075" },
-      { "room": "[pl26a] The Vibration", "body": "[qt][qtmeta aid=1488839 time=1770693405]", "url": "https://www.chatwork.com/#!rid418681940-467454542" }
+      { "task_id": 469989782, "from": "ClaudeCode活用", "title": "Agent Skillsで…", "url": "https://www.chatwork.com/#!rid422208145-469989782" },
+      { "task_id": 469699669, "from": "MQ全員：業務連絡用", "title": "「自然に売れる秘訣教えます」のウェビナー特典音声が聴けない問い合わせ", "url": "https://www.chatwork.com/#!rid56247-469699669" },
+      { "task_id": 469630194, "from": "MQ全員：業務連絡用", "title": "ウェビナーお申込の方からのリンク確認依頼", "url": "https://www.chatwork.com/#!rid56247-469630194" },
+      { "task_id": 469248783, "from": "【au010社内】 八納さんプロジェクト", "title": "しゅうしゅうさん宛の確認", "url": "https://www.chatwork.com/#!rid368212529-469248783" },
+      { "task_id": 469154142, "from": "AIを革新的活用しようチャット", "title": "nanobananaでデザイン作られる方", "url": "https://www.chatwork.com/#!rid382413308-469154142" },
+      { "task_id": 468496477, "from": "ClaudeCode活用", "title": "興味ある方への共有（やったやり方）", "url": "https://www.chatwork.com/#!rid422208145-468496477" },
+      { "task_id": 468428601, "from": "ClaudeCode活用", "title": "返信スレッド", "url": "https://www.chatwork.com/#!rid422208145-468428601" },
+      { "task_id": 468026870, "from": "ClaudeCode活用", "title": "オーサーズ（けんさん・たくみさん・やのうさん）のライティングスキル作成依頼", "url": "https://www.chatwork.com/#!rid422208145-468026870" },
+      { "task_id": 467848075, "from": "AIを革新的活用しようチャット", "title": "voiceos.com — Claude Code 含む音声入力", "url": "https://www.chatwork.com/#!rid382413308-467848075" },
+      { "task_id": 467454542, "from": "[pl26a] The Vibration", "title": "返信スレッド", "url": "https://www.chatwork.com/#!rid418681940-467454542" }
     ]
   },
   "gmail": {
-    "unread": 0,
-    "items": []
+    "unread": 10,
+    "items": [
+      { "from": "三井のカーシェアーズ", "title": "クルマのご予約の変更を受付けました", "url": "https://mail.google.com/mail/u/0/#all/19dee41fff9ab7ce" },
+      { "from": "マツダミヒロ", "title": "【AIでプロモ】\"あなたの声\"でAIに書かせるプロンプト、できました", "url": "https://mail.google.com/mail/u/0/#all/19db73b8891ba48e" },
+      { "from": "マツダミヒロ", "title": "夫婦ケンカをしない秘訣", "url": "https://mail.google.com/mail/u/0/#all/19d94effdc1c2d66" },
+      { "from": "新百姓", "title": "『新百姓』3号「音を楽しむ」完成、先行販売のご案内", "url": "https://mail.google.com/mail/u/0/#all/19d8f88612d74e9d" },
+      { "from": "Zapier Alerts", "title": "[ALERT] オーウェビナー→Mailchimp(お金と相思相愛) Zap エラー", "url": "https://mail.google.com/mail/u/0/#all/19d8d5cd3b27b657" },
+      { "from": "OKI CIRCULAR DESIGN MUSEUM", "title": "Instagram Feed www.wawawa.today/cdl_okiのレポート", "url": "https://mail.google.com/mail/u/0/#all/19d880f8a1759a4d" },
+      { "from": "GDO support", "title": "【GDO】JGAクラブ会員 登録手続き完了のご案内", "url": "https://mail.google.com/mail/u/0/#all/19d7d03407f599c0" },
+      { "from": "三井のカーシェアーズ", "title": "クルマのご予約の変更を受付けました", "url": "https://mail.google.com/mail/u/0/#all/19d798570ef5e73b" },
+      { "from": "三井のカーシェアーズ", "title": "クルマのご予約の変更を受付けました", "url": "https://mail.google.com/mail/u/0/#all/19d77d35af1b89d5" },
+      { "from": "三井のカーシェアーズ", "title": "クルマのご予約の変更を受付けました", "url": "https://mail.google.com/mail/u/0/#all/19d77d2b84bfb311" }
+    ]
   }
 }

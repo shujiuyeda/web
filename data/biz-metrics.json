@@ -1,10 +1,10 @@
 {
-  "date": "2026-04-28",
+  "date": "2026-05-04",
   "sales": {
-    "yesterday": 0,
-    "lastDate": "2026-04-13",
-    "lastAmount": 33000,
-    "mtd": 621485
+    "yesterday": 128149,
+    "lastDate": "2026-05-03",
+    "lastAmount": 128149,
+    "mtd": 128149
   },
   "newsletter": {
     "newToday": null,

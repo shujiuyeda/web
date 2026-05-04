@@ -1153,5 +1153,24 @@
     "walkDistance": null,
     "vo2max": null,
     "walkHR": null
+  },
+  "2026-05-04": {
+    "water": null,
+    "bowel": null,
+    "mood": null,
+    "energy": null,
+    "weather": null,
+    "sleep_feel": null,
+    "body_note": null,
+    "waterBonus": null,
+    "stretch": null,
+    "steps": 3927,
+    "rhr": 59,
+    "hrv": 28.1,
+    "stride": 63.2,
+    "walkSpeed": 4.1,
+    "walkDistance": 2.55,
+    "vo2max": null,
+    "walkHR": 91
   }
 }
