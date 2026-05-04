@@ -575,5 +575,17 @@
     "steps": 178,
     "rhr": 63,
     "hrv": 22.3
+  },
+  "2026-05-04": {
+    "overall": 57,
+    "sleep": 5.97,
+    "weight": 88.15,
+    "bodyFat": 30.7,
+    "steps": 3927,
+    "rhr": 59,
+    "hrv": 28.1,
+    "water": null,
+    "fiber": null,
+    "kcal": null
   }
 }
