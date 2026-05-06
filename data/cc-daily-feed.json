@@ -1,32 +1,31 @@
 {
-  "generated": "2026-05-04T21:03:02.606Z",
+  "generated": "2026-05-05T21:03:05.558Z",
   "period_hours": 28,
   "summary": {
-    "github": 10,
+    "github": 11,
     "reddit": 0,
     "hackernews": 15,
     "x": 0,
-    "total": 25
+    "total": 26
   },
   "items": {
     "github": [
       {
         "source": "github",
-        "type": "issue",
+        "type": "release",
         "repo": "anthropics/claude-code",
-        "title": "Single session hangs renderer / input unresponsive while sibling sessions work — Claude.app v1.5354.0 on macOS 26.4.1",
-        "url": "https://github.com/anthropics/claude-code/issues/56130",
-        "date": "2026-05-04T20:57:16Z",
-        "reactions": 0,
-        "comments": 0
+        "title": "v2.1.128",
+        "url": "https://github.com/anthropics/claude-code/releases/tag/v2.1.128",
+        "date": "2026-05-04T23:01:47Z",
+        "body": "## What's changed\n\n- Bare `/color` (no args) now picks a random session color\n- `/mcp` now shows the tool count for connected servers and flags servers that connected with 0 tools\n- `--plugin-dir` now accepts `.zip` plugin archives in addition to directories\n- `--channels` now works with console (API key) authentication — console orgs with managed settings must set `channelsEnabled: true` to enable\n- Updated `/model` picker: collapsed duplicate Opus 4.7 entries, and current Opus now shows as \"Op"
       },
       {
         "source": "github",
         "type": "issue",
         "repo": "anthropics/claude-code",
-        "title": "[BUG] Cowork VM 2.1.121 ships Linux ELF ARM64 binary on macOS Apple Silicon - VM cannot start",
-        "url": "https://github.com/anthropics/claude-code/issues/56129",
-        "date": "2026-05-04T20:52:00Z",
+        "title": "[BUG] Free ultrareview quota consumed when run crashes before producing findings (server-side rate limit)",
+        "url": "https://github.com/anthropics/claude-code/issues/56432",
+        "date": "2026-05-05T20:58:10Z",
         "reactions": 0,
         "comments": 1
       },
@@ -34,9 +33,19 @@
         "source": "github",
         "type": "issue",
         "repo": "anthropics/claude-code",
-        "title": "Repo selector",
-        "url": "https://github.com/anthropics/claude-code/issues/56128",
-        "date": "2026-05-04T20:47:34Z",
+        "title": "[BUG] UI overlap issue with the desktop app toolbar icons on Windows 11 with Hebrew language settings.",
+        "url": "https://github.com/anthropics/claude-code/issues/56431",
+        "date": "2026-05-05T20:57:52Z",
+        "reactions": 0,
+        "comments": 1
+      },
+      {
+        "source": "github",
+        "type": "issue",
+        "repo": "anthropics/claude-code",
+        "title": "[BUG] Incompatibility with claude VS code extension and perforce VS code extension",
+        "url": "https://github.com/anthropics/claude-code/issues/56430",
+        "date": "2026-05-05T20:56:15Z",
         "reactions": 0,
         "comments": 0
       },
@@ -44,9 +53,19 @@
         "source": "github",
         "type": "issue",
         "repo": "anthropics/claude-code",
-        "title": "[BUG] Remote session (iOS app) disconnects when OS (windows) sleeps/locks the screen 10min system settings",
-        "url": "https://github.com/anthropics/claude-code/issues/56127",
-        "date": "2026-05-04T20:37:35Z",
+        "title": "[Feature Request] Allow model to recommend and auto-switch between Claude models mid-task",
+        "url": "https://github.com/anthropics/claude-code/issues/56429",
+        "date": "2026-05-05T20:56:11Z",
+        "reactions": 0,
+        "comments": 1
+      },
+      {
+        "source": "github",
+        "type": "issue",
+        "repo": "anthropics/claude-code",
+        "title": "Hook to post-process assistant output before TUI render",
+        "url": "https://github.com/anthropics/claude-code/issues/56428",
+        "date": "2026-05-05T20:52:44Z",
         "reactions": 0,
         "comments": 0
       },
@@ -54,9 +73,9 @@
         "source": "github",
         "type": "issue",
         "repo": "anthropics/claude-code",
-        "title": "[BUG]",
-        "url": "https://github.com/anthropics/claude-code/issues/56126",
-        "date": "2026-05-04T20:36:05Z",
+        "title": "[BUG] Todos os tipos imaginaveis, Claude não completa nem uma tarefa",
+        "url": "https://github.com/anthropics/claude-code/issues/56427",
+        "date": "2026-05-05T20:49:23Z",
         "reactions": 0,
         "comments": 0
       },
@@ -64,9 +83,9 @@
         "source": "github",
         "type": "issue",
         "repo": "anthropics/claude-code",
-        "title": "Code tab not appearing in desktop app despite seat upgrade",
-        "url": "https://github.com/anthropics/claude-code/issues/56125",
-        "date": "2026-05-04T20:33:28Z",
+        "title": "[Bug] Session limit blocks access despite available credits and low usage percentage",
+        "url": "https://github.com/anthropics/claude-code/issues/56426",
+        "date": "2026-05-05T20:45:32Z",
         "reactions": 0,
         "comments": 2
       },
@@ -74,9 +93,9 @@
         "source": "github",
         "type": "issue",
         "repo": "anthropics/claude-code",
-        "title": "[BUG] /security-review skill renders stale git context (uses local HEAD instead of PR refs)",
-        "url": "https://github.com/anthropics/claude-code/issues/56124",
-        "date": "2026-05-04T20:33:03Z",
+        "title": "File preview links break when session runs inside a worktree",
+        "url": "https://github.com/anthropics/claude-code/issues/56425",
+        "date": "2026-05-05T20:39:46Z",
         "reactions": 0,
         "comments": 1
       },
@@ -84,9 +103,9 @@
         "source": "github",
         "type": "issue",
         "repo": "anthropics/claude-code",
-        "title": "[BUG] Cowork HTTP MCP plugins: silent connection drops, Authorization header dropped on tools/call, and GitHub-disconnect \"fix\" wipes plugins for the whole workspace",
-        "url": "https://github.com/anthropics/claude-code/issues/56122",
-        "date": "2026-05-04T20:18:56Z",
+        "title": "[Bug] Remote Control unavailable despite Max plan subscription on v2.1.128",
+        "url": "https://github.com/anthropics/claude-code/issues/56424",
+        "date": "2026-05-05T20:36:59Z",
         "reactions": 0,
         "comments": 1
       },
@@ -94,21 +113,11 @@
         "source": "github",
         "type": "issue",
         "repo": "anthropics/claude-code",
-        "title": "PreToolUse hook with permissionDecision: \"deny\" emits redundant <system-reminder>",
-        "url": "https://github.com/anthropics/claude-code/issues/56121",
-        "date": "2026-05-04T20:13:57Z",
+        "title": "Tool outputs expanded by default — no setting to collapse, inconsistent across machines",
+        "url": "https://github.com/anthropics/claude-code/issues/56423",
+        "date": "2026-05-05T20:17:38Z",
         "reactions": 0,
-        "comments": 0
-      },
-      {
-        "source": "github",
-        "type": "issue",
-        "repo": "anthropics/claude-code",
-        "title": "[Bug] Encrypted PDF password retry fails after incorrect password attempt",
-        "url": "https://github.com/anthropics/claude-code/issues/56120",
-        "date": "2026-05-04T20:09:28Z",
-        "reactions": 0,
-        "comments": 0
+        "comments": 1
       }
     ],
     "reddit": [],
@@ -116,42 +125,42 @@
       {
         "source": "hackernews",
         "type": "story",
-        "title": "DeepClaude – Claude Code agent loop with DeepSeek V4 Pro",
-        "url": "https://github.com/aattaran/deepclaude",
-        "hn_url": "https://news.ycombinator.com/item?id=48002136",
-        "date": "2026-05-03T22:13:20Z",
-        "points": 639,
-        "comments": 268
+        "title": "Amazon rolls out Claude Code and Codex internally",
+        "url": "https://www.businessinsider.com/amazon-claude-code-codex-all-employees-after-pushback-2026-5",
+        "hn_url": "https://news.ycombinator.com/item?id=48018682",
+        "date": "2026-05-05T06:09:49Z",
+        "points": 15,
+        "comments": 10
       },
       {
         "source": "hackernews",
         "type": "story",
-        "title": "Ask HN: Does Claude Code succeed after being asked \"should we give up?\" for you?",
-        "url": "https://news.ycombinator.com/item?id=48003592",
-        "hn_url": "https://news.ycombinator.com/item?id=48003592",
-        "date": "2026-05-04T01:32:02Z",
-        "points": 7,
-        "comments": 1
+        "title": "SprintiQ – open-source sprint planning for Claude Code",
+        "url": "https://github.com/SprintiQ-Incorporated/sprintiq",
+        "hn_url": "https://news.ycombinator.com/item?id=48016016",
+        "date": "2026-05-04T22:52:48Z",
+        "points": 12,
+        "comments": 6
       },
       {
         "source": "hackernews",
         "type": "story",
-        "title": "Show HN: Rudel – Claude Code / Codex sessions reveals 9 types of AI coder",
-        "url": "https://app.rudel.ai/wrapped",
-        "hn_url": "https://news.ycombinator.com/item?id=48009166",
-        "date": "2026-05-04T14:22:20Z",
-        "points": 5,
-        "comments": 0
+        "title": "Claudette – An open-source desktop companion for Claude Code",
+        "url": "https://utensils.io/claudette/",
+        "hn_url": "https://news.ycombinator.com/item?id=48022804",
+        "date": "2026-05-05T14:13:38Z",
+        "points": 8,
+        "comments": 6
       },
       {
         "source": "hackernews",
         "type": "story",
-        "title": "Claude Code Leak: 8100 Takedown Requests and the Birth of Claw-Code",
-        "url": "https://www.heise.de/en/news/Claude-Code-Leak-8100-Takedown-Requests-and-the-Birth-of-Claw-Code-11279674.html",
-        "hn_url": "https://news.ycombinator.com/item?id=48000722",
-        "date": "2026-05-03T19:52:04Z",
+        "title": "Show HN: Claude-smart – Make Claude Code self-improve from every session",
+        "url": "https://github.com/ReflexioAI/claude-smart",
+        "hn_url": "https://news.ycombinator.com/item?id=48023456",
+        "date": "2026-05-05T15:00:25Z",
         "points": 4,
-        "comments": 0
+        "comments": 1
       },
       {
         "source": "hackernews",
@@ -160,38 +169,28 @@
         "url": "https://www.kdnuggets.com/7-practical-ways-to-reduce-claude-code-token-usage",
         "hn_url": "https://news.ycombinator.com/item?id=48014574",
         "date": "2026-05-04T20:32:55Z",
-        "points": 3,
+        "points": 4,
         "comments": 1
       },
       {
         "source": "hackernews",
         "type": "story",
-        "title": "New Claude-Code Plugin for Jupyterlab",
-        "url": "https://github.com/stellarshenson/jupyterlab_claude_code_extension",
-        "hn_url": "https://news.ycombinator.com/item?id=47999354",
-        "date": "2026-05-03T17:35:17Z",
-        "points": 3,
+        "title": "Ctx – Persistent Memory for Claude Code, Cursor, and AI Coding Tools",
+        "url": "https://github.com/ActiveMemory/ctx",
+        "hn_url": "https://news.ycombinator.com/item?id=48017090",
+        "date": "2026-05-05T01:39:50Z",
+        "points": 4,
         "comments": 0
       },
       {
         "source": "hackernews",
         "type": "story",
-        "title": "Codex pets now work in Claude Code",
-        "url": "https://github.com/danielkempe/clawdex",
-        "hn_url": "https://news.ycombinator.com/item?id=48009280",
-        "date": "2026-05-04T14:32:12Z",
-        "points": 2,
-        "comments": 1
-      },
-      {
-        "source": "hackernews",
-        "type": "story",
-        "title": "Modyak – run Claude Code and Codex with any model from your Mac menu bar",
-        "url": "https://modyak.com",
-        "hn_url": "https://news.ycombinator.com/item?id=48008232",
-        "date": "2026-05-04T13:05:13Z",
-        "points": 2,
-        "comments": 1
+        "title": "Anthropic quietly nerfed Claude Code's 1-hour cache",
+        "url": "https://www.xda-developers.com/anthropic-quietly-nerfed-claude-code-hour-cache-token-budget/",
+        "hn_url": "https://news.ycombinator.com/item?id=48018380",
+        "date": "2026-05-05T05:23:37Z",
+        "points": 3,
+        "comments": 0
       },
       {
         "source": "hackernews",
@@ -200,26 +199,46 @@
         "url": "https://blog.tickertrends.io/p/openai-codex-surpasses-claude-code",
         "hn_url": "https://news.ycombinator.com/item?id=48014730",
         "date": "2026-05-04T20:45:48Z",
+        "points": 3,
+        "comments": 0
+      },
+      {
+        "source": "hackernews",
+        "type": "story",
+        "title": "Pro-Grade Java Development in Claude Code – Beyond Grep with LSP",
+        "url": "https://blog.codonomics.com/2026/04/pro-grade-java-development-in-claude.html",
+        "hn_url": "https://news.ycombinator.com/item?id=48020764",
+        "date": "2026-05-05T11:01:49Z",
+        "points": 2,
+        "comments": 1
+      },
+      {
+        "source": "hackernews",
+        "type": "story",
+        "title": "Using Agent-Browser in Claude Code to Automate Zoho Books Workflows",
+        "url": "https://www.youtube.com/watch?v=ZM8Ar_Cr-LI",
+        "hn_url": "https://news.ycombinator.com/item?id=48019262",
+        "date": "2026-05-05T07:42:09Z",
+        "points": 2,
+        "comments": 1
+      },
+      {
+        "source": "hackernews",
+        "type": "story",
+        "title": "Memoir – Git for AI agent memory, with a Claude Code plugin",
+        "url": "https://github.com/zhangfengcdt/memoir",
+        "hn_url": "https://news.ycombinator.com/item?id=48024243",
+        "date": "2026-05-05T15:54:54Z",
         "points": 2,
         "comments": 0
       },
       {
         "source": "hackernews",
         "type": "story",
-        "title": "Claude-Code-Proxy – Use Kimi K2.6 and OpenAI Subscriptions in Claude Code",
-        "url": "https://github.com/raine/claude-code-proxy",
-        "hn_url": "https://news.ycombinator.com/item?id=48005653",
-        "date": "2026-05-04T07:20:14Z",
-        "points": 2,
-        "comments": 0
-      },
-      {
-        "source": "hackernews",
-        "type": "story",
-        "title": "Show HN: Orchestrate Dockerized Claude Code sessions from your issue tracker",
-        "url": "https://github.com/smithy-ai/smithy-ai",
-        "hn_url": "https://news.ycombinator.com/item?id=47999589",
-        "date": "2026-05-03T17:58:55Z",
+        "title": "Claude Code: /effort is global across concurrent sessions instead of session",
+        "url": "https://github.com/anthropics/claude-code/issues/49166",
+        "hn_url": "https://news.ycombinator.com/item?id=48018911",
+        "date": "2026-05-05T06:44:04Z",
         "points": 2,
         "comments": 0
       },
@@ -236,32 +255,22 @@
       {
         "source": "hackernews",
         "type": "story",
-        "title": "Show HN: My coworker and I planning with our Claude Codes in the same chat room",
-        "url": "https://old.reddit.com/r/ClaudeAI/comments/1t3aiqa/my_coworker_and_i_planning_a_feature_with_our_two/",
-        "hn_url": "https://news.ycombinator.com/item?id=48010994",
-        "date": "2026-05-04T16:33:50Z",
-        "points": 4,
-        "comments": 1
-      },
-      {
-        "source": "hackernews",
-        "type": "story",
-        "title": "Ask HN: Where are SWE's being replaced?",
-        "url": "https://news.ycombinator.com/item?id=48007425",
-        "hn_url": "https://news.ycombinator.com/item?id=48007425",
-        "date": "2026-05-04T11:39:36Z",
-        "points": 4,
-        "comments": 1
-      },
-      {
-        "source": "hackernews",
-        "type": "story",
-        "title": "Ask HN: Are employers getting the returns from AI?",
-        "url": "https://news.ycombinator.com/item?id=48014734",
-        "hn_url": "https://news.ycombinator.com/item?id=48014734",
-        "date": "2026-05-04T20:45:56Z",
-        "points": 3,
+        "title": "Show HN: Claude Relay – local Claude Code sessions message each other",
+        "url": "https://github.com/innestic/claude-relay",
+        "hn_url": "https://news.ycombinator.com/item?id=48019985",
+        "date": "2026-05-05T09:19:43Z",
+        "points": 1,
         "comments": 2
+      },
+      {
+        "source": "hackernews",
+        "type": "story",
+        "title": "Claude Code helped me discover codex was gaslighting me for months",
+        "url": "https://medium.com/@cmitre/the-week-my-ai-assistant-tried-to-end-me-and-accidentally-helped-me-build-a-better-model-a2a6e43a5c52",
+        "hn_url": "https://news.ycombinator.com/item?id=48022688",
+        "date": "2026-05-05T14:03:11Z",
+        "points": 1,
+        "comments": 0
       }
     ],
     "x": []

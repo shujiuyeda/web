@@ -1,5 +1,5 @@
 {
-  "date": "2026-05-05",
+  "date": "2026-05-06",
   "chatwork": {
     "unread": 0,
     "mention": 0,
@@ -20,16 +20,16 @@
   "gmail": {
     "unread": 10,
     "items": [
+      { "from": "Zapier Alerts", "title": "[ALERT] (dp)Teachableでしつもんプロモ→Mihiro's News Letter タグ付け Zap エラー", "url": "https://mail.google.com/mail/u/0/#all/19dfc736bbdffc4f" },
+      { "from": "OKI CIRCULAR DESIGN MUSEUM", "title": "Instagram Feed www.wawawa.today/cdl_okiのレポート（5/5）", "url": "https://mail.google.com/mail/u/0/#all/19df95931cc5346e" },
       { "from": "三井のカーシェアーズ", "title": "クルマのご予約の変更を受付けました", "url": "https://mail.google.com/mail/u/0/#all/19dee41fff9ab7ce" },
       { "from": "マツダミヒロ", "title": "【AIでプロモ】\"あなたの声\"でAIに書かせるプロンプト、できました", "url": "https://mail.google.com/mail/u/0/#all/19db73b8891ba48e" },
       { "from": "マツダミヒロ", "title": "夫婦ケンカをしない秘訣", "url": "https://mail.google.com/mail/u/0/#all/19d94effdc1c2d66" },
       { "from": "新百姓", "title": "『新百姓』3号「音を楽しむ」完成、先行販売のご案内", "url": "https://mail.google.com/mail/u/0/#all/19d8f88612d74e9d" },
       { "from": "Zapier Alerts", "title": "[ALERT] オーウェビナー→Mailchimp(お金と相思相愛) Zap エラー", "url": "https://mail.google.com/mail/u/0/#all/19d8d5cd3b27b657" },
-      { "from": "OKI CIRCULAR DESIGN MUSEUM", "title": "Instagram Feed www.wawawa.today/cdl_okiのレポート", "url": "https://mail.google.com/mail/u/0/#all/19d880f8a1759a4d" },
+      { "from": "OKI CIRCULAR DESIGN MUSEUM", "title": "Instagram Feed www.wawawa.today/cdl_okiのレポート（4/13）", "url": "https://mail.google.com/mail/u/0/#all/19d880f8a1759a4d" },
       { "from": "GDO support", "title": "【GDO】JGAクラブ会員 登録手続き完了のご案内", "url": "https://mail.google.com/mail/u/0/#all/19d7d03407f599c0" },
-      { "from": "三井のカーシェアーズ", "title": "クルマのご予約の変更を受付けました", "url": "https://mail.google.com/mail/u/0/#all/19d798570ef5e73b" },
-      { "from": "三井のカーシェアーズ", "title": "クルマのご予約の変更を受付けました", "url": "https://mail.google.com/mail/u/0/#all/19d77d35af1b89d5" },
-      { "from": "三井のカーシェアーズ", "title": "クルマのご予約の変更を受付けました", "url": "https://mail.google.com/mail/u/0/#all/19d77d2b84bfb311" }
+      { "from": "三井のカーシェアーズ", "title": "クルマのご予約の変更を受付けました", "url": "https://mail.google.com/mail/u/0/#all/19d798570ef5e73b" }
     ]
   }
 }
