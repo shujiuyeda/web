@@ -599,5 +599,18 @@
     "water": null,
     "fiber": null,
     "kcal": null
+  },
+  "2026-05-06": {
+    "overall": 53,
+    "gut": 2,
+    "sleep": 6.07,
+    "weight": 87.65,
+    "bodyFat": 31.1,
+    "steps": 4217,
+    "rhr": 59,
+    "hrv": 30.0,
+    "water": null,
+    "fiber": null,
+    "kcal": null
   }
 }
