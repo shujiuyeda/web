@@ -1,5 +1,5 @@
 {
-  "date": "2026-05-06",
+  "date": "2026-05-08",
   "tasks": [
     {
       "id": "dt1",
@@ -424,16 +424,6 @@
     {
       "id": "dt46",
       "label": "日記を書く（30分）（テーマ: 「そもそも夢は持たなきゃいけないのか」「僕が作り上げたい世界」→ ブログ・発信ネタ参照）",
-      "slot": "daytime",
-      "priority": 20,
-      "minutes": 30,
-      "done": false,
-      "tag": null,
-      "type": "habit"
-    },
-    {
-      "id": "dt47",
-      "label": "16:05 パーソナル準備 → 16:25 家を出る → 17:30 パーソナル開始",
       "slot": "daytime",
       "priority": 20,
       "minutes": 30,
