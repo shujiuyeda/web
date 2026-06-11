@@ -511,6 +511,14 @@
     <div class="updated" id="updatedDisplay"></div>
   </div>
 
+  <!-- 2-week schedule (full width) -->
+  <div class="top-cards" style="padding:14px 14px 0">
+    <div class="card">
+      <div class="card-title"><div class="card-icon icon-schedule">📅</div> スケジュール（直近2週間）<span id="sch2wRange" style="margin-left:auto;font-size:11px;color:var(--text-muted)"></span></div>
+      <div id="schedule2w"><div class="empty-state">データ準備中</div></div>
+    </div>
+  </div>
+
   <!-- PRIVATE | BUSINESS two columns -->
   <div class="two-col">
     <!-- LEFT: Private -->
@@ -1267,6 +1275,39 @@
       el.innerHTML = html;
     }
 
+    async function loadSchedule2w() {
+      const data = await fetchJSON('schedule.json');
+      const el = document.getElementById('schedule2w');
+      if (!data || !data.days || !data.days.length) {
+        el.innerHTML = '<div class="empty-state">データ準備中</div>';
+        return;
+      }
+      if (data.range) document.getElementById('sch2wRange').textContent = `${data.range.from}〜${data.range.to}（毎日2:00自動更新）`;
+      const jstNow = new Date(Date.now() + 9 * 3600 * 1000);
+      const todayStr = jstNow.toISOString().slice(0, 10);
+      let html = '<div style="display:flex;flex-direction:column">';
+      data.days.forEach(d => {
+        if (d.date < todayStr) return;
+        const isToday = d.date === todayStr;
+        const wd = (d.label.match(/（(.)）/) || [])[1] || '';
+        const wkend = (wd === '土' || wd === '日');
+        let right = '';
+        if (d.items && d.items.length) {
+          right = d.items.map(it =>
+            `<span style="white-space:nowrap"><span style="color:var(--text-muted);font-variant-numeric:tabular-nums">${it.time}</span> ${it.icon} ${it.title}</span>`
+          ).join('<span style="color:#d1d5db"> ｜ </span>');
+        }
+        if (d.soccer) right += (right ? '<span style="color:#d1d5db"> ｜ </span>' : '') + `<span style="color:#15803d;white-space:nowrap">${d.soccer}</span>`;
+        if (!right) right = '<span style="color:#d1d5db">—</span>';
+        html += `<div style="display:flex;gap:10px;padding:5px 8px;border-bottom:1px solid #f3f4f6;${isToday ? 'background:#FFF7ED;border-radius:8px;' : ''}">
+          <div style="flex:0 0 78px;font-size:12px;font-weight:700;color:${wkend ? '#dc2626' : 'var(--text)'}">${d.label}${isToday ? ' <span style="font-size:10px;color:var(--orange)">今日</span>' : ''}</div>
+          <div style="flex:1;font-size:12px;line-height:1.7">${right}</div>
+        </div>`;
+      });
+      html += '</div>';
+      el.innerHTML = html;
+    }
+
     async function loadSchedule() {
       const data = await fetchJSON('calendar-today.json');
       const el = document.getElementById('scheduleList');
@@ -1383,7 +1424,7 @@
 
     async function loadAll() {
       document.getElementById('updatedDisplay').textContent = '更新中...';
-      await Promise.all([loadHealth(), loadTasks(), loadFeed(), loadSchedule(), loadKPI(), loadBizMetrics(), loadMessages(), loadBookmarks(), loadLiver()]);
+      await Promise.all([loadHealth(), loadTasks(), loadFeed(), loadSchedule(), loadSchedule2w(), loadKPI(), loadBizMetrics(), loadMessages(), loadBookmarks(), loadLiver()]);
       document.getElementById('updatedDisplay').textContent =
         '最終更新 ' + new Date().toLocaleTimeString('ja-JP', {hour:'2-digit',minute:'2-digit'});
     }
