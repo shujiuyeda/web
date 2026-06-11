@@ -633,7 +633,8 @@
   </div>
 
   <script>
-    const BASE = './data/';
+    // Vercel配信時もGitHub Pagesの最新データを読む（push毎の再デプロイ不要にするため）
+    const BASE = location.hostname.endsWith('github.io') ? './data/' : 'https://shujiuyeda.github.io/web/data/';
     const GH_REPO = 'shujiuyeda/web';
     const GH_API = 'https://api.github.com';
     function ghToken() { return localStorage.getItem('gh_pat') || ''; }
