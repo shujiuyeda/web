@@ -567,7 +567,7 @@
         if (d.soccer) right += (right ? '<span style="color:#d1d5db"> ｜ </span>' : '') + `<span style="color:#15803d;white-space:nowrap">${d.soccer}</span>`;
         if (!right) right = '<span style="color:#d1d5db">—</span>';
         html += `<div style="display:flex;gap:10px;padding:5px 8px;border-bottom:1px solid #f3f4f6;${isToday ? 'background:#FFF7ED;border-radius:8px;' : ''}">
-          <div style="flex:0 0 78px;font-size:12px;font-weight:700;color:${wkend ? '#dc2626' : 'var(--text)'}">${d.label}${isToday ? ' <span style="font-size:10px;color:var(--orange)">今日</span>' : ''}</div>
+          <div style="flex:0 0 100px;font-size:12px;font-weight:700;white-space:nowrap;color:${wkend ? '#dc2626' : 'var(--text)'}">${d.label}${isToday ? ' <span style="font-size:10px;color:var(--orange)">今日</span>' : ''}</div>
           <div style="flex:1;font-size:12px;line-height:1.7">${right}</div>
         </div>`;
       });
