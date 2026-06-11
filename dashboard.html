@@ -517,6 +517,10 @@
       <div class="card-title"><div class="card-icon icon-schedule">📅</div> スケジュール（直近2週間）<span id="sch2wRange" style="margin-left:auto;font-size:11px;color:var(--text-muted)"></span></div>
       <div id="schedule2w"><div class="empty-state">データ準備中</div></div>
     </div>
+    <div class="card">
+      <div class="card-title"><div class="card-icon icon-task">✅</div> タスク<span style="margin-left:auto;font-size:11px;color:var(--text-muted)">SoT: Google Tasks（チェックはGoogle ToDoアプリで）</span></div>
+      <div id="taskView"><div class="empty-state">データ準備中</div></div>
+    </div>
   </div>
 
 
@@ -576,9 +580,32 @@
     }
 
 
+    async function loadTaskView() {
+      const data = await fetchJSON('tasks.json');
+      const el = document.getElementById('taskView');
+      if (!data || !data.lists || !data.lists.length) {
+        el.innerHTML = '<div class="empty-state">データ準備中</div>';
+        return;
+      }
+      const item = t => `<div style="display:flex;gap:7px;padding:3px 0;font-size:12px;line-height:1.6"><span style="color:#d1d5db">○</span><span>${t.title}</span></div>`;
+      let html = '<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px">';
+      data.lists.forEach(list => {
+        html += `<div><div style="font-size:12px;font-weight:800;color:var(--purple);margin-bottom:6px;text-transform:uppercase;letter-spacing:1px">${list.name}</div>`;
+        (list.groups || []).forEach(g => {
+          html += `<div style="margin-bottom:8px"><div style="font-size:12.5px;font-weight:700;padding:4px 0;border-bottom:1px solid #f3f4f6">${g.title} <span style="color:var(--text-muted);font-weight:500;font-size:11px">${g.items.length}</span></div>`;
+          g.items.forEach(t => { html += item(t); });
+          html += '</div>';
+        });
+        (list.loose || []).forEach(t => { html += item(t); });
+        html += '</div>';
+      });
+      html += '</div>';
+      el.innerHTML = html;
+    }
+
     async function loadAll() {
       document.getElementById('updatedDisplay').textContent = '更新中...';
-      await loadSchedule2w();
+      await Promise.all([loadSchedule2w(), loadTaskView()]);
       document.getElementById('updatedDisplay').textContent =
         '最終更新 ' + new Date().toLocaleTimeString('ja-JP', {hour:'2-digit',minute:'2-digit'});
     }
