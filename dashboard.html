@@ -804,8 +804,10 @@
     const now = new Date(Date.now() + 9 * 3600000);
     const days = ['日','月','火','水','木','金','土'];
 
+    // nowは+9hシフト済みのためtoISOString(UTC表示)がJSTの時刻になる。ローカルgetterだとJST環境で二重シフトするのでISO文字列から組み立てる
+    const [jy, jm, jd] = now.toISOString().slice(0, 10).split('-');
     document.getElementById('dateDisplay').textContent =
-      `${now.getFullYear()}/${(now.getMonth()+1).toString().padStart(2,'0')}/${now.getDate().toString().padStart(2,'0')}（${days[now.getDay()]}）`;
+      `${jy}/${jm}/${jd}（${days[new Date(Date.UTC(+jy, +jm - 1, +jd)).getUTCDay()]}）`;
 
     async function fetchJSON(path) {
       try {
