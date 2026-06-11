@@ -1,7 +1,7 @@
 {
   "name": "しゅうしゅう Dashboard",
   "short_name": "Dashboard",
-  "start_url": "/web/dashboard.html",
+  "start_url": "./dashboard.html",
   "display": "standalone",
   "background_color": "#f0f4ff",
   "theme_color": "#667eea",
