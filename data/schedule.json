@@ -1,8 +1,7 @@
 {
-  "generated": "2026-06-11",
-  "range": { "from": "2026-06-11", "to": "2026-06-24" },
+  "generated": "2026-06-12",
+  "range": { "from": "2026-06-12", "to": "2026-06-25" },
   "days": [
-    { "date": "2026-06-11", "label": "6/11（木）", "items": [], "soccer": null },
     { "date": "2026-06-12", "label": "6/12（金）", "items": [
       { "time": "11:00", "icon": "🎉", "cat": "プライベート", "title": "【散髪】ブリリアン" }
     ], "soccer": null },
@@ -39,6 +38,7 @@
       { "time": "終日", "icon": "🏠", "cat": "その他", "title": "資源ゴミ" },
       { "time": "11:00", "icon": "🏠", "cat": "その他", "title": "エアコン設置" },
       { "time": "16:15", "icon": "💪", "cat": "健康", "title": "パーソナル" }
-    ], "soccer": null }
+    ], "soccer": null },
+    { "date": "2026-06-25", "label": "6/25（木）", "items": [], "soccer": null }
   ]
 }
