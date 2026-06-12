@@ -1,10 +1,7 @@
 {
-  "generated": "2026-06-12",
-  "range": { "from": "2026-06-12", "to": "2026-06-25" },
+  "generated": "2026-06-13",
+  "range": { "from": "2026-06-13", "to": "2026-06-26" },
   "days": [
-    { "date": "2026-06-12", "label": "6/12（金）", "items": [
-      { "time": "11:00", "icon": "🎉", "cat": "プライベート", "title": "【散髪】ブリリアン" }
-    ], "soccer": null },
     { "date": "2026-06-13", "label": "6/13（土）", "items": [], "soccer": null },
     { "date": "2026-06-14", "label": "6/14（日）", "items": [
       { "time": "12:00", "icon": "🍽️", "cat": "食事", "title": "【食事】ブカマッシモ" }
@@ -39,6 +36,7 @@
       { "time": "11:00", "icon": "🏠", "cat": "その他", "title": "エアコン設置" },
       { "time": "16:15", "icon": "💪", "cat": "健康", "title": "パーソナル" }
     ], "soccer": null },
-    { "date": "2026-06-25", "label": "6/25（木）", "items": [], "soccer": null }
+    { "date": "2026-06-25", "label": "6/25（木）", "items": [], "soccer": null },
+    { "date": "2026-06-26", "label": "6/26（金）", "items": [], "soccer": "⚽ 08:00 日本vsスェーデン" }
   ]
 }

@@ -1,5 +1,5 @@
 {
-  "updated": "2026-06-12T19:35:00+09:00",
+  "updated": "2026-06-13T02:03:00+09:00",
   "lists": [
     {
       "name": "お仕事",
@@ -46,22 +46,6 @@
           ]
         },
         {
-          "title": "📊 本田晃一さんのダッシュボード作成",
-          "items": []
-        },
-        {
-          "title": "📈 ミヒロさんの広告のダッシュボードを作る",
-          "items": []
-        },
-        {
-          "title": "🔐 1Password講座を作る",
-          "items": []
-        },
-        {
-          "title": "📬 AI（Claude Code）×Mailchimpのメールマーケティング講座を作る",
-          "items": []
-        },
-        {
           "title": "🌐 Claude Codeを使ったウェブサイトを作る（shujiueda.com）",
           "items": [
             { "title": "何のためのウェブサイトを作るかを決める" },
@@ -105,6 +89,10 @@
         }
       ],
       "loose": [
+        { "title": "📊 本田晃一さんのダッシュボード作成" },
+        { "title": "📈 ミヒロさんの広告のダッシュボードを作る" },
+        { "title": "🔐 1Password講座を作る" },
+        { "title": "📬 AI（Claude Code）×Mailchimpのメールマーケティング講座を作る" },
         { "title": "食物繊維の摂取状況メモ" }
       ]
     },
