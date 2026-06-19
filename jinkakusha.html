@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<title>人格者プロジェクト</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🌱</text></svg>">
+<style>
+:root {
+  --bg: #fdf8f0;
+  --card: #ffffff;
+  --text: #2c3e34;
+  --soft: #6b7770;
+  --accent: #88a584;
+  --accent-dark: #5a7256;
+  --accent-light: #eaf2e7;
+  --pink: #f0c5b5;
+  --cream: #f7ede0;
+  --shadow: 0 2px 14px rgba(70, 90, 75, 0.08);
+  --radius: 16px;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Hiragino Sans", "Hiragino Kaku Gothic ProN", "Yu Gothic", sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.8;
+  padding: 24px 16px 80px;
+  -webkit-font-smoothing: antialiased;
+}
+
+.container { max-width: 720px; margin: 0 auto; }
+
+header {
+  text-align: center;
+  padding: 24px 16px 8px;
+}
+
+h1 {
+  font-size: 28px;
+  font-weight: 700;
+  color: var(--accent-dark);
+  margin-bottom: 6px;
+  letter-spacing: 0.02em;
+}
+
+.subtitle {
+  color: var(--soft);
+  font-size: 13px;
+}
+
+.card {
+  background: var(--card);
+  border-radius: var(--radius);
+  padding: 24px;
+  margin: 16px 0;
+  box-shadow: var(--shadow);
+}
+
+h2 {
+  font-size: 19px;
+  color: var(--accent-dark);
+  margin-bottom: 14px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 700;
+}
+
+h3 {
+  font-size: 15px;
+  color: var(--text);
+  margin: 18px 0 6px;
+  font-weight: 700;
+}
+
+p, li { font-size: 15px; color: var(--text); }
+
+ul, ol { padding-left: 22px; margin: 8px 0; }
+li { margin-bottom: 4px; }
+
+.habit-list { list-style: none; padding: 0; }
+
+.habit-item {
+  background: var(--bg);
+  padding: 14px 14px;
+  border-radius: 12px;
+  margin: 10px 0;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  border: 2px solid transparent;
+  user-select: none;
+}
+
+.habit-item:hover { border-color: var(--accent); }
+
+.habit-item.checked {
+  background: var(--accent-light);
+  border-color: var(--accent);
+}
+
+.habit-item.checked .habit-text {
+  text-decoration: line-through;
+  color: var(--soft);
+}
+
+.habit-check {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  border: 2px solid var(--accent);
+  margin-right: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  font-weight: bold;
+  color: transparent;
+  background: transparent;
+  transition: all 0.2s ease;
+  flex-shrink: 0;
+}
+
+.habit-item.checked .habit-check {
+  background: var(--accent);
+  color: white;
+}
+
+.habit-time {
+  font-size: 12px;
+  color: var(--soft);
+  margin-right: 12px;
+  font-weight: 600;
+  min-width: 96px;
+  flex-shrink: 0;
+}
+
+.habit-text { font-size: 15px; }
+
+.progress {
+  text-align: center;
+  margin: 8px 0 12px;
+  color: var(--soft);
+  font-size: 13px;
+  font-weight: 500;
+}
+
+.progress strong { color: var(--accent-dark); font-size: 15px; }
+
+.quote {
+  background: var(--cream);
+  border-left: 4px solid var(--pink);
+  padding: 12px 16px;
+  border-radius: 8px;
+  margin: 14px 0;
+  color: var(--accent-dark);
+  font-size: 14px;
+  line-height: 1.7;
+}
+
+.tag {
+  display: inline-block;
+  background: var(--accent-light);
+  color: var(--accent-dark);
+  padding: 2px 10px;
+  border-radius: 12px;
+  font-size: 12px;
+  margin-left: 6px;
+  font-weight: 500;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 12px 0;
+  font-size: 13.5px;
+}
+
+th, td {
+  text-align: left;
+  padding: 10px 8px;
+  border-bottom: 1px solid #eee;
+  vertical-align: top;
+}
+
+th {
+  background: var(--cream);
+  color: var(--accent-dark);
+  font-weight: 700;
+  font-size: 13px;
+}
+
+.footer {
+  text-align: center;
+  color: var(--soft);
+  font-size: 12px;
+  margin-top: 32px;
+  padding: 16px;
+}
+
+.reset-btn {
+  display: block;
+  margin: 8px auto 0;
+  background: transparent;
+  color: var(--soft);
+  border: 1px solid #ddd;
+  padding: 5px 14px;
+  border-radius: 16px;
+  font-size: 11px;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+
+.reset-btn:hover { background: var(--bg); color: var(--text); }
+
+@media (max-width: 480px) {
+  h1 { font-size: 24px; }
+  h2 { font-size: 17px; }
+  .habit-time { min-width: 82px; font-size: 11px; margin-right: 8px; }
+  .habit-text { font-size: 14px; }
+  .card { padding: 20px 18px; }
+  table { font-size: 12.5px; }
+  th, td { padding: 8px 6px; }
+}
+</style>
+</head>
+<body>
+
+<div class="container">
+
+  <header>
+    <h1>🌱 人格者プロジェクト</h1>
+    <p class="subtitle">人生をかけて、人格者になる</p>
+  </header>
+
+  <div class="card">
+    <h2>✨ 今日の習慣</h2>
+    <p class="progress"><strong id="progress-count">0 / 4</strong> 完了 <span id="today-date" style="opacity:0.6"></span></p>
+    <ul class="habit-list">
+      <li class="habit-item" data-id="morning-clean">
+        <div class="habit-check">✓</div>
+        <div class="habit-time">🌅 朝起きたら</div>
+        <div class="habit-text">5分掃除をする</div>
+      </li>
+      <li class="habit-item" data-id="morning-breath">
+        <div class="habit-check">✓</div>
+        <div class="habit-time">☕ 机に座ったら</div>
+        <div class="habit-text">若ちゃんの呼吸法</div>
+      </li>
+      <li class="habit-item" data-id="night-dishes">
+        <div class="habit-check">✓</div>
+        <div class="habit-time">🌙 寝る前</div>
+        <div class="habit-text">台所のお皿を洗う</div>
+      </li>
+      <li class="habit-item" data-id="night-breath">
+        <div class="habit-check">✓</div>
+        <div class="habit-time">🫧 皿洗いの後</div>
+        <div class="habit-text">若ちゃんの呼吸法</div>
+      </li>
+    </ul>
+    <button class="reset-btn" id="reset-btn">今日のチェックをリセット</button>
+  </div>
+
+  <div class="card">
+    <h2>🌸 始まり</h2>
+    <p>2026-06-19 始動。やべっちが森保さんのエピソードを語っていて、岡村さんが「人格者だ」と言ったという記事を見て、ポッと「人格者になろう」と思った。</p>
+    <div class="quote">「なぜ」は問わない。気持ちがあるだけでいい。</div>
+  </div>
+
+  <div class="card">
+    <h2>🪞 僕が思う「人格者」</h2>
+    <ul>
+      <li>人が相談したくなる感じ</li>
+      <li>自立している<span class="tag">課題</span></li>
+      <li>スッとしている、テキパキ動く<span class="tag">課題</span></li>
+      <li>声を荒げない、怒らない、冷静<span class="tag">課題</span></li>
+    </ul>
+    <h3>身体・環境の余裕</h3>
+    <ul>
+      <li>部屋を綺麗にする</li>
+      <li>VO2 max を上げる（人生の余裕、体の余裕）</li>
+    </ul>
+    <h3>ロールモデル</h3>
+    <ul>
+      <li>森保一（サッカー日本代表監督）</li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <h2>🌬️ 根幹：反応する前に、一呼吸置く</h2>
+
+    <h3>なぜこれが根っこか</h3>
+    <p><strong>神経科学・心理学</strong>：怒りや衝動は扁桃体が瞬時に反応する。理性が「待った」をかけるには時間がかかる。アンガーマネジメントの「6秒ルール」はここから。一呼吸（吸って吐いて）でちょうどそれくらい。脳の仕組みに合わせた最小の介入。</p>
+    <h3>哲学の系譜</h3>
+    <ul>
+      <li><strong>コヴィー</strong>：「刺激と反応の間にはスペースがある。そのスペースに、反応を選ぶ自由がある」</li>
+      <li><strong>ストア派エピクテトス</strong>：「君を悩ますのは出来事ではなく、出来事に対する君の判断」</li>
+      <li><strong>仏教マインドフルネス</strong>：観察する自分を育てる＝自動反応の手前に観察を挟む</li>
+    </ul>
+    <div class="quote">自動反応モードを抜けて、選択モードに入る。これが人格者の全ての出発点。</div>
+
+    <h3>4つの課題に当てると</h3>
+    <table>
+      <tr><th>課題</th><th>自動モード</th><th>選択モード</th></tr>
+      <tr><td>声を荒げる</td><td>カチン → 即口に出る</td><td>カチン → 一呼吸 → どう言うか選ぶ</td></tr>
+      <tr><td>ダラダラ</td><td>楽な方に流される</td><td>「やる／後にする」を選ぶ</td></tr>
+      <tr><td>自立してない</td><td>人・状況に決められる</td><td>「これは僕の選択か」と自問する</td></tr>
+      <tr><td>部屋汚い</td><td>面倒さが勝つ</td><td>「今これを置く／しまう」を選ぶ</td></tr>
+    </table>
+
+    <h3>日々の鍛錬</h3>
+    <ol>
+      <li><strong>朝の一行宣言</strong>：「今日は反応の自動操縦を抜ける」と起きて一回つぶやく</li>
+      <li><strong>その瞬間の呼吸</strong>：カチン／面倒／流されそうな感情が来たら、4秒吸って6秒吐く</li>
+      <li><strong>夜の振り返り（30秒）</strong>：今日「自動反応してしまった瞬間」を1〜3個書き出す。責めずに観察として</li>
+      <li><strong>マインドフルネス瞑想（任意）</strong>：朝5分、座って呼吸を見るだけ。「気づく筋肉」の基礎トレ</li>
+    </ol>
+    <div class="quote">最初は気づけない方が普通。気づけた瞬間の数が成果。失敗の数じゃない。</div>
+  </div>
+
+  <div class="card">
+    <h2>🧺 物を減らす方策（3層）</h2>
+
+    <h3>1. 朝5分掃除に「手放す1個」を組み込む</h3>
+    <ul>
+      <li>朝の掃除中、必ず1個だけ手放す物を決める</li>
+      <li>1個だけでいい。365日で365個減る</li>
+      <li>床／机／見える場所からスタート</li>
+      <li>既存習慣に紐付くから意志力要らない</li>
+    </ul>
+
+    <h3>2. 迷い箱（Decision Box）</h3>
+    <ul>
+      <li>玄関近くにダンボール1箱、「迷い箱」と書く</li>
+      <li>「これ要るかな…」と思った瞬間、即放り込む。判断は保留</li>
+      <li>3ヶ月放置 → 開けずに丸ごと処分</li>
+      <li>中身を思い出せない＝要らない</li>
+    </ul>
+
+    <h3>3. 入口管理：One in, two out</h3>
+    <ul>
+      <li>何か買ったら、関連分野から2つ手放す</li>
+      <li>服買ったら服2着、本買ったら本2冊</li>
+      <li>1つだと現状維持。2つ出すと純減</li>
+    </ul>
+
+    <div class="quote">日々減らす × 迷いをためない × 増えない</div>
+  </div>
+
+  <p class="footer">🌱 2026-06-19 始動 ／ 人生をかけてやるプロジェクト</p>
+
+</div>
+
+<script>
+(function() {
+  const KEY = 'jinkakusha-habits';
+
+  function todayKey() {
+    const d = new Date();
+    return d.getFullYear() + '-' +
+           String(d.getMonth() + 1).padStart(2, '0') + '-' +
+           String(d.getDate()).padStart(2, '0');
+  }
+
+  function loadAll() {
+    try { return JSON.parse(localStorage.getItem(KEY) || '{}'); }
+    catch (e) { return {}; }
+  }
+
+  function loadToday() {
+    return loadAll()[todayKey()] || {};
+  }
+
+  function saveToday(state) {
+    const all = loadAll();
+    all[todayKey()] = state;
+    // 過去30日分のみ残す
+    const keys = Object.keys(all).sort().reverse().slice(0, 30);
+    const pruned = {};
+    keys.forEach(k => pruned[k] = all[k]);
+    try { localStorage.setItem(KEY, JSON.stringify(pruned)); } catch (e) {}
+  }
+
+  function render() {
+    const state = loadToday();
+    const items = document.querySelectorAll('.habit-item');
+    let done = 0;
+    items.forEach(item => {
+      const id = item.dataset.id;
+      if (state[id]) { item.classList.add('checked'); done++; }
+      else { item.classList.remove('checked'); }
+    });
+    document.getElementById('progress-count').textContent = done + ' / ' + items.length;
+  }
+
+  function showDate() {
+    const d = new Date();
+    const days = ['日', '月', '火', '水', '木', '金', '土'];
+    const dateStr = '（' + (d.getMonth() + 1) + '/' + d.getDate() + ' ' + days[d.getDay()] + '）';
+    document.getElementById('today-date').textContent = dateStr;
+  }
+
+  document.querySelectorAll('.habit-item').forEach(item => {
+    item.addEventListener('click', () => {
+      const state = loadToday();
+      const id = item.dataset.id;
+      state[id] = !state[id];
+      saveToday(state);
+      render();
+    });
+  });
+
+  document.getElementById('reset-btn').addEventListener('click', () => {
+    saveToday({});
+    render();
+  });
+
+  showDate();
+  render();
+})();
+</script>
+
+</body>
+</html>
