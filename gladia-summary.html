@@ -1,0 +1,562 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Gladia メール要約 — 2025/3〜2026/6 全13通</title>
+<style>
+  :root {
+    --bg: #fafaf7;
+    --text: #2c2c2c;
+    --muted: #6b6b6b;
+    --accent: #d97757;
+    --accent-light: #fce8df;
+    --accent-soft: #fcefe7;
+    --border: #e5e5e0;
+    --sidebar-bg: #ffffff;
+    --section-bg: #f3f1eb;
+    --tag-product: #d97757;
+    --tag-event: #7c8a5b;
+    --tag-welcome: #6b8da6;
+    --tag-case: #a67c52;
+    --tag-terms: #8b7d6b;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Hiragino Sans", "Yu Gothic UI", "Meiryo", sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.8;
+    font-size: 16px;
+  }
+  .layout {
+    display: grid;
+    grid-template-columns: 280px 1fr;
+    min-height: 100vh;
+  }
+  /* サイドバー */
+  .sidebar {
+    background: var(--sidebar-bg);
+    border-right: 1px solid var(--border);
+    padding: 24px 0;
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    overflow-y: auto;
+  }
+  .sidebar-title {
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--accent);
+    padding: 0 20px 16px;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 12px;
+    letter-spacing: 0.5px;
+  }
+  .toc-section {
+    margin: 16px 0 6px;
+    padding: 0 20px;
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+  }
+  .toc-list { list-style: none; }
+  .toc-list a {
+    display: block;
+    padding: 6px 20px 6px 24px;
+    color: var(--text);
+    text-decoration: none;
+    font-size: 13px;
+    border-left: 3px solid transparent;
+    transition: all 0.2s;
+    line-height: 1.5;
+  }
+  .toc-list a:hover {
+    background: var(--accent-light);
+    border-left-color: var(--accent);
+    color: var(--accent);
+  }
+  /* メイン */
+  .main {
+    padding: 48px 64px 96px;
+    max-width: 920px;
+  }
+  .hero {
+    margin-bottom: 32px;
+    padding-bottom: 32px;
+    border-bottom: 2px solid var(--border);
+  }
+  .hero-label {
+    display: inline-block;
+    background: var(--accent);
+    color: white;
+    padding: 4px 12px;
+    border-radius: 4px;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    margin-bottom: 16px;
+  }
+  .hero h1 {
+    font-size: 28px;
+    line-height: 1.4;
+    margin-bottom: 8px;
+    color: var(--text);
+  }
+  .hero-sub {
+    color: var(--muted);
+    font-size: 14px;
+    margin-bottom: 16px;
+  }
+  .hero-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 16px;
+  }
+  .meta-pill {
+    background: white;
+    border: 1px solid var(--border);
+    padding: 6px 14px;
+    border-radius: 999px;
+    font-size: 12px;
+    color: var(--muted);
+  }
+  .meta-pill strong {
+    color: var(--accent);
+    font-weight: 700;
+  }
+  /* セクション見出し */
+  .section-header {
+    background: var(--section-bg);
+    padding: 24px 28px;
+    margin: 56px -28px 28px;
+    border-left: 6px solid var(--accent);
+    border-radius: 0 8px 8px 0;
+  }
+  .section-header .label {
+    font-size: 12px;
+    color: var(--accent);
+    font-weight: 700;
+    letter-spacing: 1px;
+    margin-bottom: 4px;
+  }
+  .section-header h2 {
+    font-size: 22px;
+    color: var(--text);
+  }
+  /* メールカード */
+  .email {
+    background: white;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    margin-bottom: 16px;
+    overflow: hidden;
+    transition: box-shadow 0.2s;
+  }
+  .email:hover {
+    box-shadow: 0 4px 16px rgba(0,0,0,0.06);
+  }
+  .email-header {
+    background: linear-gradient(135deg, #fcefe7 0%, #fce8df 100%);
+    padding: 16px 22px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    border-bottom: 1px solid var(--border);
+    user-select: none;
+  }
+  .email-num {
+    background: var(--accent);
+    color: white;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 13px;
+    flex-shrink: 0;
+  }
+  .email-info {
+    flex: 1;
+    min-width: 0;
+  }
+  .email-date {
+    font-size: 11px;
+    color: var(--muted);
+    font-weight: 600;
+    margin-bottom: 2px;
+  }
+  .email-title {
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--text);
+    line-height: 1.4;
+  }
+  .email-tag {
+    display: inline-block;
+    color: white;
+    font-size: 10px;
+    font-weight: 700;
+    padding: 3px 8px;
+    border-radius: 4px;
+    letter-spacing: 0.4px;
+    flex-shrink: 0;
+    text-transform: uppercase;
+  }
+  .tag-product { background: var(--tag-product); }
+  .tag-event { background: var(--tag-event); }
+  .tag-welcome { background: var(--tag-welcome); }
+  .tag-case { background: var(--tag-case); }
+  .tag-terms { background: var(--tag-terms); }
+  .email-toggle {
+    color: var(--accent);
+    font-size: 18px;
+    transition: transform 0.2s;
+    flex-shrink: 0;
+  }
+  .email.open .email-toggle {
+    transform: rotate(180deg);
+  }
+  .email-body {
+    padding: 24px 28px 28px;
+    display: none;
+  }
+  .email.open .email-body {
+    display: block;
+  }
+  .email-body h3 {
+    font-size: 14px;
+    margin: 20px 0 10px;
+    color: var(--accent);
+    padding-bottom: 4px;
+    border-bottom: 1px dashed var(--border);
+    letter-spacing: 0.5px;
+  }
+  .email-body h3:first-child { margin-top: 0; }
+  .email-body p {
+    margin-bottom: 12px;
+    font-size: 15px;
+  }
+  .email-body ul, .email-body ol {
+    margin: 8px 0 16px 22px;
+  }
+  .email-body li {
+    margin-bottom: 6px;
+    font-size: 14px;
+  }
+  .email-body strong {
+    color: var(--accent);
+    font-weight: 600;
+  }
+  /* サマリ・トップ5カード */
+  .info-card {
+    background: white;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 28px 32px;
+    margin-bottom: 20px;
+  }
+  .info-card h3 {
+    font-size: 17px;
+    color: var(--accent);
+    margin: 24px 0 10px;
+    padding-bottom: 4px;
+    border-bottom: 1px dashed var(--border);
+  }
+  .info-card h3:first-child { margin-top: 0; }
+  .info-card p { margin-bottom: 12px; }
+  .info-card ul, .info-card ol {
+    margin: 8px 0 16px 24px;
+  }
+  .info-card li {
+    margin-bottom: 6px;
+  }
+  .info-card strong {
+    color: var(--accent);
+    font-weight: 600;
+  }
+  /* コントロール */
+  .controls {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 24px;
+    flex-wrap: wrap;
+  }
+  .btn {
+    background: white;
+    border: 1px solid var(--border);
+    padding: 9px 18px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 13px;
+    color: var(--text);
+    transition: all 0.2s;
+  }
+  .btn:hover {
+    background: var(--accent-light);
+    border-color: var(--accent);
+    color: var(--accent);
+  }
+  .btn.primary {
+    background: var(--accent);
+    color: white;
+    border-color: var(--accent);
+  }
+  .btn.primary:hover { background: #c2664a; color: white; }
+  /* モバイル */
+  .menu-toggle {
+    display: none;
+    position: fixed;
+    top: 14px;
+    left: 14px;
+    z-index: 100;
+    background: var(--accent);
+    color: white;
+    border: none;
+    padding: 9px 13px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 13px;
+  }
+  @media (max-width: 900px) {
+    .layout { grid-template-columns: 1fr; }
+    .sidebar {
+      position: fixed;
+      left: -300px;
+      top: 0;
+      width: 280px;
+      transition: left 0.3s;
+      z-index: 99;
+      box-shadow: 4px 0 16px rgba(0,0,0,0.1);
+    }
+    .sidebar.open { left: 0; }
+    .menu-toggle { display: block; }
+    .main { padding: 60px 18px 64px; }
+    .section-header { margin: 36px -6px 24px; padding: 18px 18px; }
+    .hero h1 { font-size: 22px; }
+    .email-header { padding: 14px 16px; }
+    .email-title { font-size: 14px; }
+    .email-body { padding: 20px 18px 22px; }
+    .info-card { padding: 22px 20px; }
+  }
+  .loading { text-align: center; padding: 64px 0; color: var(--muted); }
+</style>
+</head>
+<body>
+<button class="menu-toggle" onclick="document.querySelector('.sidebar').classList.toggle('open')">☰ 目次</button>
+
+<div class="layout">
+  <aside class="sidebar">
+    <div class="sidebar-title">🎙️ Gladia 要約</div>
+    <nav id="toc"></nav>
+  </aside>
+
+  <main class="main">
+    <div class="hero">
+      <div class="hero-label">メール要約</div>
+      <h1>Gladia メール要約<br><span style="font-size:18px;color:var(--muted);">2025/3 〜 2026/6 全13通</span></h1>
+      <p class="hero-sub">AI音声認識（STT）API・パリ発のスタートアップ。Whisper-Zero、Solaria、Audio-to-LLM 等の進化を時系列でまとめ。</p>
+      <div class="hero-meta">
+        <span class="meta-pill"><strong>13</strong> 通</span>
+        <span class="meta-pill">2025-03-24 〜 2026-06-05</span>
+        <span class="meta-pill">製品アップデート <strong>9</strong></span>
+        <span class="meta-pill">イベント <strong>1</strong> / ケース <strong>1</strong></span>
+      </div>
+    </div>
+
+    <div class="controls">
+      <button class="btn primary" onclick="toggleAll(true)">📖 全件展開</button>
+      <button class="btn" onclick="toggleAll(false)">📕 折りたたみ</button>
+      <button class="btn" onclick="window.print()">🖨️ 印刷</button>
+    </div>
+
+    <div id="content"><div class="loading">要約を読み込み中…</div></div>
+  </main>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/marked@11.0.0/marked.min.js"></script>
+<script>
+function classifyTag(title) {
+  if (/Welcome|essential resources|core features yet/i.test(title)) return { cls: 'tag-welcome', label: 'WELCOME' };
+  if (/Terms of Use|Terms & Conditions|規約/i.test(title)) return { cls: 'tag-terms', label: 'TERMS' };
+  if (/Founder|Talk|Unmuted|invited/i.test(title)) return { cls: 'tag-event', label: 'EVENT' };
+  if (/Selectra|VEED|Carv|companies like/i.test(title)) return { cls: 'tag-case', label: 'CASE' };
+  return { cls: 'tag-product', label: 'PRODUCT' };
+}
+
+(async function() {
+  const url = './data/gladia-summary.md?v=' + Date.now();
+  let md;
+  try {
+    const res = await fetch(url);
+    md = await res.text();
+  } catch (e) {
+    document.getElementById('content').innerHTML = '<p style="color:red">要約データの読み込みに失敗しました</p>';
+    return;
+  }
+
+  const lines = md.split('\n');
+  const emails = [];
+  const extras = []; // 全体サマリ・トップ5
+  let mode = 'preamble'; // preamble | email | extra
+  let current = null;
+  let buffer = [];
+  let extraTitle = null;
+
+  function flushEmail() {
+    if (current) {
+      current.body = buffer.join('\n').trim();
+      emails.push(current);
+      current = null;
+      buffer = [];
+    }
+  }
+  function flushExtra() {
+    if (extraTitle) {
+      extras.push({ title: extraTitle, body: buffer.join('\n').trim() });
+      extraTitle = null;
+      buffer = [];
+    }
+  }
+
+  for (const line of lines) {
+    const h1 = line.match(/^# (.+)$/);
+    const h2 = line.match(/^## (.+)$/);
+
+    if (h1 && h1[1].trim() !== 'Gladia メール要約（2025/3 〜 2026/6、全13通）') {
+      // extra セクション開始
+      flushEmail();
+      flushExtra();
+      extraTitle = h1[1].trim();
+      mode = 'extra';
+      continue;
+    }
+
+    if (h2 && mode !== 'extra') {
+      const m = h2[1].match(/^(\d+)\.\s*(\d{4}-\d{2}-\d{2})\s*\/\s*(.+)$/);
+      if (m) {
+        flushEmail();
+        current = { num: m[1], date: m[2], title: m[3].trim(), body: '' };
+        mode = 'email';
+        continue;
+      }
+    }
+
+    if (mode === 'email' && current) {
+      // --- は区切り線なので除外
+      if (line.trim() === '---') continue;
+      buffer.push(line);
+    } else if (mode === 'extra') {
+      if (line.trim() === '---') continue;
+      buffer.push(line);
+    }
+  }
+  flushEmail();
+  flushExtra();
+
+  // 描画
+  const container = document.getElementById('content');
+  const toc = document.getElementById('toc');
+  container.innerHTML = '';
+  toc.innerHTML = '';
+
+  // セクション: メール一覧
+  const emailHeader = document.createElement('div');
+  emailHeader.className = 'section-header';
+  emailHeader.id = 'emails';
+  emailHeader.innerHTML = '<div class="label">EMAILS</div><h2>13通のメール（新しい順）</h2>';
+  container.appendChild(emailHeader);
+
+  const emailsTitle = document.createElement('div');
+  emailsTitle.className = 'toc-section';
+  emailsTitle.textContent = '📩 メール一覧';
+  toc.appendChild(emailsTitle);
+  const emailsList = document.createElement('ul');
+  emailsList.className = 'toc-list';
+
+  emails.forEach((e) => {
+    const tag = classifyTag(e.title);
+    const id = 'email-' + e.num;
+    const div = document.createElement('div');
+    div.className = 'email';
+    div.id = id;
+    div.innerHTML = `
+      <div class="email-header" onclick="this.parentElement.classList.toggle('open')">
+        <div class="email-num">${e.num}</div>
+        <div class="email-info">
+          <div class="email-date">${e.date}</div>
+          <div class="email-title">${e.title}</div>
+        </div>
+        <span class="email-tag ${tag.cls}">${tag.label}</span>
+        <div class="email-toggle">▼</div>
+      </div>
+      <div class="email-body">${marked.parse(e.body)}</div>
+    `;
+    container.appendChild(div);
+
+    const li = document.createElement('li');
+    li.innerHTML = `<a href="#${id}" onclick="openEmail('${id}')">${e.num}. ${e.date}<br><span style="color:var(--muted);font-size:12px;">${e.title}</span></a>`;
+    emailsList.appendChild(li);
+  });
+  toc.appendChild(emailsList);
+
+  // セクション: extras（全体サマリ・トップ5）
+  if (extras.length > 0) {
+    const extraTocTitle = document.createElement('div');
+    extraTocTitle.className = 'toc-section';
+    extraTocTitle.textContent = '📊 まとめ';
+    toc.appendChild(extraTocTitle);
+    const extraList = document.createElement('ul');
+    extraList.className = 'toc-list';
+
+    extras.forEach((ex, i) => {
+      const id = 'extra-' + i;
+      const header = document.createElement('div');
+      header.className = 'section-header';
+      header.id = id;
+      header.innerHTML = `<div class="label">${i === 0 ? 'SUMMARY' : 'TOP 5'}</div><h2>${ex.title}</h2>`;
+      container.appendChild(header);
+
+      const card = document.createElement('div');
+      card.className = 'info-card';
+      card.innerHTML = marked.parse(ex.body);
+      container.appendChild(card);
+
+      const li = document.createElement('li');
+      li.innerHTML = `<a href="#${id}">${ex.title}</a>`;
+      extraList.appendChild(li);
+    });
+    toc.appendChild(extraList);
+  }
+
+  // 最初のメールを展開
+  const first = document.querySelector('.email');
+  if (first) first.classList.add('open');
+})();
+
+function openEmail(id) {
+  const el = document.getElementById(id);
+  if (el) {
+    el.classList.add('open');
+    if (window.innerWidth <= 900) {
+      document.querySelector('.sidebar').classList.remove('open');
+    }
+  }
+}
+
+function toggleAll(open) {
+  document.querySelectorAll('.email').forEach(e => {
+    if (open) e.classList.add('open');
+    else e.classList.remove('open');
+  });
+}
+</script>
+</body>
+</html>
