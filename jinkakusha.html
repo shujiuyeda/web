@@ -221,6 +221,30 @@ th {
 
 .reset-btn:hover { background: var(--bg); color: var(--text); }
 
+.mantra {
+  text-align: center;
+  background: linear-gradient(135deg, var(--accent-light), var(--cream));
+  border: 2px solid var(--accent);
+  padding: 28px 20px;
+}
+
+.mantra-text {
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--accent-dark);
+  margin: 0;
+  letter-spacing: 0.02em;
+  line-height: 1.5;
+}
+
+.mantra-hint {
+  font-size: 12px;
+  color: var(--soft);
+  margin-top: 6px;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+}
+
 @media (max-width: 480px) {
   h1 { font-size: 24px; }
   h2 { font-size: 17px; }
@@ -229,6 +253,8 @@ th {
   .card { padding: 20px 18px; }
   table { font-size: 12.5px; }
   th, td { padding: 8px 6px; }
+  .mantra-text { font-size: 19px; }
+  .mantra { padding: 22px 16px; }
 }
 </style>
 </head>
@@ -240,6 +266,11 @@ th {
     <h1>🧘 人格者プロジェクト</h1>
     <p class="subtitle">人生をかけて、人格者になる</p>
   </header>
+
+  <div class="card mantra">
+    <p class="mantra-text">人格者ならどう判断する？</p>
+    <p class="mantra-hint">いつも自問する癖をつける</p>
+  </div>
 
   <div class="card">
     <h2>✨ 今日の習慣</h2>
