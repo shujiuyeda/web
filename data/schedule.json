@@ -1,16 +1,43 @@
-{"generated":"2026-06-29","range":{"from":"2026-06-29","to":"2026-07-12"},"days":[
-{"date":"2026-06-29","label":"6/29（月）","items":[],"soccer":null},
-{"date":"2026-06-30","label":"6/30（火）","items":[],"soccer":null},
-{"date":"2026-07-01","label":"7/1（水）","items":[{"time":"11:55","icon":"🎉","cat":"プライベート","title":"ロータスポット"},{"time":"16:15","icon":"💪","cat":"健康","title":"パーソナル"},{"time":"18:30","icon":"🎉","cat":"プライベート","title":"ユーミン 東京国際フォーラム"}],"soccer":null},
-{"date":"2026-07-02","label":"7/2（木）","items":[],"soccer":null},
-{"date":"2026-07-03","label":"7/3（金）","items":[{"time":"13:00","icon":"👨‍👩‍👦","cat":"家族","title":"東海大 父"}],"soccer":null},
-{"date":"2026-07-04","label":"7/4（土）","items":[{"time":"16:45","icon":"💼","cat":"仕事","title":"ミヒロさんライブ配信"}],"soccer":null},
-{"date":"2026-07-05","label":"7/5（日）","items":[{"time":"17:30","icon":"💪","cat":"健康","title":"パーソナル"}],"soccer":null},
-{"date":"2026-07-06","label":"7/6（月）","items":[{"time":"06:45","icon":"🎉","cat":"プライベート","title":"川奈大島 原川さん"}],"soccer":null},
-{"date":"2026-07-07","label":"7/7（火）","items":[],"soccer":null},
-{"date":"2026-07-08","label":"7/8（水）","items":[{"time":"終日","icon":"🏠","cat":"その他","title":"資源ゴミ"},{"time":"16:15","icon":"💪","cat":"健康","title":"パーソナル"}],"soccer":null},
-{"date":"2026-07-09","label":"7/9（木）","items":[],"soccer":null},
-{"date":"2026-07-10","label":"7/10（金）","items":[{"time":"14:30","icon":"🍽️","cat":"食事","title":"夜 Ha-Na-Re"},{"time":"16:04","icon":"🎉","cat":"プライベート","title":"Train to 軽井沢"}],"soccer":null},
-{"date":"2026-07-11","label":"7/11（土）","items":[{"time":"10:00","icon":"📚","cat":"学び","title":"魔法の質問カードマスター"}],"soccer":null},
-{"date":"2026-07-12","label":"7/12（日）","items":[{"time":"10:00","icon":"📚","cat":"学び","title":"ＡＩ講座"},{"time":"17:30","icon":"💪","cat":"健康","title":"パーソナル"}],"soccer":null}
-]}
+{
+  "generated": "2026-06-30",
+  "range": { "from": "2026-06-30", "to": "2026-07-12" },
+  "days": [
+    { "date": "2026-06-30", "label": "6/30（火）", "items": [], "soccer": null },
+    { "date": "2026-07-01", "label": "7/1（水）", "items": [
+      { "time": "11:00", "icon": "🎉", "cat": "プライベート", "title": "ワクワク系マーケティング実践会" },
+      { "time": "11:55", "icon": "🎉", "cat": "プライベート", "title": "ロータスポット" },
+      { "time": "16:15", "icon": "💪", "cat": "健康", "title": "パーソナル" },
+      { "time": "18:30", "icon": "🎉", "cat": "プライベート", "title": "ユーミン 東京国際フォーラム" }
+    ], "soccer": null },
+    { "date": "2026-07-02", "label": "7/2（木）", "items": [], "soccer": null },
+    { "date": "2026-07-03", "label": "7/3（金）", "items": [
+      { "time": "13:00", "icon": "👨‍👩‍👦", "cat": "家族", "title": "東海大 父" }
+    ], "soccer": null },
+    { "date": "2026-07-04", "label": "7/4（土）", "items": [
+      { "time": "16:45", "icon": "💼", "cat": "仕事", "title": "ミヒロさんライブ配信" }
+    ], "soccer": null },
+    { "date": "2026-07-05", "label": "7/5（日）", "items": [
+      { "time": "17:30", "icon": "💪", "cat": "健康", "title": "パーソナル" }
+    ], "soccer": null },
+    { "date": "2026-07-06", "label": "7/6（月）", "items": [
+      { "time": "06:45", "icon": "🎉", "cat": "プライベート", "title": "川奈大島 原川さん" }
+    ], "soccer": null },
+    { "date": "2026-07-07", "label": "7/7（火）", "items": [], "soccer": null },
+    { "date": "2026-07-08", "label": "7/8（水）", "items": [
+      { "time": "終日", "icon": "🏠", "cat": "その他", "title": "資源ゴミ" },
+      { "time": "16:15", "icon": "💪", "cat": "健康", "title": "パーソナル" }
+    ], "soccer": null },
+    { "date": "2026-07-09", "label": "7/9（木）", "items": [], "soccer": null },
+    { "date": "2026-07-10", "label": "7/10（金）", "items": [
+      { "time": "14:30", "icon": "🍽️", "cat": "食事", "title": "夜 Ha-Na-Re" },
+      { "time": "16:04", "icon": "🎉", "cat": "プライベート", "title": "Train to 軽井沢" }
+    ], "soccer": null },
+    { "date": "2026-07-11", "label": "7/11（土）", "items": [
+      { "time": "10:00", "icon": "📚", "cat": "学び", "title": "魔法の質問カードマスター" }
+    ], "soccer": null },
+    { "date": "2026-07-12", "label": "7/12（日）", "items": [
+      { "time": "10:00", "icon": "📚", "cat": "学び", "title": "ＡＩ講座" },
+      { "time": "17:30", "icon": "💪", "cat": "健康", "title": "パーソナル" }
+    ], "soccer": null }
+  ]
+}
