@@ -3,215 +3,56 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>wawawa.today 障害調査報告書 | 2026-07-02</title>
+<title>wawawa.today 障害報告 | 2026-07-02</title>
 <style>
-  :root {
-    --bg: #f7f6f2;
-    --card: #ffffff;
-    --text: #222;
-    --muted: #666;
-    --border: #e5e2d8;
-    --accent: #2563eb;
-    --warn: #dc2626;
-    --ok: #059669;
-    --caution: #d97706;
-  }
   * { box-sizing: border-box; }
   html, body { margin: 0; padding: 0; }
   body {
-    background: var(--bg);
-    color: var(--text);
+    background: #fff;
+    color: #222;
     font-family: -apple-system, BlinkMacSystemFont, "Hiragino Sans", "Yu Gothic", sans-serif;
-    line-height: 1.75;
-    font-size: 17px;
-    padding: 20px 12px 80px;
+    line-height: 1.8;
+    font-size: 16px;
+    padding: 32px 20px 80px;
   }
   .container {
-    max-width: 720px;
+    max-width: 640px;
     margin: 0 auto;
   }
   header {
-    text-align: center;
-    padding: 24px 0 32px;
-    border-bottom: 2px solid var(--border);
-    margin-bottom: 32px;
+    margin-bottom: 40px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid #ddd;
   }
   header h1 {
-    font-size: 26px;
-    margin: 0 0 8px;
-    color: var(--text);
-  }
-  header .subtitle {
-    color: var(--muted);
-    font-size: 15px;
-    margin: 4px 0;
-  }
-  .card {
-    background: var(--card);
-    border: 1px solid var(--border);
-    border-radius: 14px;
-    padding: 24px;
-    margin: 24px 0;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.03);
-  }
-  .card h2 {
     font-size: 22px;
-    margin: 0 0 16px;
-    padding-bottom: 12px;
-    border-bottom: 1px solid var(--border);
-    display: flex;
-    align-items: center;
-    gap: 10px;
+    margin: 0 0 8px;
+    font-weight: 600;
   }
-  .card h3 {
-    font-size: 18px;
-    margin: 20px 0 8px;
-    color: var(--text);
-  }
-  .card p, .card li {
-    font-size: 16px;
-    line-height: 1.8;
-  }
-  .summary {
-    background: linear-gradient(135deg, #fff9e6 0%, #fef3c7 100%);
-    border-color: #fbbf24;
-  }
-  .summary li {
-    margin: 10px 0;
-    font-size: 17px;
-  }
-  .good-news {
-    background: linear-gradient(135deg, #ecfdf5 0%, #d1fae5 100%);
-    border-color: #34d399;
-  }
-  .bad-news {
-    background: linear-gradient(135deg, #fef2f2 0%, #fee2e2 100%);
-    border-color: #f87171;
-  }
-  .analogy {
-    background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%);
-    border-color: #60a5fa;
-  }
-  .analogy ul { list-style: none; padding-left: 0; }
-  .analogy li {
-    padding: 12px 16px;
-    margin: 10px 0;
-    background: rgba(255,255,255,0.6);
-    border-radius: 10px;
-    border-left: 4px solid var(--accent);
-  }
-  .step-list {
-    counter-reset: step-count;
-    list-style: none;
-    padding-left: 0;
-  }
-  .step-list li {
-    counter-increment: step-count;
-    position: relative;
-    padding: 16px 16px 16px 60px;
-    margin: 12px 0;
-    background: #f9fafb;
-    border-radius: 10px;
-    border-left: 4px solid var(--accent);
-  }
-  .step-list li::before {
-    content: counter(step-count);
-    position: absolute;
-    left: 16px;
-    top: 50%;
-    transform: translateY(-50%);
-    width: 32px;
-    height: 32px;
-    background: var(--accent);
-    color: #fff;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-weight: bold;
-    font-size: 16px;
-  }
-  .step-list li strong {
-    display: block;
-    font-size: 17px;
-    margin-bottom: 4px;
-  }
-  .step-list li .price {
-    color: var(--warn);
-    font-weight: bold;
-  }
-  .action-box {
-    background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
-    border: 2px solid var(--caution);
-    border-radius: 14px;
-    padding: 24px;
-    margin: 32px 0;
-  }
-  .action-box h2 {
-    color: var(--caution);
-    border-color: rgba(0,0,0,0.1);
-  }
-  .action-box .action-item {
-    background: #fff;
-    border-radius: 10px;
-    padding: 16px 20px;
-    margin: 14px 0;
-    border-left: 4px solid var(--caution);
-  }
-  .action-item .action-title {
-    font-weight: bold;
-    font-size: 17px;
-    margin-bottom: 6px;
-    color: var(--text);
-  }
-  .price-badge {
-    display: inline-block;
-    background: var(--warn);
-    color: #fff;
-    padding: 4px 12px;
-    border-radius: 999px;
-    font-weight: bold;
-    font-size: 15px;
-    margin-left: 8px;
-  }
-  .icon {
-    font-size: 24px;
-  }
-  ul.plain {
-    list-style: none;
-    padding-left: 0;
-  }
-  ul.plain li {
-    padding: 8px 0 8px 32px;
-    position: relative;
-  }
-  ul.plain li::before {
-    position: absolute;
-    left: 0;
-    top: 8px;
-    font-size: 18px;
-  }
-  ul.plain.check li::before { content: "✅"; }
-  ul.plain.warn li::before { content: "⚠️"; }
-  footer {
-    text-align: center;
-    color: var(--muted);
+  header .meta {
+    color: #666;
     font-size: 14px;
-    margin-top: 40px;
-    padding-top: 24px;
-    border-top: 1px solid var(--border);
+  }
+  h2 {
+    font-size: 17px;
+    margin: 32px 0 12px;
+    padding-bottom: 6px;
+    border-bottom: 1px solid #eee;
+    font-weight: 600;
+  }
+  p, li {
+    font-size: 16px;
+  }
+  ul {
+    padding-left: 20px;
+  }
+  ul li {
+    margin: 6px 0;
   }
   @media (max-width: 600px) {
-    body { font-size: 16px; padding: 12px 8px 60px; }
-    header h1 { font-size: 22px; }
-    .card { padding: 18px 16px; }
-    .card h2 { font-size: 19px; }
-    .step-list li { padding: 14px 14px 14px 54px; }
-    .step-list li::before { width: 28px; height: 28px; font-size: 14px; }
-  }
-  @media print {
-    body { background: #fff; padding: 0; }
-    .card { box-shadow: none; page-break-inside: avoid; }
+    body { padding: 20px 16px 60px; font-size: 15px; }
+    header h1 { font-size: 20px; }
+    h2 { font-size: 16px; }
   }
 </style>
 </head>
@@ -219,87 +60,35 @@
 <div class="container">
 
 <header>
-  <h1>wawawa.today 障害調査報告書</h1>
-  <div class="subtitle">2026年7月2日 発生</div>
-  <div class="subtitle">調査担当: 上田 修司</div>
+  <h1>wawawa.today 障害報告</h1>
+  <div class="meta">2026年7月2日 / 上田修司</div>
 </header>
 
-<div class="card summary">
-  <h2><span class="icon">📋</span> サマリー（30秒でわかる）</h2>
-  <ul>
-    <li>🚨 サイトが<strong>不正アクセス被害</strong>を受けました（今朝 7/2 8:04頃）</li>
-    <li>✅ <strong>記事・ページ・会員情報は無事</strong>でした</li>
-    <li>⚠️ 一部データ（画像など）は失われたため、復旧に<strong>ロリポップ 11,000円</strong>かかります</li>
-  </ul>
-</div>
+<h2>概要</h2>
+<p>2026年7月2日 午前8時頃、マルウェアの侵入によりサイトのファイルが書き換えられ、表示できない状態になりました。</p>
 
-<div class="card analogy">
-  <h2><span class="icon">🏠</span> たとえて言うと</h2>
-  <p><strong>「家に泥棒が入って、一部の荷物を持ち去られた」状態です。</strong></p>
-  <ul>
-    <li>🔓 <strong>玄関のカギを書き換えられた</strong><br>→ サイトが表示できなくなった</li>
-    <li>📦 <strong>一部の荷物（画像などのデータ）が持ち去られた</strong><br>→ 業者に頼んで取り戻す必要（<span class="price-badge">11,000円</span>）</li>
-    <li>✅ <strong>大事なもの（記事・会員情報）は無事</strong><br>→ これは救出済み！</li>
-  </ul>
-</div>
+<h2>原因</h2>
+<p>プラグインの脆弱性から侵入された可能性が高いです。自動更新を停止するプラグインが入っていたため、サイト構築後の8ヶ月間、プラグインが更新されていませんでした。</p>
 
-<div class="card">
-  <h2><span class="icon">🔍</span> わかった原因</h2>
-  <p><strong>プラグイン（サイトの追加機能）の古いバージョンの弱点</strong>を突かれた可能性が高いです。</p>
-  <ul>
-    <li>サイト構築時（2025年10月）から<strong>8ヶ月間プラグインが更新されていなかった</strong></li>
-    <li>「自動更新を止める」プラグインが入っていたのが致命的だった</li>
-    <li>その間に見つかった弱点を攻撃者に狙われた</li>
-  </ul>
-  <p style="background: #fef3c7; padding: 14px 16px; border-radius: 8px; border-left: 4px solid var(--caution);">
-    🚗 <strong>車で例えると:</strong> 8ヶ月点検を受けてない車で、直せたはずの不具合を放置していた状態です。
-  </p>
-</div>
+<h2>現在の状況</h2>
+<p>無事だったもの:</p>
+<ul>
+  <li>記事・ページの内容</li>
+  <li>管理者アカウント情報</li>
+  <li>サイト設定</li>
+</ul>
+<p>失われたもの:</p>
+<ul>
+  <li>画像・PDFなどの一部データ</li>
+  <li>サイトを動かす仕組み</li>
+</ul>
 
-<div class="card good-news">
-  <h2><span class="icon">✅</span> 無事だったもの</h2>
-  <ul class="plain check">
-    <li><strong>記事・ページの内容</strong>（すべての文章）</li>
-    <li><strong>管理者アカウント</strong>（ログイン情報の改ざんなし）</li>
-    <li><strong>サイトの設定</strong>（サイト名・URL・メール設定など）</li>
-  </ul>
-</div>
-
-<div class="card bad-news">
-  <h2><span class="icon">⚠️</span> 失われたもの</h2>
-  <ul class="plain warn">
-    <li><strong>画像・PDFなどのデータ</strong><br>→ ここが 11,000円の復旧サポートで戻す部分</li>
-    <li><strong>サイトを動かす仕組み</strong>（作り直しで対応可）</li>
-  </ul>
-</div>
-
-<div class="card">
-  <h2><span class="icon">🔧</span> これからの復旧作業</h2>
-  <ol class="step-list">
-    <li>
-      <strong>ロリポップに復旧を依頼</strong>
-      <span class="price">費用: 11,000円</span><br>
-      7/2 8:04以前の状態から失われたデータを取り戻します
-    </li>
-    <li>
-      <strong>サイトを作り直す</strong><br>
-      無事だった記事・ページと、取り戻したデータを組み合わせて再構築
-    </li>
-    <li>
-      <strong>同じ機能で作り直す</strong><br>
-      見た目や機能は元通り、内部を安全な状態に
-    </li>
-    <li>
-      <strong>パスワード全変更 + 再発防止</strong><br>
-      安全確保のため全パスワード変更、自動更新を有効化、セキュリティ強化
-    </li>
-  </ol>
-</div>
-
-<footer>
-  <p>調査担当: 上田 修司<br>
-  発行: 2026年7月2日</p>
-</footer>
+<h2>復旧予定</h2>
+<ul>
+  <li>ロリポップの復旧サポート（11,000円）で失われたデータを取り戻す</li>
+  <li>サイトを作り直し、無事だった内容と組み合わせて再構築</li>
+  <li>全パスワード変更、自動更新の有効化、セキュリティ強化</li>
+</ul>
 
 </div>
 </body>
