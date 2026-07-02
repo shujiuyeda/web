@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>wawawa.today 障害調査報告書 | 2026-07-02</title>
+<style>
+  :root {
+    --bg: #f7f6f2;
+    --card: #ffffff;
+    --text: #222;
+    --muted: #666;
+    --border: #e5e2d8;
+    --accent: #2563eb;
+    --warn: #dc2626;
+    --ok: #059669;
+    --caution: #d97706;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: -apple-system, BlinkMacSystemFont, "Hiragino Sans", "Yu Gothic", sans-serif;
+    line-height: 1.75;
+    font-size: 17px;
+    padding: 20px 12px 80px;
+  }
+  .container {
+    max-width: 720px;
+    margin: 0 auto;
+  }
+  header {
+    text-align: center;
+    padding: 24px 0 32px;
+    border-bottom: 2px solid var(--border);
+    margin-bottom: 32px;
+  }
+  header h1 {
+    font-size: 26px;
+    margin: 0 0 8px;
+    color: var(--text);
+  }
+  header .subtitle {
+    color: var(--muted);
+    font-size: 15px;
+    margin: 4px 0;
+  }
+  .card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 24px;
+    margin: 24px 0;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.03);
+  }
+  .card h2 {
+    font-size: 22px;
+    margin: 0 0 16px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .card h3 {
+    font-size: 18px;
+    margin: 20px 0 8px;
+    color: var(--text);
+  }
+  .card p, .card li {
+    font-size: 16px;
+    line-height: 1.8;
+  }
+  .summary {
+    background: linear-gradient(135deg, #fff9e6 0%, #fef3c7 100%);
+    border-color: #fbbf24;
+  }
+  .summary li {
+    margin: 10px 0;
+    font-size: 17px;
+  }
+  .good-news {
+    background: linear-gradient(135deg, #ecfdf5 0%, #d1fae5 100%);
+    border-color: #34d399;
+  }
+  .bad-news {
+    background: linear-gradient(135deg, #fef2f2 0%, #fee2e2 100%);
+    border-color: #f87171;
+  }
+  .analogy {
+    background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%);
+    border-color: #60a5fa;
+  }
+  .analogy ul { list-style: none; padding-left: 0; }
+  .analogy li {
+    padding: 12px 16px;
+    margin: 10px 0;
+    background: rgba(255,255,255,0.6);
+    border-radius: 10px;
+    border-left: 4px solid var(--accent);
+  }
+  .step-list {
+    counter-reset: step-count;
+    list-style: none;
+    padding-left: 0;
+  }
+  .step-list li {
+    counter-increment: step-count;
+    position: relative;
+    padding: 16px 16px 16px 60px;
+    margin: 12px 0;
+    background: #f9fafb;
+    border-radius: 10px;
+    border-left: 4px solid var(--accent);
+  }
+  .step-list li::before {
+    content: counter(step-count);
+    position: absolute;
+    left: 16px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 32px;
+    height: 32px;
+    background: var(--accent);
+    color: #fff;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    font-size: 16px;
+  }
+  .step-list li strong {
+    display: block;
+    font-size: 17px;
+    margin-bottom: 4px;
+  }
+  .step-list li .price {
+    color: var(--warn);
+    font-weight: bold;
+  }
+  .action-box {
+    background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+    border: 2px solid var(--caution);
+    border-radius: 14px;
+    padding: 24px;
+    margin: 32px 0;
+  }
+  .action-box h2 {
+    color: var(--caution);
+    border-color: rgba(0,0,0,0.1);
+  }
+  .action-box .action-item {
+    background: #fff;
+    border-radius: 10px;
+    padding: 16px 20px;
+    margin: 14px 0;
+    border-left: 4px solid var(--caution);
+  }
+  .action-item .action-title {
+    font-weight: bold;
+    font-size: 17px;
+    margin-bottom: 6px;
+    color: var(--text);
+  }
+  .price-badge {
+    display: inline-block;
+    background: var(--warn);
+    color: #fff;
+    padding: 4px 12px;
+    border-radius: 999px;
+    font-weight: bold;
+    font-size: 15px;
+    margin-left: 8px;
+  }
+  .icon {
+    font-size: 24px;
+  }
+  ul.plain {
+    list-style: none;
+    padding-left: 0;
+  }
+  ul.plain li {
+    padding: 8px 0 8px 32px;
+    position: relative;
+  }
+  ul.plain li::before {
+    position: absolute;
+    left: 0;
+    top: 8px;
+    font-size: 18px;
+  }
+  ul.plain.check li::before { content: "✅"; }
+  ul.plain.warn li::before { content: "⚠️"; }
+  footer {
+    text-align: center;
+    color: var(--muted);
+    font-size: 14px;
+    margin-top: 40px;
+    padding-top: 24px;
+    border-top: 1px solid var(--border);
+  }
+  @media (max-width: 600px) {
+    body { font-size: 16px; padding: 12px 8px 60px; }
+    header h1 { font-size: 22px; }
+    .card { padding: 18px 16px; }
+    .card h2 { font-size: 19px; }
+    .step-list li { padding: 14px 14px 14px 54px; }
+    .step-list li::before { width: 28px; height: 28px; font-size: 14px; }
+  }
+  @media print {
+    body { background: #fff; padding: 0; }
+    .card { box-shadow: none; page-break-inside: avoid; }
+  }
+</style>
+</head>
+<body>
+<div class="container">
+
+<header>
+  <h1>wawawa.today 障害調査報告書</h1>
+  <div class="subtitle">2026年7月2日 発生</div>
+  <div class="subtitle">調査担当: 上田 修司</div>
+</header>
+
+<div class="card summary">
+  <h2><span class="icon">📋</span> サマリー（30秒でわかる）</h2>
+  <ul>
+    <li>🚨 サイトが<strong>不正アクセス被害</strong>を受けました（今朝 7/2 8:04頃）</li>
+    <li>✅ サイトの<strong>中身（記事・ページ・会員情報）は無事</strong>でした</li>
+    <li>⚠️ 画像ファイルは失われたため、復旧に<strong>ロリポップ 11,000円</strong>かかります</li>
+    <li>📅 復旧作業に<strong>1〜2日程度</strong>かかる予定です</li>
+  </ul>
+</div>
+
+<div class="card analogy">
+  <h2><span class="icon">🏠</span> たとえて言うと</h2>
+  <p><strong>「家に泥棒が入って、家具と写真アルバムを持ち去られた」状態です。</strong></p>
+  <ul>
+    <li>🔓 <strong>玄関のカギを書き換えられた</strong><br>→ サイトが表示できなくなった</li>
+    <li>🪑 <strong>家具（サイトを動かすファイル）が壊された</strong><br>→ 作り直しが必要</li>
+    <li>📸 <strong>写真アルバム（画像・PDF）が持ち去られた</strong><br>→ 業者に頼んで取り戻す必要（<span class="price-badge">11,000円</span>）</li>
+    <li>💰 <strong>金庫の中身（記事・会員データ）は無事</strong><br>→ これは救出済み！</li>
+  </ul>
+</div>
+
+<div class="card">
+  <h2><span class="icon">🔍</span> わかった原因</h2>
+  <p><strong>プラグイン（サイトの追加機能）の古いバージョンの弱点</strong>を突かれた可能性が高いです。</p>
+  <ul>
+    <li>サイト構築時（2025年10月）から<strong>8ヶ月間プラグインが更新されていなかった</strong></li>
+    <li>「自動更新を止める」プラグインが入っていたのが致命的だった</li>
+    <li>その間に見つかった弱点を攻撃者に狙われた</li>
+  </ul>
+  <p style="background: #fef3c7; padding: 14px 16px; border-radius: 8px; border-left: 4px solid var(--caution);">
+    🚗 <strong>車で例えると:</strong> 8ヶ月点検を受けてない車で、直せたはずの不具合を放置していた状態です。
+  </p>
+</div>
+
+<div class="card good-news">
+  <h2><span class="icon">✅</span> 無事だったもの</h2>
+  <ul class="plain check">
+    <li><strong>投稿・ページ・記事の内容</strong>（文字情報すべて）</li>
+    <li><strong>管理者アカウント情報</strong>（ログイン情報改ざんなし）</li>
+    <li><strong>サイト設定</strong>（サイト名・URL・メール設定）</li>
+    <li><strong>データベース全体</strong>（中身は完全無傷）</li>
+  </ul>
+</div>
+
+<div class="card bad-news">
+  <h2><span class="icon">⚠️</span> 失われたもの</h2>
+  <ul class="plain warn">
+    <li><strong>サイト本体のファイル</strong>（再インストールで対応可）</li>
+    <li><strong>アップロード済み画像・PDFファイル</strong><br>→ ここが 11,000円の復旧サポートで戻す部分</li>
+    <li><strong>サイトのアクセス制限設定</strong>（修復可）</li>
+  </ul>
+</div>
+
+<div class="card">
+  <h2><span class="icon">🔧</span> これからの復旧作業</h2>
+  <ol class="step-list">
+    <li>
+      <strong>ロリポップ復旧サポート申請</strong>
+      <span class="price">費用: 11,000円</span><br>
+      7/2 8:04以前の状態から画像ファイルを取り戻します
+    </li>
+    <li>
+      <strong>サイト本体の再構築</strong><br>
+      WordPress本体をクリーンな状態で再インストール、無事だったデータベース＋復旧した画像を接続
+    </li>
+    <li>
+      <strong>テーマ・プラグインを最新版で再導入</strong><br>
+      同じ機能で、脆弱性のない状態に
+    </li>
+    <li>
+      <strong>パスワード全変更 + 再発防止</strong><br>
+      安全確保のため全パスワード変更、自動更新を有効化、セキュリティ強化
+    </li>
+  </ol>
+</div>
+
+<div class="action-box">
+  <h2><span class="icon">📮</span> ふじしーにお願いしたいこと</h2>
+
+  <div class="action-item">
+    <div class="action-title">1. 費用 11,000円 のお支払いをご了承ください</div>
+    <p style="margin: 8px 0 0;">ロリポップ復旧サポート料金です。これがないと画像を復元できません。</p>
+  </div>
+
+  <div class="action-item">
+    <div class="action-title">2. メールボックスをご確認ください</div>
+    <p style="margin: 8px 0 0;">
+      送信者: <code style="background:#f3f4f6;padding:2px 8px;border-radius:4px;">no-reply@lolipop-service.jp</code><br>
+      件名に「不正なアクセス」「検知」などの言葉が入ったメールが届いていないかご確認ください。
+    </p>
+  </div>
+
+  <div class="action-item">
+    <div class="action-title">3. 復旧作業を進めていいかご判断ください</div>
+    <p style="margin: 8px 0 0;">作業中はサイトが表示されない状態が続きます。復旧完了まで <strong>1〜2日程度</strong> のご予定でお願いします。</p>
+  </div>
+</div>
+
+<div class="card">
+  <h2><span class="icon">💬</span> ご質問あれば</h2>
+  <p>上田までご連絡ください。急ぎで対応します。</p>
+</div>
+
+<footer>
+  <p>調査担当: 上田 修司<br>
+  発行: 2026年7月2日</p>
+</footer>
+
+</div>
+</body>
+</html>
