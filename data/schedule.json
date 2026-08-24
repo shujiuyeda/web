@@ -1,205 +1,10 @@
 {
-  "generated": "2026-08-15",
+  "generated": "2026-08-24",
   "range": {
-    "from": "2026-08-15",
-    "to": "2026-08-28"
+    "from": "2026-08-24",
+    "to": "2026-09-06"
   },
   "days": [
-    {
-      "date": "2026-08-15",
-      "label": "8/15（土）",
-      "items": [
-        {
-          "time": "終日",
-          "icon": "🎉",
-          "cat": "プライベート",
-          "title": "山下達郎 ファミマ先行受付〔9/18横須賀・9/23-24大阪・9/29福岡 公演分〕"
-        },
-        {
-          "time": "終日",
-          "icon": "🎉",
-          "cat": "プライベート",
-          "title": "ウィーン滞在"
-        },
-        {
-          "time": "終日",
-          "icon": "🎉",
-          "cat": "プライベート",
-          "title": "Stay at Sheraton Frankfurt Airport Hotel and Conference Center"
-        }
-      ],
-      "soccer": null
-    },
-    {
-      "date": "2026-08-16",
-      "label": "8/16（日）",
-      "items": [
-        {
-          "time": "終日",
-          "icon": "🎉",
-          "cat": "プライベート",
-          "title": "山下達郎 ファミマ先行受付〔9/18横須賀・9/23-24大阪・9/29福岡 公演分〕"
-        },
-        {
-          "time": "終日",
-          "icon": "🎉",
-          "cat": "プライベート",
-          "title": "ウィーン滞在"
-        },
-        {
-          "time": "終日",
-          "icon": "🎉",
-          "cat": "プライベート",
-          "title": "Stay at Sheraton Frankfurt Airport Hotel and Conference Center"
-        },
-        {
-          "time": "15:20",
-          "icon": "🎉",
-          "cat": "プライベート",
-          "title": "✈️ FRA 8:20 → VIE 9:45(友人と同じ便・搭乗口サプライズ)"
-        },
-        {
-          "time": "終日",
-          "icon": "🎉",
-          "cat": "プライベート",
-          "title": "🎻 グラーフェネック音楽祭(友人と)— ベト1+悲愴"
-        }
-      ],
-      "soccer": null
-    },
-    {
-      "date": "2026-08-17",
-      "label": "8/17（月）",
-      "items": [
-        {
-          "time": "終日",
-          "icon": "🎉",
-          "cat": "プライベート",
-          "title": "ウィーン滞在"
-        },
-        {
-          "time": "終日",
-          "icon": "🎉",
-          "cat": "プライベート",
-          "title": "🎻 グラーフェネック音楽祭(友人と)— ベト1+悲愴"
-        }
-      ],
-      "soccer": null
-    },
-    {
-      "date": "2026-08-18",
-      "label": "8/18（火）",
-      "items": [
-        {
-          "time": "終日",
-          "icon": "🎉",
-          "cat": "プライベート",
-          "title": "ウィーン滞在"
-        }
-      ],
-      "soccer": null
-    },
-    {
-      "date": "2026-08-19",
-      "label": "8/19（水）",
-      "items": [
-        {
-          "time": "終日",
-          "icon": "🎉",
-          "cat": "プライベート",
-          "title": "ウィーン滞在"
-        },
-        {
-          "time": "終日",
-          "icon": "🎉",
-          "cat": "プライベート",
-          "title": "Stay at Hotel Imperial, a Luxury Collection Hotel, Vienna"
-        }
-      ],
-      "soccer": null
-    },
-    {
-      "date": "2026-08-20",
-      "label": "8/20（木）",
-      "items": [
-        {
-          "time": "終日",
-          "icon": "🎉",
-          "cat": "プライベート",
-          "title": "ウィーン滞在"
-        },
-        {
-          "time": "終日",
-          "icon": "🎉",
-          "cat": "プライベート",
-          "title": "Stay at Hotel Imperial, a Luxury Collection Hotel, Vienna"
-        },
-        {
-          "time": "終日",
-          "icon": "🎉",
-          "cat": "プライベート",
-          "title": "山下達郎 一般発売受付〔9/18横須賀・9/23-24大阪・9/29福岡 公演分〕"
-        }
-      ],
-      "soccer": null
-    },
-    {
-      "date": "2026-08-21",
-      "label": "8/21（金）",
-      "items": [
-        {
-          "time": "終日",
-          "icon": "🎉",
-          "cat": "プライベート",
-          "title": "ウィーン滞在"
-        },
-        {
-          "time": "終日",
-          "icon": "🎉",
-          "cat": "プライベート",
-          "title": "山下達郎 一般発売受付〔9/18横須賀・9/23-24大阪・9/29福岡 公演分〕"
-        }
-      ],
-      "soccer": null
-    },
-    {
-      "date": "2026-08-22",
-      "label": "8/22（土）",
-      "items": [
-        {
-          "time": "終日",
-          "icon": "🎉",
-          "cat": "プライベート",
-          "title": "ウィーン滞在"
-        },
-        {
-          "time": "終日",
-          "icon": "🎉",
-          "cat": "プライベート",
-          "title": "山下達郎 一般発売受付〔9/18横須賀・9/23-24大阪・9/29福岡 公演分〕"
-        }
-      ],
-      "soccer": null
-    },
-    {
-      "date": "2026-08-23",
-      "label": "8/23（日）",
-      "items": [
-        {
-          "time": "終日",
-          "icon": "🎉",
-          "cat": "プライベート",
-          "title": "ウィーン滞在"
-        },
-        {
-          "time": "終日",
-          "icon": "🎉",
-          "cat": "プライベート",
-          "title": "山下達郎 一般発売受付〔9/18横須賀・9/23-24大阪・9/29福岡 公演分〕"
-        }
-      ],
-      "soccer": null
-    },
     {
       "date": "2026-08-24",
       "label": "8/24（月）",
@@ -209,6 +14,24 @@
           "icon": "🎉",
           "cat": "プライベート",
           "title": "ウィーン滞在"
+        },
+        {
+          "time": "終日",
+          "icon": "🎉",
+          "cat": "プライベート",
+          "title": "Stay at Frankfurt Airport Marriott Hotel"
+        },
+        {
+          "time": "15:11",
+          "icon": "🎉",
+          "cat": "プライベート",
+          "title": "Train to Köln Hbf"
+        },
+        {
+          "time": "19:18",
+          "icon": "🎉",
+          "cat": "プライベート",
+          "title": "Train to Frankfurt(M) Flughafen Fernbf"
         }
       ],
       "soccer": null
@@ -222,6 +45,12 @@
           "icon": "🎉",
           "cat": "プライベート",
           "title": "ウィーン滞在"
+        },
+        {
+          "time": "終日",
+          "icon": "🎉",
+          "cat": "プライベート",
+          "title": "Stay at Frankfurt Airport Marriott Hotel"
         },
         {
           "time": "終日",
@@ -281,6 +110,101 @@
           "title": "父、東海大"
         }
       ],
+      "soccer": null
+    },
+    {
+      "date": "2026-08-29",
+      "label": "8/29（土）",
+      "items": [
+        {
+          "time": "終日",
+          "icon": "🎉",
+          "cat": "プライベート",
+          "title": "山下達郎 ファミマ先行受付〔10/5NHKホール・10/9京都・10/15-16有明・10/23新潟・10/29-30札幌 公演分〕"
+        },
+        {
+          "time": "終日",
+          "icon": "🎉",
+          "cat": "プライベート",
+          "title": "ゆい Birthday"
+        }
+      ],
+      "soccer": null
+    },
+    {
+      "date": "2026-08-30",
+      "label": "8/30（日）",
+      "items": [
+        {
+          "time": "終日",
+          "icon": "🎉",
+          "cat": "プライベート",
+          "title": "山下達郎 ファミマ先行受付〔10/5NHKホール・10/9京都・10/15-16有明・10/23新潟・10/29-30札幌 公演分〕"
+        }
+      ],
+      "soccer": null
+    },
+    {
+      "date": "2026-08-31",
+      "label": "8/31（月）",
+      "items": [
+        {
+          "time": "終日",
+          "icon": "🎉",
+          "cat": "プライベート",
+          "title": "山下達郎 ファミマ先行受付〔10/5NHKホール・10/9京都・10/15-16有明・10/23新潟・10/29-30札幌 公演分〕"
+        }
+      ],
+      "soccer": null
+    },
+    {
+      "date": "2026-09-01",
+      "label": "9/1（火）",
+      "items": [
+        {
+          "time": "09:00",
+          "icon": "🎉",
+          "cat": "プライベート",
+          "title": "📊 月次お金レビュー(Claudeで /money-review)"
+        }
+      ],
+      "soccer": null
+    },
+    {
+      "date": "2026-09-02",
+      "label": "9/2（水）",
+      "items": [],
+      "soccer": null
+    },
+    {
+      "date": "2026-09-03",
+      "label": "9/3（木）",
+      "items": [],
+      "soccer": null
+    },
+    {
+      "date": "2026-09-04",
+      "label": "9/4（金）",
+      "items": [
+        {
+          "time": "10:00",
+          "icon": "🎉",
+          "cat": "プライベート",
+          "title": "ふどうまえ眼科"
+        }
+      ],
+      "soccer": null
+    },
+    {
+      "date": "2026-09-05",
+      "label": "9/5（土）",
+      "items": [],
+      "soccer": null
+    },
+    {
+      "date": "2026-09-06",
+      "label": "9/6（日）",
+      "items": [],
       "soccer": null
     }
   ]
